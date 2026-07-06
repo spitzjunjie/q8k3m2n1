@@ -1,0 +1,492 @@
+{
+  "update_time": "2026-07-06 16:49:02",
+  "strategy_count": 27,
+  "strategies": [
+    {
+      "name": "营收增长",
+      "category": "盈利因子",
+      "description": "营收增长",
+      "initial_capital": 30000,
+      "current_capital": 30000,
+      "total_value": 30000,
+      "total_return": 0.0,
+      "monthly_return": 0.0,
+      "sharpe_ratio": 0,
+      "max_drawdown": 0,
+      "win_rate": 0,
+      "holdings": [],
+      "trades": [],
+      "equity_curve": [
+        30000
+      ]
+    },
+    {
+      "name": "净利润增速",
+      "category": "盈利因子",
+      "description": "净利润增速",
+      "initial_capital": 30000,
+      "current_capital": 30000,
+      "total_value": 30000,
+      "total_return": 0.0,
+      "monthly_return": 0.0,
+      "sharpe_ratio": 0,
+      "max_drawdown": 0,
+      "win_rate": 0,
+      "holdings": [],
+      "trades": [],
+      "equity_curve": [
+        30000
+      ]
+    },
+    {
+      "name": "AI供应链紫苏叶",
+      "category": "紫苏叶",
+      "description": "AI供应链紫苏叶",
+      "initial_capital": 30000,
+      "current_capital": 30000,
+      "total_value": 30000,
+      "total_return": 0.0,
+      "monthly_return": 0.0,
+      "sharpe_ratio": 0,
+      "max_drawdown": 0,
+      "win_rate": 0,
+      "holdings": [],
+      "trades": [],
+      "equity_curve": [
+        30000
+      ]
+    },
+    {
+      "name": "国产替代",
+      "category": "紫苏叶",
+      "description": "国产替代",
+      "initial_capital": 30000,
+      "current_capital": 30000,
+      "total_value": 30000,
+      "total_return": 0.0,
+      "monthly_return": 0.0,
+      "sharpe_ratio": 0,
+      "max_drawdown": 0,
+      "win_rate": 0,
+      "holdings": [],
+      "trades": [],
+      "equity_curve": [
+        30000
+      ]
+    },
+    {
+      "name": "ROE选股",
+      "category": "盈利因子",
+      "description": "ROE选股",
+      "initial_capital": 30000,
+      "current_capital": 30000,
+      "total_value": 30000,
+      "total_return": 0.0,
+      "monthly_return": 0.0,
+      "sharpe_ratio": 0,
+      "max_drawdown": 0,
+      "win_rate": 0,
+      "holdings": [],
+      "trades": [],
+      "equity_curve": [
+        30000
+      ]
+    },
+    {
+      "name": "低PE",
+      "category": "价值因子",
+      "description": "低PE",
+      "initial_capital": 30000,
+      "current_capital": 30000,
+      "total_value": 30000,
+      "total_return": 0.0,
+      "monthly_return": 0.0,
+      "sharpe_ratio": 0,
+      "max_drawdown": 0,
+      "win_rate": 0,
+      "holdings": [],
+      "trades": [],
+      "equity_curve": [
+        30000
+      ]
+    },
+    {
+      "name": "低PB",
+      "category": "价值因子",
+      "description": "低PB",
+      "initial_capital": 30000,
+      "current_capital": 30000,
+      "total_value": 30000,
+      "total_return": 0.0,
+      "monthly_return": 0.0,
+      "sharpe_ratio": 0,
+      "max_drawdown": 0,
+      "win_rate": 0,
+      "holdings": [],
+      "trades": [],
+      "equity_curve": [
+        30000
+      ]
+    },
+    {
+      "name": "低估值修复",
+      "category": "价值因子",
+      "description": "低估值修复",
+      "initial_capital": 30000,
+      "current_capital": 30000,
+      "total_value": 30000,
+      "total_return": 0.0,
+      "monthly_return": 0.0,
+      "sharpe_ratio": 0,
+      "max_drawdown": 0,
+      "win_rate": 0,
+      "holdings": [],
+      "trades": [],
+      "equity_curve": [
+        30000
+      ]
+    },
+    {
+      "name": "PSR低估值",
+      "category": "价值因子",
+      "description": "PSR低估值",
+      "initial_capital": 30000,
+      "current_capital": 30000,
+      "total_value": 30000,
+      "total_return": 0.0,
+      "monthly_return": 0.0,
+      "sharpe_ratio": 0,
+      "max_drawdown": 0,
+      "win_rate": 0,
+      "holdings": [],
+      "trades": [],
+      "equity_curve": [
+        30000
+      ]
+    },
+    {
+      "name": "现金流质量",
+      "category": "质量因子",
+      "description": "现金流质量",
+      "initial_capital": 30000,
+      "current_capital": 30000,
+      "total_value": 30000,
+      "total_return": 0.0,
+      "monthly_return": 0.0,
+      "sharpe_ratio": 0,
+      "max_drawdown": 0,
+      "win_rate": 0,
+      "holdings": [],
+      "trades": [],
+      "equity_curve": [
+        30000
+      ]
+    },
+    {
+      "name": "红利低波",
+      "category": "红利因子",
+      "description": "红利低波",
+      "initial_capital": 30000,
+      "current_capital": 30000,
+      "total_value": 30000,
+      "total_return": 0.0,
+      "monthly_return": 0.0,
+      "sharpe_ratio": 0,
+      "max_drawdown": 0,
+      "win_rate": 0,
+      "holdings": [],
+      "trades": [],
+      "equity_curve": [
+        30000
+      ]
+    },
+    {
+      "name": "高股息",
+      "category": "红利因子",
+      "description": "高股息",
+      "initial_capital": 30000,
+      "current_capital": 30000,
+      "total_value": 30000,
+      "total_return": 0.0,
+      "monthly_return": 0.0,
+      "sharpe_ratio": 0,
+      "max_drawdown": 0,
+      "win_rate": 0,
+      "holdings": [],
+      "trades": [],
+      "equity_curve": [
+        30000
+      ]
+    },
+    {
+      "name": "低负债率",
+      "category": "质量因子",
+      "description": "低负债率",
+      "initial_capital": 30000,
+      "current_capital": 30000,
+      "total_value": 30000,
+      "total_return": 0.0,
+      "monthly_return": 0.0,
+      "sharpe_ratio": 0,
+      "max_drawdown": 0,
+      "win_rate": 0,
+      "holdings": [],
+      "trades": [],
+      "equity_curve": [
+        30000
+      ]
+    },
+    {
+      "name": "高ROIC",
+      "category": "质量因子",
+      "description": "高ROIC",
+      "initial_capital": 30000,
+      "current_capital": 30000,
+      "total_value": 30000,
+      "total_return": 0.0,
+      "monthly_return": 0.0,
+      "sharpe_ratio": 0,
+      "max_drawdown": 0,
+      "win_rate": 0,
+      "holdings": [],
+      "trades": [],
+      "equity_curve": [
+        30000
+      ]
+    },
+    {
+      "name": "北向重仓",
+      "category": "资金因子",
+      "description": "北向重仓",
+      "initial_capital": 30000,
+      "current_capital": 30000,
+      "total_value": 30000,
+      "total_return": 0.0,
+      "monthly_return": 0.0,
+      "sharpe_ratio": 0,
+      "max_drawdown": 0,
+      "win_rate": 0,
+      "holdings": [],
+      "trades": [],
+      "equity_curve": [
+        30000
+      ]
+    },
+    {
+      "name": "动量反转",
+      "category": "动量因子",
+      "description": "动量反转",
+      "initial_capital": 30000,
+      "current_capital": 30000,
+      "total_value": 30000,
+      "total_return": 0.0,
+      "monthly_return": 0.0,
+      "sharpe_ratio": 0,
+      "max_drawdown": 0,
+      "win_rate": 0,
+      "holdings": [],
+      "trades": [],
+      "equity_curve": [
+        30000
+      ]
+    },
+    {
+      "name": "北向资金跟投",
+      "category": "资金因子",
+      "description": "北向资金跟投",
+      "initial_capital": 30000,
+      "current_capital": 30000,
+      "total_value": 30000,
+      "total_return": 0.0,
+      "monthly_return": 0.0,
+      "sharpe_ratio": 0,
+      "max_drawdown": 0,
+      "win_rate": 0,
+      "holdings": [],
+      "trades": [],
+      "equity_curve": [
+        30000
+      ]
+    },
+    {
+      "name": "首板回调",
+      "category": "事件驱动",
+      "description": "首板回调",
+      "initial_capital": 30000,
+      "current_capital": 30000,
+      "total_value": 30000,
+      "total_return": 0.0,
+      "monthly_return": 0.0,
+      "sharpe_ratio": 0,
+      "max_drawdown": 0,
+      "win_rate": 0,
+      "holdings": [],
+      "trades": [],
+      "equity_curve": [
+        30000
+      ]
+    },
+    {
+      "name": "趋势动量",
+      "category": "动量因子",
+      "description": "趋势动量",
+      "initial_capital": 30000,
+      "current_capital": 30000,
+      "total_value": 30000,
+      "total_return": 0.0,
+      "monthly_return": 0.0,
+      "sharpe_ratio": 0,
+      "max_drawdown": 0,
+      "win_rate": 0,
+      "holdings": [],
+      "trades": [],
+      "equity_curve": [
+        30000
+      ]
+    },
+    {
+      "name": "均线多头排列",
+      "category": "趋势策略",
+      "description": "5MA>10MA>20MA时买入",
+      "initial_capital": 30000,
+      "current_capital": 30000,
+      "total_value": 30000,
+      "total_return": 0.0,
+      "monthly_return": 0.0,
+      "sharpe_ratio": 0,
+      "max_drawdown": 0,
+      "win_rate": 0,
+      "holdings": [],
+      "trades": [],
+      "equity_curve": [
+        30000
+      ]
+    },
+    {
+      "name": "多周期共振",
+      "category": "趋势策略",
+      "description": "日周月线同向上时买入",
+      "initial_capital": 30000,
+      "current_capital": 30000,
+      "total_value": 30000,
+      "total_return": 0.0,
+      "monthly_return": 0.0,
+      "sharpe_ratio": 0,
+      "max_drawdown": 0,
+      "win_rate": 0,
+      "holdings": [],
+      "trades": [],
+      "equity_curve": [
+        30000
+      ]
+    },
+    {
+      "name": "机构持仓",
+      "category": "资金因子",
+      "description": "机构持仓",
+      "initial_capital": 30000,
+      "current_capital": 30000,
+      "total_value": 30000,
+      "total_return": 0.0,
+      "monthly_return": 0.0,
+      "sharpe_ratio": 0,
+      "max_drawdown": 0,
+      "win_rate": 0,
+      "holdings": [],
+      "trades": [],
+      "equity_curve": [
+        30000
+      ]
+    },
+    {
+      "name": "ST摘帽潜伏",
+      "category": "事件驱动",
+      "description": "ST摘帽潜伏",
+      "initial_capital": 30000,
+      "current_capital": 30000,
+      "total_value": 30000,
+      "total_return": 0.0,
+      "monthly_return": 0.0,
+      "sharpe_ratio": 0,
+      "max_drawdown": 0,
+      "win_rate": 0,
+      "holdings": [],
+      "trades": [],
+      "equity_curve": [
+        30000
+      ]
+    },
+    {
+      "name": "高管增持",
+      "category": "事件驱动",
+      "description": "高管增持",
+      "initial_capital": 30000,
+      "current_capital": 30000,
+      "total_value": 30000,
+      "total_return": 0.0,
+      "monthly_return": 0.0,
+      "sharpe_ratio": 0,
+      "max_drawdown": 0,
+      "win_rate": 0,
+      "holdings": [],
+      "trades": [],
+      "equity_curve": [
+        30000
+      ]
+    },
+    {
+      "name": "多因子综合",
+      "category": "综合",
+      "description": "多因子等权/加权组合",
+      "initial_capital": 30000,
+      "current_capital": 30000,
+      "total_value": 30000,
+      "total_return": 0.0,
+      "monthly_return": 0.0,
+      "sharpe_ratio": 0,
+      "max_drawdown": 0,
+      "win_rate": 0,
+      "holdings": [],
+      "trades": [],
+      "equity_curve": [
+        30000
+      ]
+    },
+    {
+      "name": "业绩超预期",
+      "category": "事件驱动",
+      "description": "业绩超预期",
+      "initial_capital": 30000,
+      "current_capital": 30000,
+      "total_value": 30000,
+      "total_return": 0.0,
+      "monthly_return": 0.0,
+      "sharpe_ratio": 0,
+      "max_drawdown": 0,
+      "win_rate": 0,
+      "holdings": [],
+      "trades": [],
+      "equity_curve": [
+        30000
+      ]
+    },
+    {
+      "name": "分析师上调",
+      "category": "事件驱动",
+      "description": "分析师上调",
+      "initial_capital": 30000,
+      "current_capital": 30000,
+      "total_value": 30000,
+      "total_return": 0.0,
+      "monthly_return": 0.0,
+      "sharpe_ratio": 0,
+      "max_drawdown": 0,
+      "win_rate": 0,
+      "holdings": [],
+      "trades": [],
+      "equity_curve": [
+        30000
+      ]
+    }
+  ]
+}

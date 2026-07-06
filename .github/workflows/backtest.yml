@@ -1,0 +1,57 @@
+name: 多策略回测
+
+on:
+  # 每天收盘后自动运行
+  schedule:
+    - cron: '30 18 * * 1-5'  # 周一到周五 18:30
+  # 也支持手动触发
+  workflow_dispatch:
+
+jobs:
+  backtest:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout代码
+        uses: actions/checkout@v4
+      
+      - name: 设置Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      
+      - name: 安装依赖
+        run: |
+          pip install akshare pandas numpy requests
+      
+      - name: 创建必要目录
+        run: |
+          mkdir -p data/cache output dashboard
+      
+      - name: 运行回测
+        run: python backtest.py
+      
+      - name: 上传数据
+        uses: actions/upload-artifact@v3
+        with:
+          name: strategy-data
+          path: output/strategy_data.json
+          retention-days: 30
+      
+      - name: 部署Dashboard
+        if: success()
+        run: |
+          # 复制Dashboard文件到根目录
+          cp dashboard/index.html ./
+          cp dashboard/detail.html ./
+          
+          # 创建CNAME文件(可选)
+          # echo "your-domain.com" > CNAME
+      
+      - name: 推送更新
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add output/strategy_data.json dashboard/*.html
+          git commit -m "更新策略数据 $(date +'%Y-%m-%d %H:%M')" || echo "No changes to commit"
+          git push || echo "Push skipped"

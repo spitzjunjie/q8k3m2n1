@@ -185,8 +185,26 @@ def run_historical_backtest(strategy_names=None, days=60, max_workers=5):
     output_dir = 'output'
     os.makedirs(output_dir, exist_ok=True)
     output_file = os.path.join(output_dir, 'backtest_history.json')
+
+    # 自定义JSON序列化，处理numpy类型和equity_curve的dict格式
+    def json_serializer(obj):
+        """处理无法被json.dump的类型的序列化"""
+        import numpy as np
+        if isinstance(obj, np.integer):
+            return int(obj)
+        elif isinstance(obj, np.floating):
+            return float(obj)
+        elif isinstance(obj, np.ndarray):
+            return obj.tolist()
+        elif isinstance(obj, dict):
+            # equity_curve 中的 {'date': str, 'value': float} 格式
+            if 'date' in obj and 'value' in obj:
+                return {'date': str(obj['date']), 'value': float(obj['value'])}
+            return obj
+        raise TypeError(f"Object of type {type(obj)} is not JSON serializable")
+
     with open(output_file, 'w', encoding='utf-8') as f:
-        json.dump(output, f, ensure_ascii=False, indent=2, default=str)
+        json.dump(output, f, ensure_ascii=False, indent=2, default=json_serializer)
 
     print("\n" + "=" * 60)
     print("历史回测排名")

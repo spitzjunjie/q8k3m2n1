@@ -31,6 +31,10 @@ from strategies.special_strategies import (
     AISupplyChainStrategy, LocalizationStrategy,
     MaBreakStrategy, MultiPeriodStrategy, MultiFactorStrategy
 )
+from strategies.technical_strategies import (
+    VolumeBreakoutStrategy, MACDCrossStrategy, KDJOversoldStrategy,
+    RSIReversalStrategy, MomentumBreakoutStrategy
+)
 
 
 def get_all_strategies():
@@ -71,6 +75,12 @@ def get_all_strategies():
         ExecutiveBuyStrategy(),
         EarningsSurpriseStrategy(),
         AnalystUpgradeStrategy(),
+        # 技术突破 (5) - 捕捉放量突破、动能突破
+        VolumeBreakoutStrategy(),
+        MACDCrossStrategy(),
+        KDJOversoldStrategy(),
+        RSIReversalStrategy(),
+        MomentumBreakoutStrategy(),
         # 综合 (1)
         MultiFactorStrategy(),
     ]

@@ -91,33 +91,43 @@ class STRemoveStrategy(EventStrategyBase):
 
 
 class ExecutiveBuyStrategy(EventStrategyBase):
-    """高管增持策略 - 真实高管增减持数据"""
+    """高管增持策略 v1.1.0 - 优化：过滤N/A数据+增加变动比例排序"""
 
     def __init__(self):
         super().__init__("高管增持")
 
     def get_description(self):
-        return "高管增持信号，捕捉内部人看好"
+        return "高管增持信号（变动比例>0），捕捉内部人看好"
 
     def detect_events(self, helper, date=None):
         try:
             df = helper.get_executive_trading()
             if df.empty:
                 return []
-            # 筛选增持记录
+            # 优化：只选择变动比例>0且非N/A的记录，并按变动比例排序
             if '变动比例' in df.columns:
-                buy_df = df[df['变动比例'] > 0].head(20)
+                # 过滤N/A值
+                df = df[df['变动比例'].notna()]
+                # 只选择变动比例>0的
+                buy_df = df[df['变动比例'] > 0].sort_values('变动比例', ascending=False).head(20)
             else:
                 buy_df = df.head(20)
             results = []
             for _, row in buy_df.iterrows():
                 symbol = str(row.get('代码', row.get('股票代码', '')))
-                if symbol:
-                    results.append({
-                        'symbol': symbol,
-                        'name': row.get('名称', row.get('股票简称', symbol)),
-                        'reason': f"高管增持，变动比例={row.get('变动比例', 'N/A')}"
-                    })
+                ratio = row.get('变动比例', 'N/A')
+                # 过滤无效symbol和N/A的变动比例
+                if symbol and ratio != 'N/A':
+                    try:
+                        ratio_val = float(ratio) if ratio else 0
+                        if ratio_val > 0:
+                            results.append({
+                                'symbol': symbol,
+                                'name': row.get('名称', row.get('股票简称', symbol)),
+                                'reason': f"高管增持，变动比例={ratio_val:.2f}%"
+                            })
+                    except (ValueError, TypeError):
+                        continue
                 if len(results) >= 10:
                     break
             return results
@@ -249,13 +259,13 @@ class MomentumReversalStrategy(EventStrategyBase):
 
 
 class TrendMomentumStrategy(EventStrategyBase):
-    """趋势动量策略 - 真实60日动量"""
+    """趋势动量策略 v1.1.0 - 优化：降低动量阈值+增加均线多头确认"""
 
     def __init__(self):
         super().__init__("趋势动量")
 
     def get_description(self):
-        return "60日动量向上，捕捉趋势延续"
+        return "60日动量>5%且均线多头，捕捉趋势延续"
 
     def detect_events(self, helper, date=None):
         symbols = self.get_universe(helper, sample=60)
@@ -267,11 +277,16 @@ class TrendMomentumStrategy(EventStrategyBase):
                     continue
                 # 60日动量
                 ret_60d = (kline['close'].iloc[-1] / kline['close'].iloc[-60] - 1) * 100
-                # 60日涨幅 > 10%
-                if ret_60d > 10:
+                # 优化：降低阈值从10%到5%，增加均线多头确认
+                ma5 = kline['close'].rolling(5).mean().iloc[-1]
+                ma10 = kline['close'].rolling(10).mean().iloc[-1]
+                ma20 = kline['close'].rolling(20).mean().iloc[-1]
+                ma_bull = ma5 > ma10 > ma20  # 均线多头
+                # 原条件：60日涨幅>10% -> 优化：60日涨幅>5% + 均线多头
+                if ret_60d > 5 and ma_bull:
                     results.append({
                         'symbol': sym, 'name': sym,
-                        'reason': f"60日涨幅{ret_60d:.1f}%"
+                        'reason': f"60日涨幅{ret_60d:.1f}%，均线多头"
                     })
                 if len(results) >= 10:
                     break

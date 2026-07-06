@@ -32,7 +32,7 @@ jobs:
         run: python backtest.py
       
       - name: 上传数据
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: strategy-data
           path: output/strategy_data.json

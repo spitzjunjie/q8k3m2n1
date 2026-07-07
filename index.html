@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>多策略模拟交易系统 | Dashboard</title>
+    <title>策略总览 | 多策略交易系统</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
@@ -25,46 +25,30 @@
             --text-primary: #e6e6e6;
             --text-secondary: #94a3b8;
             --text-muted: #64748b;
-            --shadow-glow-cyan: 0 0 30px rgba(0, 240, 255, 0.15);
-            --shadow-glow-purple: 0 0 30px rgba(168, 85, 247, 0.15);
+            --shadow-glow-cyan: 0 0 30px rgba(0, 240, 255, 0.3);
+            --shadow-glow-purple: 0 0 30px rgba(168, 85, 247, 0.3);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Inter', -apple-system, sans-serif;
             background: var(--bg-void);
             color: var(--text-primary);
             min-height: 100vh;
-            overflow-x: hidden;
             position: relative;
         }
 
         body::before {
             content: '';
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            top: 0; left: 0; right: 0; bottom: 0;
             background:
                 radial-gradient(ellipse at 20% 0%, rgba(168, 85, 247, 0.12), transparent 50%),
-                radial-gradient(ellipse at 80% 100%, rgba(0, 240, 255, 0.10), transparent 50%),
-                radial-gradient(ellipse at 50% 50%, rgba(236, 72, 153, 0.05), transparent 60%);
+                radial-gradient(ellipse at 80% 100%, rgba(0, 240, 255, 0.10), transparent 50%);
             z-index: -1;
-            animation: gradientShift 15s ease-in-out infinite;
         }
 
-        @keyframes gradientShift {
-            0%, 100% { opacity: 0.8; }
-            50% { opacity: 1; }
-        }
-
-        /* 网格背景 */
         body::after {
             content: '';
             position: fixed;
@@ -260,14 +244,10 @@
         .strategy-card:hover {
             transform: translateY(-6px);
             border-color: var(--glass-border-hover);
-            box-shadow:
-                0 20px 40px rgba(0, 0, 0, 0.4),
-                0 0 30px rgba(0, 240, 255, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 30px rgba(0, 240, 255, 0.2);
         }
 
-        .strategy-card:hover::before {
-            opacity: 1;
-        }
+        .strategy-card:hover::before { opacity: 1; }
 
         .card-header {
             display: flex;
@@ -385,9 +365,7 @@
             animation: spin 1s linear infinite;
         }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
         .error {
             text-align: center;
@@ -400,20 +378,10 @@
         }
 
         /* 滚动条 */
-        ::-webkit-scrollbar {
-            width: 10px;
-            height: 10px;
-        }
-        ::-webkit-scrollbar-track {
-            background: var(--bg-primary);
-        }
-        ::-webkit-scrollbar-thumb {
-            background: rgba(0, 240, 255, 0.2);
-            border-radius: 5px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: rgba(0, 240, 255, 0.4);
-        }
+        ::-webkit-scrollbar { width: 10px; height: 10px; }
+        ::-webkit-scrollbar-track { background: var(--bg-primary); }
+        ::-webkit-scrollbar-thumb { background: rgba(0, 240, 255, 0.2); border-radius: 5px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(0, 240, 255, 0.4); }
 
         @media (max-width: 768px) {
             .container { padding: 16px; }
@@ -445,7 +413,7 @@
     <div class="container">
         <div class="summary" id="summary">
             <div class="summary-card">
-                <div class="label">策略总数</div>
+                <div class="label">策略数量</div>
                 <div class="value" id="strategyCount">-</div>
             </div>
             <div class="summary-card">
@@ -478,26 +446,12 @@
                 renderDashboard(data);
             } catch (error) {
                 document.getElementById('strategiesGrid').innerHTML =
-                    `<div class="error">数据加载失败: ${error.message}<br>请确保回测引擎已运行</div>`;
+                    '<div class="error">数据加载失败: ' + error.message + '<br>请确保本地服务器已启动</div>';
             }
-        }
-
-        function animateValue(el, end, duration = 1000, suffix = '') {
-            const start = 0;
-            const startTime = performance.now();
-            function update(now) {
-                const progress = Math.min((now - startTime) / duration, 1);
-                const eased = 1 - Math.pow(1 - progress, 3);
-                const current = start + (end - start) * eased;
-                el.textContent = (typeof end === 'string' ? end : current.toFixed(2) + suffix);
-                if (progress < 1) requestAnimationFrame(update);
-            }
-            requestAnimationFrame(update);
         }
 
         function renderDashboard(data) {
-            document.getElementById('updateTime').textContent =
-                `更新: ${data.update_time}`;
+            document.getElementById('updateTime').textContent = '更新: ' + data.update_time;
 
             const strategies = data.strategies || [];
             const returns = strategies.map(s => s.total_pnl_pct || 0);
@@ -511,14 +465,13 @@
             avgEl.className = 'value ' + (avgReturn >= 0 ? 'positive' : 'negative');
 
             const posEl = document.getElementById('positiveCount');
-            posEl.textContent = `${positiveCount}/${strategies.length}`;
+            posEl.textContent = positiveCount + '/' + strategies.length;
             posEl.className = 'value ' + (positiveCount > strategies.length / 2 ? 'positive' : 'negative');
 
             const maxEl = document.getElementById('maxReturn');
             maxEl.textContent = (maxReturn >= 0 ? '+' : '') + maxReturn.toFixed(2) + '%';
             maxEl.className = 'value ' + (maxReturn >= 0 ? 'positive' : 'negative');
 
-            // 按总收益排序
             strategies.sort((a, b) => (b.total_pnl_pct || 0) - (a.total_pnl_pct || 0));
 
             const grid = document.getElementById('strategiesGrid');
@@ -534,8 +487,6 @@
                 const floatingPnlPct = strategy.floating_pnl_pct || 0;
 
                 const totalClass = totalPnl >= 0 ? 'positive' : 'negative';
-                const realizedClass = realizedPnl >= 0 ? 'positive' : 'negative';
-                const floatingClass = floatingPnl >= 0 ? 'positive' : 'negative';
                 const rankClass = rank <= 3 ? 'top' : '';
                 const holdings = strategy.holdings || [];
 
@@ -550,37 +501,24 @@
 
                 const card = document.createElement('div');
                 card.className = 'strategy-card';
-                card.onclick = () => window.location.href = `detail.html?id=${encodeURIComponent(strategy.name)}`;
+                card.onclick = () => window.location.href = 'detail.html?name=' + encodeURIComponent(strategy.name);
 
-                card.innerHTML = `
-                    <div class="card-header">
-                        <span class="rank ${rankClass}">${rank}</span>
-                        <span class="strategy-name">${strategy.name}</span>
-                        <span class="strategy-category">${strategy.category}</span>
-                    </div>
-                    <div class="returns">
-                        <div class="return-item">
-                            <div class="label">总收益</div>
-                            <div class="value ${totalClass}">${fmtPct(totalPnlPct)}</div>
-                        </div>
-                        <div class="return-item">
-                            <div class="label">已实现 🟢</div>
-                            <div class="value ${realizedClass}">${fmtPct(realizedPnlPct)}</div>
-                        </div>
-                        <div class="return-item">
-                            <div class="label">浮动 🟡</div>
-                            <div class="value ${floatingClass}">${fmtPct(floatingPnlPct)}</div>
-                        </div>
-                    </div>
-                    <div class="chart-container">
-                        <canvas id="chart-${index}"></canvas>
-                    </div>
-                    <div class="stats">
-                        <span>💰 持仓 ${holdings.length}只</span>
-                        <span>📈 胜率 ${((strategy.win_rate || 0) * 100).toFixed(0)}%</span>
-                        <span>📉 回撤 ${((strategy.max_drawdown || 0) * 100).toFixed(1)}%</span>
-                    </div>
-                `;
+                card.innerHTML = '<div class="card-header">' +
+                    '<span class="rank ' + rankClass + '">' + rank + '</span>' +
+                    '<span class="strategy-name">' + strategy.name + '</span>' +
+                    '<span class="strategy-category">' + strategy.category + '</span>' +
+                    '</div>' +
+                    '<div class="returns">' +
+                    '<div class="return-item"><div class="label">总收益</div><div class="value ' + totalClass + '">' + fmtPct(totalPnlPct) + '</div></div>' +
+                    '<div class="return-item"><div class="label">已实现</div><div class="value ' + totalClass + '">' + fmtPct(realizedPnlPct) + '</div></div>' +
+                    '<div class="return-item"><div class="label">浮动</div><div class="value ' + totalClass + '">' + fmtPct(floatingPnlPct) + '</div></div>' +
+                    '</div>' +
+                    '<div class="chart-container"><canvas id="chart-' + index + '"></canvas></div>' +
+                    '<div class="stats">' +
+                    '<span>📦 持仓 ' + holdings.length + '只</span>' +
+                    '<span>📈 胜率 ' + ((strategy.win_rate || 0) * 100).toFixed(0) + '%</span>' +
+                    '<span>📉 回撤 ' + ((strategy.max_drawdown || 0) * 100).toFixed(1) + '%</span>' +
+                    '</div>';
 
                 grid.appendChild(card);
 
@@ -589,11 +527,17 @@
         }
 
         function renderMiniChart(index, equityCurve, initialCapital, isPositive) {
-            const ctx = document.getElementById(`chart-${index}`);
+            const ctx = document.getElementById('chart-' + index);
             if (!ctx) return;
 
-            if (equityCurve.length < 2) {
-                equityCurve = [initialCapital, initialCapital];
+            // 处理equity_curve格式：可能是 {'date': str, 'value': float} 或直接是数字
+            let chartData = equityCurve;
+            if (equityCurve.length > 0 && typeof equityCurve[0] === 'object') {
+                chartData = equityCurve.map(item => item.value);
+            }
+
+            if (chartData.length < 2) {
+                chartData = [initialCapital, initialCapital];
             }
 
             const color = isPositive ? '#22c55e' : '#ef4444';
@@ -604,9 +548,9 @@
             charts[index] = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: equityCurve.map((_, i) => i + 1),
+                    labels: chartData.map((_, i) => i + 1),
                     datasets: [{
-                        data: equityCurve,
+                        data: chartData,
                         borderColor: color,
                         borderWidth: 2,
                         fill: true,
@@ -635,20 +579,13 @@
                             }
                         }
                     },
-                    scales: {
-                        x: { display: false },
-                        y: { display: false }
-                    },
-                    animation: {
-                        duration: 1000,
-                        easing: 'easeOutCubic'
-                    }
+                    scales: { x: { display: false }, y: { display: false } },
+                    animation: { duration: 1000, easing: 'easeOutCubic' }
                 }
             });
         }
 
         loadData();
-        // 每5分钟刷新
         setInterval(loadData, 5 * 60 * 1000);
     </script>
 </body>

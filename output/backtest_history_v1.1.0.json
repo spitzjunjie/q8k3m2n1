@@ -345,13 +345,7 @@
       ],
       "backtest_start": "2026-05-26",
       "backtest_end": "2026-07-07",
-      "backtest_days": 30,
-      "composite_score": 75.8,
-      "grade": "A",
-      "profit_loss_ratio": 1.4740082079343366,
-      "return_stability": 0,
-      "calmar_ratio": 4.647783343131492,
-      "trade_count": 10
+      "backtest_days": 30
     },
     {
       "name": "高管增持",
@@ -692,13 +686,7 @@
       ],
       "backtest_start": "2026-05-26",
       "backtest_end": "2026-07-07",
-      "backtest_days": 30,
-      "composite_score": 66.4,
-      "grade": "A",
-      "profit_loss_ratio": 4.012880562060889,
-      "return_stability": 0,
-      "calmar_ratio": 1.9759368836291913,
-      "trade_count": 10
+      "backtest_days": 30
     },
     {
       "name": "均线多头排列",
@@ -1039,13 +1027,7 @@
       ],
       "backtest_start": "2026-05-26",
       "backtest_end": "2026-07-07",
-      "backtest_days": 30,
-      "composite_score": 66.2,
-      "grade": "A",
-      "profit_loss_ratio": 8.763821318000861,
-      "return_stability": 0,
-      "calmar_ratio": 2.50126582278481,
-      "trade_count": 10
+      "backtest_days": 30
     },
     {
       "name": "国产替代",
@@ -1358,13 +1340,7 @@
       ],
       "backtest_start": "2026-05-26",
       "backtest_end": "2026-07-07",
-      "backtest_days": 30,
-      "composite_score": 62.5,
-      "grade": "B",
-      "profit_loss_ratio": 1.4057347670250895,
-      "return_stability": 0,
-      "calmar_ratio": 1.9861058064516128,
-      "trade_count": 10
+      "backtest_days": 30
     },
     {
       "name": "趋势动量",
@@ -1705,13 +1681,7 @@
       ],
       "backtest_start": "2026-05-26",
       "backtest_end": "2026-07-07",
-      "backtest_days": 30,
-      "composite_score": 52.6,
-      "grade": "B",
-      "profit_loss_ratio": 1.3046375266524521,
-      "return_stability": 0,
-      "calmar_ratio": 1.2369455362156092,
-      "trade_count": 10
+      "backtest_days": 30
     },
     {
       "name": "AI供应链紫苏叶",
@@ -2024,13 +1994,7 @@
       ],
       "backtest_start": "2026-05-26",
       "backtest_end": "2026-07-07",
-      "backtest_days": 30,
-      "composite_score": 48.0,
-      "grade": "C",
-      "profit_loss_ratio": 4.238761974944731,
-      "return_stability": 0,
-      "calmar_ratio": 1.0412301648884579,
-      "trade_count": 10
+      "backtest_days": 30
     },
     {
       "name": "ST摘帽潜伏",
@@ -2371,13 +2335,7 @@
       ],
       "backtest_start": "2026-05-26",
       "backtest_end": "2026-07-07",
-      "backtest_days": 30,
-      "composite_score": 46.6,
-      "grade": "C",
-      "profit_loss_ratio": 2.6858258928571415,
-      "return_stability": 0,
-      "calmar_ratio": 0.9957058507783144,
-      "trade_count": 10
+      "backtest_days": 30
     },
     {
       "name": "业绩超预期",
@@ -2718,13 +2676,7 @@
       ],
       "backtest_start": "2026-05-26",
       "backtest_end": "2026-07-07",
-      "backtest_days": 30,
-      "composite_score": 46.6,
-      "grade": "C",
-      "profit_loss_ratio": 2.6858258928571415,
-      "return_stability": 0,
-      "calmar_ratio": 0.9957058507783144,
-      "trade_count": 10
+      "backtest_days": 30
     },
     {
       "name": "多因子综合",
@@ -3065,13 +3017,7 @@
       ],
       "backtest_start": "2026-05-26",
       "backtest_end": "2026-07-07",
-      "backtest_days": 30,
-      "composite_score": 44.9,
-      "grade": "C",
-      "profit_loss_ratio": 4.028225806451613,
-      "return_stability": 0,
-      "calmar_ratio": 0.9463634703196346,
-      "trade_count": 10
+      "backtest_days": 30
     },
     {
       "name": "现金流质量",
@@ -3412,13 +3358,7 @@
       ],
       "backtest_start": "2026-05-26",
       "backtest_end": "2026-07-07",
-      "backtest_days": 30,
-      "composite_score": 42.2,
-      "grade": "C",
-      "profit_loss_ratio": 0.3706624605678233,
-      "return_stability": 0,
-      "calmar_ratio": 0.876712676056338,
-      "trade_count": 10
+      "backtest_days": 30
     },
     {
       "name": "量价突破",
@@ -3731,13 +3671,7 @@
       ],
       "backtest_start": "2026-05-26",
       "backtest_end": "2026-07-07",
-      "backtest_days": 30,
-      "composite_score": 42.1,
-      "grade": "C",
-      "profit_loss_ratio": 1.9406896551724138,
-      "return_stability": 0,
-      "calmar_ratio": 0.6589750490388387,
-      "trade_count": 10
+      "backtest_days": 30
     },
     {
       "name": "北向资金跟投",
@@ -4078,13 +4012,7 @@
       ],
       "backtest_start": "2026-05-26",
       "backtest_end": "2026-07-07",
-      "backtest_days": 30,
-      "composite_score": 38.2,
-      "grade": "C",
-      "profit_loss_ratio": 0.3564586357039192,
-      "return_stability": 0,
-      "calmar_ratio": 0.8552099447513812,
-      "trade_count": 10
+      "backtest_days": 30
     },
     {
       "name": "首板回调",
@@ -4397,13 +4325,7 @@
       ],
       "backtest_start": "2026-05-26",
       "backtest_end": "2026-07-07",
-      "backtest_days": 30,
-      "composite_score": 33.5,
-      "grade": "D",
-      "profit_loss_ratio": 6.753246753246753,
-      "return_stability": 0,
-      "calmar_ratio": 0.4688908926961226,
-      "trade_count": 10
+      "backtest_days": 30
     },
     {
       "name": "ROE选股",
@@ -4550,13 +4472,7 @@
       ],
       "backtest_start": "2026-05-26",
       "backtest_end": "2026-07-07",
-      "backtest_days": 30,
-      "composite_score": 21.7,
-      "grade": "D",
-      "profit_loss_ratio": 0.7825193975353727,
-      "return_stability": 0,
-      "calmar_ratio": -0.6593851132686084,
-      "trade_count": 10
+      "backtest_days": 30
     },
     {
       "name": "高ROIC",
@@ -4703,13 +4619,7 @@
       ],
       "backtest_start": "2026-05-26",
       "backtest_end": "2026-07-07",
-      "backtest_days": 30,
-      "composite_score": 21.7,
-      "grade": "D",
-      "profit_loss_ratio": 0.7825193975353727,
-      "return_stability": 0,
-      "calmar_ratio": -0.6593851132686084,
-      "trade_count": 10
+      "backtest_days": 30
     },
     {
       "name": "红利低波",
@@ -4856,13 +4766,7 @@
       ],
       "backtest_start": "2026-05-26",
       "backtest_end": "2026-07-07",
-      "backtest_days": 30,
-      "composite_score": 21.4,
-      "grade": "D",
-      "profit_loss_ratio": 0.6217228464419482,
-      "return_stability": 0,
-      "calmar_ratio": -0.3690693274501939,
-      "trade_count": 10
+      "backtest_days": 30
     },
     {
       "name": "高股息",
@@ -5009,13 +4913,7 @@
       ],
       "backtest_start": "2026-05-26",
       "backtest_end": "2026-07-07",
-      "backtest_days": 30,
-      "composite_score": 21.4,
-      "grade": "D",
-      "profit_loss_ratio": 0.6217228464419482,
-      "return_stability": 0,
-      "calmar_ratio": -0.3690693274501939,
-      "trade_count": 10
+      "backtest_days": 30
     },
     {
       "name": "动量反转",
@@ -5162,13 +5060,7 @@
       ],
       "backtest_start": "2026-05-26",
       "backtest_end": "2026-07-07",
-      "backtest_days": 30,
-      "composite_score": 20.9,
-      "grade": "D",
-      "profit_loss_ratio": 0.9945586457073761,
-      "return_stability": 0,
-      "calmar_ratio": -0.42371369999999997,
-      "trade_count": 10
+      "backtest_days": 30
     },
     {
       "name": "分析师上调",
@@ -5315,13 +5207,7 @@
       ],
       "backtest_start": "2026-05-26",
       "backtest_end": "2026-07-07",
-      "backtest_days": 30,
-      "composite_score": 20.0,
-      "grade": "D",
-      "profit_loss_ratio": 0,
-      "return_stability": 0,
-      "calmar_ratio": 0,
-      "trade_count": 0
+      "backtest_days": 30
     },
     {
       "name": "MACD金叉",
@@ -5468,13 +5354,7 @@
       ],
       "backtest_start": "2026-05-26",
       "backtest_end": "2026-07-07",
-      "backtest_days": 30,
-      "composite_score": 20.0,
-      "grade": "D",
-      "profit_loss_ratio": 0,
-      "return_stability": 0,
-      "calmar_ratio": 0,
-      "trade_count": 0
+      "backtest_days": 30
     },
     {
       "name": "KDJ超卖金叉",
@@ -5621,13 +5501,7 @@
       ],
       "backtest_start": "2026-05-26",
       "backtest_end": "2026-07-07",
-      "backtest_days": 30,
-      "composite_score": 20.0,
-      "grade": "D",
-      "profit_loss_ratio": 0,
-      "return_stability": 0,
-      "calmar_ratio": 0,
-      "trade_count": 0
+      "backtest_days": 30
     },
     {
       "name": "动量突破",
@@ -5774,13 +5648,7 @@
       ],
       "backtest_start": "2026-05-26",
       "backtest_end": "2026-07-07",
-      "backtest_days": 30,
-      "composite_score": 20.0,
-      "grade": "D",
-      "profit_loss_ratio": 0,
-      "return_stability": 0,
-      "calmar_ratio": 0,
-      "trade_count": 0
+      "backtest_days": 30
     },
     {
       "name": "营收增长",
@@ -6121,13 +5989,7 @@
       ],
       "backtest_start": "2026-05-26",
       "backtest_end": "2026-07-07",
-      "backtest_days": 30,
-      "composite_score": 20.0,
-      "grade": "D",
-      "profit_loss_ratio": 0,
-      "return_stability": 0,
-      "calmar_ratio": 0,
-      "trade_count": 0
+      "backtest_days": 30
     },
     {
       "name": "净利润增速",
@@ -6468,13 +6330,7 @@
       ],
       "backtest_start": "2026-05-26",
       "backtest_end": "2026-07-07",
-      "backtest_days": 30,
-      "composite_score": 20.0,
-      "grade": "D",
-      "profit_loss_ratio": 0,
-      "return_stability": 0,
-      "calmar_ratio": 0,
-      "trade_count": 0
+      "backtest_days": 30
     },
     {
       "name": "RSI超卖反转",
@@ -6801,13 +6657,7 @@
       ],
       "backtest_start": "2026-05-26",
       "backtest_end": "2026-07-07",
-      "backtest_days": 30,
-      "composite_score": 20.0,
-      "grade": "D",
-      "profit_loss_ratio": 0,
-      "return_stability": 0,
-      "calmar_ratio": 0,
-      "trade_count": 0
+      "backtest_days": 30
     },
     {
       "name": "PSR低估值",
@@ -7134,13 +6984,7 @@
       ],
       "backtest_start": "2026-05-26",
       "backtest_end": "2026-07-07",
-      "backtest_days": 30,
-      "composite_score": 20.0,
-      "grade": "D",
-      "profit_loss_ratio": 0,
-      "return_stability": 0,
-      "calmar_ratio": 0,
-      "trade_count": 0
+      "backtest_days": 30
     },
     {
       "name": "低负债率",
@@ -7467,13 +7311,7 @@
       ],
       "backtest_start": "2026-05-26",
       "backtest_end": "2026-07-07",
-      "backtest_days": 30,
-      "composite_score": 20.0,
-      "grade": "D",
-      "profit_loss_ratio": 0,
-      "return_stability": 0,
-      "calmar_ratio": 0,
-      "trade_count": 0
+      "backtest_days": 30
     },
     {
       "name": "北向重仓",
@@ -7814,13 +7652,7 @@
       ],
       "backtest_start": "2026-05-26",
       "backtest_end": "2026-07-07",
-      "backtest_days": 30,
-      "composite_score": 18.4,
-      "grade": "D",
-      "profit_loss_ratio": 2.929855072463768,
-      "return_stability": 0,
-      "calmar_ratio": -0.2673656618610747,
-      "trade_count": 10
+      "backtest_days": 30
     },
     {
       "name": "机构持仓",
@@ -8161,13 +7993,7 @@
       ],
       "backtest_start": "2026-05-26",
       "backtest_end": "2026-07-07",
-      "backtest_days": 30,
-      "composite_score": 17.7,
-      "grade": "D",
-      "profit_loss_ratio": 0.7220216606498195,
-      "return_stability": 0,
-      "calmar_ratio": -0.5730816265874088,
-      "trade_count": 10
+      "backtest_days": 30
     },
     {
       "name": "低PB",
@@ -8494,13 +8320,7 @@
       ],
       "backtest_start": "2026-05-26",
       "backtest_end": "2026-07-07",
-      "backtest_days": 30,
-      "composite_score": 17.7,
-      "grade": "D",
-      "profit_loss_ratio": 0.7220216606498195,
-      "return_stability": 0,
-      "calmar_ratio": -0.5730816265874088,
-      "trade_count": 10
+      "backtest_days": 30
     },
     {
       "name": "低估值修复",
@@ -8827,13 +8647,7 @@
       ],
       "backtest_start": "2026-05-26",
       "backtest_end": "2026-07-07",
-      "backtest_days": 30,
-      "composite_score": 17.6,
-      "grade": "D",
-      "profit_loss_ratio": 0.9836987071388421,
-      "return_stability": 0,
-      "calmar_ratio": -0.8107692307692307,
-      "trade_count": 10
+      "backtest_days": 30
     },
     {
       "name": "低PE",
@@ -9160,13 +8974,7 @@
       ],
       "backtest_start": "2026-05-26",
       "backtest_end": "2026-07-07",
-      "backtest_days": 30,
-      "composite_score": 16.7,
-      "grade": "D",
-      "profit_loss_ratio": 0.24987781036168166,
-      "return_stability": 0,
-      "calmar_ratio": -0.09363039678790742,
-      "trade_count": 10
+      "backtest_days": 30
     }
   ]
 }

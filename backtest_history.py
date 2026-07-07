@@ -186,10 +186,18 @@ def run_historical_backtest(strategy_names=None, days=60, max_workers=5):
     os.makedirs(output_dir, exist_ok=True)
     output_file = os.path.join(output_dir, 'backtest_history.json')
 
-    # 自定义JSON序列化，处理numpy类型和equity_curve的dict格式
+    # 自定义JSON序列化，处理numpy类型、datetime类型和equity_curve的dict格式
     def json_serializer(obj):
         """处理无法被json.dump的类型的序列化"""
         import numpy as np
+        from datetime import datetime, date
+
+        # 【修复Minor问题2】添加datetime类型处理
+        if isinstance(obj, datetime):
+            return obj.strftime('%Y-%m-%d %H:%M:%S')
+        elif isinstance(obj, date):
+            return obj.strftime('%Y-%m-%d')
+
         if isinstance(obj, np.integer):
             return int(obj)
         elif isinstance(obj, np.floating):

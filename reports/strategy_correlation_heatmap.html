@@ -1,0 +1,1347 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>策略相关性热力图</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .info {
+            text-align: center;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        .heatmap-container {
+            display: flex;
+            justify-content: center;
+            overflow-x: auto;
+        }
+        table {
+            border-collapse: collapse;
+            margin: 0 auto;
+        }
+        th, td {
+            width: 60px;
+            height: 40px;
+            text-align: center;
+            font-size: 10px;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #f0f0f0;
+            font-weight: bold;
+            position: sticky;
+            top: 0;
+        }
+        .row-header {
+            position: sticky;
+            left: 0;
+            background-color: #f0f0f0;
+            z-index: 1;
+        }
+        .col-header {
+            position: sticky;
+            top: 0;
+            background-color: #f0f0f0;
+            z-index: 2;
+        }
+        .corner {
+            position: sticky;
+            top: 0;
+            left: 0;
+            background-color: #e0e0e0;
+            z-index: 3;
+        }
+        .legend {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            gap: 20px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border: 1px solid #ccc;
+        }
+        .high-corr {
+            background-color: #ffcccc;
+            padding: 15px;
+            margin: 20px auto;
+            max-width: 600px;
+            border-radius: 5px;
+        }
+        .high-corr h3 {
+            margin-top: 0;
+            color: #c00;
+        }
+        .high-corr ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .high-corr li {
+            padding: 5px 0;
+        }
+        .suggestion {
+            background-color: #e8f4e8;
+            padding: 15px;
+            margin: 20px auto;
+            max-width: 600px;
+            border-radius: 5px;
+        }
+        .suggestion h3 {
+            margin-top: 0;
+            color: #2a7;
+        }
+    </style>
+</head>
+<body>
+    <h1>策略相关性热力图</h1>
+    <div class="info">
+        生成时间: 2026-07-07 17:59:11<br>
+        策略数量: 32
+    </div>
+    
+    <div class="heatmap-container">
+        <table>
+            <tr>
+                <td class="corner"></td>
+                <th class="col-header">多周期共振</th>
+                <th class="col-header">高管增持</th>
+                <th class="col-header">均线多头排列</th>
+                <th class="col-header">国产替代</th>
+                <th class="col-header">趋势动量</th>
+                <th class="col-header">AI供应链紫苏叶</th>
+                <th class="col-header">ST摘帽潜伏</th>
+                <th class="col-header">业绩超预期</th>
+                <th class="col-header">多因子综合</th>
+                <th class="col-header">现金流质量</th>
+                <th class="col-header">量价突破</th>
+                <th class="col-header">北向资金跟投</th>
+                <th class="col-header">首板回调</th>
+                <th class="col-header">ROE选股</th>
+                <th class="col-header">高ROIC</th>
+                <th class="col-header">红利低波</th>
+                <th class="col-header">高股息</th>
+                <th class="col-header">动量反转</th>
+                <th class="col-header">分析师上调</th>
+                <th class="col-header">MACD金叉</th>
+                <th class="col-header">KDJ超卖金叉</th>
+                <th class="col-header">动量突破</th>
+                <th class="col-header">营收增长</th>
+                <th class="col-header">净利润增速</th>
+                <th class="col-header">RSI超卖反转</th>
+                <th class="col-header">PSR低估值</th>
+                <th class="col-header">低负债率</th>
+                <th class="col-header">北向重仓</th>
+                <th class="col-header">机构持仓</th>
+                <th class="col-header">低PB</th>
+                <th class="col-header">低估值修复</th>
+                <th class="col-header">低PE</th>
+            </tr>
+            <tr>
+                <th class="row-header">多周期共振</th>
+                <td style="background-color: rgb(50, 50, 150)">1.00</td>
+                <td style="background-color: rgb(255, 255, 150)">0.24</td>
+                <td style="background-color: rgb(255, 255, 150)">0.07</td>
+                <td style="background-color: rgb(255, 255, 150)">0.36</td>
+                <td style="background-color: rgb(255, 150, 50)">0.61</td>
+                <td style="background-color: rgb(255, 255, 150)">0.22</td>
+                <td style="background-color: rgb(255, 50, 50)">0.71</td>
+                <td style="background-color: rgb(255, 50, 50)">0.71</td>
+                <td style="background-color: rgb(255, 50, 50)">0.89</td>
+                <td style="background-color: rgb(255, 50, 50)">0.80</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.07</td>
+                <td style="background-color: rgb(255, 50, 50)">0.76</td>
+                <td style="background-color: rgb(255, 150, 50)">0.43</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(255, 255, 150)">0.21</td>
+                <td style="background-color: rgb(255, 255, 150)">0.12</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.39</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.07</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.07</td>
+                <td style="background-color: rgb(255, 255, 150)">0.17</td>
+                <td style="background-color: rgb(255, 255, 150)">0.17</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.34</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.34</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.35</td>
+            </tr>
+            <tr>
+                <th class="row-header">高管增持</th>
+                <td style="background-color: rgb(255, 255, 150)">0.24</td>
+                <td style="background-color: rgb(50, 50, 150)">1.00</td>
+                <td style="background-color: rgb(255, 255, 150)">0.32</td>
+                <td style="background-color: rgb(255, 255, 150)">0.07</td>
+                <td style="background-color: rgb(255, 150, 50)">0.43</td>
+                <td style="background-color: rgb(255, 255, 150)">0.24</td>
+                <td style="background-color: rgb(255, 150, 50)">0.42</td>
+                <td style="background-color: rgb(255, 150, 50)">0.42</td>
+                <td style="background-color: rgb(255, 255, 150)">0.23</td>
+                <td style="background-color: rgb(255, 255, 150)">0.21</td>
+                <td style="background-color: rgb(255, 255, 150)">0.27</td>
+                <td style="background-color: rgb(255, 255, 150)">0.14</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.09</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(255, 255, 150)">0.38</td>
+                <td style="background-color: rgb(255, 255, 150)">0.37</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.21</td>
+                <td style="background-color: rgb(255, 255, 150)">0.12</td>
+                <td style="background-color: rgb(255, 255, 150)">0.12</td>
+                <td style="background-color: rgb(255, 255, 150)">0.14</td>
+                <td style="background-color: rgb(255, 255, 150)">0.14</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.07</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.07</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.07</td>
+            </tr>
+            <tr>
+                <th class="row-header">均线多头排列</th>
+                <td style="background-color: rgb(255, 255, 150)">0.07</td>
+                <td style="background-color: rgb(255, 255, 150)">0.32</td>
+                <td style="background-color: rgb(50, 50, 150)">1.00</td>
+                <td style="background-color: rgb(255, 255, 150)">0.13</td>
+                <td style="background-color: rgb(255, 150, 50)">0.52</td>
+                <td style="background-color: rgb(255, 255, 150)">0.20</td>
+                <td style="background-color: rgb(255, 150, 50)">0.48</td>
+                <td style="background-color: rgb(255, 150, 50)">0.48</td>
+                <td style="background-color: rgb(255, 255, 150)">0.07</td>
+                <td style="background-color: rgb(255, 255, 150)">0.14</td>
+                <td style="background-color: rgb(255, 50, 50)">0.81</td>
+                <td style="background-color: rgb(255, 255, 150)">0.06</td>
+                <td style="background-color: rgb(255, 255, 150)">0.25</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(255, 255, 150)">0.26</td>
+                <td style="background-color: rgb(255, 50, 50)">0.78</td>
+                <td style="background-color: rgb(255, 255, 150)">0.31</td>
+                <td style="background-color: rgb(255, 150, 50)">0.52</td>
+                <td style="background-color: rgb(255, 150, 50)">0.52</td>
+                <td style="background-color: rgb(255, 255, 150)">0.39</td>
+                <td style="background-color: rgb(255, 255, 150)">0.39</td>
+                <td style="background-color: rgb(255, 255, 150)">0.30</td>
+                <td style="background-color: rgb(255, 255, 150)">0.30</td>
+                <td style="background-color: rgb(255, 150, 50)">0.46</td>
+            </tr>
+            <tr>
+                <th class="row-header">国产替代</th>
+                <td style="background-color: rgb(255, 255, 150)">0.36</td>
+                <td style="background-color: rgb(255, 255, 150)">0.07</td>
+                <td style="background-color: rgb(255, 255, 150)">0.13</td>
+                <td style="background-color: rgb(50, 50, 150)">1.00</td>
+                <td style="background-color: rgb(255, 150, 50)">0.46</td>
+                <td style="background-color: rgb(255, 150, 50)">0.66</td>
+                <td style="background-color: rgb(255, 255, 150)">0.38</td>
+                <td style="background-color: rgb(255, 255, 150)">0.38</td>
+                <td style="background-color: rgb(255, 150, 50)">0.48</td>
+                <td style="background-color: rgb(255, 150, 50)">0.44</td>
+                <td style="background-color: rgb(255, 255, 150)">0.15</td>
+                <td style="background-color: rgb(255, 255, 150)">0.21</td>
+                <td style="background-color: rgb(255, 255, 150)">0.22</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(255, 150, 50)">0.45</td>
+                <td style="background-color: rgb(255, 255, 150)">0.37</td>
+                <td style="background-color: rgb(100, 150, 255)">-0.45</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.18</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.18</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.21</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.21</td>
+                <td style="background-color: rgb(100, 150, 255)">-0.44</td>
+                <td style="background-color: rgb(100, 150, 255)">-0.44</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.19</td>
+            </tr>
+            <tr>
+                <th class="row-header">趋势动量</th>
+                <td style="background-color: rgb(255, 150, 50)">0.61</td>
+                <td style="background-color: rgb(255, 150, 50)">0.43</td>
+                <td style="background-color: rgb(255, 150, 50)">0.52</td>
+                <td style="background-color: rgb(255, 150, 50)">0.46</td>
+                <td style="background-color: rgb(50, 50, 150)">1.00</td>
+                <td style="background-color: rgb(255, 150, 50)">0.42</td>
+                <td style="background-color: rgb(255, 50, 50)">0.94</td>
+                <td style="background-color: rgb(255, 50, 50)">0.94</td>
+                <td style="background-color: rgb(255, 50, 50)">0.72</td>
+                <td style="background-color: rgb(255, 50, 50)">0.77</td>
+                <td style="background-color: rgb(255, 150, 50)">0.53</td>
+                <td style="background-color: rgb(255, 50, 50)">0.73</td>
+                <td style="background-color: rgb(255, 150, 50)">0.45</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(255, 255, 150)">0.25</td>
+                <td style="background-color: rgb(255, 150, 50)">0.57</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.23</td>
+                <td style="background-color: rgb(255, 255, 150)">0.13</td>
+                <td style="background-color: rgb(255, 255, 150)">0.13</td>
+                <td style="background-color: rgb(255, 255, 150)">0.13</td>
+                <td style="background-color: rgb(255, 255, 150)">0.13</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.08</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.08</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.03</td>
+            </tr>
+            <tr>
+                <th class="row-header">AI供应链紫苏叶</th>
+                <td style="background-color: rgb(255, 255, 150)">0.22</td>
+                <td style="background-color: rgb(255, 255, 150)">0.24</td>
+                <td style="background-color: rgb(255, 255, 150)">0.20</td>
+                <td style="background-color: rgb(255, 150, 50)">0.66</td>
+                <td style="background-color: rgb(255, 150, 50)">0.42</td>
+                <td style="background-color: rgb(50, 50, 150)">1.00</td>
+                <td style="background-color: rgb(255, 255, 150)">0.33</td>
+                <td style="background-color: rgb(255, 255, 150)">0.33</td>
+                <td style="background-color: rgb(255, 150, 50)">0.40</td>
+                <td style="background-color: rgb(255, 255, 150)">0.40</td>
+                <td style="background-color: rgb(255, 255, 150)">0.18</td>
+                <td style="background-color: rgb(255, 255, 150)">0.20</td>
+                <td style="background-color: rgb(255, 255, 150)">0.21</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(255, 150, 50)">0.61</td>
+                <td style="background-color: rgb(255, 150, 50)">0.44</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.18</td>
+                <td style="background-color: rgb(255, 255, 150)">0.20</td>
+                <td style="background-color: rgb(255, 255, 150)">0.20</td>
+                <td style="background-color: rgb(255, 255, 150)">0.03</td>
+                <td style="background-color: rgb(255, 255, 150)">0.03</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.16</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.16</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.01</td>
+            </tr>
+            <tr>
+                <th class="row-header">ST摘帽潜伏</th>
+                <td style="background-color: rgb(255, 50, 50)">0.71</td>
+                <td style="background-color: rgb(255, 150, 50)">0.42</td>
+                <td style="background-color: rgb(255, 150, 50)">0.48</td>
+                <td style="background-color: rgb(255, 255, 150)">0.38</td>
+                <td style="background-color: rgb(255, 50, 50)">0.94</td>
+                <td style="background-color: rgb(255, 255, 150)">0.33</td>
+                <td style="background-color: rgb(50, 50, 150)">1.00</td>
+                <td style="background-color: rgb(255, 50, 50)">1.00</td>
+                <td style="background-color: rgb(255, 50, 50)">0.75</td>
+                <td style="background-color: rgb(255, 50, 50)">0.76</td>
+                <td style="background-color: rgb(255, 150, 50)">0.52</td>
+                <td style="background-color: rgb(255, 50, 50)">0.80</td>
+                <td style="background-color: rgb(255, 150, 50)">0.49</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(255, 255, 150)">0.25</td>
+                <td style="background-color: rgb(255, 150, 50)">0.55</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.18</td>
+                <td style="background-color: rgb(255, 255, 150)">0.11</td>
+                <td style="background-color: rgb(255, 255, 150)">0.11</td>
+                <td style="background-color: rgb(255, 255, 150)">0.16</td>
+                <td style="background-color: rgb(255, 255, 150)">0.16</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.07</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.07</td>
+                <td style="background-color: rgb(255, 255, 150)">0.03</td>
+            </tr>
+            <tr>
+                <th class="row-header">业绩超预期</th>
+                <td style="background-color: rgb(255, 50, 50)">0.71</td>
+                <td style="background-color: rgb(255, 150, 50)">0.42</td>
+                <td style="background-color: rgb(255, 150, 50)">0.48</td>
+                <td style="background-color: rgb(255, 255, 150)">0.38</td>
+                <td style="background-color: rgb(255, 50, 50)">0.94</td>
+                <td style="background-color: rgb(255, 255, 150)">0.33</td>
+                <td style="background-color: rgb(255, 50, 50)">1.00</td>
+                <td style="background-color: rgb(50, 50, 150)">1.00</td>
+                <td style="background-color: rgb(255, 50, 50)">0.75</td>
+                <td style="background-color: rgb(255, 50, 50)">0.76</td>
+                <td style="background-color: rgb(255, 150, 50)">0.52</td>
+                <td style="background-color: rgb(255, 50, 50)">0.80</td>
+                <td style="background-color: rgb(255, 150, 50)">0.49</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(255, 255, 150)">0.25</td>
+                <td style="background-color: rgb(255, 150, 50)">0.55</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.18</td>
+                <td style="background-color: rgb(255, 255, 150)">0.11</td>
+                <td style="background-color: rgb(255, 255, 150)">0.11</td>
+                <td style="background-color: rgb(255, 255, 150)">0.16</td>
+                <td style="background-color: rgb(255, 255, 150)">0.16</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.07</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.07</td>
+                <td style="background-color: rgb(255, 255, 150)">0.03</td>
+            </tr>
+            <tr>
+                <th class="row-header">多因子综合</th>
+                <td style="background-color: rgb(255, 50, 50)">0.89</td>
+                <td style="background-color: rgb(255, 255, 150)">0.23</td>
+                <td style="background-color: rgb(255, 255, 150)">0.07</td>
+                <td style="background-color: rgb(255, 150, 50)">0.48</td>
+                <td style="background-color: rgb(255, 50, 50)">0.72</td>
+                <td style="background-color: rgb(255, 150, 50)">0.40</td>
+                <td style="background-color: rgb(255, 50, 50)">0.75</td>
+                <td style="background-color: rgb(255, 50, 50)">0.75</td>
+                <td style="background-color: rgb(50, 50, 150)">1.00</td>
+                <td style="background-color: rgb(255, 50, 50)">0.83</td>
+                <td style="background-color: rgb(255, 255, 150)">0.04</td>
+                <td style="background-color: rgb(255, 50, 50)">0.78</td>
+                <td style="background-color: rgb(255, 150, 50)">0.51</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(255, 255, 150)">0.29</td>
+                <td style="background-color: rgb(255, 255, 150)">0.20</td>
+                <td style="background-color: rgb(100, 150, 255)">-0.57</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.09</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.09</td>
+                <td style="background-color: rgb(255, 255, 150)">0.09</td>
+                <td style="background-color: rgb(255, 255, 150)">0.09</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.39</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.39</td>
+                <td style="background-color: rgb(100, 150, 255)">-0.41</td>
+            </tr>
+            <tr>
+                <th class="row-header">现金流质量</th>
+                <td style="background-color: rgb(255, 50, 50)">0.80</td>
+                <td style="background-color: rgb(255, 255, 150)">0.21</td>
+                <td style="background-color: rgb(255, 255, 150)">0.14</td>
+                <td style="background-color: rgb(255, 150, 50)">0.44</td>
+                <td style="background-color: rgb(255, 50, 50)">0.77</td>
+                <td style="background-color: rgb(255, 255, 150)">0.40</td>
+                <td style="background-color: rgb(255, 50, 50)">0.76</td>
+                <td style="background-color: rgb(255, 50, 50)">0.76</td>
+                <td style="background-color: rgb(255, 50, 50)">0.83</td>
+                <td style="background-color: rgb(50, 50, 150)">1.00</td>
+                <td style="background-color: rgb(255, 255, 150)">0.02</td>
+                <td style="background-color: rgb(255, 50, 50)">0.77</td>
+                <td style="background-color: rgb(255, 255, 150)">0.38</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(255, 255, 150)">0.29</td>
+                <td style="background-color: rgb(255, 255, 150)">0.27</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.34</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.03</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.03</td>
+                <td style="background-color: rgb(255, 255, 150)">0.09</td>
+                <td style="background-color: rgb(255, 255, 150)">0.09</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.25</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.25</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.23</td>
+            </tr>
+            <tr>
+                <th class="row-header">量价突破</th>
+                <td style="background-color: rgb(200, 200, 255)">-0.07</td>
+                <td style="background-color: rgb(255, 255, 150)">0.27</td>
+                <td style="background-color: rgb(255, 50, 50)">0.81</td>
+                <td style="background-color: rgb(255, 255, 150)">0.15</td>
+                <td style="background-color: rgb(255, 150, 50)">0.53</td>
+                <td style="background-color: rgb(255, 255, 150)">0.18</td>
+                <td style="background-color: rgb(255, 150, 50)">0.52</td>
+                <td style="background-color: rgb(255, 150, 50)">0.52</td>
+                <td style="background-color: rgb(255, 255, 150)">0.04</td>
+                <td style="background-color: rgb(255, 255, 150)">0.02</td>
+                <td style="background-color: rgb(50, 50, 150)">1.00</td>
+                <td style="background-color: rgb(255, 255, 150)">0.10</td>
+                <td style="background-color: rgb(255, 255, 150)">0.22</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(255, 255, 150)">0.15</td>
+                <td style="background-color: rgb(255, 50, 50)">0.80</td>
+                <td style="background-color: rgb(255, 255, 150)">0.31</td>
+                <td style="background-color: rgb(255, 255, 150)">0.38</td>
+                <td style="background-color: rgb(255, 255, 150)">0.38</td>
+                <td style="background-color: rgb(255, 255, 150)">0.07</td>
+                <td style="background-color: rgb(255, 255, 150)">0.07</td>
+                <td style="background-color: rgb(255, 255, 150)">0.28</td>
+                <td style="background-color: rgb(255, 255, 150)">0.28</td>
+                <td style="background-color: rgb(255, 150, 50)">0.47</td>
+            </tr>
+            <tr>
+                <th class="row-header">北向资金跟投</th>
+                <td style="background-color: rgb(255, 50, 50)">0.76</td>
+                <td style="background-color: rgb(255, 255, 150)">0.14</td>
+                <td style="background-color: rgb(255, 255, 150)">0.06</td>
+                <td style="background-color: rgb(255, 255, 150)">0.21</td>
+                <td style="background-color: rgb(255, 50, 50)">0.73</td>
+                <td style="background-color: rgb(255, 255, 150)">0.20</td>
+                <td style="background-color: rgb(255, 50, 50)">0.80</td>
+                <td style="background-color: rgb(255, 50, 50)">0.80</td>
+                <td style="background-color: rgb(255, 50, 50)">0.78</td>
+                <td style="background-color: rgb(255, 50, 50)">0.77</td>
+                <td style="background-color: rgb(255, 255, 150)">0.10</td>
+                <td style="background-color: rgb(50, 50, 150)">1.00</td>
+                <td style="background-color: rgb(255, 150, 50)">0.55</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(255, 255, 150)">0.16</td>
+                <td style="background-color: rgb(255, 255, 150)">0.20</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.22</td>
+                <td style="background-color: rgb(255, 255, 150)">0.09</td>
+                <td style="background-color: rgb(255, 255, 150)">0.09</td>
+                <td style="background-color: rgb(255, 255, 150)">0.08</td>
+                <td style="background-color: rgb(255, 255, 150)">0.08</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.10</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.10</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.09</td>
+            </tr>
+            <tr>
+                <th class="row-header">首板回调</th>
+                <td style="background-color: rgb(255, 150, 50)">0.43</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.09</td>
+                <td style="background-color: rgb(255, 255, 150)">0.25</td>
+                <td style="background-color: rgb(255, 255, 150)">0.22</td>
+                <td style="background-color: rgb(255, 150, 50)">0.45</td>
+                <td style="background-color: rgb(255, 255, 150)">0.21</td>
+                <td style="background-color: rgb(255, 150, 50)">0.49</td>
+                <td style="background-color: rgb(255, 150, 50)">0.49</td>
+                <td style="background-color: rgb(255, 150, 50)">0.51</td>
+                <td style="background-color: rgb(255, 255, 150)">0.38</td>
+                <td style="background-color: rgb(255, 255, 150)">0.22</td>
+                <td style="background-color: rgb(255, 150, 50)">0.55</td>
+                <td style="background-color: rgb(50, 50, 150)">1.00</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(255, 255, 150)">0.16</td>
+                <td style="background-color: rgb(255, 255, 150)">0.22</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.07</td>
+                <td style="background-color: rgb(255, 255, 150)">0.27</td>
+                <td style="background-color: rgb(255, 255, 150)">0.27</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.07</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.07</td>
+                <td style="background-color: rgb(255, 255, 150)">0.04</td>
+                <td style="background-color: rgb(255, 255, 150)">0.04</td>
+                <td style="background-color: rgb(255, 255, 150)">0.05</td>
+            </tr>
+            <tr>
+                <th class="row-header">ROE选股</th>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 150)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+            </tr>
+            <tr>
+                <th class="row-header">高ROIC</th>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 150)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+            </tr>
+            <tr>
+                <th class="row-header">红利低波</th>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 150)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+            </tr>
+            <tr>
+                <th class="row-header">高股息</th>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 150)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+            </tr>
+            <tr>
+                <th class="row-header">动量反转</th>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 150)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+            </tr>
+            <tr>
+                <th class="row-header">分析师上调</th>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 150)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+            </tr>
+            <tr>
+                <th class="row-header">MACD金叉</th>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 150)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+            </tr>
+            <tr>
+                <th class="row-header">KDJ超卖金叉</th>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 150)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+            </tr>
+            <tr>
+                <th class="row-header">动量突破</th>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 150)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+            </tr>
+            <tr>
+                <th class="row-header">营收增长</th>
+                <td style="background-color: rgb(255, 255, 150)">0.21</td>
+                <td style="background-color: rgb(255, 255, 150)">0.38</td>
+                <td style="background-color: rgb(255, 255, 150)">0.26</td>
+                <td style="background-color: rgb(255, 150, 50)">0.45</td>
+                <td style="background-color: rgb(255, 255, 150)">0.25</td>
+                <td style="background-color: rgb(255, 150, 50)">0.61</td>
+                <td style="background-color: rgb(255, 255, 150)">0.25</td>
+                <td style="background-color: rgb(255, 255, 150)">0.25</td>
+                <td style="background-color: rgb(255, 255, 150)">0.29</td>
+                <td style="background-color: rgb(255, 255, 150)">0.29</td>
+                <td style="background-color: rgb(255, 255, 150)">0.15</td>
+                <td style="background-color: rgb(255, 255, 150)">0.16</td>
+                <td style="background-color: rgb(255, 255, 150)">0.16</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 150)">1.00</td>
+                <td style="background-color: rgb(255, 150, 50)">0.64</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.23</td>
+                <td style="background-color: rgb(255, 255, 150)">0.20</td>
+                <td style="background-color: rgb(255, 255, 150)">0.20</td>
+                <td style="background-color: rgb(255, 255, 150)">0.01</td>
+                <td style="background-color: rgb(255, 255, 150)">0.01</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.18</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.18</td>
+                <td style="background-color: rgb(255, 255, 150)">0.20</td>
+            </tr>
+            <tr>
+                <th class="row-header">净利润增速</th>
+                <td style="background-color: rgb(255, 255, 150)">0.12</td>
+                <td style="background-color: rgb(255, 255, 150)">0.37</td>
+                <td style="background-color: rgb(255, 50, 50)">0.78</td>
+                <td style="background-color: rgb(255, 255, 150)">0.37</td>
+                <td style="background-color: rgb(255, 150, 50)">0.57</td>
+                <td style="background-color: rgb(255, 150, 50)">0.44</td>
+                <td style="background-color: rgb(255, 150, 50)">0.55</td>
+                <td style="background-color: rgb(255, 150, 50)">0.55</td>
+                <td style="background-color: rgb(255, 255, 150)">0.20</td>
+                <td style="background-color: rgb(255, 255, 150)">0.27</td>
+                <td style="background-color: rgb(255, 50, 50)">0.80</td>
+                <td style="background-color: rgb(255, 255, 150)">0.20</td>
+                <td style="background-color: rgb(255, 255, 150)">0.22</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(255, 150, 50)">0.64</td>
+                <td style="background-color: rgb(50, 50, 150)">1.00</td>
+                <td style="background-color: rgb(255, 255, 150)">0.17</td>
+                <td style="background-color: rgb(255, 255, 150)">0.37</td>
+                <td style="background-color: rgb(255, 255, 150)">0.37</td>
+                <td style="background-color: rgb(255, 255, 150)">0.11</td>
+                <td style="background-color: rgb(255, 255, 150)">0.11</td>
+                <td style="background-color: rgb(255, 255, 150)">0.14</td>
+                <td style="background-color: rgb(255, 255, 150)">0.14</td>
+                <td style="background-color: rgb(255, 150, 50)">0.51</td>
+            </tr>
+            <tr>
+                <th class="row-header">RSI超卖反转</th>
+                <td style="background-color: rgb(200, 200, 255)">-0.39</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.21</td>
+                <td style="background-color: rgb(255, 255, 150)">0.31</td>
+                <td style="background-color: rgb(100, 150, 255)">-0.45</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.23</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.18</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.18</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.18</td>
+                <td style="background-color: rgb(100, 150, 255)">-0.57</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.34</td>
+                <td style="background-color: rgb(255, 255, 150)">0.31</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.22</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.07</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.23</td>
+                <td style="background-color: rgb(255, 255, 150)">0.17</td>
+                <td style="background-color: rgb(50, 50, 150)">1.00</td>
+                <td style="background-color: rgb(255, 150, 50)">0.43</td>
+                <td style="background-color: rgb(255, 150, 50)">0.43</td>
+                <td style="background-color: rgb(255, 255, 150)">0.09</td>
+                <td style="background-color: rgb(255, 255, 150)">0.09</td>
+                <td style="background-color: rgb(255, 50, 50)">0.72</td>
+                <td style="background-color: rgb(255, 50, 50)">0.72</td>
+                <td style="background-color: rgb(255, 50, 50)">0.71</td>
+            </tr>
+            <tr>
+                <th class="row-header">PSR低估值</th>
+                <td style="background-color: rgb(200, 200, 255)">-0.07</td>
+                <td style="background-color: rgb(255, 255, 150)">0.12</td>
+                <td style="background-color: rgb(255, 150, 50)">0.52</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.18</td>
+                <td style="background-color: rgb(255, 255, 150)">0.13</td>
+                <td style="background-color: rgb(255, 255, 150)">0.20</td>
+                <td style="background-color: rgb(255, 255, 150)">0.11</td>
+                <td style="background-color: rgb(255, 255, 150)">0.11</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.09</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.03</td>
+                <td style="background-color: rgb(255, 255, 150)">0.38</td>
+                <td style="background-color: rgb(255, 255, 150)">0.09</td>
+                <td style="background-color: rgb(255, 255, 150)">0.27</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(255, 255, 150)">0.20</td>
+                <td style="background-color: rgb(255, 255, 150)">0.37</td>
+                <td style="background-color: rgb(255, 150, 50)">0.43</td>
+                <td style="background-color: rgb(50, 50, 150)">1.00</td>
+                <td style="background-color: rgb(255, 50, 50)">1.00</td>
+                <td style="background-color: rgb(255, 255, 150)">0.08</td>
+                <td style="background-color: rgb(255, 255, 150)">0.08</td>
+                <td style="background-color: rgb(255, 150, 50)">0.63</td>
+                <td style="background-color: rgb(255, 150, 50)">0.63</td>
+                <td style="background-color: rgb(255, 150, 50)">0.43</td>
+            </tr>
+            <tr>
+                <th class="row-header">低负债率</th>
+                <td style="background-color: rgb(200, 200, 255)">-0.07</td>
+                <td style="background-color: rgb(255, 255, 150)">0.12</td>
+                <td style="background-color: rgb(255, 150, 50)">0.52</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.18</td>
+                <td style="background-color: rgb(255, 255, 150)">0.13</td>
+                <td style="background-color: rgb(255, 255, 150)">0.20</td>
+                <td style="background-color: rgb(255, 255, 150)">0.11</td>
+                <td style="background-color: rgb(255, 255, 150)">0.11</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.09</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.03</td>
+                <td style="background-color: rgb(255, 255, 150)">0.38</td>
+                <td style="background-color: rgb(255, 255, 150)">0.09</td>
+                <td style="background-color: rgb(255, 255, 150)">0.27</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(255, 255, 150)">0.20</td>
+                <td style="background-color: rgb(255, 255, 150)">0.37</td>
+                <td style="background-color: rgb(255, 150, 50)">0.43</td>
+                <td style="background-color: rgb(255, 50, 50)">1.00</td>
+                <td style="background-color: rgb(50, 50, 150)">1.00</td>
+                <td style="background-color: rgb(255, 255, 150)">0.08</td>
+                <td style="background-color: rgb(255, 255, 150)">0.08</td>
+                <td style="background-color: rgb(255, 150, 50)">0.63</td>
+                <td style="background-color: rgb(255, 150, 50)">0.63</td>
+                <td style="background-color: rgb(255, 150, 50)">0.43</td>
+            </tr>
+            <tr>
+                <th class="row-header">北向重仓</th>
+                <td style="background-color: rgb(255, 255, 150)">0.17</td>
+                <td style="background-color: rgb(255, 255, 150)">0.14</td>
+                <td style="background-color: rgb(255, 255, 150)">0.39</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.21</td>
+                <td style="background-color: rgb(255, 255, 150)">0.13</td>
+                <td style="background-color: rgb(255, 255, 150)">0.03</td>
+                <td style="background-color: rgb(255, 255, 150)">0.16</td>
+                <td style="background-color: rgb(255, 255, 150)">0.16</td>
+                <td style="background-color: rgb(255, 255, 150)">0.09</td>
+                <td style="background-color: rgb(255, 255, 150)">0.09</td>
+                <td style="background-color: rgb(255, 255, 150)">0.07</td>
+                <td style="background-color: rgb(255, 255, 150)">0.08</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.07</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(255, 255, 150)">0.01</td>
+                <td style="background-color: rgb(255, 255, 150)">0.11</td>
+                <td style="background-color: rgb(255, 255, 150)">0.09</td>
+                <td style="background-color: rgb(255, 255, 150)">0.08</td>
+                <td style="background-color: rgb(255, 255, 150)">0.08</td>
+                <td style="background-color: rgb(50, 50, 150)">1.00</td>
+                <td style="background-color: rgb(255, 50, 50)">1.00</td>
+                <td style="background-color: rgb(255, 255, 150)">0.08</td>
+                <td style="background-color: rgb(255, 255, 150)">0.08</td>
+                <td style="background-color: rgb(255, 255, 150)">0.24</td>
+            </tr>
+            <tr>
+                <th class="row-header">机构持仓</th>
+                <td style="background-color: rgb(255, 255, 150)">0.17</td>
+                <td style="background-color: rgb(255, 255, 150)">0.14</td>
+                <td style="background-color: rgb(255, 255, 150)">0.39</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.21</td>
+                <td style="background-color: rgb(255, 255, 150)">0.13</td>
+                <td style="background-color: rgb(255, 255, 150)">0.03</td>
+                <td style="background-color: rgb(255, 255, 150)">0.16</td>
+                <td style="background-color: rgb(255, 255, 150)">0.16</td>
+                <td style="background-color: rgb(255, 255, 150)">0.09</td>
+                <td style="background-color: rgb(255, 255, 150)">0.09</td>
+                <td style="background-color: rgb(255, 255, 150)">0.07</td>
+                <td style="background-color: rgb(255, 255, 150)">0.08</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.07</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(255, 255, 150)">0.01</td>
+                <td style="background-color: rgb(255, 255, 150)">0.11</td>
+                <td style="background-color: rgb(255, 255, 150)">0.09</td>
+                <td style="background-color: rgb(255, 255, 150)">0.08</td>
+                <td style="background-color: rgb(255, 255, 150)">0.08</td>
+                <td style="background-color: rgb(255, 50, 50)">1.00</td>
+                <td style="background-color: rgb(50, 50, 150)">1.00</td>
+                <td style="background-color: rgb(255, 255, 150)">0.08</td>
+                <td style="background-color: rgb(255, 255, 150)">0.08</td>
+                <td style="background-color: rgb(255, 255, 150)">0.24</td>
+            </tr>
+            <tr>
+                <th class="row-header">低PB</th>
+                <td style="background-color: rgb(200, 200, 255)">-0.34</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.07</td>
+                <td style="background-color: rgb(255, 255, 150)">0.30</td>
+                <td style="background-color: rgb(100, 150, 255)">-0.44</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.08</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.16</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.07</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.07</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.39</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.25</td>
+                <td style="background-color: rgb(255, 255, 150)">0.28</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.10</td>
+                <td style="background-color: rgb(255, 255, 150)">0.04</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.18</td>
+                <td style="background-color: rgb(255, 255, 150)">0.14</td>
+                <td style="background-color: rgb(255, 50, 50)">0.72</td>
+                <td style="background-color: rgb(255, 150, 50)">0.63</td>
+                <td style="background-color: rgb(255, 150, 50)">0.63</td>
+                <td style="background-color: rgb(255, 255, 150)">0.08</td>
+                <td style="background-color: rgb(255, 255, 150)">0.08</td>
+                <td style="background-color: rgb(50, 50, 150)">1.00</td>
+                <td style="background-color: rgb(255, 50, 50)">1.00</td>
+                <td style="background-color: rgb(255, 150, 50)">0.60</td>
+            </tr>
+            <tr>
+                <th class="row-header">低估值修复</th>
+                <td style="background-color: rgb(200, 200, 255)">-0.34</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.07</td>
+                <td style="background-color: rgb(255, 255, 150)">0.30</td>
+                <td style="background-color: rgb(100, 150, 255)">-0.44</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.08</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.16</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.07</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.07</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.39</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.25</td>
+                <td style="background-color: rgb(255, 255, 150)">0.28</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.10</td>
+                <td style="background-color: rgb(255, 255, 150)">0.04</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.18</td>
+                <td style="background-color: rgb(255, 255, 150)">0.14</td>
+                <td style="background-color: rgb(255, 50, 50)">0.72</td>
+                <td style="background-color: rgb(255, 150, 50)">0.63</td>
+                <td style="background-color: rgb(255, 150, 50)">0.63</td>
+                <td style="background-color: rgb(255, 255, 150)">0.08</td>
+                <td style="background-color: rgb(255, 255, 150)">0.08</td>
+                <td style="background-color: rgb(255, 50, 50)">1.00</td>
+                <td style="background-color: rgb(50, 50, 150)">1.00</td>
+                <td style="background-color: rgb(255, 150, 50)">0.60</td>
+            </tr>
+            <tr>
+                <th class="row-header">低PE</th>
+                <td style="background-color: rgb(200, 200, 255)">-0.35</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.07</td>
+                <td style="background-color: rgb(255, 150, 50)">0.46</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.19</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.03</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.01</td>
+                <td style="background-color: rgb(255, 255, 150)">0.03</td>
+                <td style="background-color: rgb(255, 255, 150)">0.03</td>
+                <td style="background-color: rgb(100, 150, 255)">-0.41</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.23</td>
+                <td style="background-color: rgb(255, 150, 50)">0.47</td>
+                <td style="background-color: rgb(200, 200, 255)">-0.09</td>
+                <td style="background-color: rgb(255, 255, 150)">0.05</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(50, 50, 255)">nan</td>
+                <td style="background-color: rgb(255, 255, 150)">0.20</td>
+                <td style="background-color: rgb(255, 150, 50)">0.51</td>
+                <td style="background-color: rgb(255, 50, 50)">0.71</td>
+                <td style="background-color: rgb(255, 150, 50)">0.43</td>
+                <td style="background-color: rgb(255, 150, 50)">0.43</td>
+                <td style="background-color: rgb(255, 255, 150)">0.24</td>
+                <td style="background-color: rgb(255, 255, 150)">0.24</td>
+                <td style="background-color: rgb(255, 150, 50)">0.60</td>
+                <td style="background-color: rgb(255, 150, 50)">0.60</td>
+                <td style="background-color: rgb(50, 50, 150)">1.00</td>
+            </tr>
+        </table>
+    </div>
+    
+    <div class="legend">
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: rgb(50, 50, 150);"></div>
+            <span>自身相关</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: rgb(255, 50, 50);"></div>
+            <span>高正相关(>0.7)</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: rgb(255, 150, 50);"></div>
+            <span>中正相关(0.4-0.7)</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: rgb(255, 255, 150);"></div>
+            <span>低正相关(0-0.4)</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: rgb(100, 150, 255);"></div>
+            <span>负相关(<-0.4)</span>
+        </div>
+    </div>
+
+    <div class="high-corr">
+        <h3>⚠️ 高度相关策略对 (相关性 > 0.7)</h3>
+        <ul>
+            <li>ST摘帽潜伏 ↔ 业绩超预期: 1.00</li>
+            <li>PSR低估值 ↔ 低负债率: 1.00</li>
+            <li>北向重仓 ↔ 机构持仓: 1.00</li>
+            <li>低PB ↔ 低估值修复: 1.00</li>
+            <li>趋势动量 ↔ ST摘帽潜伏: 0.94</li>
+            <li>趋势动量 ↔ 业绩超预期: 0.94</li>
+            <li>多周期共振 ↔ 多因子综合: 0.89</li>
+            <li>多因子综合 ↔ 现金流质量: 0.83</li>
+            <li>均线多头排列 ↔ 量价突破: 0.81</li>
+            <li>多周期共振 ↔ 现金流质量: 0.80</li>
+            <li>ST摘帽潜伏 ↔ 北向资金跟投: 0.80</li>
+            <li>业绩超预期 ↔ 北向资金跟投: 0.80</li>
+            <li>量价突破 ↔ 净利润增速: 0.80</li>
+            <li>多因子综合 ↔ 北向资金跟投: 0.78</li>
+            <li>均线多头排列 ↔ 净利润增速: 0.78</li>
+            <li>现金流质量 ↔ 北向资金跟投: 0.77</li>
+            <li>趋势动量 ↔ 现金流质量: 0.77</li>
+            <li>ST摘帽潜伏 ↔ 现金流质量: 0.76</li>
+            <li>业绩超预期 ↔ 现金流质量: 0.76</li>
+            <li>多周期共振 ↔ 北向资金跟投: 0.76</li>
+            <li>ST摘帽潜伏 ↔ 多因子综合: 0.75</li>
+            <li>业绩超预期 ↔ 多因子综合: 0.75</li>
+            <li>趋势动量 ↔ 北向资金跟投: 0.73</li>
+            <li>趋势动量 ↔ 多因子综合: 0.72</li>
+            <li>RSI超卖反转 ↔ 低PB: 0.72</li>
+            <li>RSI超卖反转 ↔ 低估值修复: 0.72</li>
+            <li>RSI超卖反转 ↔ 低PE: 0.71</li>
+            <li>多周期共振 ↔ ST摘帽潜伏: 0.70</li>
+            <li>多周期共振 ↔ 业绩超预期: 0.70</li>
+        </ul>
+    </div>
+
+    <div class="suggestion">
+        <h3>💡 分散化建议</h3>
+        <p>以下策略组存在高度相关性，建议从中选择代表性策略：</p>
+        <ul>
+            <li><strong>组1:</strong> 多周期共振, 趋势动量, ST摘帽潜伏, 业绩超预期, 多因子综合, 现金流质量, 北向资金跟投</li>
+            <li><strong>组2:</strong> 均线多头排列, 量价突破, 净利润增速</li>
+            <li><strong>组3:</strong> RSI超卖反转, 低PB, 低估值修复, 低PE</li>
+            <li><strong>组4:</strong> PSR低估值, 低负债率</li>
+            <li><strong>组5:</strong> 北向重仓, 机构持仓</li>
+        </ul>
+        </div>
+
+</body>
+</html>

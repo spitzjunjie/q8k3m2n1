@@ -38,6 +38,11 @@ from strategies.technical_strategies import (
     VolumeBreakoutStrategy, MACDCrossStrategy, KDJOversoldStrategy,
     RSIReversalStrategy, MomentumBreakoutStrategy
 )
+from strategies.advanced_strategies import (
+    IndustryMomentumStrategy, SouthboundFlowStrategy, OversoldReboundStrategy,
+    ValueLowPBStrategy, EarningsSurpriseStrategy as AdvEarningsSurprise,
+    VolumeBreakoutStrategy as AdvVolumeBreakout
+)
 
 
 def get_all_strategies():
@@ -86,6 +91,13 @@ def get_all_strategies():
         MomentumBreakoutStrategy(),
         # 综合 (1)
         MultiFactorStrategy(),
+        # 高级策略 (6) - 新增
+        IndustryMomentumStrategy(),
+        SouthboundFlowStrategy(),
+        OversoldReboundStrategy(),
+        ValueLowPBStrategy(),
+        AdvEarningsSurprise(),
+        AdvVolumeBreakout(),
     ]
     return strategies
 

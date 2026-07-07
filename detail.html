@@ -362,7 +362,8 @@
 
         async function loadData() {
             const params = new URLSearchParams(window.location.search);
-            const strategyName = params.get('id');
+            // 同时支持 name 和 id 参数
+            const strategyName = params.get('name') || params.get('id');
 
             if (!strategyName) {
                 document.getElementById('overview').innerHTML =
@@ -375,10 +376,16 @@
                 if (!response.ok) throw new Error('数据加载失败');
                 const data = await response.json();
 
-                const strategy = data.strategies.find(s => s.name === strategyName);
+                // 尝试精确匹配，然后模糊匹配
+                let strategy = data.strategies.find(s => s.name === strategyName);
+                if (!strategy) {
+                    // 尝试URL解码后匹配
+                    const decodedName = decodeURIComponent(strategyName);
+                    strategy = data.strategies.find(s => s.name === decodedName);
+                }
                 if (!strategy) {
                     document.getElementById('overview').innerHTML =
-                        `<div class="error">未找到策略: ${strategyName}</div>`;
+                        `<div class="error">未找到策略: ${strategyName}<br><small>可用策略数: ${data.strategies.length}</small></div>`;
                     return;
                 }
 

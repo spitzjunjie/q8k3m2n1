@@ -124,6 +124,25 @@
             color: var(--text-secondary);
         }
 
+        /* 导航链接 */
+        .nav-links {
+            display: flex;
+            gap: 8px;
+        }
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            transition: all 0.2s;
+        }
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--neon-cyan);
+            background: rgba(0, 240, 255, 0.1);
+        }
+
         .live-indicator {
             display: flex;
             align-items: center;
@@ -411,6 +430,10 @@
             <span>多策略交易系统</span>
         </div>
         <div class="header-right">
+            <nav class="nav-links">
+                <a href="index.html" class="active">策略总览</a>
+                <a href="evaluation.html">评估中心</a>
+            </nav>
             <div class="live-indicator">
                 <div class="live-dot"></div>
                 <span>LIVE</span>

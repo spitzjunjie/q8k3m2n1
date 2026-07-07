@@ -91,43 +91,45 @@ class STRemoveStrategy(EventStrategyBase):
 
 
 class ExecutiveBuyStrategy(EventStrategyBase):
-    """高管增持策略 v1.1.0 - 优化：过滤N/A数据+增加变动比例排序"""
+    """高管增持策略 - 高管增持信号，捕捉内部人看好"""
 
     def __init__(self):
         super().__init__("高管增持")
 
     def get_description(self):
-        return "高管增持信号（变动比例>0），捕捉内部人看好"
+        return "高管增持信号，捕捉内部人看好"
 
     def detect_events(self, helper, date=None):
         try:
             df = helper.get_executive_trading()
             if df.empty:
                 return []
-            # 优化：只选择变动比例>0且非N/A的记录，并按变动比例排序
-            if '变动比例' in df.columns:
-                # 过滤N/A值
-                df = df[df['变动比例'].notna()]
-                # 只选择变动比例>0的
-                buy_df = df[df['变动比例'] > 0].sort_values('变动比例', ascending=False).head(20)
+
+            # 筛选增持记录（增减列包含"增"字）
+            if '持股变动信息-增减' in df.columns:
+                buy_df = df[df['持股变动信息-增减'].str.contains('增', na=False)].head(20)
             else:
                 buy_df = df.head(20)
+
             results = []
             for _, row in buy_df.iterrows():
                 symbol = str(row.get('代码', row.get('股票代码', '')))
-                ratio = row.get('变动比例', 'N/A')
-                # 过滤无效symbol和N/A的变动比例
-                if symbol and ratio != 'N/A':
+                if symbol:
+                    # 使用占流通股比例作为变动比例
+                    ratio = row.get('持股变动信息-占流通股比例', 0)
                     try:
-                        ratio_val = float(ratio) if ratio else 0
-                        if ratio_val > 0:
-                            results.append({
-                                'symbol': symbol,
-                                'name': row.get('名称', row.get('股票简称', symbol)),
-                                'reason': f"高管增持，变动比例={ratio_val:.2f}%"
-                            })
+                        ratio_val = float(ratio) if ratio and ratio != 'nan' else 0
+                        results.append({
+                            'symbol': symbol,
+                            'name': row.get('名称', row.get('股票简称', symbol)),
+                            'reason': f"高管增持，占流通股={ratio_val:.2f}%"
+                        })
                     except (ValueError, TypeError):
-                        continue
+                        results.append({
+                            'symbol': symbol,
+                            'name': row.get('名称', row.get('股票简称', symbol)),
+                            'reason': "高管增持"
+                        })
                 if len(results) >= 10:
                     break
             return results

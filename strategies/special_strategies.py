@@ -93,31 +93,27 @@ class LocalizationStrategy(EventStrategy):
 
 
 class MaBreakStrategy(FactorStrategy):
-    """均线多头排列策略 v1.1.0 - 优化：增加ma60确认+20日动量过滤"""
+    """均线多头排列策略 - 5MA>10MA>20MA"""
 
     def __init__(self):
         super().__init__("均线多头排列", "趋势策略", "均线多头")
 
     def get_description(self):
-        return "5MA>10MA>20MA>MA60，趋势更强时买入"
+        return "5MA>10MA>20MA，多头排列时买入"
 
     def calculate_factor(self, helper, date=None):
         stocks = helper.get_stock_pool("hs300")[:80]
         data = []
         for sym in stocks:
             try:
-                kline = helper.get_history_kline(sym, days=60)  # 增加获取天数
-                if kline.empty or len(kline) < 30:
+                kline = helper.get_history_kline(sym, days=30)
+                if kline.empty or len(kline) < 20:
                     continue
                 ma5 = kline['close'].rolling(5).mean().iloc[-1]
                 ma10 = kline['close'].rolling(10).mean().iloc[-1]
                 ma20 = kline['close'].rolling(20).mean().iloc[-1]
-                ma60 = kline['close'].rolling(60).mean().iloc[-1]
-                # 优化：均线多头排列 + ma60上升 + 20日动量正
-                ma60_rising = ma60 > kline['close'].rolling(60).mean().iloc[-5]  # ma60向上
-                momentum_20d = (kline['close'].iloc[-1] / kline['close'].iloc[-20] - 1) * 100 if len(kline) >= 20 else 0
-                # 原条件 + ma60确认 + 动量正
-                if ma5 > ma10 > ma20 and ma60_rising and momentum_20d > 0:
+                # 均线多头排列：ma5 > ma10 > ma20
+                if ma5 > ma10 > ma20:
                     # 因子值 = 收盘价相对MA20的偏离度
                     score = (kline['close'].iloc[-1] / ma20 - 1) * 100
                     data.append({'symbol': sym, 'name': sym, 'factor_value': score})

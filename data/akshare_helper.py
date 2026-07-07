@@ -207,54 +207,118 @@ class AKShareHelper:
     # ==================== 财务指标 ====================
 
     def get_financial_indicator(self, symbol):
-        """获取财务指标：ROE、ROIC、资产负债率、现金流等"""
+        """获取财务指标：ROE、ROIC、资产负债率、现金流等
+        优先用 stock_financial_abstract_ths（新版可用），降级用东方财富接口
+        """
         cache_key = f"fin_ind_{symbol}"
         cache = self._get_cache(cache_key, days=30)
         if cache:
             return cache
+        
+        def safe_pct(v):
+            """处理百分比字符串"""
+            if isinstance(v, str) and '%' in v:
+                return self._safe_float(v.replace('%', ''), 0) / 100
+            return self._safe_float(v, 0)
+        
         try:
-            df = ak.stock_financial_analysis_indicator(symbol=symbol)
+            # 方案1: 同花顺财务摘要（稳定可用）
+            # 数据按时间升序，最新数据在最后一行
+            df = ak.stock_financial_abstract_ths(symbol=symbol, indicator="按报告期")
             if df is not None and not df.empty:
-                latest = df.iloc[0].to_dict()
+                latest = df.iloc[-1].to_dict()  # 取最新一期数据
                 data = {
-                    'roe': self._safe_float(latest.get('净资产收益率(%)', 0)),
-                    'roic': self._safe_float(latest.get('投入资本回报率(%)', 0)),
-                    'debt_ratio': self._safe_float(latest.get('资产负债率(%)', 0)),
+                    'roe': safe_pct(latest.get('净资产收益率-摊薄', 0)),
+                    'roic': 0,  # ths数据不含ROIC
+                    'debt_ratio': safe_pct(latest.get('资产负债率', 0)),
                     'current_ratio': self._safe_float(latest.get('流动比率', 0)),
-                    'gross_margin': self._safe_float(latest.get('销售毛利率(%)', 0)),
-                    'net_margin': self._safe_float(latest.get('销售净利率(%)', 0)),
+                    'gross_margin': 0,  # ths数据不含毛利率
+                    'net_margin': safe_pct(latest.get('销售净利率', 0)),
                 }
                 self._set_cache(cache_key, data)
                 return data
         except Exception as e:
-            print(f"获取财务指标失败 {symbol}: {e}")
+            print(f"同花顺财务指标失败 {symbol}: {e}")
+
+        # 方案2: 东方财富财务分析指标（降级）
+        try:
+            df = ak.stock_financial_analysis_indicator_em(symbol=symbol)
+            if df is not None and not df.empty:
+                latest = df.iloc[0].to_dict()
+                data = {
+                    'roe': safe_pct(latest.get('净资产收益率(%)', 0)),
+                    'roic': safe_pct(latest.get('投入资本回报率(%)', 0)),
+                    'debt_ratio': safe_pct(latest.get('资产负债率(%)', 0)),
+                    'current_ratio': self._safe_float(latest.get('流动比率', 0)),
+                    'gross_margin': safe_pct(latest.get('销售毛利率(%)', 0)),
+                    'net_margin': safe_pct(latest.get('销售净利率(%)', 0)),
+                }
+                self._set_cache(cache_key, data)
+                return data
+        except Exception as e:
+            print(f"东方财富财务指标失败 {symbol}: {e}")
         return {}
 
     def get_valuation_data(self, symbol):
-        """获取估值数据：PE、PB、PS、股息率"""
+        """获取估值数据：PE、PB、PS、股息率
+        优先用东财实时行情（包含PE/PB/市值），降级用同花顺财务数据+股价计算
+        """
         cache_key = f"val_{symbol}"
         cache = self._get_cache(cache_key, days=1)
         if cache:
             return cache
         try:
-            # 使用实时行情获取估值
-            df = ak.stock_a_indicator_lg(symbol=symbol)
+            # 方案1: 东财实时行情（包含PE/PB/总市值）
+            df = ak.stock_zh_a_spot_em()
             if df is not None and not df.empty:
-                latest = df.iloc[-1].to_dict()
-                data = {
-                    'pe': self._safe_float(latest.get('pe', 0)),
-                    'pe_ttm': self._safe_float(latest.get('pe_ttm', 0)),
-                    'pb': self._safe_float(latest.get('pb', 0)),
-                    'ps': self._safe_float(latest.get('ps', 0)),
-                    'ps_ttm': self._safe_float(latest.get('ps_ttm', 0)),
-                    'dv_ratio': self._safe_float(latest.get('dv_ratio', 0)),
-                    'dv_ttm': self._safe_float(latest.get('dv_ttm', 0)),
-                    'total_mv': self._safe_float(latest.get('total_mv', 0)),
-                }
-                self._set_cache(cache_key, data)
-                return data
+                stock = df[df['代码'] == symbol]
+                if not stock.empty:
+                    row = stock.iloc[0]
+                    data = {
+                        'pe': self._safe_float(row.get('市盈率-动态', 0)),
+                        'pe_ttm': self._safe_float(row.get('市盈率-动态', 0)),
+                        'pb': self._safe_float(row.get('市净率', 0)),
+                        'ps': self._safe_float(row.get('市销率', 0)),
+                        'ps_ttm': self._safe_float(row.get('市销率TTM', 0)),
+                        'dv_ratio': self._safe_float(row.get('股息率', 0)),
+                        'dv_ttm': self._safe_float(row.get('股息率TTM', 0)),
+                        'total_mv': self._safe_float(row.get('总市值', 0)),
+                    }
+                    self._set_cache(cache_key, data)
+                    return data
         except Exception as e:
-            print(f"获取估值数据失败 {symbol}: {e}")
+            print(f"东财实时行情估值失败 {symbol}: {e}")
+
+        # 方案2: 降级用同花顺财务数据+新浪股价计算PE/PB
+        try:
+            # 获取同花顺财务数据（EPS、每股净资产）
+            fin_df = ak.stock_financial_abstract_ths(symbol=symbol, indicator="按报告期")
+            # 获取新浪实时股价（需要加sz/sh前缀）
+            sina_symbol = f"sz{symbol}" if not symbol.startswith('6') else f"sh{symbol}"
+            spot_df = ak.stock_zh_a_spot()
+            if fin_df is not None and not fin_df.empty and spot_df is not None and not spot_df.empty:
+                latest_fin = fin_df.iloc[-1].to_dict()
+                stock_spot = spot_df[spot_df['代码'] == sina_symbol]
+                if not stock_spot.empty:
+                    price = self._safe_float(stock_spot.iloc[0].get('最新价', 0))
+                    eps = self._safe_float(latest_fin.get('基本每股收益', 0))
+                    book_per_share = self._safe_float(latest_fin.get('每股净资产', 0))
+                    pe = price / eps if eps and eps > 0 else 0
+                    pb = price / book_per_share if book_per_share and book_per_share > 0 else 0
+                    data = {
+                        'pe': pe,
+                        'pe_ttm': pe,
+                        'pb': pb,
+                        'ps': 0,
+                        'ps_ttm': 0,
+                        'dv_ratio': 0,
+                        'dv_ttm': 0,
+                        'total_mv': 0,
+                    }
+                    self._set_cache(cache_key, data)
+                    return data
+        except Exception as e:
+            print(f"同花顺+新浪估值计算失败 {symbol}: {e}")
         return {}
 
     def get_growth_data(self, symbol):
@@ -264,13 +328,15 @@ class AKShareHelper:
         if cache:
             return cache
         try:
+            # 同花顺财务摘要（稳定可用）
+            # 数据按时间升序，最新数据在最后一行
             df = ak.stock_financial_abstract_ths(symbol=symbol, indicator="按报告期")
             if df is not None and not df.empty:
-                latest = df.iloc[0].to_dict()
+                latest = df.iloc[-1].to_dict()  # 取最新一期数据
                 data = {
                     'profit_growth': self._safe_float(latest.get('净利润同比增长率', 0)),
-                    'revenue_growth': self._safe_float(latest.get('营业收入同比增长率', 0)),
-                    'profit_yoy': self._safe_float(latest.get('归属净利润同比增长率', 0)),
+                    'revenue_growth': self._safe_float(latest.get('营业总收入同比增长率', 0)),
+                    'profit_yoy': self._safe_float(latest.get('净利润同比增长率', 0)),
                 }
                 self._set_cache(cache_key, data)
                 return data
@@ -279,20 +345,45 @@ class AKShareHelper:
         return {}
 
     def get_cash_flow(self, symbol):
-        """获取现金流数据"""
+        """获取现金流数据
+        优先用同花顺财务摘要（含每股经营现金流），降级用占位返回
+        """
         cache_key = f"cashflow_{symbol}"
         cache = self._get_cache(cache_key, days=30)
         if cache:
             return cache
         try:
-            df = ak.stock_cash_flow_sheet_by_report_em(symbol=symbol)
+            # 方案1: 同花顺财务摘要（稳定可用，含每股经营现金流）
+            # 数据按时间升序，最新数据在最后一行
+            df = ak.stock_financial_abstract_ths(symbol=symbol, indicator="按报告期")
+            if df is not None and not df.empty:
+                latest = df.iloc[-1].to_dict()  # 取最新一期数据
+                op_cf_per_share = self._safe_float(latest.get('每股经营现金流', 0))
+                net_profit = self._safe_float(latest.get('净利润', 0))
+                eps = self._safe_float(latest.get('基本每股收益', 0))
+                data = {
+                    'operating_cf': op_cf_per_share * 1e8,  # 估算全公司经营现金流
+                    'net_profit': net_profit,
+                }
+                # 现金流质量 = 每股经营现金流 / 每股收益
+                if eps and eps != 0:
+                    data['cf_quality'] = op_cf_per_share / eps
+                else:
+                    data['cf_quality'] = 0
+                self._set_cache(cache_key, data)
+                return data
+        except Exception as e:
+            print(f"同花顺现金流失败 {symbol}: {e}")
+
+        # 方案2: 东财现金流报表（降级）
+        try:
+            df = ak.stock_cash_flow_sheet_by_quarterly_em(symbol=symbol)
             if df is not None and not df.empty:
                 latest = df.iloc[0].to_dict()
                 data = {
                     'operating_cf': self._safe_float(latest.get('经营活动产生的现金流量净额', 0)),
                     'net_profit': self._safe_float(latest.get('净利润', 0)),
                 }
-                # 现金流质量 = 经营现金流 / 净利润
                 if data['net_profit'] and data['net_profit'] != 0:
                     data['cf_quality'] = data['operating_cf'] / data['net_profit']
                 else:
@@ -300,13 +391,15 @@ class AKShareHelper:
                 self._set_cache(cache_key, data)
                 return data
         except Exception as e:
-            print(f"获取现金流失败 {symbol}: {e}")
+            print(f"东财现金流失败 {symbol}: {e}")
         return {}
 
     # ==================== 资金流数据 ====================
 
     def get_north_holding(self, symbol):
-        """获取个股北向资金持股比例"""
+        """获取个股北向资金持股比例
+        使用 stock_hsgt_individual_em（稳定可用）
+        """
         cache_key = f"north_{symbol}"
         cache = self._get_cache(cache_key, days=1)
         if cache:
@@ -316,7 +409,7 @@ class AKShareHelper:
             if df is not None and not df.empty:
                 latest = df.iloc[-1].to_dict()
                 data = {
-                    'hold_ratio': self._safe_float(latest.get('持股数量比例', 0)),
+                    'hold_ratio': self._safe_float(latest.get('持股数量占A股百分比', 0)),
                     'hold_market_value': self._safe_float(latest.get('持股市值', 0)),
                 }
                 self._set_cache(cache_key, data)
@@ -461,10 +554,30 @@ class AKShareHelper:
     # ==================== 工具方法 ====================
 
     def _safe_float(self, value, default=0.0):
-        """安全转换为浮点数"""
-        if value is None or value == '' or value == '--':
+        """安全转换为浮点数，支持中文单位（万、亿）"""
+        if value is None or value == '' or value == '--' or value is False:
             return default
         try:
+            # 处理字符串类型
+            if isinstance(value, str):
+                value = value.strip()
+                if not value or value == '--' or value == 'False':
+                    return default
+                # 处理中文单位
+                multiplier = 1.0
+                if '亿' in value:
+                    multiplier = 1e8
+                    value = value.replace('亿', '')
+                elif '万' in value:
+                    multiplier = 1e4
+                    value = value.replace('万', '')
+                elif '%' in value:
+                    multiplier = 1.0
+                    value = value.replace('%', '')
+                value = value.strip()
+                if not value:
+                    return default
+                return float(value) * multiplier
             return float(value)
         except (ValueError, TypeError):
             return default
@@ -497,6 +610,186 @@ class AKShareHelper:
         except Exception as e:
             print(f"获取大盘指数失败: {e}")
         return pd.DataFrame()
+
+    # ==================== 融资融券数据 ====================
+
+    def get_margin_trading(self, symbol):
+        """获取个股融资融券数据
+        返回：融资余额、融券余额、融资融券余额
+        """
+        cache_key = f"margin_{symbol}"
+        cache = self._get_cache(cache_key, days=1)
+        if cache:
+            return cache
+        try:
+            df = ak.stock_margin_detail_szse(symbol=symbol)
+            if df is not None and not df.empty:
+                latest = df.iloc[-1].to_dict()
+                data = {
+                    'margin_balance': self._safe_float(latest.get('融资余额', 0)),  # 融资余额（元）
+                    'short_balance': self._safe_float(latest.get('融券余额', 0)),   # 融券余额（元）
+                    'margin_ratio': self._safe_float(latest.get('融资融券余额', 0)),
+                }
+                self._set_cache(cache_key, data)
+                return data
+        except Exception as e:
+            # 尝试上交所
+            try:
+                df = ak.stock_margin_detail_sse(symbol=symbol)
+                if df is not None and not df.empty:
+                    latest = df.iloc[-1].to_dict()
+                    data = {
+                        'margin_balance': self._safe_float(latest.get('融资余额', 0)),
+                        'short_balance': self._safe_float(latest.get('融券余额', 0)),
+                        'margin_ratio': self._safe_float(latest.get('融资融券余额', 0)),
+                    }
+                    self._set_cache(cache_key, data)
+                    return data
+            except Exception as e2:
+                print(f"获取融资融券失败 {symbol}: {e2}")
+        return {}
+
+    def get_margin_stocks(self):
+        """获取融资融券标的股票列表"""
+        cache = self._get_cache("margin_stocks", days=7)
+        if cache:
+            return cache
+        try:
+            df = ak.stock_margin_szse()
+            if df is not None and not df.empty:
+                stocks = df['股票代码'].tolist() if '股票代码' in df.columns else []
+                self._set_cache("margin_stocks", stocks)
+                return stocks
+        except Exception as e:
+            print(f"获取融资标的失败: {e}")
+        try:
+            df = ak.stock_margin_sse()
+            if df is not None and not df.empty:
+                stocks = df['股票代码'].tolist() if '股票代码' in df.columns else []
+                self._set_cache("margin_stocks", stocks)
+                return stocks
+        except Exception as e:
+            print(f"获取融资标的失败: {e}")
+        return []
+
+    def get_margin_flow(self, symbol, days=30):
+        """获取融资融券历史流向"""
+        cache_key = f"margin_flow_{symbol}_{days}"
+        cache = self._get_cache(cache_key, days=1)
+        if cache:
+            return pd.DataFrame(cache)
+        try:
+            df = ak.stock_margin_detail_szse(symbol=symbol)
+            if df is not None and not df.empty:
+                df = df.tail(days)
+                self._set_cache(cache_key, df.to_dict('records'))
+                return df
+        except Exception as e:
+            print(f"获取融资流向失败 {symbol}: {e}")
+        return pd.DataFrame()
+
+    # ==================== 龙虎榜增强 ====================
+
+    def get_lhb_stats(self, symbol, days=30):
+        """获取个股龙虎榜统计（近N日买入卖出席位）"""
+        cache_key = f"lhb_stats_{symbol}_{days}"
+        cache = self._get_cache(cache_key, days=1)
+        if cache:
+            return cache
+        try:
+            df = ak.stock_lhb_detail_em(start_date=(
+                datetime.now() - timedelta(days=days)).strftime("%Y%m%d"),
+                end_date=datetime.now().strftime("%Y%m%d"))
+            if df is not None and not df.empty:
+                # 筛选该股票
+                stock_df = df[df['股票代码'] == symbol]
+                if not stock_df.empty:
+                    data = {
+                        'lhb_count': len(stock_df),  # 上榜次数
+                        'buy_amount': stock_df['买入金额'].sum() if '买入金额' in stock_df.columns else 0,
+                        'sell_amount': stock_df['卖出金额'].sum() if '卖出金额' in stock_df.columns else 0,
+                    }
+                    self._set_cache(cache_key, data)
+                    return data
+        except Exception as e:
+            print(f"获取龙虎榜统计失败 {symbol}: {e}")
+        return {}
+
+    # ==================== 大盘/市场情绪 ====================
+
+    def get_market_sentiment(self):
+        """获取市场情绪指标：上涨下跌家数、涨停跌停数、成交量"""
+        cache = self._get_cache("sentiment", days=1)
+        if cache:
+            return cache
+        try:
+            # 涨跌统计
+            df = ak.stock_zh_a_spot_em()
+            if df is not None and not df.empty:
+                rise_count = len(df[df['涨跌幅'] > 0])
+                fall_count = len(df[df['涨跌幅'] < 0])
+                flat_count = len(df[df['涨跌幅'] == 0])
+                limit_up = len(df[df['涨跌幅'] >= 9.5])  # 近似涨停
+                limit_down = len(df[df['涨跌幅'] <= -9.5])  # 近似跌停
+
+                # 市场宽度
+                rise_pct = rise_count / (rise_count + fall_count) * 100 if (rise_count + fall_count) > 0 else 50
+
+                data = {
+                    'rise_count': rise_count,
+                    'fall_count': fall_count,
+                    'flat_count': flat_count,
+                    'limit_up_count': limit_up,
+                    'limit_down_count': limit_down,
+                    'market_breadth': rise_pct,  # 市场广度（上涨家数占比）
+                    'total_volume': df['成交量'].sum() if '成交量' in df.columns else 0,
+                }
+                self._set_cache("sentiment", data)
+                return data
+        except Exception as e:
+            print(f"获取市场情绪失败: {e}")
+        return {}
+
+    # ==================== 机构持仓 ====================
+
+    def get_institution_holding(self, symbol):
+        """获取机构持仓数据（基金重仓股）"""
+        cache_key = f"inst_hold_{symbol}"
+        cache = self._get_cache(cache_key, days=7)
+        if cache:
+            return cache
+        try:
+            df = ak.stock_fund_hold_detail_em(symbol=symbol)
+            if df is not None and not df.empty:
+                latest = df.iloc[-1].to_dict()
+                data = {
+                    'fund_hold_ratio': self._safe_float(latest.get('基金持股占比', 0)),
+                    'inst_count': len(df),  # 持有该股的基金数量
+                }
+                self._set_cache(cache_key, data)
+                return data
+        except Exception as e:
+            print(f"获取机构持仓失败 {symbol}: {e}")
+        return {}
+
+    def get_institution调研(self, symbol):
+        """获取机构调研数据"""
+        cache_key = f"inst_research_{symbol}"
+        cache = self._get_cache(cache_key, days=7)
+        if cache:
+            return cache
+        try:
+            df = ak.stock_jgyd_em(symbol=symbol)
+            if df is not None and not df.empty:
+                data = {
+                    'research_count': len(df),
+                    'latest_research_date': df['调研日期'].iloc[0] if '调研日期' in df.columns else '',
+                }
+                self._set_cache(cache_key, data)
+                return data
+        except Exception as e:
+            print(f"获取机构调研失败 {symbol}: {e}")
+        return {}
 
 
 if __name__ == "__main__":

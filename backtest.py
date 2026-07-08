@@ -256,7 +256,8 @@ def main():
     output_dir = 'output'
     os.makedirs(output_dir, exist_ok=True)
 
-    output_file = os.path.join(output_dir, 'strategy_data.json')
+    # 新策略保存到单独文件，不覆盖原数据
+    output_file = os.path.join(output_dir, 'new_strategy_results.json')
     with open(output_file, 'w', encoding='utf-8') as f:
         json.dump(output, f, ensure_ascii=False, indent=2, default=str)
 

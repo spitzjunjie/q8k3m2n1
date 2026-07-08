@@ -425,7 +425,8 @@ def run_historical_backtest(strategy_names=None, days=None, max_workers=2):
         win_rate = r.get('win_rate', 0) * 100
         print(f"{i:2}. {name:<20} 收益:{ret:>+7.2f}%  夏普:{sharpe:>5.2f}  回撤:{dd:>5.1f}%  胜率:{win_rate:>5.1f}%  权益:¥{value:,.0f}")
 
-    print(f"\n结果已保存到: {output_file}")
+    print(f"\n结果已保存到: {temp_file}")
+    print(f"📊 已自动合并到: {main_file}")
     print("=" * 60)
 
     return output

@@ -10,7 +10,10 @@ from datetime import datetime
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import random
 
-from data.akshare_helper import AKShareHelper
+from data.tushare_helper import TushareHelper
+
+# 使用Tushare作为主数据源（更稳定）
+Helper = TushareHelper
 from timing.timing import TimingEngine
 from trading.simulator import TradingSimulator
 
@@ -190,7 +193,7 @@ def main():
     print("=" * 60)
     
     # 初始化
-    helper = AKShareHelper(cache_dir="data/cache")
+    helper = Helper(cache_dir="data/cache")
     timing = TimingEngine()
     strategies = get_all_strategies()
     

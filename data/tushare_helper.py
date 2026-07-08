@@ -10,6 +10,7 @@ import numpy as np
 from datetime import datetime, timedelta
 import json
 import os
+import time
 
 class TushareHelper:
     """Tushare数据助手（主数据源）"""
@@ -24,6 +25,17 @@ class TushareHelper:
         self.cache_dir = cache_dir
         os.makedirs(cache_dir, exist_ok=True)
         self._hs300_cache = None
+        self._last_call_time = {}  # 记录上次调用时间
+        self._min_interval = 0.2  # 最小调用间隔（秒）
+
+    def _rate_limit(self, api_name):
+        """速率限制"""
+        current_time = time.time()
+        if api_name in self._last_call_time:
+            elapsed = current_time - self._last_call_time[api_name]
+            if elapsed < self._min_interval:
+                time.sleep(self._min_interval - elapsed)
+        self._last_call_time[api_name] = time.time()
 
     def _get_cache(self, key, days=1):
         """读取缓存"""
@@ -115,11 +127,15 @@ class TushareHelper:
             code = code + '.SH' if code.startswith(('6', '9')) else code + '.SZ'
 
         try:
+            self._rate_limit('daily')
             df = self.pro.daily(ts_code=code, start_date=start_date, end_date=end_date)
             if df is not None and len(df) > 0:
                 df = df.sort_values('trade_date')
                 # 转换日期格式
                 df['trade_date'] = pd.to_datetime(df['trade_date'], format='%Y%m%d')
+                # 统一列名（tushare用vol，akshare用volume）
+                if 'vol' in df.columns and 'volume' not in df.columns:
+                    df['volume'] = df['vol']
                 return df
         except Exception as e:
             print(f"[Tushare]获取K线失败 {symbol}: {e}")

@@ -2,101 +2,77 @@
 量价齐升策略
 
 策略逻辑：
-- 筛选近5日量价齐升的股票
-- 要求成交量和股价同时创新高
-- 要求涨幅在5-15%之间（不过热）
+- 选取成交量持续放大且价格上涨的股票
+- 要求量比 > 2
+- 涨幅在5-15%之间（不是涨停）
 - 持有5天
 
-参考：量价齐升是最经典的技术信号
+参考：量价配合是健康上涨的标志
 """
 
-import pandas as pd
-import numpy as np
-from datetime import datetime, timedelta
-import tushare as ts
+from strategies.base import BaseStrategy
 
 
-class ContinuousVolumeStrategy:
+class ContinuousVolumeStrategy(BaseStrategy):
     """量价齐升策略"""
     
     def __init__(self, 
-                 lookback_days=5,  # 回看天数
-                 min_return=5,  # 最小涨幅%
-                 max_return=15,  # 最大涨幅%
-                 holding_days=5,  # 持仓天数
-                 top_n=10):  # 持仓数量
-        self.lookback_days = lookback_days
+                 vol_ratio=2,
+                 min_return=5,
+                 max_return=15,
+                 holding_days=5,
+                 top_n=10):
+        super().__init__("量价齐升", "技术面")
+        self.vol_ratio = vol_ratio
         self.min_return = min_return
         self.max_return = max_return
         self.holding_days = holding_days
         self.top_n = top_n
-        self.name = "量价齐升"
         
-    def get_price_data(self, code, days=30):
-        """获取价格数据"""
-        try:
-            end_date = datetime.now().strftime('%Y%m%d')
-            start_date = (datetime.now() - timedelta(days=days+10)).strftime('%Y%m%d')
-            
-            df = ts.pro_bar(ts_code=code, start_date=start_date, end_date=end_date, 
-                          asset='E', adj='qfq')
-            if df is not None and len(df) >= self.lookback_days:
-                df = df.sort_values('trade_date')
-                return df
-        except Exception as e:
-            print(f"获取{code}数据失败: {e}")
-        return None
-    
-    def check_volume_price_rise(self, df):
-        """检查量价齐升"""
-        if df is None or len(df) < self.lookback_days:
-            return False, None
-        
-        recent = df.tail(self.lookback_days)
-        
-        # 计算近5日涨幅
-        start_price = recent['close'].iloc[0]
-        end_price = recent['close'].iloc[-1]
-        ret = (end_price / start_price - 1) * 100
-        
-        # 检查涨幅是否在范围内
-        if ret < self.min_return or ret > self.max_return:
-            return False, ret
-        
-        # 检查成交量是否持续放大
-        vol_trend = recent['vol'].tolist()
-        increases = sum(1 for i in range(1, len(vol_trend)) if vol_trend[i] > vol_trend[i-1])
-        
-        # 至少60%的日子成交量放大
-        if increases < len(vol_trend) * 0.6:
-            return False, ret
-        
-        return True, ret
-    
-    def generate_signal(self):
-        """生成交易信号"""
-        print(f"策略: {self.name}")
-        print(f"筛选条件: 近{self.lookback_days}日量价齐升, 涨幅{self.min_return}-{self.max_return}%")
-        print(f"风控: 持有{self.holding_days}天")
-        
-        return {
-            'strategy': self.name,
-            'signal': 'SELECT_STOCKS',
-            'filters': {
-                'lookback_days': self.lookback_days,
-                'return_range': f'{self.min_return}-{self.max_return}%',
-                'volume_trend': '持续放大'
-            },
-            'holding_count': self.top_n,
-            'holding_days': self.holding_days,
-            'rebalance': f'every_{self.holding_days}_days',
-            'note': '技术信号：量价齐升代表资金认可',
-            'date': datetime.now().strftime('%Y-%m-%d')
-        }
+    def get_description(self):
+        return f"量价齐升：量比>{self.vol_ratio}, 涨幅{self.min_return}-{self.max_return}%, 持有{self.holding_days}天"
 
-
-if __name__ == '__main__':
-    strategy = ContinuousVolumeStrategy()
-    signal = strategy.generate_signal()
-    print("\n交易信号:")
-    print(signal)
+    def select_stocks(self, helper, date=None):
+        """选股：量价齐升"""
+        results = []
+        
+        # 模拟热门股票池
+        breakout_stocks = [
+            {'symbol': '688981', 'name': '中芯国际'},
+            {'symbol': '688012', 'name': '中微公司'},
+            {'symbol': '688256', 'name': '寒武纪'},
+            {'symbol': '300750', 'name': '宁德时代'},
+            {'symbol': '300033', 'name': '同花顺'},
+            {'symbol': '300059', 'name': '东方财富'},
+            {'symbol': '002475', 'name': '立讯精密'},
+            {'symbol': '600519', 'name': '贵州茅台'},
+        ]
+        
+        for stock in breakout_stocks:
+            try:
+                kline = helper.get_history_kline(stock['symbol'], days=30)
+                if kline.empty or len(kline) < 10:
+                    continue
+                
+                # 计算量比
+                vol_ma = kline['volume'].tail(20).mean()
+                current_vol = kline['volume'].iloc[-1]
+                vol_ratio = current_vol / vol_ma if vol_ma > 0 else 0
+                
+                # 计算涨幅
+                ret = (kline['close'].iloc[-1] / kline['close'].iloc[-2] - 1) * 100
+                
+                # 条件：放量 + 涨幅适中
+                if vol_ratio > self.vol_ratio and self.min_return < ret < self.max_return:
+                    results.append({
+                        'symbol': stock['symbol'],
+                        'name': stock['name'],
+                        'reason': f"量价齐升：量比{round(vol_ratio, 1)}倍, 涨幅{ret:.1f}%"
+                    })
+                
+                if len(results) >= self.top_n:
+                    break
+            except:
+                continue
+                
+        return results[:self.top_n]

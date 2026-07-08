@@ -27,7 +27,7 @@ class TushareHelper:
         self._hs300_cache = None
         self._kline_cache = {}  # K线缓存
         self._last_call_time = {}  # 记录上次调用时间
-        self._min_interval = 0.5  # 最小调用间隔（秒），避免超限
+        self._min_interval = 1.5  # 最小调用间隔（秒），避免超限（1.5秒=40次/分，安全余量充足）
 
     def _rate_limit(self, api_name):
         """速率限制"""
@@ -117,12 +117,16 @@ class TushareHelper:
     def get_history_kline(self, symbol, days=60, end_date=None):
         """获取历史K线（带缓存）"""
         # 检查缓存
-        cache_key = f"{symbol}_{days}"
+        cache_key = f"{symbol}_{days}_{end_date}"
         if cache_key in self._kline_cache:
             return self._kline_cache[cache_key]
 
         if not end_date:
             end_date = datetime.now().strftime('%Y%m%d')
+        else:
+            # 转换日期格式 2026-07-01 -> 20260701
+            end_date = end_date.replace('-', '').replace('/', '')
+        
         start_date = (datetime.now() - timedelta(days=days*2)).strftime('%Y%m%d')
 
         # 转换symbol格式
@@ -149,6 +153,40 @@ class TushareHelper:
             print(f"[Tushare]获取K线失败 {symbol}: {e}")
 
         return pd.DataFrame()
+
+    def get_batch_kline(self, symbols, days=60, end_date=None):
+        """批量获取多个股票的K线（优化API调用）
+        
+        Args:
+            symbols: 股票代码列表
+            days: 获取天数
+            end_date: 结束日期
+            
+        Returns:
+            dict: {symbol: DataFrame}
+        """
+        results = {}
+        
+        # 批量调用前先检查缓存
+        uncached_symbols = []
+        for sym in symbols:
+            cache_key = f"{sym}_{days}_{end_date}"
+            if cache_key in self._kline_cache:
+                results[sym] = self._kline_cache[cache_key]
+            else:
+                uncached_symbols.append(sym)
+        
+        if not uncached_symbols:
+            return results
+        
+        # 批量获取未缓存的股票
+        for sym in uncached_symbols:
+            df = self.get_history_kline(sym, days, end_date)
+            results[sym] = df
+            # 添加短暂延迟，避免批量请求过快
+            time.sleep(0.1)
+        
+        return results
 
     # ==================== 实时行情 ====================
 
@@ -247,14 +285,23 @@ class TushareHelper:
         except:
             return True
 
-    def get_trade_dates(self, days=30):
-        """获取最近交易日"""
+    def get_trade_dates(self, days=30, start_date=None):
+        """获取最近交易日（升序排列）
+        start_date: 开始日期（YYYYMMDD），None=自动从基准日期开始
+        """
         end_date = datetime.now().strftime('%Y%m%d')
-        start_date = (datetime.now() - timedelta(days=days)).strftime('%Y%m%d')
+        if start_date is None:
+            # 默认从基准日期开始
+            start_date = '20260526'
         try:
             df = self.pro.trade_cal(exchange='SSE', start_date=start_date, end_date=end_date)
             if df is not None:
-                return df[df['is_open'] == 1]['cal_date'].tolist()
+                # 筛选交易日并排序（升序）
+                dates = df[df['is_open'] == 1]['cal_date'].tolist()
+                dates.sort()  # 升序排列
+                # 筛选基准日期之后的交易日
+                dates = [d for d in dates if d >= start_date]
+                return dates[:days]  # 只返回最近的days个（从基准日期开始算）
         except:
             pass
         return []

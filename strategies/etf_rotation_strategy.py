@@ -2,85 +2,59 @@
 ETF二八轮动策略
 
 策略逻辑：
-- 比较沪深300ETF(510300)和中证1000ETF(512010)的20日涨幅
+- 比较沪深300ETF和中创业板ETF的20日涨幅
 - 哪个强持有哪个
 - 每月第一个交易日调仓
 
 适合：小资金（ETF免印花税）
 """
 
-import pandas as pd
-import numpy as np
-from datetime import datetime, timedelta
-import tushare as ts
+from strategies.base import BaseStrategy
 
 
-class ETFRotationStrategy:
+class ETFRotationStrategy(BaseStrategy):
     """ETF二八轮动策略"""
     
     def __init__(self, lookback_days=20):
+        super().__init__("ETF二八轮动", "轮动策略")
         self.lookback_days = lookback_days
-        self.name = "ETF二八轮动"
         
-    def get_etf_data(self, code, start_date, end_date):
-        """获取ETF数据"""
-        try:
-            df = ts.pro_bar(ts_code=code, start_date=start_date, end_date=end_date, asset='E')
-            if df is not None and len(df) > 0:
-                df = df.sort_values('trade_date')
-                return df
-        except Exception as e:
-            print(f"获取{code}数据失败: {e}")
-        return None
-    
-    def calculate_return(self, df, days=20):
-        """计算区间涨幅"""
-        if df is None or len(df) < days:
-            return None
-        recent = df.tail(days)
-        return (recent['close'].iloc[-1] / recent['close'].iloc[0] - 1) * 100
-    
-    def select_etf(self):
-        """选择最强的ETF"""
-        end_date = datetime.now().strftime('%Y%m%d')
-        start_date = (datetime.now() - timedelta(days=60)).strftime('%Y%m%d')
-        
-        # 沪深300ETF
-        hs300_df = self.get_etf_data('510300.SH', start_date, end_date)
-        hs300_return = self.calculate_return(hs300_df, self.lookback_days)
-        
-        # 中证1000ETF
-        zz1000_df = self.get_etf_data('512010.SH', start_date, end_date)
-        zz1000_return = self.calculate_return(zz1000_df, self.lookback_days)
-        
-        if hs300_return is None or zz1000_return is None:
-            return None, None
-        
-        print(f"沪深300ETF近{self.lookback_days}日涨幅: {hs300_return:.2f}%")
-        print(f"中证1000ETF近{self.lookback_days}日涨幅: {zz1000_return:.2f}%")
-        
-        if hs300_return > zz1000_return:
-            return '510300.SH', hs300_return
-        else:
-            return '512010.SH', zz1000_return
-    
-    def generate_signal(self):
-        """生成交易信号"""
-        etf, ret = self.select_etf()
-        if etf is None:
-            return None
-        
-        return {
-            'strategy': self.name,
-            'signal': 'BUY',
-            'code': etf,
-            'return_20d': ret,
-            'date': datetime.now().strftime('%Y-%m-%d')
-        }
+    def get_description(self):
+        return f"ETF二八轮动：比较沪深300和创业板，选择强势品种，{self.lookback_days}日调仓"
 
-
-if __name__ == '__main__':
-    strategy = ETFRotationStrategy()
-    signal = strategy.generate_signal()
-    print("\n交易信号:")
-    print(signal)
+    def select_stocks(self, helper, date=None):
+        """选股：选择强势ETF"""
+        results = []
+        
+        # 模拟ETF池
+        etf_pool = [
+            {'symbol': '510300', 'name': '沪深300ETF'},
+            {'symbol': '159915', 'name': '创业板ETF'},
+            {'symbol': '588000', 'name': '科创50ETF'},
+            {'symbol': '515980', 'name': '人工智能ETF'},
+        ]
+        
+        best_etf = None
+        best_return = -999
+        
+        for etf in etf_pool:
+            try:
+                kline = helper.get_history_kline(etf['symbol'], days=self.lookback_days + 10)
+                if kline.empty or len(kline) < self.lookback_days:
+                    continue
+                    
+                ret = (kline['close'].iloc[-1] / kline['close'].iloc[0] - 1) * 100
+                if ret > best_return:
+                    best_return = ret
+                    best_etf = etf
+            except:
+                continue
+        
+        if best_etf:
+            results.append({
+                'symbol': best_etf['symbol'],
+                'name': best_etf['name'],
+                'reason': f"ETF二八轮动：{best_etf['name']}近{self.lookback_days}日涨幅{best_return:.2f}%，最强"
+            })
+        
+        return results

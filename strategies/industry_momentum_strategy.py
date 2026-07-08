@@ -42,6 +42,22 @@ class IndustryMomentumStrategy:
             '房地产': '512200.SH',  # 房地产ETF
         }
         
+    
+    def update_holdings(self, prices):
+        """更新持仓状态"""
+        for holding in self.holdings:
+            symbol = holding['symbol']
+            if symbol in prices:
+                holding['current_price'] = prices[symbol]
+                holding['profit'] = (prices[symbol] - holding['buy_price']) * holding['quantity']
+                holding['profit_pct'] = (prices[symbol] - holding['buy_price']) / holding['buy_price'] * 100
+                holding['hold_days'] = holding.get('hold_days', 0) + 1
+
+    def select_stocks(self, helper, date=None):
+        """选股（简化版：返回空列表，待完善）"""
+        # TODO: 实现完整的选股逻辑
+        return []
+
     def get_etf_data(self, code, days=30):
         """获取ETF数据"""
         try:

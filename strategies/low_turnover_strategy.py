@@ -1,100 +1,84 @@
 """
-低波动选股策略
+低波动策略
 
 策略逻辑：
-- 筛选近20日波动率最低的股票
-- 要求股价在20日均线上方（趋势向上）
-- 持有至波动率放大或跌破均线
-- 适合震荡市/熊市防御
+- 选取历史波动率最低的股票
+- 要求股价在20日均线上方
+- 熊市防御策略
+- 持有30天
 
-参考：低波动异象（学术研究证明低波动股票长期跑赢）
+参考：学术研究表明低波动因子长期有效
 """
 
-import pandas as pd
-import numpy as np
-from datetime import datetime, timedelta
-import tushare as ts
+from strategies.base import BaseStrategy
 
 
-class LowVolatilityStrategy:
-    """低波动选股策略"""
+class LowVolatilityStrategy(BaseStrategy):
+    """低波动策略"""
     
     def __init__(self, 
-                 lookback_days=20,  # 计算波动率天数
-                 holding_days=20,  # 持仓天数
-                 top_n=10):  # 持仓数量
-        self.lookback_days = lookback_days
+                 vol_window=20,
+                 holding_days=30,
+                 top_n=10):
+        super().__init__("低波动", "防御策略")
+        self.vol_window = vol_window
         self.holding_days = holding_days
         self.top_n = top_n
-        self.name = "低波动"
         
-    def get_price_data(self, code, days=30):
-        """获取价格数据"""
-        try:
-            end_date = datetime.now().strftime('%Y%m%d')
-            start_date = (datetime.now() - timedelta(days=days+10)).strftime('%Y%m%d')
-            
-            df = ts.pro_bar(ts_code=code, start_date=start_date, end_date=end_date, 
-                          asset='E', adj='qfq')
-            if df is not None and len(df) >= self.lookback_days:
-                df = df.sort_values('trade_date')
-                return df
-        except Exception as e:
-            print(f"获取{code}数据失败: {e}")
-        return None
-    
-    def calculate_volatility(self, df):
-        """计算年化波动率"""
-        if df is None or len(df) < self.lookback_days:
-            return None
-        
-        recent = df.tail(self.lookback_days)
-        returns = recent['close'].pct_change().dropna()
-        
-        if len(returns) < 5:
-            return None
-        
-        # 日波动率 * sqrt(252) = 年化波动率
-        daily_vol = returns.std()
-        annual_vol = daily_vol * np.sqrt(252) * 100  # 转为百分比
-        
-        return annual_vol
-    
-    def check_above_ma(self, df, ma_days=20):
-        """检查是否在均线上方"""
-        if df is None or len(df) < ma_days:
-            return False
-        
-        recent = df.tail(ma_days)
-        ma = recent['close'].mean()
-        latest_close = recent['close'].iloc[-1]
-        
-        return latest_close > ma
-    
-    def generate_signal(self):
-        """生成交易信号"""
-        print(f"策略: {self.name}")
-        print(f"筛选条件: 近{self.lookback_days}日波动率最低, 股价在{20}日均线上方")
-        print(f"风控: 持有{self.holding_days}天, 跌破均线卖出")
-        
-        return {
-            'strategy': self.name,
-            'signal': 'SELECT_STOCKS',
-            'filters': {
-                'lookback_days': self.lookback_days,
-                'volatility': '最低',
-                'trend': '20日均线上方'
-            },
-            'holding_count': self.top_n,
-            'holding_days': self.holding_days,
-            'rebalance': f'every_{self.holding_days}_days',
-            'note': '防御策略：低波动股票在熊市更抗跌',
-            'date': datetime.now().strftime('%Y-%m-%d')
-        }
+    def get_description(self):
+        return f"低波动：{self.vol_window}日波动率最低, 持有{self.holding_days}天"
 
-
-if __name__ == '__main__':
-    strategy = LowVolatilityStrategy()
-    signal = strategy.generate_signal()
-    print("\n交易信号:")
-    print(signal)
+    def select_stocks(self, helper, date=None):
+        """选股：低波动"""
+        results = []
+        
+        # 模拟低波动股票池（大盘蓝筹）
+        low_vol_stocks = [
+            {'symbol': '600519', 'name': '贵州茅台'},
+            {'symbol': '600036', 'name': '招商银行'},
+            {'symbol': '601318', 'name': '中国平安'},
+            {'symbol': '601398', 'name': '工商银行'},
+            {'symbol': '601288', 'name': '农业银行'},
+            {'symbol': '601328', 'name': '交通银行'},
+            {'symbol': '601988', 'name': '中国银行'},
+            {'symbol': '600016', 'name': '民生银行'},
+        ]
+        
+        best_stocks = []
+        
+        for stock in low_vol_stocks:
+            try:
+                kline = helper.get_history_kline(stock['symbol'], days=60)
+                if kline.empty or len(kline) < 30:
+                    continue
+                
+                # 计算波动率
+                returns = kline['close'].pct_change()
+                volatility = returns.rolling(self.vol_window).std().iloc[-1] * 100
+                
+                # 检查趋势
+                ma20 = kline['close'].rolling(20).mean().iloc[-1]
+                current = kline['close'].iloc[-1]
+                
+                if current > ma20:  # 趋势向上
+                    best_stocks.append({
+                        'stock': stock,
+                        'volatility': volatility,
+                        'ma20': ma20,
+                        'current': current
+                    })
+            except:
+                continue
+        
+        # 按波动率排序，取最低的
+        best_stocks.sort(key=lambda x: x['volatility'])
+        
+        for item in best_stocks[:self.top_n]:
+            stock = item['stock']
+            results.append({
+                'symbol': stock['symbol'],
+                'name': stock['name'],
+                'reason': f"低波动：{self.vol_window}日波动率{item['volatility']:.2f}%, 趋势向上"
+            })
+                
+        return results[:self.top_n]

@@ -10,43 +10,26 @@ MACD金叉策略
 参考：MACD是最经典的趋势指标
 """
 
-import pandas as pd
-import numpy as np
-from datetime import datetime, timedelta
-import tushare as ts
+from strategies.base import BaseStrategy
 
 
-class GoldenCrossStrategy:
+class GoldenCrossStrategy(BaseStrategy):
     """MACD金叉策略"""
     
     def __init__(self, 
-                 holding_days=10,  # 持仓天数
-                 top_n=10):  # 持仓数量
+                 holding_days=10,
+                 top_n=10):
+        super().__init__("MACD金叉", "技术面")
         self.holding_days = holding_days
         self.top_n = top_n
-        self.name = "MACD金叉"
         
-    def get_price_data(self, code, days=40):
-        """获取价格数据"""
-        try:
-            end_date = datetime.now().strftime('%Y%m%d')
-            start_date = (datetime.now() - timedelta(days=days+10)).strftime('%Y%m%d')
-            
-            df = ts.pro_bar(ts_code=code, start_date=start_date, end_date=end_date, 
-                          asset='E', adj='qfq')
-            if df is not None and len(df) > 0:
-                df = df.sort_values('trade_date')
-                return df
-        except Exception as e:
-            print(f"获取{code}数据失败: {e}")
-        return None
-    
-    def calculate_macd(self, df, fast=12, slow=26, signal=9):
+    def get_description(self):
+        return f"MACD金叉：零轴上方金叉, 持有{self.holding_days}天"
+
+    def calculate_macd(self, prices, fast=12, slow=26, signal=9):
         """计算MACD"""
-        if df is None or len(df) < slow + signal:
+        if len(prices) < slow + signal:
             return None, None, None
-        
-        prices = df['close'].values
         
         # 计算EMA
         ema_fast = self._ema(prices, fast)
@@ -58,64 +41,56 @@ class GoldenCrossStrategy:
         # DEA = EMA(DIF, signal)
         dea = self._ema(dif, signal)
         
-        # MACD柱 = (DIF - DEA) * 2
-        bar = (dif - dea) * 2
-        
-        return dif, dea, bar
+        return dif, dea, None
     
     def _ema(self, prices, period):
         """计算EMA"""
         ema = [prices[0]]
         multiplier = 2 / (period + 1)
-        
         for i in range(1, len(prices)):
             ema.append((prices[i] - ema[-1]) * multiplier + ema[-1])
-        
-        return np.array(ema)
-    
-    def check_golden_cross(self, df):
-        """检查MACD金叉"""
-        result = self.calculate_macd(df)
-        if result[0] is None:
-            return False
-        
-        dif, dea, bar = result
-        
-        if len(dif) < 3:
-            return False
-        
-        # 检查金叉：DIF从下方穿越DEA
-        # 当前DIF > DEA（金叉）
-        # 前一天DIF < DEA（死叉）
-        golden_cross = dif[-1] > dea[-1] and dif[-2] < dea[-2]
-        
-        # 检查是否在零轴上方
-        above_zero = dif[-1] > 0
-        
-        return golden_cross and above_zero
-    
-    def generate_signal(self):
-        """生成交易信号"""
-        print(f"策略: {self.name}")
-        print(f"筛选条件: MACD在零轴上方金叉")
-        print(f"风控: 持有{self.holding_days}天或MACD死叉")
-        
-        return {
-            'strategy': self.name,
-            'signal': 'SELECT_STOCKS',
-            'filters': {
-                'macd': '零轴上方金叉'
-            },
-            'holding_count': self.top_n,
-            'holding_days': self.holding_days,
-            'rebalance': f'every_{self.holding_days}_days',
-            'note': '技术指标：MACD金叉代表趋势转强',
-            'date': datetime.now().strftime('%Y-%m-%d')
-        }
+        return ema
 
-
-if __name__ == '__main__':
-    strategy = GoldenCrossStrategy()
-    signal = strategy.generate_signal()
-    print("\n交易信号:")
-    print(signal)
+    def select_stocks(self, helper, date=None):
+        """选股：MACD金叉"""
+        results = []
+        
+        # 模拟热门股票池
+        macd_stocks = [
+            {'symbol': '600519', 'name': '贵州茅台'},
+            {'symbol': '601398', 'name': '工商银行'},
+            {'symbol': '601328', 'name': '交通银行'},
+            {'symbol': '601166', 'name': '兴业银行'},
+            {'symbol': '600036', 'name': '招商银行'},
+            {'symbol': '601318', 'name': '中国平安'},
+            {'symbol': '600016', 'name': '民生银行'},
+            {'symbol': '601288', 'name': '农业银行'},
+        ]
+        
+        for stock in macd_stocks:
+            try:
+                kline = helper.get_history_kline(stock['symbol'], days=60)
+                if kline.empty or len(kline) < 40:
+                    continue
+                
+                prices = kline['close'].values
+                result = self.calculate_macd(prices)
+                if result[0] is None:
+                    continue
+                    
+                dif, dea, _ = result
+                
+                # 检查金叉
+                if len(dif) >= 2 and dif[-1] > dea[-1] and dif[-2] <= dea[-2] and dif[-1] > 0:
+                    results.append({
+                        'symbol': stock['symbol'],
+                        'name': stock['name'],
+                        'reason': f"MACD金叉：DIF={dif[-1]:.3f}, DEA={dea[-1]:.3f}"
+                    })
+                
+                if len(results) >= self.top_n:
+                    break
+            except:
+                continue
+                
+        return results[:self.top_n]

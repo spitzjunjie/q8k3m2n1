@@ -173,8 +173,36 @@
         }
 
         function renderData(data) {
-            const strategies = data.strategies || [];
+            let strategies = data.strategies || [];
             const gradeStats = data.grade_stats || {};
+
+            // 计算综合分和等级
+            strategies = strategies.map(s => {
+                const ret = s.total_return || 0;
+                const sharpe = s.sharpe_ratio || 0;
+                const dd = s.max_drawdown || 1;
+                const win = s.win_rate || 0;
+
+                // 综合分 = 收益率*40 + 夏普*30 + (1-回撤)*20 + 胜率*10
+                const score = Math.round(
+                    ret * 100 * 40 + 
+                    sharpe * 30 + 
+                    (1 - dd) * 2000 + 
+                    win * 100
+                );
+
+                // 等级判定
+                let grade = 'D';
+                if (score >= 80) grade = 'S';
+                else if (score >= 60) grade = 'A';
+                else if (score >= 40) grade = 'B';
+                else if (score >= 20) grade = 'C';
+
+                return { ...s, composite_score: score, grade };
+            });
+
+            // 按综合分降序排序
+            strategies.sort((a, b) => b.composite_score - a.composite_score);
 
             // 计算各指标
             const avgReturn = strategies.reduce((s, x) => s + (x.total_return || 0), 0) / strategies.length;

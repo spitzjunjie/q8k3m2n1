@@ -474,7 +474,8 @@
             // 按综合分排序
             strategies.sort((a, b) => b.composite_score - a.composite_score);
 
-            const returns = strategies.map(s => s.total_pnl_pct || 0);
+            // 使用与evaluation.html一致的字段
+            const returns = strategies.map(s => (s.total_return || 0) * 100);  // 转为百分比
             const avgReturn = returns.reduce((a, b) => a + b, 0) / (returns.length || 1);
             const positiveCount = returns.filter(r => r > 0).length;
             const maxReturn = Math.max(...returns, 0);
@@ -492,21 +493,18 @@
             maxEl.textContent = (maxReturn >= 0 ? '+' : '') + maxReturn.toFixed(2) + '%';
             maxEl.className = 'value ' + (maxReturn >= 0 ? 'positive' : 'negative');
 
-            strategies.sort((a, b) => (b.total_pnl_pct || 0) - (a.total_pnl_pct || 0));
-
             const grid = document.getElementById('strategiesGrid');
             grid.innerHTML = '';
 
             strategies.forEach((strategy, index) => {
                 const rank = index + 1;
-                const totalPnl = strategy.total_pnl || 0;
-                const totalPnlPct = strategy.total_pnl_pct || 0;
+                const totalReturn = (strategy.total_return || 0) * 100;  // 统一使用total_return
                 const realizedPnl = strategy.realized_pnl || 0;
-                const realizedPnlPct = strategy.realized_pnl_pct || 0;
+                const realizedPnlPct = (strategy.realized_pnl_pct || 0);
                 const floatingPnl = strategy.floating_pnl || 0;
-                const floatingPnlPct = strategy.floating_pnl_pct || 0;
+                const floatingPnlPct = (strategy.floating_pnl_pct || 0);
 
-                const totalClass = totalPnl >= 0 ? 'positive' : 'negative';
+                const totalClass = totalReturn >= 0 ? 'positive' : 'negative';
                 const rankClass = rank <= 3 ? 'top' : '';
                 const holdings = strategy.holdings || [];
 
@@ -529,7 +527,7 @@
                     '<span class="strategy-category">' + strategy.category + '</span>' +
                     '</div>' +
                     '<div class="returns">' +
-                    '<div class="return-item"><div class="label">总收益</div><div class="value ' + totalClass + '">' + fmtPct(totalPnlPct) + '</div></div>' +
+                    '<div class="return-item"><div class="label">总收益</div><div class="value ' + totalClass + '">' + fmtPct(totalReturn) + '</div></div>' +
                     '<div class="return-item"><div class="label">已实现</div><div class="value ' + totalClass + '">' + fmtPct(realizedPnlPct) + '</div></div>' +
                     '<div class="return-item"><div class="label">浮动</div><div class="value ' + totalClass + '">' + fmtPct(floatingPnlPct) + '</div></div>' +
                     '</div>' +
@@ -542,7 +540,7 @@
 
                 grid.appendChild(card);
 
-                setTimeout(() => renderMiniChart(index, strategy.equity_curve || [], strategy.initial_capital, totalPnl >= 0), 50);
+                setTimeout(() => renderMiniChart(index, strategy.equity_curve || [], strategy.initial_capital, totalReturn >= 0), 50);
             });
         }
 

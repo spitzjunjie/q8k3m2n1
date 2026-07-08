@@ -12,9 +12,48 @@ import random
 import pandas as pd
 
 from data.akshare_helper import AKShareHelper
+from data.tushare_helper import TushareHelper
 
-# 使用AKShare作为主数据源
-Helper = AKShareHelper
+# 使用AKShare作为主数据源，Tushare作为备用
+PRIMARY_HELPER = AKShareHelper
+FALLBACK_HELPER = TushareHelper
+
+
+def get_kline_with_fallback(primary_helper, symbol, days=5, end_date=None, source='akshare'):
+    """获取K线数据，失败时自动切换数据源
+    
+    Args:
+        primary_helper: 主数据源
+        symbol: 股票代码
+        days: 天数
+        end_date: 结束日期
+        source: 当前数据源标识
+    
+    Returns:
+        DataFrame 或 None
+    """
+    try:
+        df = primary_helper.get_history_kline(symbol, days=days, end_date=end_date)
+        if isinstance(df, pd.DataFrame) and not df.empty and 'close' in df.columns:
+            return df, source
+    except Exception as e:
+        pass
+    
+    # 切换到备用数据源
+    fallback_source = 'tushare' if source == 'akshare' else 'akshare'
+    try:
+        df = fallback_helper.get_history_kline(symbol, days=days, end_date=end_date)
+        if isinstance(df, pd.DataFrame) and not df.empty and 'close' in df.columns:
+            print(f"    [切换数据源] {symbol}: {source} -> {fallback_source}")
+            return df, fallback_source
+    except:
+        pass
+    
+    return None, source
+
+
+# 全局备用helper实例
+fallback_helper = FALLBACK_HELPER(cache_dir="data/cache")
 from timing.timing import TimingEngine
 from trading.simulator import TradingSimulator
 
@@ -147,26 +186,27 @@ def run_strategy(strategy, helper, timing, date=None):
         # 1. 选股（传入date用于历史回测）
         selected = strategy.select_stocks(helper, date)
 
-        # 2. 获取股票价格
+        # 2. 获取股票价格（带自动切换数据源）
         prices = {}
+        current_source = 'akshare'
         for stock in selected[:30]:  # 扩大到前30只（原10只太少）
             try:
-                df = helper.get_history_kline(stock['symbol'], days=5, end_date=date)
+                df, current_source = get_kline_with_fallback(helper, stock['symbol'], days=5, end_date=date, source=current_source)
                 # 严格验证：确保是DataFrame、有数据、有close列、是数字
-                if isinstance(df, pd.DataFrame) and not df.empty and 'close' in df.columns:
+                if df is not None and isinstance(df, pd.DataFrame) and not df.empty and 'close' in df.columns:
                     close_price = df['close'].iloc[-1]
                     if pd.notna(close_price) and isinstance(close_price, (int, float)):
                         prices[stock['symbol']] = float(close_price)
             except:
                 continue
 
-        # 3. 检查现有持仓
+        # 3. 检查现有持仓（带自动切换数据源）
         for holding in strategy.holdings:
             symbol = holding['symbol']
             try:
-                df = helper.get_history_kline(symbol, days=5, end_date=date)
+                df, current_source = get_kline_with_fallback(helper, symbol, days=5, end_date=date, source=current_source)
                 # 严格验证
-                if isinstance(df, pd.DataFrame) and not df.empty and 'close' in df.columns:
+                if df is not None and isinstance(df, pd.DataFrame) and not df.empty and 'close' in df.columns:
                     close_price = df['close'].iloc[-1]
                     if pd.notna(close_price) and isinstance(close_price, (int, float)):
                         prices[symbol] = float(close_price)
@@ -289,14 +329,45 @@ def main():
         'strategies': results
     }
 
-    # 保存结果
+    # 保存结果 - 增量合并模式
     output_dir = 'output'
     os.makedirs(output_dir, exist_ok=True)
-
-    # 新策略保存到单独文件，不覆盖原数据
-    output_file = os.path.join(output_dir, 'new_strategy_results.json')
-    with open(output_file, 'w', encoding='utf-8') as f:
-        json.dump(output, f, ensure_ascii=False, indent=2, default=str)
+    
+    # 增量合并到主数据文件（只更新本次回测的策略，保留其他策略的数据）
+    main_file = os.path.join(output_dir, 'strategy_data.json')
+    
+    # 读取现有数据
+    if os.path.exists(main_file):
+        with open(main_file, 'r', encoding='utf-8') as f:
+            main_data = json.load(f)
+        existing_strategies = {s['name']: s for s in main_data.get('strategies', [])}
+        existing_update_time = main_data.get('update_time', '')
+    else:
+        main_data = {'strategies': []}
+        existing_strategies = {}
+        existing_update_time = ''
+    
+    # 只更新本次回测中有交易的策略，保留其他策略的数据
+    merged_count = 0
+    for result in results:
+        name = result['name']
+        # 只更新有实际交易的策略
+        if result.get('trades') or result.get('total_return', 0) != 0:
+            existing_strategies[name] = result
+            merged_count += 1
+    
+    # 构建新的主数据（按综合分排序）
+    main_data['strategies'] = list(existing_strategies.values())
+    main_data['update_time'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    main_data['strategy_count'] = len(main_data['strategies'])
+    
+    # 保存
+    with open(main_file, 'w', encoding='utf-8') as f:
+        json.dump(main_data, f, ensure_ascii=False, indent=2, default=str)
+    
+    print(f"\n✅ 已增量合并 {merged_count} 个策略到 strategy_data.json")
+    print(f"   保留 {len(existing_strategies) - merged_count} 个未回测策略的数据")
+    print(f"   主数据文件: {main_file}")
 
     print("\n" + "=" * 60)
     print("策略排名（按综合分）")

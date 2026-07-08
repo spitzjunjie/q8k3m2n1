@@ -214,8 +214,8 @@ def main():
     # 并行运行策略
     results = []
     
-    # 使用线程池并行执行
-    with ThreadPoolExecutor(max_workers=5) as executor:
+    # 使用线程池并行执行（减少并发避免频率限制）
+    with ThreadPoolExecutor(max_workers=2) as executor:
         futures = {
             executor.submit(run_strategy, strategy, helper, timing): strategy
             for strategy in strategies

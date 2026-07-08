@@ -35,7 +35,8 @@ class FactorStrategyBase(FactorStrategy):
             data.append({'symbol': sym, 'name': sym, 'factor_value': float(val)})
         df = pd.DataFrame(data)
         if not df.empty:
-            df = df.sort_values('factor_value', ascending=False).head(30)
+            # 优化：从head(30)增加到head(50)，增加可选标的
+            df = df.sort_values('factor_value', ascending=False).head(50)
             df['reason'] = df.apply(lambda r: reason_template.format(val=r['factor_value']), axis=1)
         return df
 
@@ -51,7 +52,8 @@ class ROEStrategy(FactorStrategyBase):
         super().__init__("ROE选股", "盈利因子", "ROE")
 
     def calculate_factor(self, helper, date=None):
-        symbols = self.get_universe(helper, sample=60)
+        # 优化：扩大样本池从60到120
+        symbols = self.get_universe(helper, sample=120)
         values = []
         for sym in symbols:
             try:
@@ -221,7 +223,8 @@ class HighROICStrategy(FactorStrategyBase):
         super().__init__("高ROIC", "质量因子", "ROIC")
 
     def calculate_factor(self, helper, date=None):
-        symbols = self.get_universe(helper, sample=60)
+        # 优化：扩大样本池从60到120
+        symbols = self.get_universe(helper, sample=120)
         values = []
         for sym in symbols:
             try:
@@ -279,7 +282,8 @@ class DividendLowVolStrategy(FactorStrategyBase):
         super().__init__("红利低波", "红利因子", "股息率/波动率")
 
     def calculate_factor(self, helper, date=None):
-        symbols = self.get_universe(helper, sample=60)
+        # 优化：扩大样本池从60到120
+        symbols = self.get_universe(helper, sample=120)
         values = []
         for sym in symbols:
             try:
@@ -288,12 +292,16 @@ class DividendLowVolStrategy(FactorStrategyBase):
                 if not dv:
                     values.append(None)
                     continue
-                # 计算20日波动率
+                # 计算20日波动率（优化：使用更稳定的波动率计算）
                 kline = helper.get_history_kline(sym, days=30, end_date=date)
                 if not kline.empty and len(kline) > 5:
-                    vol = kline['close'].pct_change().std() * np.sqrt(252)
-                    # 红利低波 = 股息率 / 波动率
-                    values.append(dv / vol if vol > 0 else None)
+                    returns = kline['close'].pct_change().dropna()
+                    if len(returns) > 3:
+                        vol = returns.std() * np.sqrt(252)
+                        # 红利低波 = 股息率 / 波动率
+                        values.append(dv / vol if vol > 0 else None)
+                    else:
+                        values.append(None)
                 else:
                     values.append(None)
             except:
@@ -308,7 +316,8 @@ class MomentumReversalStrategy(FactorStrategyBase):
         super().__init__("动量反转", "动量因子", "反转动量")
 
     def calculate_factor(self, helper, date=None):
-        symbols = self.get_universe(helper, sample=60)
+        # 优化：扩大样本池从60到120，放宽ROE要求从5%到3%
+        symbols = self.get_universe(helper, sample=120)
         values = []
         for sym in symbols:
             try:
@@ -316,10 +325,10 @@ class MomentumReversalStrategy(FactorStrategyBase):
                 if not kline.empty and len(kline) > 10:
                     # 过去20日收益率（反转：跌幅大的得分高）
                     ret_20d = (kline['close'].iloc[-1] / kline['close'].iloc[-20] - 1) * 100
-                    # 基本面过滤：ROE > 5%
+                    # 优化：放宽ROE要求从5%到3%
                     fin = helper.get_financial_indicator(sym)
                     roe = fin.get('roe', 0)
-                    if roe > 5:
+                    if roe > 3:  # 原来是 roe > 5
                         # 反转得分 = -收益率（跌幅越大得分越高）
                         values.append(-ret_20d)
                     else:

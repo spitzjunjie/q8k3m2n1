@@ -32,7 +32,7 @@ class DragonTigerListStrategy(BaseStrategy):
         """选股：龙虎榜"""
         results = []
         
-        # 模拟龙虎榜热门股票
+        # 扩大股票池
         lhb_stocks = [
             {'symbol': '688981', 'name': '中芯国际'},
             {'symbol': '688012', 'name': '中微公司'},
@@ -42,23 +42,30 @@ class DragonTigerListStrategy(BaseStrategy):
             {'symbol': '300059', 'name': '东方财富'},
             {'symbol': '002475', 'name': '立讯精密'},
             {'symbol': '002594', 'name': '比亚迪'},
+            {'symbol': '600519', 'name': '贵州茅台'},
+            {'symbol': '600036', 'name': '招商银行'},
+            {'symbol': '601318', 'name': '中国平安'},
+            {'symbol': '002230', 'name': '科大讯飞'},
+            {'symbol': '300059', 'name': '东方财富'},
+            {'symbol': '000858', 'name': '五粮液'},
+            {'symbol': '002415', 'name': '海康威视'},
         ]
         
         for stock in lhb_stocks:
             try:
-                kline = helper.get_history_kline(stock['symbol'], days=10)
+                kline = helper.get_history_kline(stock['symbol'], days=20)
                 if kline.empty or len(kline) < 5:
                     continue
                 
-                # 检查成交额是否放大（龙虎榜通常伴随大成交）
-                avg_amount = kline['close'].iloc[-5:].mean() * kline['volume'].iloc[-5:].mean()
-                current_amount = kline['close'].iloc[-1] * kline['volume'].iloc[-1]
+                # 优化：移除成交额放大条件，改为趋势向上即可
+                ma5 = kline['close'].rolling(5).mean().iloc[-1]
+                current = kline['close'].iloc[-1]
                 
-                if current_amount > avg_amount * 1.5:  # 成交额放大
+                if current > ma5:  # 趋势向上即可入选
                     results.append({
                         'symbol': stock['symbol'],
                         'name': stock['name'],
-                        'reason': f"龙虎榜：成交额放大{round(current_amount/avg_amount, 1)}倍，活跃"
+                        'reason': f"龙虎榜：趋势向上，活跃"
                     })
                 
                 if len(results) >= self.top_n:

@@ -31,7 +31,7 @@ class SouthboundMoneyStrategy(BaseStrategy):
         """选股：南向资金重仓"""
         results = []
         
-        # 模拟南向资金重仓股（与北向类似）
+        # 扩大股票池
         south_stocks = [
             {'symbol': '600519', 'name': '贵州茅台'},
             {'symbol': '600036', 'name': '招商银行'},
@@ -41,6 +41,13 @@ class SouthboundMoneyStrategy(BaseStrategy):
             {'symbol': '002475', 'name': '立讯精密'},
             {'symbol': '600887', 'name': '伊利股份'},
             {'symbol': '000333', 'name': '美的集团'},
+            {'symbol': '000001', 'name': '平安银行'},
+            {'symbol': '600030', 'name': '中信证券'},
+            {'symbol': '601166', 'name': '兴业银行'},
+            {'symbol': '600900', 'name': '长江电力'},
+            {'symbol': '601012', 'name': '隆基绿能'},
+            {'symbol': '002594', 'name': '比亚迪'},
+            {'symbol': '600276', 'name': '恒瑞医药'},
         ]
         
         for stock in south_stocks:
@@ -53,15 +60,12 @@ class SouthboundMoneyStrategy(BaseStrategy):
                 vol_ma = kline['volume'].tail(20).mean()
                 recent_vol = kline['volume'].tail(self.consecutive_days).mean()
                 
-                # 检查价格趋势
-                ma10 = kline['close'].rolling(10).mean().iloc[-1]
-                current = kline['close'].iloc[-1]
-                
-                if recent_vol > vol_ma * 1.1 and current > ma10:  # 放量 + 趋势向上
+                # 优化：只保留成交量放大条件，移除趋势向上要求
+                if recent_vol > vol_ma * 1.05:  # 放宽量比要求
                     results.append({
                         'symbol': stock['symbol'],
                         'name': stock['name'],
-                        'reason': f"南向资金：成交量较均量{round(recent_vol/vol_ma, 1)}倍，趋势向上"
+                        'reason': f"南向资金：成交量较均量{round(recent_vol/vol_ma, 1)}倍"
                     })
                 
                 if len(results) >= self.top_n:

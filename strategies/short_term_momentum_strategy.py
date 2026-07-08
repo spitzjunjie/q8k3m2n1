@@ -36,7 +36,7 @@ class ShortTermMomentumStrategy(BaseStrategy):
         """选股：短线动量"""
         results = []
         
-        # 模拟强势股票池
+        # 扩大股票池
         momentum_stocks = [
             {'symbol': '688981', 'name': '中芯国际'},
             {'symbol': '688012', 'name': '中微公司'},
@@ -48,29 +48,34 @@ class ShortTermMomentumStrategy(BaseStrategy):
             {'symbol': '600519', 'name': '贵州茅台'},
             {'symbol': '601318', 'name': '中国平安'},
             {'symbol': '600036', 'name': '招商银行'},
+            {'symbol': '000858', 'name': '五粮液'},
+            {'symbol': '002594', 'name': '比亚迪'},
+            {'symbol': '600276', 'name': '恒瑞医药'},
+            {'symbol': '601012', 'name': '隆基绿能'},
+            {'symbol': '000333', 'name': '美的集团'},
         ]
         
         for stock in momentum_stocks:
             try:
                 kline = helper.get_history_kline(stock['symbol'], days=20)
-                if kline.empty or len(kline) < 10:
+                if kline.empty or len(kline) < 5:
                     continue
                 
                 # 计算短期涨幅
-                ret = (kline['close'].iloc[-1] / kline['close'].iloc[-self.lookback_days] - 1) * 100
+                ret = (kline['close'].iloc[-1] / kline['close'].iloc[-self.lookback_days] - 1) * 100 if len(kline) >= self.lookback_days else 0
                 
                 # 检查成交量放大
-                vol_ratio = kline['volume'].iloc[-1] / kline['volume'].tail(20).mean()
+                vol_ratio = kline['volume'].iloc[-1] / kline['volume'].tail(10).mean() if len(kline) >= 10 else 1
                 
-                # 趋势向上
-                ma5 = kline['close'].rolling(5).mean().iloc[-1]
-                current = kline['close'].iloc[-1]
-                
-                if ret > 0 and vol_ratio > 1.2 and current > ma5:
+                # 优化：放宽条件
+                # 涨幅：从 >0 放宽到 >-2%
+                # 量比：从 >1.2 放宽到 >0.8
+                # 移除趋势向上条件
+                if ret > -2 and vol_ratio > 0.8:
                     results.append({
                         'symbol': stock['symbol'],
                         'name': stock['name'],
-                        'reason': f"短线动量：近{self.lookback_days}日+{ret:.1f}%, 量能{round(vol_ratio,1)}倍"
+                        'reason': f"短线动量：近{self.lookback_days}日{ret:+.1f}%, 量能{round(vol_ratio,1)}倍"
                     })
                 
                 if len(results) >= self.top_n:

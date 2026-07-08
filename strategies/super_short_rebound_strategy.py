@@ -36,7 +36,7 @@ class SuperShortReboundStrategy(BaseStrategy):
         """选股：严重超跌"""
         results = []
         
-        # 模拟超跌股票池
+        # 扩大股票池
         rebound_stocks = [
             {'symbol': '002236', 'name': '大华股份'},
             {'symbol': '002352', 'name': '顺丰控股'},
@@ -46,16 +46,23 @@ class SuperShortReboundStrategy(BaseStrategy):
             {'symbol': '300750', 'name': '宁德时代'},
             {'symbol': '600036', 'name': '招商银行'},
             {'symbol': '601318', 'name': '中国平安'},
+            {'symbol': '600519', 'name': '贵州茅台'},
+            {'symbol': '000858', 'name': '五粮液'},
+            {'symbol': '002475', 'name': '立讯精密'},
+            {'symbol': '600276', 'name': '恒瑞医药'},
+            {'symbol': '601012', 'name': '隆基绿能'},
+            {'symbol': '600900', 'name': '长江电力'},
+            {'symbol': '000333', 'name': '美的集团'},
         ]
         
         for stock in rebound_stocks:
             try:
                 kline = helper.get_history_kline(stock['symbol'], days=30)
-                if kline.empty or len(kline) < 15:
+                if kline.empty or len(kline) < 10:
                     continue
                 
-                # 计算跌幅
-                ret = (kline['close'].iloc[-1] / kline['close'].iloc[0] - 1) * 100
+                # 计算跌幅（使用近10日）
+                ret = (kline['close'].iloc[-1] / kline['close'].iloc[-10] - 1) * 100 if len(kline) >= 10 else 0
                 
                 # 计算RSI
                 delta = kline['close'].diff()
@@ -66,14 +73,17 @@ class SuperShortReboundStrategy(BaseStrategy):
                 
                 current_price = kline['close'].iloc[-1]
                 
-                # 条件：跌幅达标 + RSI超卖 + 价格适中 + 企稳迹象
-                if ret < -self.min_drop and rsi < self.max_rsi and current_price > self.min_price:
-                    if current_price > kline['close'].iloc[-3]:  # 近3日企稳
-                        results.append({
-                            'symbol': stock['symbol'],
-                            'name': stock['name'],
-                            'reason': f"超跌反弹：近20日跌幅{ret:.1f}%, RSI={rsi:.1f}，企稳信号"
-                        })
+                # 优化：放宽RSI从35到45，跌幅从15%放宽到10%，移除企稳条件
+                drop_ok = ret < -10  # 原来是 < -15
+                rsi_ok = rsi < 45  # 原来是 < 35
+                price_ok = current_price > self.min_price
+                
+                if drop_ok and rsi_ok and price_ok:
+                    results.append({
+                        'symbol': stock['symbol'],
+                        'name': stock['name'],
+                        'reason': f"超跌反弹：近10日跌幅{ret:.1f}%, RSI={rsi:.1f}"
+                    })
                 
                 if len(results) >= self.top_n:
                     break

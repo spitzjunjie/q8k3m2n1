@@ -178,7 +178,8 @@ class KDJOversoldStrategy(TechnicalBreakoutStrategy):
             return []
 
         results = []
-        sample_symbols = symbols[:80]
+        # 优化：扩大样本池从80到120
+        sample_symbols = symbols[:120]
 
         for symbol in sample_symbols:
             try:
@@ -190,15 +191,14 @@ class KDJOversoldStrategy(TechnicalBreakoutStrategy):
                 latest = df.iloc[-1]
                 prev = df.iloc[-2]
 
-                # 信号条件：
+                # 优化：放宽条件
                 # 1. K上穿D（金叉）
-                # 2. K值<40（超卖区域）
-                # 3. J值从负转正
+                # 2. K值<50（放宽超卖区域，原来是<40）
+                # 3. 移除J值从负转正要求（过于严格）
                 k_cross_d = (prev['k'] <= prev['d']) and (latest['k'] > latest['d'])
-                oversold = latest['k'] < 40
-                j_recover = (prev['j'] < 0) and (latest['j'] > 0)
+                oversold = latest['k'] < 50  # 原来是 < 40
 
-                if k_cross_d and oversold and j_recover:
+                if k_cross_d and oversold:  # 移除了j_recover条件
                     results.append({
                         'symbol': symbol,
                         'name': symbol,
@@ -272,7 +272,7 @@ class MomentumBreakoutStrategy(TechnicalBreakoutStrategy):
         super().__init__("动量突破")
 
     def get_description(self):
-        return "突破60日高点+放量+均线多头，捕捉主升浪启动"
+        return "突破60日高点+放量，捕捉主升浪启动"
 
     def detect_events(self, helper, date=None):
         symbols = self.get_universe(helper)
@@ -280,7 +280,8 @@ class MomentumBreakoutStrategy(TechnicalBreakoutStrategy):
             return []
 
         results = []
-        sample_symbols = symbols[:80]
+        # 优化：扩大样本池从80到120
+        sample_symbols = symbols[:120]
 
         for symbol in sample_symbols:
             try:
@@ -292,21 +293,23 @@ class MomentumBreakoutStrategy(TechnicalBreakoutStrategy):
                 df['high_60'] = df['high'].rolling(60).max().shift(1)
                 latest = df.iloc[-1]
 
-                # 信号条件：
-                # 1. 突破60日最高点
-                # 2. 成交量放大（>10日均量2倍）
-                # 3. 均线多头排列（ma5>ma10>ma20>ma60）
-                # 4. RSI在40-70之间（健康区间）
+                # 优化：放宽条件组合，从4个条件改为2个核心条件
+                # 核心条件：突破 + 放量
                 breakout = latest['close'] > latest['high_60']
-                volume_surge = latest['volume'] > latest['vol_ma10'] * 2
-                ma_bullish = (latest['ma5'] > latest['ma10'] > latest['ma20'] > latest['ma60'])
-                rsi_healthy = 40 < latest['rsi'] < 70
+                volume_surge = latest['volume'] > latest['vol_ma10'] * 1.5  # 放宽量比要求
+                
+                # 附加条件（可选，有更好）
+                ma_bullish = (latest['ma5'] > latest['ma10'] > latest['ma20'])
 
-                if breakout and volume_surge and ma_bullish and rsi_healthy:
+                # 优化：只要满足核心条件（突破+放量）即可入选
+                if breakout and volume_surge:
+                    reason = f"突破60日高点，量比{(latest['volume']/latest['vol_ma10']):.2f}"
+                    if ma_bullish:
+                        reason += "，均线多头"
                     results.append({
                         'symbol': symbol,
                         'name': symbol,
-                        'reason': f"突破60日高点，量比{(latest['volume']/latest['vol_ma10']):.2f}，RSI={latest['rsi']:.0f}"
+                        'reason': reason
                     })
 
                 if len(results) >= 10:

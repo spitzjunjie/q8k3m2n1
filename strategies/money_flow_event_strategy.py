@@ -34,7 +34,7 @@ class MoneyFlowEventStrategy(BaseStrategy):
         """选股：资金持续流入"""
         results = []
         
-        # 模拟资金流入股票池
+        # 扩大股票池
         money_flow_stocks = [
             {'symbol': '600519', 'name': '贵州茅台'},
             {'symbol': '300750', 'name': '宁德时代'},
@@ -44,6 +44,13 @@ class MoneyFlowEventStrategy(BaseStrategy):
             {'symbol': '002475', 'name': '立讯精密'},
             {'symbol': '300033', 'name': '同花顺'},
             {'symbol': '300059', 'name': '东方财富'},
+            {'symbol': '000001', 'name': '平安银行'},
+            {'symbol': '600030', 'name': '中信证券'},
+            {'symbol': '601166', 'name': '兴业银行'},
+            {'symbol': '600900', 'name': '长江电力'},
+            {'symbol': '601012', 'name': '隆基绿能'},
+            {'symbol': '002594', 'name': '比亚迪'},
+            {'symbol': '600276', 'name': '恒瑞医药'},
         ]
         
         for stock in money_flow_stocks:
@@ -56,7 +63,8 @@ class MoneyFlowEventStrategy(BaseStrategy):
                 recent_vol = kline['volume'].tail(self.consecutive_days)
                 avg_vol = kline['volume'].tail(20).mean()
                 
-                if recent_vol.mean() > avg_vol * 1.2:  # 成交量放大20%以上
+                # 优化：成交量放大从20%放宽到10%
+                if recent_vol.mean() > avg_vol * 1.1:  # 成交量放大10%以上
                     results.append({
                         'symbol': stock['symbol'],
                         'name': stock['name'],

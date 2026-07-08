@@ -34,7 +34,7 @@ class AntiOverconfidenceStrategy(BaseStrategy):
         """选股：超跌后企稳"""
         results = []
         
-        # 模拟超跌股票池
+        # 扩大股票池
         oversold_stocks = [
             {'symbol': '600519', 'name': '贵州茅台'},
             {'symbol': '300750', 'name': '宁德时代'},
@@ -46,16 +46,21 @@ class AntiOverconfidenceStrategy(BaseStrategy):
             {'symbol': '300059', 'name': '东方财富'},
             {'symbol': '002236', 'name': '大华股份'},
             {'symbol': '002352', 'name': '顺丰控股'},
+            {'symbol': '000001', 'name': '平安银行'},
+            {'symbol': '600030', 'name': '中信证券'},
+            {'symbol': '601166', 'name': '兴业银行'},
+            {'symbol': '600900', 'name': '长江电力'},
+            {'symbol': '601012', 'name': '隆基绿能'},
         ]
         
         for stock in oversold_stocks:
             try:
                 kline = helper.get_history_kline(stock['symbol'], days=30)
-                if kline.empty or len(kline) < 20:
+                if kline.empty or len(kline) < 15:
                     continue
                 
                 # 计算跌幅
-                ret_20d = (kline['close'].iloc[-1] / kline['close'].iloc[-20] - 1) * 100
+                ret_20d = (kline['close'].iloc[-1] / kline['close'].iloc[-20] - 1) * 100 if len(kline) >= 20 else 0
                 
                 # 计算RSI
                 delta = kline['close'].diff()
@@ -64,14 +69,16 @@ class AntiOverconfidenceStrategy(BaseStrategy):
                 rs = gain / loss
                 rsi = (100 - (100 / (1 + rs))).iloc[-1]
                 
-                # 条件：跌幅在范围内 + RSI超卖 + 价格企稳
-                if self.drop_min < abs(ret_20d) < self.drop_max and rsi < self.max_rsi:
-                    if kline['close'].iloc[-1] > kline['close'].iloc[-3]:
-                        results.append({
-                            'symbol': stock['symbol'],
-                            'name': stock['name'],
-                            'reason': f"反过度自信：近20日跌幅{ret_20d:.1f}%, RSI={rsi:.1f}，企稳信号"
-                        })
+                # 优化：放宽RSI从40到50，跌幅从10-30%放宽到5-30%，移除企稳条件
+                drop_range_ok = 5 < abs(ret_20d) < 30  # 原来是 10-30
+                rsi_ok = rsi < 50  # 原来是 < 40
+                
+                if drop_range_ok and rsi_ok:
+                    results.append({
+                        'symbol': stock['symbol'],
+                        'name': stock['name'],
+                        'reason': f"反过度自信：近20日跌幅{ret_20d:.1f}%, RSI={rsi:.1f}"
+                    })
                 
                 if len(results) >= self.top_n:
                     break

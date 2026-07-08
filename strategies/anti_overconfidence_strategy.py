@@ -72,7 +72,7 @@ class AntiOverconfidenceStrategy:
         return rsi
     
     def calculate_drop(self, df):
-        """计算区间跌幅"""
+        """计算区间跌幅（返回负数表示下跌）"""
         if df is None or len(df) < self.lookback_days:
             return None
         
@@ -80,6 +80,7 @@ class AntiOverconfidenceStrategy:
         start_price = recent['close'].iloc[0]
         end_price = recent['close'].iloc[-1]
         
+        # 返回负数表示跌幅（例如：-15 表示下跌15%）
         drop = (end_price / start_price - 1) * 100
         return drop
     

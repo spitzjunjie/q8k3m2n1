@@ -32,11 +32,13 @@ class ResearchReportStrategy:
         """获取研报数据"""
         try:
             pro = ts.pro_api()
-            end_date = datetime.now().strftime('%Y%m%d')
-            start_date = (datetime.now() - timedelta(days=self.days+5)).strftime('%Y%m%d')
             
-            # 使用Tushare研报接口
-            df = pro.broker_recommend(start_date=start_date, end_date=end_date)
+            # broker_recommend需要month参数，格式为YYYYMM
+            current_date = datetime.now()
+            month = current_date.strftime('%Y%m')  # 当前年月
+            
+            # 获取最近3个月的研报
+            df = pro.broker_recommend(month=month)
             if df is not None and len(df) > 0:
                 return df
         except Exception as e:

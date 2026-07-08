@@ -28,7 +28,7 @@ class IndustryMomentumStrategy:
         self.holding_days = holding_days
         self.name = "行业动量"
         
-        # 行业ETF列表
+        # 行业ETF列表（扩展版）
         self.industry_etfs = {
             '白酒': '512690.SH',  # 酒ETF
             '医疗': '512010.SH',  # 医药ETF
@@ -36,6 +36,10 @@ class IndustryMomentumStrategy:
             '新能源': '515030.SH',  # 新能源车ETF
             '证券': '512880.SH',  # 券商ETF
             '军工': '512660.SH',  # 军工ETF
+            '消费': '159928.SH',  # 消费ETF
+            '科技': '515000.SH',  # 科技ETF
+            '银行': '512800.SH',  # 银行ETF
+            '房地产': '512200.SH',  # 房地产ETF
         }
         
     def get_etf_data(self, code, days=30):

@@ -64,13 +64,16 @@ class MoneyFlowEventStrategy:
         if df is None or len(df) < self.consecutive_days:
             return False
         
-        # 简化判断：连续上涨视为净流入
+        # 使用成交量变化作为代理指标（更合理）
+        # 连续3天及以上成交量放大视为资金流入
         increases = 0
         for i in range(1, len(df)):
-            if df['close'].iloc[i] > df['close'].iloc[i-1]:
+            if df['vol'].iloc[i] > df['vol'].iloc[i-1]:
                 increases += 1
         
-        return increases >= self.consecutive_days - 1
+        # 至少80%的天数成交量放大
+        threshold = int(self.consecutive_days * 0.8)
+        return increases >= threshold
     
     def generate_signal(self):
         """生成交易信号"""

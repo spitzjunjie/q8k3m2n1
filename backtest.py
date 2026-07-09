@@ -279,7 +279,7 @@ def main():
     }
 
     # 初始化
-    helper = Helper(cache_dir="data/cache")
+    helper = PRIMARY_HELPER(cache_dir="data/cache")
     timing = TimingEngine()
     all_strategies = get_all_strategies()
 

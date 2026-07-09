@@ -1,10 +1,10 @@
 {
-  "update_time": "2026-07-09 01:37:28",
+  "update_time": "2026-07-09 11:24:51",
   "backtest_type": "historical",
   "backtest_start": "2026-05-26",
   "backtest_end": "2026-07-07",
   "backtest_days": 30,
-  "strategy_count": 40,
+  "strategy_count": 46,
   "strategies": [
     {
       "name": "多周期共振",
@@ -8149,323 +8149,45 @@
       "version": "1.0.0",
       "description": "南向资金：连续5日净买入, 持有5天",
       "initial_capital": 30000,
-      "current_capital": 15739.0,
-      "total_value": 29497.0,
-      "total_return": -0.016766666666666666,
-      "monthly_return": -0.016766666666666666,
-      "sharpe_ratio": -0.030999181347277822,
-      "max_drawdown": 0.06666666666666667,
-      "win_rate": 0.35555555555555557,
-      "realized_pnl": -503.0,
-      "realized_pnl_pct": -1.68,
+      "current_capital": 15819.0,
+      "total_value": 30000.0,
+      "total_return": 0.0,
+      "monthly_return": 0.0,
+      "sharpe_ratio": 0,
+      "max_drawdown": 0,
+      "win_rate": 0,
+      "realized_pnl": 0.0,
+      "realized_pnl_pct": 0.0,
       "floating_pnl": 0.0,
       "floating_pnl_pct": 0.0,
-      "total_pnl": -503.0,
-      "total_pnl_pct": -1.68,
+      "total_pnl": 0.0,
+      "total_pnl_pct": 0.0,
       "holdings": [
         {
           "symbol": "002594",
           "name": "比亚迪",
-          "buy_price": 83.57,
+          "buy_price": 87.8,
           "quantity": 100,
-          "buy_date": "20260702",
-          "cost": 8357.0,
+          "buy_date": "2026-07-09",
+          "cost": 8780.0,
           "stock_reason": "南向资金：成交量较均量1.2倍",
-          "timing_reason": "MACD绿柱缩脚; RSI超卖(35.8); 温和放量上涨",
-          "hold_days": 6,
-          "current_price": 87.8,
-          "profit": 423.0000000000004,
-          "profit_pct": 5.061624985042484
+          "timing_reason": "回踩MA5; 回踩MA20; 温和放量上涨",
+          "hold_days": 0
         },
         {
           "symbol": "600276",
           "name": "恒瑞医药",
           "buy_price": 54.01,
           "quantity": 100,
-          "buy_date": "20260709",
+          "buy_date": "2026-07-09",
           "cost": 5401.0,
           "stock_reason": "南向资金：成交量较均量1.2倍",
           "timing_reason": "均线多头排列",
-          "hold_days": 1,
-          "current_price": 54.01,
-          "profit": 0.0,
-          "profit_pct": 0.0
+          "hold_days": 0
         }
       ],
-      "trades": [
-        {
-          "symbol": "600276",
-          "name": "恒瑞医药",
-          "buy_date": "20260626",
-          "buy_price": 48.67,
-          "sell_date": "20260629",
-          "sell_price": 52.93,
-          "quantity": 200,
-          "profit": 852.0,
-          "profit_pct": 8.7528251489624,
-          "hold_days": 1,
-          "stock_reason": "南向资金：成交量较均量1.2倍",
-          "timing_reason": "均线多头排列",
-          "sell_reason": "RSI超买(75.0)"
-        },
-        {
-          "symbol": "002594",
-          "name": "比亚迪",
-          "buy_date": "20260629",
-          "buy_price": 79.64,
-          "sell_date": "20260630",
-          "sell_price": 79.7,
-          "quantity": 100,
-          "profit": 6.0,
-          "profit_pct": 0.07533902561526871,
-          "hold_days": 1,
-          "stock_reason": "南向资金：成交量较均量1.2倍",
-          "timing_reason": "MACD绿柱缩脚; RSI超卖(22.2); 温和放量上涨",
-          "sell_reason": "跌破MA5; 跌破MA20"
-        },
-        {
-          "symbol": "600276",
-          "name": "恒瑞医药",
-          "buy_date": "20260629",
-          "buy_price": 52.93,
-          "sell_date": "20260701",
-          "sell_price": 53.78,
-          "quantity": 100,
-          "profit": 85.0,
-          "profit_pct": 1.6058945777441904,
-          "hold_days": 2,
-          "stock_reason": "南向资金：成交量较均量1.2倍",
-          "timing_reason": "回踩MA5; 温和放量上涨; 均线多头排列",
-          "sell_reason": "RSI超买(71.8)"
-        },
-        {
-          "symbol": "002594",
-          "name": "比亚迪",
-          "buy_date": "20260630",
-          "buy_price": 79.7,
-          "sell_date": "20260701",
-          "sell_price": 80.66,
-          "quantity": 100,
-          "profit": 96.0,
-          "profit_pct": 1.204516938519448,
-          "hold_days": 1,
-          "stock_reason": "南向资金：成交量较均量1.2倍",
-          "timing_reason": "MACD绿柱缩脚; KDJ金叉; RSI超卖(19.7); 温和放量上涨",
-          "sell_reason": "跌破MA20"
-        },
-        {
-          "symbol": "002594",
-          "name": "比亚迪",
-          "buy_date": "20260701",
-          "buy_price": 80.66,
-          "sell_date": "20260702",
-          "sell_price": 83.57,
-          "quantity": 100,
-          "profit": 291.0,
-          "profit_pct": 3.6077361765435163,
-          "hold_days": 1,
-          "stock_reason": "南向资金：成交量较均量1.2倍",
-          "timing_reason": "回踩MA5; MACD绿柱缩脚; RSI超卖(25.2); 温和放量上涨",
-          "sell_reason": "跌破MA20"
-        },
-        {
-          "symbol": "600276",
-          "name": "恒瑞医药",
-          "buy_date": "20260701",
-          "buy_price": 53.78,
-          "sell_date": "20260702",
-          "sell_price": 53.49,
-          "quantity": 100,
-          "profit": -29.0,
-          "profit_pct": -0.5392339159538861,
-          "hold_days": 1,
-          "stock_reason": "南向资金：成交量较均量1.2倍",
-          "timing_reason": "回踩MA5; 温和放量上涨; 均线多头排列",
-          "sell_reason": "RSI超买(70.6)"
-        },
-        {
-          "symbol": "600276",
-          "name": "恒瑞医药",
-          "buy_date": "20260702",
-          "buy_price": 53.49,
-          "sell_date": "20260706",
-          "sell_price": 56.77,
-          "quantity": 100,
-          "profit": 328.0,
-          "profit_pct": 6.131987287343429,
-          "hold_days": 2,
-          "stock_reason": "南向资金：成交量较均量1.2倍",
-          "timing_reason": "均线多头排列",
-          "sell_reason": "RSI超买(76.2)"
-        },
-        {
-          "symbol": "600276",
-          "name": "恒瑞医药",
-          "buy_date": "20260706",
-          "buy_price": 56.77,
-          "sell_date": "20260707",
-          "sell_price": 55.36,
-          "quantity": 100,
-          "profit": -141.0,
-          "profit_pct": -2.4837061828430507,
-          "hold_days": 1,
-          "stock_reason": "南向资金：成交量较均量1.2倍",
-          "timing_reason": "回踩MA5; 温和放量上涨; 均线多头排列",
-          "sell_reason": "MACD红柱缩短; RSI超买(72.5)"
-        },
-        {
-          "symbol": "600276",
-          "name": "恒瑞医药",
-          "buy_date": "20260707",
-          "buy_price": 55.36,
-          "sell_date": "20260708",
-          "sell_price": 54.01,
-          "quantity": 100,
-          "profit": -135.0,
-          "profit_pct": -2.4385838150289016,
-          "hold_days": 1,
-          "stock_reason": "南向资金：成交量较均量1.2倍",
-          "timing_reason": "均线多头排列",
-          "sell_reason": "MACD红柱缩短; KDJ高位死叉; 跌破MA5"
-        },
-        {
-          "symbol": "600276",
-          "name": "恒瑞医药",
-          "buy_date": "20260708",
-          "buy_price": 54.01,
-          "sell_date": "20260709",
-          "sell_price": 54.01,
-          "quantity": 100,
-          "profit": 0.0,
-          "profit_pct": 0.0,
-          "hold_days": 1,
-          "stock_reason": "南向资金：成交量较均量1.2倍",
-          "timing_reason": "均线多头排列",
-          "sell_reason": "MACD红柱缩短; KDJ高位死叉; 跌破MA5"
-        }
-      ],
-      "equity_curve": [
-        {
-          "date": "20260529",
-          "value": 30000.0
-        },
-        {
-          "date": "20260601",
-          "value": 29645.0
-        },
-        {
-          "date": "20260602",
-          "value": 29802.0
-        },
-        {
-          "date": "20260603",
-          "value": 29368.0
-        },
-        {
-          "date": "20260604",
-          "value": 29116.0
-        },
-        {
-          "date": "20260605",
-          "value": 29163.0
-        },
-        {
-          "date": "20260608",
-          "value": 28753.0
-        },
-        {
-          "date": "20260609",
-          "value": 28911.0
-        },
-        {
-          "date": "20260610",
-          "value": 28879.0
-        },
-        {
-          "date": "20260611",
-          "value": 28822.0
-        },
-        {
-          "date": "20260612",
-          "value": 29304.0
-        },
-        {
-          "date": "20260615",
-          "value": 29104.0
-        },
-        {
-          "date": "20260616",
-          "value": 28880.0
-        },
-        {
-          "date": "20260617",
-          "value": 28591.0
-        },
-        {
-          "date": "20260618",
-          "value": 28943.0
-        },
-        {
-          "date": "20260619",
-          "value": 28943.0
-        },
-        {
-          "date": "20260622",
-          "value": 29077.0
-        },
-        {
-          "date": "20260623",
-          "value": 28742.0
-        },
-        {
-          "date": "20260624",
-          "value": 28826.0
-        },
-        {
-          "date": "20260625",
-          "value": 28674.0
-        },
-        {
-          "date": "20260626",
-          "value": 28000.0
-        },
-        {
-          "date": "20260629",
-          "value": 28996.0
-        },
-        {
-          "date": "20260630",
-          "value": 28913.0
-        },
-        {
-          "date": "20260701",
-          "value": 29183.0
-        },
-        {
-          "date": "20260702",
-          "value": 29445.0
-        },
-        {
-          "date": "20260703",
-          "value": 30031.0
-        },
-        {
-          "date": "20260706",
-          "value": 30170.0
-        },
-        {
-          "date": "20260707",
-          "value": 29901.0
-        },
-        {
-          "date": "20260708",
-          "value": 29920.0
-        },
-        {
-          "date": "20260709",
-          "value": 29920.0
-        }
-      ]
+      "trades": [],
+      "equity_curve": []
     },
     {
       "name": "北向资金",
@@ -8473,323 +8195,45 @@
       "version": "1.0.0",
       "description": "北向资金：连续5日净买入, 持有5天",
       "initial_capital": 30000,
-      "current_capital": 15739.0,
-      "total_value": 29497.0,
-      "total_return": -0.016766666666666666,
-      "monthly_return": -0.016766666666666666,
-      "sharpe_ratio": -0.030999181347277822,
-      "max_drawdown": 0.06666666666666667,
-      "win_rate": 0.35555555555555557,
-      "realized_pnl": -503.0,
-      "realized_pnl_pct": -1.68,
+      "current_capital": 15819.0,
+      "total_value": 30000.0,
+      "total_return": 0.0,
+      "monthly_return": 0.0,
+      "sharpe_ratio": 0,
+      "max_drawdown": 0,
+      "win_rate": 0,
+      "realized_pnl": 0.0,
+      "realized_pnl_pct": 0.0,
       "floating_pnl": 0.0,
       "floating_pnl_pct": 0.0,
-      "total_pnl": -503.0,
-      "total_pnl_pct": -1.68,
+      "total_pnl": 0.0,
+      "total_pnl_pct": 0.0,
       "holdings": [
         {
           "symbol": "002594",
           "name": "比亚迪",
-          "buy_price": 83.57,
+          "buy_price": 87.8,
           "quantity": 100,
-          "buy_date": "20260702",
-          "cost": 8357.0,
+          "buy_date": "2026-07-09",
+          "cost": 8780.0,
           "stock_reason": "北向资金：成交量较均量1.2倍",
-          "timing_reason": "MACD绿柱缩脚; RSI超卖(35.8); 温和放量上涨",
-          "hold_days": 6,
-          "current_price": 87.8,
-          "profit": 423.0000000000004,
-          "profit_pct": 5.061624985042484
+          "timing_reason": "回踩MA5; 回踩MA20; 温和放量上涨",
+          "hold_days": 0
         },
         {
           "symbol": "600276",
           "name": "恒瑞医药",
           "buy_price": 54.01,
           "quantity": 100,
-          "buy_date": "20260709",
+          "buy_date": "2026-07-09",
           "cost": 5401.0,
           "stock_reason": "北向资金：成交量较均量1.2倍",
           "timing_reason": "均线多头排列",
-          "hold_days": 1,
-          "current_price": 54.01,
-          "profit": 0.0,
-          "profit_pct": 0.0
+          "hold_days": 0
         }
       ],
-      "trades": [
-        {
-          "symbol": "600276",
-          "name": "恒瑞医药",
-          "buy_date": "20260626",
-          "buy_price": 48.67,
-          "sell_date": "20260629",
-          "sell_price": 52.93,
-          "quantity": 200,
-          "profit": 852.0,
-          "profit_pct": 8.7528251489624,
-          "hold_days": 1,
-          "stock_reason": "北向资金：成交量较均量1.2倍",
-          "timing_reason": "均线多头排列",
-          "sell_reason": "RSI超买(75.0)"
-        },
-        {
-          "symbol": "002594",
-          "name": "比亚迪",
-          "buy_date": "20260629",
-          "buy_price": 79.64,
-          "sell_date": "20260630",
-          "sell_price": 79.7,
-          "quantity": 100,
-          "profit": 6.0,
-          "profit_pct": 0.07533902561526871,
-          "hold_days": 1,
-          "stock_reason": "北向资金：成交量较均量1.2倍",
-          "timing_reason": "MACD绿柱缩脚; RSI超卖(22.2); 温和放量上涨",
-          "sell_reason": "跌破MA5; 跌破MA20"
-        },
-        {
-          "symbol": "600276",
-          "name": "恒瑞医药",
-          "buy_date": "20260629",
-          "buy_price": 52.93,
-          "sell_date": "20260701",
-          "sell_price": 53.78,
-          "quantity": 100,
-          "profit": 85.0,
-          "profit_pct": 1.6058945777441904,
-          "hold_days": 2,
-          "stock_reason": "北向资金：成交量较均量1.2倍",
-          "timing_reason": "回踩MA5; 温和放量上涨; 均线多头排列",
-          "sell_reason": "RSI超买(71.8)"
-        },
-        {
-          "symbol": "002594",
-          "name": "比亚迪",
-          "buy_date": "20260630",
-          "buy_price": 79.7,
-          "sell_date": "20260701",
-          "sell_price": 80.66,
-          "quantity": 100,
-          "profit": 96.0,
-          "profit_pct": 1.204516938519448,
-          "hold_days": 1,
-          "stock_reason": "北向资金：成交量较均量1.2倍",
-          "timing_reason": "MACD绿柱缩脚; KDJ金叉; RSI超卖(19.7); 温和放量上涨",
-          "sell_reason": "跌破MA20"
-        },
-        {
-          "symbol": "002594",
-          "name": "比亚迪",
-          "buy_date": "20260701",
-          "buy_price": 80.66,
-          "sell_date": "20260702",
-          "sell_price": 83.57,
-          "quantity": 100,
-          "profit": 291.0,
-          "profit_pct": 3.6077361765435163,
-          "hold_days": 1,
-          "stock_reason": "北向资金：成交量较均量1.2倍",
-          "timing_reason": "回踩MA5; MACD绿柱缩脚; RSI超卖(25.2); 温和放量上涨",
-          "sell_reason": "跌破MA20"
-        },
-        {
-          "symbol": "600276",
-          "name": "恒瑞医药",
-          "buy_date": "20260701",
-          "buy_price": 53.78,
-          "sell_date": "20260702",
-          "sell_price": 53.49,
-          "quantity": 100,
-          "profit": -29.0,
-          "profit_pct": -0.5392339159538861,
-          "hold_days": 1,
-          "stock_reason": "北向资金：成交量较均量1.2倍",
-          "timing_reason": "回踩MA5; 温和放量上涨; 均线多头排列",
-          "sell_reason": "RSI超买(70.6)"
-        },
-        {
-          "symbol": "600276",
-          "name": "恒瑞医药",
-          "buy_date": "20260702",
-          "buy_price": 53.49,
-          "sell_date": "20260706",
-          "sell_price": 56.77,
-          "quantity": 100,
-          "profit": 328.0,
-          "profit_pct": 6.131987287343429,
-          "hold_days": 2,
-          "stock_reason": "北向资金：成交量较均量1.2倍",
-          "timing_reason": "均线多头排列",
-          "sell_reason": "RSI超买(76.2)"
-        },
-        {
-          "symbol": "600276",
-          "name": "恒瑞医药",
-          "buy_date": "20260706",
-          "buy_price": 56.77,
-          "sell_date": "20260707",
-          "sell_price": 55.36,
-          "quantity": 100,
-          "profit": -141.0,
-          "profit_pct": -2.4837061828430507,
-          "hold_days": 1,
-          "stock_reason": "北向资金：成交量较均量1.2倍",
-          "timing_reason": "回踩MA5; 温和放量上涨; 均线多头排列",
-          "sell_reason": "MACD红柱缩短; RSI超买(72.5)"
-        },
-        {
-          "symbol": "600276",
-          "name": "恒瑞医药",
-          "buy_date": "20260707",
-          "buy_price": 55.36,
-          "sell_date": "20260708",
-          "sell_price": 54.01,
-          "quantity": 100,
-          "profit": -135.0,
-          "profit_pct": -2.4385838150289016,
-          "hold_days": 1,
-          "stock_reason": "北向资金：成交量较均量1.2倍",
-          "timing_reason": "均线多头排列",
-          "sell_reason": "MACD红柱缩短; KDJ高位死叉; 跌破MA5"
-        },
-        {
-          "symbol": "600276",
-          "name": "恒瑞医药",
-          "buy_date": "20260708",
-          "buy_price": 54.01,
-          "sell_date": "20260709",
-          "sell_price": 54.01,
-          "quantity": 100,
-          "profit": 0.0,
-          "profit_pct": 0.0,
-          "hold_days": 1,
-          "stock_reason": "北向资金：成交量较均量1.2倍",
-          "timing_reason": "均线多头排列",
-          "sell_reason": "MACD红柱缩短; KDJ高位死叉; 跌破MA5"
-        }
-      ],
-      "equity_curve": [
-        {
-          "date": "20260529",
-          "value": 30000.0
-        },
-        {
-          "date": "20260601",
-          "value": 29645.0
-        },
-        {
-          "date": "20260602",
-          "value": 29802.0
-        },
-        {
-          "date": "20260603",
-          "value": 29368.0
-        },
-        {
-          "date": "20260604",
-          "value": 29116.0
-        },
-        {
-          "date": "20260605",
-          "value": 29163.0
-        },
-        {
-          "date": "20260608",
-          "value": 28753.0
-        },
-        {
-          "date": "20260609",
-          "value": 28911.0
-        },
-        {
-          "date": "20260610",
-          "value": 28879.0
-        },
-        {
-          "date": "20260611",
-          "value": 28822.0
-        },
-        {
-          "date": "20260612",
-          "value": 29304.0
-        },
-        {
-          "date": "20260615",
-          "value": 29104.0
-        },
-        {
-          "date": "20260616",
-          "value": 28880.0
-        },
-        {
-          "date": "20260617",
-          "value": 28591.0
-        },
-        {
-          "date": "20260618",
-          "value": 28943.0
-        },
-        {
-          "date": "20260619",
-          "value": 28943.0
-        },
-        {
-          "date": "20260622",
-          "value": 29077.0
-        },
-        {
-          "date": "20260623",
-          "value": 28742.0
-        },
-        {
-          "date": "20260624",
-          "value": 28826.0
-        },
-        {
-          "date": "20260625",
-          "value": 28674.0
-        },
-        {
-          "date": "20260626",
-          "value": 28000.0
-        },
-        {
-          "date": "20260629",
-          "value": 28996.0
-        },
-        {
-          "date": "20260630",
-          "value": 28913.0
-        },
-        {
-          "date": "20260701",
-          "value": 29183.0
-        },
-        {
-          "date": "20260702",
-          "value": 29445.0
-        },
-        {
-          "date": "20260703",
-          "value": 30031.0
-        },
-        {
-          "date": "20260706",
-          "value": 30170.0
-        },
-        {
-          "date": "20260707",
-          "value": 29901.0
-        },
-        {
-          "date": "20260708",
-          "value": 29920.0
-        },
-        {
-          "date": "20260709",
-          "value": 29920.0
-        }
-      ]
+      "trades": [],
+      "equity_curve": []
     },
     {
       "name": "净利润增速",
@@ -9792,337 +9236,56 @@
       "version": "1.0.0",
       "description": "龙虎榜：机构和游资同时买入, 持有3天, 止损5%",
       "initial_capital": 30000,
-      "current_capital": 3033.0,
-      "total_value": 28664.0,
-      "total_return": -0.044533333333333334,
-      "monthly_return": -0.044533333333333334,
-      "sharpe_ratio": -0.886908880732904,
-      "max_drawdown": 0.0943084596835464,
-      "win_rate": 0.42028985507246375,
-      "realized_pnl": -1336.0,
-      "realized_pnl_pct": -4.45,
+      "current_capital": 3724.0,
+      "total_value": 30000.0,
+      "total_return": 0.0,
+      "monthly_return": 0.0,
+      "sharpe_ratio": 0,
+      "max_drawdown": 0,
+      "win_rate": 0,
+      "realized_pnl": 0.0,
+      "realized_pnl_pct": 0.0,
       "floating_pnl": 0.0,
       "floating_pnl_pct": 0.0,
-      "total_pnl": -1336.0,
-      "total_pnl_pct": -4.45,
+      "total_pnl": 0.0,
+      "total_pnl_pct": 0.0,
       "holdings": [
         {
           "symbol": "002594",
           "name": "比亚迪",
-          "buy_price": 83.57,
+          "buy_price": 87.8,
           "quantity": 100,
-          "buy_date": "20260702",
-          "cost": 8357.0,
+          "buy_date": "2026-07-09",
+          "cost": 8780.0,
           "stock_reason": "龙虎榜：趋势向上，活跃",
-          "timing_reason": "MACD绿柱缩脚; RSI超卖(35.8); 温和放量上涨",
-          "hold_days": 6,
-          "current_price": 87.8,
-          "profit": 423.0000000000004,
-          "profit_pct": 5.061624985042484
+          "timing_reason": "回踩MA5; 回踩MA20; 温和放量上涨",
+          "hold_days": 0
         },
         {
           "symbol": "600036",
           "name": "招商银行",
-          "buy_price": 36.83,
+          "buy_price": 37.94,
           "quantity": 200,
-          "buy_date": "20260703",
-          "cost": 7366.0,
+          "buy_date": "2026-07-09",
+          "cost": 7588.0,
           "stock_reason": "龙虎榜：趋势向上，活跃",
-          "timing_reason": "MACD绿柱缩脚; RSI超卖(31.5); 温和放量上涨",
-          "hold_days": 5,
-          "current_price": 37.94,
-          "profit": 221.9999999999999,
-          "profit_pct": 3.0138474070051573
+          "timing_reason": "回踩MA5; 回踩MA20; RSI超卖(48.0); 温和放量上涨",
+          "hold_days": 0
         },
         {
           "symbol": "601318",
           "name": "中国平安",
           "buy_price": 49.54,
           "quantity": 200,
-          "buy_date": "20260709",
+          "buy_date": "2026-07-09",
           "cost": 9908.0,
           "stock_reason": "龙虎榜：趋势向上，活跃",
           "timing_reason": "回踩MA5; RSI超卖(41.0)",
-          "hold_days": 1,
-          "current_price": 49.54,
-          "profit": 0.0,
-          "profit_pct": 0.0
+          "hold_days": 0
         }
       ],
-      "trades": [
-        {
-          "symbol": "601318",
-          "name": "中国平安",
-          "buy_date": "20260630",
-          "buy_price": 47.74,
-          "sell_date": "20260701",
-          "sell_price": 49.53,
-          "quantity": 200,
-          "profit": 358.0,
-          "profit_pct": 3.7494763301214915,
-          "hold_days": 1,
-          "stock_reason": "龙虎榜：趋势向上，活跃",
-          "timing_reason": "RSI超卖(37.7)",
-          "sell_reason": "跌破MA20"
-        },
-        {
-          "symbol": "002594",
-          "name": "比亚迪",
-          "buy_date": "20260701",
-          "buy_price": 80.66,
-          "sell_date": "20260702",
-          "sell_price": 83.57,
-          "quantity": 100,
-          "profit": 291.0,
-          "profit_pct": 3.6077361765435163,
-          "hold_days": 1,
-          "stock_reason": "龙虎榜：趋势向上，活跃",
-          "timing_reason": "回踩MA5; MACD绿柱缩脚; RSI超卖(25.2); 温和放量上涨",
-          "sell_reason": "跌破MA20"
-        },
-        {
-          "symbol": "600036",
-          "name": "招商银行",
-          "buy_date": "20260701",
-          "buy_price": 35.91,
-          "sell_date": "20260702",
-          "sell_price": 36.6,
-          "quantity": 200,
-          "profit": 138.0000000000009,
-          "profit_pct": 1.921470342522987,
-          "hold_days": 1,
-          "stock_reason": "龙虎榜：趋势向上，活跃",
-          "timing_reason": "MACD绿柱缩脚; RSI超卖(27.5); 温和放量上涨",
-          "sell_reason": "跌破MA20"
-        },
-        {
-          "symbol": "601318",
-          "name": "中国平安",
-          "buy_date": "20260701",
-          "buy_price": 49.53,
-          "sell_date": "20260702",
-          "sell_price": 48.92,
-          "quantity": 200,
-          "profit": -122.0,
-          "profit_pct": -1.2315768221280032,
-          "hold_days": 1,
-          "stock_reason": "龙虎榜：趋势向上，活跃",
-          "timing_reason": "回踩MA5; MACD绿柱缩脚; RSI超卖(40.2); 温和放量上涨",
-          "sell_reason": "跌破MA20"
-        },
-        {
-          "symbol": "600036",
-          "name": "招商银行",
-          "buy_date": "20260702",
-          "buy_price": 36.6,
-          "sell_date": "20260703",
-          "sell_price": 36.83,
-          "quantity": 200,
-          "profit": 46.0,
-          "profit_pct": 0.6284153005464481,
-          "hold_days": 1,
-          "stock_reason": "龙虎榜：趋势向上，活跃",
-          "timing_reason": "MACD绿柱缩脚; KDJ金叉; RSI超卖(35.1); 温和放量上涨",
-          "sell_reason": "跌破MA20"
-        },
-        {
-          "symbol": "601318",
-          "name": "中国平安",
-          "buy_date": "20260702",
-          "buy_price": 48.92,
-          "sell_date": "20260703",
-          "sell_price": 49.09,
-          "quantity": 200,
-          "profit": 34.0,
-          "profit_pct": 0.3475061324611611,
-          "hold_days": 1,
-          "stock_reason": "龙虎榜：趋势向上，活跃",
-          "timing_reason": "MACD绿柱缩脚; KDJ金叉; RSI超卖(40.1)",
-          "sell_reason": "跌破MA20"
-        },
-        {
-          "symbol": "601318",
-          "name": "中国平安",
-          "buy_date": "20260703",
-          "buy_price": 49.09,
-          "sell_date": "20260706",
-          "sell_price": 50.1,
-          "quantity": 200,
-          "profit": 202.0,
-          "profit_pct": 2.057445508250153,
-          "hold_days": 1,
-          "stock_reason": "龙虎榜：趋势向上，活跃",
-          "timing_reason": "回踩MA5; MACD绿柱缩脚; RSI超卖(36.0)",
-          "sell_reason": "跌破MA20"
-        },
-        {
-          "symbol": "601318",
-          "name": "中国平安",
-          "buy_date": "20260706",
-          "buy_price": 50.1,
-          "sell_date": "20260707",
-          "sell_price": 49.29,
-          "quantity": 100,
-          "profit": -81.0,
-          "profit_pct": -1.6167664670658684,
-          "hold_days": 1,
-          "stock_reason": "龙虎榜：趋势向上，活跃",
-          "timing_reason": "回踩MA5; MACD金叉; RSI超卖(38.8); 温和放量上涨",
-          "sell_reason": "跌破MA5; 跌破MA20"
-        },
-        {
-          "symbol": "601318",
-          "name": "中国平安",
-          "buy_date": "20260707",
-          "buy_price": 49.29,
-          "sell_date": "20260708",
-          "sell_price": 49.54,
-          "quantity": 200,
-          "profit": 50.0,
-          "profit_pct": 0.5072022722661798,
-          "hold_days": 1,
-          "stock_reason": "龙虎榜：趋势向上，活跃",
-          "timing_reason": "KDJ超卖金叉; RSI超卖(39.7)",
-          "sell_reason": "跌破MA20"
-        },
-        {
-          "symbol": "601318",
-          "name": "中国平安",
-          "buy_date": "20260708",
-          "buy_price": 49.54,
-          "sell_date": "20260709",
-          "sell_price": 49.54,
-          "quantity": 200,
-          "profit": 0.0,
-          "profit_pct": 0.0,
-          "hold_days": 1,
-          "stock_reason": "龙虎榜：趋势向上，活跃",
-          "timing_reason": "回踩MA5; RSI超卖(41.0)",
-          "sell_reason": "跌破MA20"
-        }
-      ],
-      "equity_curve": [
-        {
-          "date": "20260529",
-          "value": 30000.0
-        },
-        {
-          "date": "20260601",
-          "value": 29819.0
-        },
-        {
-          "date": "20260602",
-          "value": 30273.0
-        },
-        {
-          "date": "20260603",
-          "value": 29982.0
-        },
-        {
-          "date": "20260604",
-          "value": 29718.0
-        },
-        {
-          "date": "20260605",
-          "value": 29795.0
-        },
-        {
-          "date": "20260608",
-          "value": 29588.0
-        },
-        {
-          "date": "20260609",
-          "value": 29709.0
-        },
-        {
-          "date": "20260610",
-          "value": 29737.0
-        },
-        {
-          "date": "20260611",
-          "value": 29594.0
-        },
-        {
-          "date": "20260612",
-          "value": 30033.0
-        },
-        {
-          "date": "20260615",
-          "value": 29899.0
-        },
-        {
-          "date": "20260616",
-          "value": 29581.0
-        },
-        {
-          "date": "20260617",
-          "value": 29273.0
-        },
-        {
-          "date": "20260618",
-          "value": 28807.0
-        },
-        {
-          "date": "20260619",
-          "value": 28807.0
-        },
-        {
-          "date": "20260622",
-          "value": 29351.0
-        },
-        {
-          "date": "20260623",
-          "value": 28884.0
-        },
-        {
-          "date": "20260624",
-          "value": 28458.0
-        },
-        {
-          "date": "20260625",
-          "value": 28278.0
-        },
-        {
-          "date": "20260626",
-          "value": 27418.0
-        },
-        {
-          "date": "20260629",
-          "value": 27920.0
-        },
-        {
-          "date": "20260630",
-          "value": 27570.0
-        },
-        {
-          "date": "20260701",
-          "value": 28106.0
-        },
-        {
-          "date": "20260702",
-          "value": 28413.0
-        },
-        {
-          "date": "20260703",
-          "value": 28983.0
-        },
-        {
-          "date": "20260706",
-          "value": 29272.0
-        },
-        {
-          "date": "20260707",
-          "value": 29027.0
-        },
-        {
-          "date": "20260708",
-          "value": 29309.0
-        },
-        {
-          "date": "20260709",
-          "value": 29309.0
-        }
-      ]
+      "trades": [],
+      "equity_curve": []
     },
     {
       "name": "北向重仓",
@@ -11786,6 +10949,293 @@
       "backtest_start": "2026-05-26",
       "backtest_end": "2026-07-07",
       "backtest_days": 30
+    },
+    {
+      "name": "研报推荐",
+      "category": "事件驱动",
+      "version": "1.0.0",
+      "description": "研报推荐：至少1家券商推荐，目标价空间>10%",
+      "initial_capital": 30000,
+      "current_capital": 6676.0,
+      "total_value": 30000.0,
+      "total_return": 0.0,
+      "monthly_return": 0.0,
+      "sharpe_ratio": 0,
+      "max_drawdown": 0,
+      "win_rate": 0,
+      "realized_pnl": 0.0,
+      "realized_pnl_pct": 0.0,
+      "floating_pnl": 0.0,
+      "floating_pnl_pct": 0.0,
+      "total_pnl": 0.0,
+      "total_pnl_pct": 0.0,
+      "holdings": [
+        {
+          "symbol": "300496",
+          "name": "中科创达",
+          "buy_price": 58.28,
+          "quantity": 100,
+          "buy_date": "2026-07-09",
+          "cost": 5828.0,
+          "stock_reason": "研报推荐：券商看好",
+          "timing_reason": "RSI超卖(43.3); 温和放量上涨",
+          "hold_days": 0
+        },
+        {
+          "symbol": "600036",
+          "name": "招商银行",
+          "buy_price": 37.94,
+          "quantity": 200,
+          "buy_date": "2026-07-09",
+          "cost": 7588.0,
+          "stock_reason": "研报推荐：券商看好",
+          "timing_reason": "回踩MA5; 回踩MA20; RSI超卖(48.0); 温和放量上涨",
+          "hold_days": 0
+        },
+        {
+          "symbol": "601318",
+          "name": "中国平安",
+          "buy_price": 49.54,
+          "quantity": 200,
+          "buy_date": "2026-07-09",
+          "cost": 9908.0,
+          "stock_reason": "研报推荐：券商看好",
+          "timing_reason": "回踩MA5; RSI超卖(41.0)",
+          "hold_days": 0
+        }
+      ],
+      "trades": [],
+      "equity_curve": []
+    },
+    {
+      "name": "资金流事件",
+      "category": "事件驱动",
+      "version": "1.0.0",
+      "description": "资金流事件：连续5日净流入，主力占比>3%，持有5天",
+      "initial_capital": 30000,
+      "current_capital": 15819.0,
+      "total_value": 30000.0,
+      "total_return": 0.0,
+      "monthly_return": 0.0,
+      "sharpe_ratio": 0,
+      "max_drawdown": 0,
+      "win_rate": 0,
+      "realized_pnl": 0.0,
+      "realized_pnl_pct": 0.0,
+      "floating_pnl": 0.0,
+      "floating_pnl_pct": 0.0,
+      "total_pnl": 0.0,
+      "total_pnl_pct": 0.0,
+      "holdings": [
+        {
+          "symbol": "002594",
+          "name": "比亚迪",
+          "buy_price": 87.8,
+          "quantity": 100,
+          "buy_date": "2026-07-09",
+          "cost": 8780.0,
+          "stock_reason": "资金流事件：成交量持续放大，较均量1.2倍",
+          "timing_reason": "回踩MA5; 回踩MA20; 温和放量上涨",
+          "hold_days": 0
+        },
+        {
+          "symbol": "600276",
+          "name": "恒瑞医药",
+          "buy_price": 54.01,
+          "quantity": 100,
+          "buy_date": "2026-07-09",
+          "cost": 5401.0,
+          "stock_reason": "资金流事件：成交量持续放大，较均量1.2倍",
+          "timing_reason": "均线多头排列",
+          "hold_days": 0
+        }
+      ],
+      "trades": [],
+      "equity_curve": []
+    },
+    {
+      "name": "业绩暴增",
+      "category": "事件驱动",
+      "version": "1.0.0",
+      "description": "业绩暴增：净利增速>30%, 营收增速>20%, 持有15天",
+      "initial_capital": 30000,
+      "current_capital": 10337.0,
+      "total_value": 30000.0,
+      "total_return": 0.0,
+      "monthly_return": 0.0,
+      "sharpe_ratio": 0,
+      "max_drawdown": 0,
+      "win_rate": 0,
+      "realized_pnl": 0.0,
+      "realized_pnl_pct": 0.0,
+      "floating_pnl": 0.0,
+      "floating_pnl_pct": 0.0,
+      "total_pnl": 0.0,
+      "total_pnl_pct": 0.0,
+      "holdings": [
+        {
+          "symbol": "300496",
+          "name": "中科创达",
+          "buy_price": 58.28,
+          "quantity": 100,
+          "buy_date": "2026-07-09",
+          "cost": 5828.0,
+          "stock_reason": "业绩暴增：净利增速>30%",
+          "timing_reason": "RSI超卖(43.3); 温和放量上涨",
+          "hold_days": 0
+        },
+        {
+          "symbol": "002475",
+          "name": "立讯精密",
+          "buy_price": 62.47,
+          "quantity": 100,
+          "buy_date": "2026-07-09",
+          "cost": 6247.0,
+          "stock_reason": "业绩暴增：净利增速>30%",
+          "timing_reason": "MACD绿柱缩脚; RSI超卖(44.1)",
+          "hold_days": 0
+        },
+        {
+          "symbol": "600036",
+          "name": "招商银行",
+          "buy_price": 37.94,
+          "quantity": 200,
+          "buy_date": "2026-07-09",
+          "cost": 7588.0,
+          "stock_reason": "业绩暴增：净利增速>30%",
+          "timing_reason": "回踩MA5; 回踩MA20; RSI超卖(48.0); 温和放量上涨",
+          "hold_days": 0
+        }
+      ],
+      "trades": [],
+      "equity_curve": []
+    },
+    {
+      "name": "短线动量",
+      "category": "技术面",
+      "version": "1.0.0",
+      "description": "短线动量：近5日涨幅前20%, 持有5天, 止损3%",
+      "initial_capital": 30000,
+      "current_capital": 22412.0,
+      "total_value": 30000.0,
+      "total_return": 0.0,
+      "monthly_return": 0.0,
+      "sharpe_ratio": 0,
+      "max_drawdown": 0,
+      "win_rate": 0,
+      "realized_pnl": 0.0,
+      "realized_pnl_pct": 0.0,
+      "floating_pnl": 0.0,
+      "floating_pnl_pct": 0.0,
+      "total_pnl": 0.0,
+      "total_pnl_pct": 0.0,
+      "holdings": [
+        {
+          "symbol": "600036",
+          "name": "招商银行",
+          "buy_price": 37.94,
+          "quantity": 200,
+          "buy_date": "2026-07-09",
+          "cost": 7588.0,
+          "stock_reason": "短线动量：近5日+3.7%, 量能0.8倍",
+          "timing_reason": "回踩MA5; 回踩MA20; RSI超卖(48.0); 温和放量上涨",
+          "hold_days": 0
+        }
+      ],
+      "trades": [],
+      "equity_curve": []
+    },
+    {
+      "name": "反过度自信",
+      "category": "逆向策略",
+      "version": "1.0.0",
+      "description": "反过度自信：跌幅10-30%, RSI<40，逆向买入",
+      "initial_capital": 30000,
+      "current_capital": 4339.0,
+      "total_value": 30000.0,
+      "total_return": 0.0,
+      "monthly_return": 0.0,
+      "sharpe_ratio": 0,
+      "max_drawdown": 0,
+      "win_rate": 0,
+      "realized_pnl": 0.0,
+      "realized_pnl_pct": 0.0,
+      "floating_pnl": 0.0,
+      "floating_pnl_pct": 0.0,
+      "total_pnl": 0.0,
+      "total_pnl_pct": 0.0,
+      "holdings": [
+        {
+          "symbol": "601318",
+          "name": "中国平安",
+          "buy_price": 49.54,
+          "quantity": 200,
+          "buy_date": "2026-07-09",
+          "cost": 9908.0,
+          "stock_reason": "反过度自信：近20日跌幅-6.9%, RSI=41.0",
+          "timing_reason": "回踩MA5; RSI超卖(41.0)",
+          "hold_days": 0
+        },
+        {
+          "symbol": "000858",
+          "name": "五粮液",
+          "buy_price": 71.48,
+          "quantity": 100,
+          "buy_date": "2026-07-09",
+          "cost": 7148.0,
+          "stock_reason": "反过度自信：近20日跌幅-9.7%, RSI=29.4",
+          "timing_reason": "RSI超卖(29.4)",
+          "hold_days": 0
+        },
+        {
+          "symbol": "601166",
+          "name": "兴业银行",
+          "buy_price": 17.21,
+          "quantity": 500,
+          "buy_date": "2026-07-09",
+          "cost": 8605.0,
+          "stock_reason": "反过度自信：近20日跌幅-6.4%, RSI=40.0",
+          "timing_reason": "回踩MA5; MACD绿柱缩脚; KDJ超卖金叉; RSI超卖(40.0); 温和放量上涨",
+          "hold_days": 0
+        }
+      ],
+      "trades": [],
+      "equity_curve": []
+    },
+    {
+      "name": "超跌反弹",
+      "category": "逆向策略",
+      "version": "1.0.0",
+      "description": "超跌反弹：跌幅>15%, RSI<35, 止损5%",
+      "initial_capital": 30000,
+      "current_capital": 23753.0,
+      "total_value": 30000.0,
+      "total_return": 0.0,
+      "monthly_return": 0.0,
+      "sharpe_ratio": 0,
+      "max_drawdown": 0,
+      "win_rate": 0,
+      "realized_pnl": 0.0,
+      "realized_pnl_pct": 0.0,
+      "floating_pnl": 0.0,
+      "floating_pnl_pct": 0.0,
+      "total_pnl": 0.0,
+      "total_pnl_pct": 0.0,
+      "holdings": [
+        {
+          "symbol": "002475",
+          "name": "立讯精密",
+          "buy_price": 62.47,
+          "quantity": 100,
+          "buy_date": "2026-07-09",
+          "cost": 6247.0,
+          "stock_reason": "超跌反弹：近10日跌幅-16.1%, RSI=44.1",
+          "timing_reason": "MACD绿柱缩脚; RSI超卖(44.1)",
+          "hold_days": 0
+        }
+      ],
+      "trades": [],
+      "equity_curve": []
     }
   ]
 }

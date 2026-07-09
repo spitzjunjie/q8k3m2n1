@@ -1,16 +1,16 @@
 {
-  "update_time": "2026-07-09 00:24:56",
+  "update_time": "2026-07-09 11:15:49",
   "backtest_type": "historical",
   "backtest_start": "20260526",
-  "backtest_end": "20260601",
-  "backtest_days": 5,
-  "strategy_count": 1,
+  "backtest_end": "20260709",
+  "backtest_days": 32,
+  "strategy_count": 5,
   "strategies": [
     {
-      "name": "行业动量",
-      "category": "轮动策略",
+      "name": "ROE选股",
+      "category": "盈利因子",
       "version": "1.0.0",
-      "description": "追强势行业：选取近20日涨幅最大的行业中的龙头股",
+      "description": "ROE选股",
       "initial_capital": 30000,
       "current_capital": 30000,
       "total_value": 30000,
@@ -29,13 +29,152 @@
       "trades": [],
       "equity_curve": [
         {
-          "date": "20260526",
+          "date": "20260528",
           "value": 30000
         },
         {
-          "date": "20260527",
+          "date": "20260529",
           "value": 30000
         },
+        {
+          "date": "20260601",
+          "value": 30000
+        },
+        {
+          "date": "20260602",
+          "value": 30000
+        },
+        {
+          "date": "20260603",
+          "value": 30000
+        },
+        {
+          "date": "20260604",
+          "value": 30000
+        },
+        {
+          "date": "20260605",
+          "value": 30000
+        },
+        {
+          "date": "20260608",
+          "value": 30000
+        },
+        {
+          "date": "20260609",
+          "value": 30000
+        },
+        {
+          "date": "20260610",
+          "value": 30000
+        },
+        {
+          "date": "20260611",
+          "value": 30000
+        },
+        {
+          "date": "20260612",
+          "value": 30000
+        },
+        {
+          "date": "20260615",
+          "value": 30000
+        },
+        {
+          "date": "20260616",
+          "value": 30000
+        },
+        {
+          "date": "20260617",
+          "value": 30000
+        },
+        {
+          "date": "20260618",
+          "value": 30000
+        },
+        {
+          "date": "20260622",
+          "value": 30000
+        },
+        {
+          "date": "20260623",
+          "value": 30000
+        },
+        {
+          "date": "20260624",
+          "value": 30000
+        },
+        {
+          "date": "20260625",
+          "value": 30000
+        },
+        {
+          "date": "20260626",
+          "value": 30000
+        },
+        {
+          "date": "20260629",
+          "value": 30000
+        },
+        {
+          "date": "20260630",
+          "value": 30000
+        },
+        {
+          "date": "20260701",
+          "value": 30000
+        },
+        {
+          "date": "20260702",
+          "value": 30000
+        },
+        {
+          "date": "20260703",
+          "value": 30000
+        },
+        {
+          "date": "20260706",
+          "value": 30000
+        },
+        {
+          "date": "20260707",
+          "value": 30000
+        },
+        {
+          "date": "20260708",
+          "value": 30000
+        },
+        {
+          "date": "20260709",
+          "value": 30000
+        }
+      ],
+      "backtest_start": "20260526",
+      "backtest_end": "20260709",
+      "backtest_days": 32
+    },
+    {
+      "name": "红利低波",
+      "category": "红利因子",
+      "version": "1.0.0",
+      "description": "红利低波",
+      "initial_capital": 30000,
+      "current_capital": 30000,
+      "total_value": 30000,
+      "total_return": 0.0,
+      "monthly_return": 0.0,
+      "sharpe_ratio": 0,
+      "max_drawdown": 0,
+      "win_rate": 0,
+      "realized_pnl": 0.0,
+      "realized_pnl_pct": 0.0,
+      "floating_pnl": 0.0,
+      "floating_pnl_pct": 0.0,
+      "total_pnl": 0.0,
+      "total_pnl_pct": 0.0,
+      "holdings": [],
+      "trades": [],
+      "equity_curve": [
         {
           "date": "20260528",
           "value": 30000
@@ -47,11 +186,560 @@
         {
           "date": "20260601",
           "value": 30000
+        },
+        {
+          "date": "20260602",
+          "value": 30000
+        },
+        {
+          "date": "20260603",
+          "value": 30000
+        },
+        {
+          "date": "20260604",
+          "value": 30000
+        },
+        {
+          "date": "20260605",
+          "value": 30000
+        },
+        {
+          "date": "20260608",
+          "value": 30000
+        },
+        {
+          "date": "20260609",
+          "value": 30000
+        },
+        {
+          "date": "20260610",
+          "value": 30000
+        },
+        {
+          "date": "20260611",
+          "value": 30000
+        },
+        {
+          "date": "20260612",
+          "value": 30000
+        },
+        {
+          "date": "20260615",
+          "value": 30000
+        },
+        {
+          "date": "20260616",
+          "value": 30000
+        },
+        {
+          "date": "20260617",
+          "value": 30000
+        },
+        {
+          "date": "20260618",
+          "value": 30000
+        },
+        {
+          "date": "20260622",
+          "value": 30000
+        },
+        {
+          "date": "20260623",
+          "value": 30000
+        },
+        {
+          "date": "20260624",
+          "value": 30000
+        },
+        {
+          "date": "20260625",
+          "value": 30000
+        },
+        {
+          "date": "20260626",
+          "value": 30000
+        },
+        {
+          "date": "20260629",
+          "value": 30000
+        },
+        {
+          "date": "20260630",
+          "value": 30000
+        },
+        {
+          "date": "20260701",
+          "value": 30000
+        },
+        {
+          "date": "20260702",
+          "value": 30000
+        },
+        {
+          "date": "20260703",
+          "value": 30000
+        },
+        {
+          "date": "20260706",
+          "value": 30000
+        },
+        {
+          "date": "20260707",
+          "value": 30000
+        },
+        {
+          "date": "20260708",
+          "value": 30000
+        },
+        {
+          "date": "20260709",
+          "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260601",
-      "backtest_days": 5
+      "backtest_end": "20260709",
+      "backtest_days": 32
+    },
+    {
+      "name": "高ROIC",
+      "category": "质量因子",
+      "version": "1.0.0",
+      "description": "高ROIC",
+      "initial_capital": 30000,
+      "current_capital": 30000,
+      "total_value": 30000,
+      "total_return": 0.0,
+      "monthly_return": 0.0,
+      "sharpe_ratio": 0,
+      "max_drawdown": 0,
+      "win_rate": 0,
+      "realized_pnl": 0.0,
+      "realized_pnl_pct": 0.0,
+      "floating_pnl": 0.0,
+      "floating_pnl_pct": 0.0,
+      "total_pnl": 0.0,
+      "total_pnl_pct": 0.0,
+      "holdings": [],
+      "trades": [],
+      "equity_curve": [
+        {
+          "date": "20260528",
+          "value": 30000
+        },
+        {
+          "date": "20260529",
+          "value": 30000
+        },
+        {
+          "date": "20260601",
+          "value": 30000
+        },
+        {
+          "date": "20260602",
+          "value": 30000
+        },
+        {
+          "date": "20260603",
+          "value": 30000
+        },
+        {
+          "date": "20260604",
+          "value": 30000
+        },
+        {
+          "date": "20260605",
+          "value": 30000
+        },
+        {
+          "date": "20260608",
+          "value": 30000
+        },
+        {
+          "date": "20260609",
+          "value": 30000
+        },
+        {
+          "date": "20260610",
+          "value": 30000
+        },
+        {
+          "date": "20260611",
+          "value": 30000
+        },
+        {
+          "date": "20260612",
+          "value": 30000
+        },
+        {
+          "date": "20260615",
+          "value": 30000
+        },
+        {
+          "date": "20260616",
+          "value": 30000
+        },
+        {
+          "date": "20260617",
+          "value": 30000
+        },
+        {
+          "date": "20260618",
+          "value": 30000
+        },
+        {
+          "date": "20260622",
+          "value": 30000
+        },
+        {
+          "date": "20260623",
+          "value": 30000
+        },
+        {
+          "date": "20260624",
+          "value": 30000
+        },
+        {
+          "date": "20260625",
+          "value": 30000
+        },
+        {
+          "date": "20260626",
+          "value": 30000
+        },
+        {
+          "date": "20260629",
+          "value": 30000
+        },
+        {
+          "date": "20260630",
+          "value": 30000
+        },
+        {
+          "date": "20260701",
+          "value": 30000
+        },
+        {
+          "date": "20260702",
+          "value": 30000
+        },
+        {
+          "date": "20260703",
+          "value": 30000
+        },
+        {
+          "date": "20260706",
+          "value": 30000
+        },
+        {
+          "date": "20260707",
+          "value": 30000
+        },
+        {
+          "date": "20260708",
+          "value": 30000
+        },
+        {
+          "date": "20260709",
+          "value": 30000
+        }
+      ],
+      "backtest_start": "20260526",
+      "backtest_end": "20260709",
+      "backtest_days": 32
+    },
+    {
+      "name": "分析师上调",
+      "category": "事件驱动",
+      "version": "1.0.0",
+      "description": "分析师评级上调，捕捉机构看好",
+      "initial_capital": 30000,
+      "current_capital": 30000,
+      "total_value": 30000,
+      "total_return": 0.0,
+      "monthly_return": 0.0,
+      "sharpe_ratio": 0,
+      "max_drawdown": 0,
+      "win_rate": 0,
+      "realized_pnl": 0.0,
+      "realized_pnl_pct": 0.0,
+      "floating_pnl": 0.0,
+      "floating_pnl_pct": 0.0,
+      "total_pnl": 0.0,
+      "total_pnl_pct": 0.0,
+      "holdings": [],
+      "trades": [],
+      "equity_curve": [
+        {
+          "date": "20260528",
+          "value": 30000
+        },
+        {
+          "date": "20260529",
+          "value": 30000
+        },
+        {
+          "date": "20260601",
+          "value": 30000
+        },
+        {
+          "date": "20260602",
+          "value": 30000
+        },
+        {
+          "date": "20260603",
+          "value": 30000
+        },
+        {
+          "date": "20260604",
+          "value": 30000
+        },
+        {
+          "date": "20260605",
+          "value": 30000
+        },
+        {
+          "date": "20260608",
+          "value": 30000
+        },
+        {
+          "date": "20260609",
+          "value": 30000
+        },
+        {
+          "date": "20260610",
+          "value": 30000
+        },
+        {
+          "date": "20260611",
+          "value": 30000
+        },
+        {
+          "date": "20260612",
+          "value": 30000
+        },
+        {
+          "date": "20260615",
+          "value": 30000
+        },
+        {
+          "date": "20260616",
+          "value": 30000
+        },
+        {
+          "date": "20260617",
+          "value": 30000
+        },
+        {
+          "date": "20260618",
+          "value": 30000
+        },
+        {
+          "date": "20260622",
+          "value": 30000
+        },
+        {
+          "date": "20260623",
+          "value": 30000
+        },
+        {
+          "date": "20260624",
+          "value": 30000
+        },
+        {
+          "date": "20260625",
+          "value": 30000
+        },
+        {
+          "date": "20260626",
+          "value": 30000
+        },
+        {
+          "date": "20260629",
+          "value": 30000
+        },
+        {
+          "date": "20260630",
+          "value": 30000
+        },
+        {
+          "date": "20260701",
+          "value": 30000
+        },
+        {
+          "date": "20260702",
+          "value": 30000
+        },
+        {
+          "date": "20260703",
+          "value": 30000
+        },
+        {
+          "date": "20260706",
+          "value": 30000
+        },
+        {
+          "date": "20260707",
+          "value": 30000
+        },
+        {
+          "date": "20260708",
+          "value": 30000
+        },
+        {
+          "date": "20260709",
+          "value": 30000
+        }
+      ],
+      "backtest_start": "20260526",
+      "backtest_end": "20260709",
+      "backtest_days": 32
+    },
+    {
+      "name": "动量反转",
+      "category": "事件驱动",
+      "version": "1.0.0",
+      "description": "前期跌幅大但基本面好，捕捉反弹",
+      "initial_capital": 30000,
+      "current_capital": 30000,
+      "total_value": 30000,
+      "total_return": 0.0,
+      "monthly_return": 0.0,
+      "sharpe_ratio": 0,
+      "max_drawdown": 0,
+      "win_rate": 0,
+      "realized_pnl": 0.0,
+      "realized_pnl_pct": 0.0,
+      "floating_pnl": 0.0,
+      "floating_pnl_pct": 0.0,
+      "total_pnl": 0.0,
+      "total_pnl_pct": 0.0,
+      "holdings": [],
+      "trades": [],
+      "equity_curve": [
+        {
+          "date": "20260528",
+          "value": 30000
+        },
+        {
+          "date": "20260529",
+          "value": 30000
+        },
+        {
+          "date": "20260601",
+          "value": 30000
+        },
+        {
+          "date": "20260602",
+          "value": 30000
+        },
+        {
+          "date": "20260603",
+          "value": 30000
+        },
+        {
+          "date": "20260604",
+          "value": 30000
+        },
+        {
+          "date": "20260605",
+          "value": 30000
+        },
+        {
+          "date": "20260608",
+          "value": 30000
+        },
+        {
+          "date": "20260609",
+          "value": 30000
+        },
+        {
+          "date": "20260610",
+          "value": 30000
+        },
+        {
+          "date": "20260611",
+          "value": 30000
+        },
+        {
+          "date": "20260612",
+          "value": 30000
+        },
+        {
+          "date": "20260615",
+          "value": 30000
+        },
+        {
+          "date": "20260616",
+          "value": 30000
+        },
+        {
+          "date": "20260617",
+          "value": 30000
+        },
+        {
+          "date": "20260618",
+          "value": 30000
+        },
+        {
+          "date": "20260622",
+          "value": 30000
+        },
+        {
+          "date": "20260623",
+          "value": 30000
+        },
+        {
+          "date": "20260624",
+          "value": 30000
+        },
+        {
+          "date": "20260625",
+          "value": 30000
+        },
+        {
+          "date": "20260626",
+          "value": 30000
+        },
+        {
+          "date": "20260629",
+          "value": 30000
+        },
+        {
+          "date": "20260630",
+          "value": 30000
+        },
+        {
+          "date": "20260701",
+          "value": 30000
+        },
+        {
+          "date": "20260702",
+          "value": 30000
+        },
+        {
+          "date": "20260703",
+          "value": 30000
+        },
+        {
+          "date": "20260706",
+          "value": 30000
+        },
+        {
+          "date": "20260707",
+          "value": 30000
+        },
+        {
+          "date": "20260708",
+          "value": 30000
+        },
+        {
+          "date": "20260709",
+          "value": 30000
+        }
+      ],
+      "backtest_start": "20260526",
+      "backtest_end": "20260709",
+      "backtest_days": 32
     }
   ]
 }

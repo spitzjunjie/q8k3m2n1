@@ -50,7 +50,10 @@ jobs:
           # 将Secrets写入环境变量，GitHub Actions自动注入
           echo "Tushare Token: ${TUSHARE_TOKEN:0:10}..."
           echo "::notice::API密钥已配置"
-      
+
+      - name: 预检策略文件
+        run: python verify_strategies.py
+
       - name: 运行回测
         run: |
           if [ "${{ inputs.backtest_type }}" == "historical" ]; then

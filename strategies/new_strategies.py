@@ -1,7 +1,7 @@
 """
 新策略注册 - 集成到主回测系统
 
-22个新开发的策略
+25个新开发的策略（新增3个S级策略）
 """
 
 from strategies.etf_rotation_strategy import ETFRotationStrategy
@@ -26,6 +26,16 @@ from strategies.low_pb_value_strategy import LowPBValueStrategy
 from strategies.KDJ_strategy import KDJStrategy
 from strategies.high_dividend_strategy import HighDividendStrategy
 from strategies.profit_exceeds_expectation_strategy import ProfitExceedsExpectationStrategy
+# 新增3个S级策略
+from strategies.institution_research_strategy import InstitutionResearchStrategy
+from strategies.earnings_preview_strategy import EarningsPreviewStrategy
+from strategies.northbound_change_strategy import NorthboundChangeStrategy
+# 新增5个S级策略v2
+from strategies.monthly_weekly_daily import MonthlyWeeklyDailyStrategy
+from strategies.major_capital_flow import MajorCapitalFlowStrategy
+from strategies.institution_survey import InstitutionSurveyStrategy
+from strategies.north_money_timing import NorthMoneyTimingStrategy
+from strategies.earnings_surprise_v2 import EarningsSurpriseV2Strategy
 
 # 新策略注册表
 NEW_STRATEGIES = {
@@ -160,6 +170,56 @@ NEW_STRATEGIES = {
         'category': '事件驱动',
         'risk': '中',
         'description': '业绩超预期事件'
+    },
+    # 新增3个S级策略
+    '机构调研': {
+        'class': InstitutionResearchStrategy,
+        'category': '事件驱动',
+        'risk': '中',
+        'description': '机构调研后买入，专业资金关注'
+    },
+    '业绩预告超预期': {
+        'class': EarningsPreviewStrategy,
+        'category': '事件驱动',
+        'risk': '中',
+        'description': '业绩预告净利润增速>20%'
+    },
+    '北向持仓变化': {
+        'class': NorthboundChangeStrategy,
+        'category': '资金流',
+        'risk': '中',
+        'description': '北向资金快速增持'
+    },
+    # 新增5个S级策略v2
+    '多周期共振Pro': {
+        'class': MonthlyWeeklyDailyStrategy,
+        'category': '趋势策略',
+        'risk': '中',
+        'description': '日周月三周期共振，多时间框架确认'
+    },
+    '主力资金流向': {
+        'class': MajorCapitalFlowStrategy,
+        'category': '资金流',
+        'risk': '中',
+        'description': '追踪主力资金净流入，聪明钱信号'
+    },
+    '机构调研效应': {
+        'class': InstitutionSurveyStrategy,
+        'category': '事件驱动',
+        'risk': '中',
+        'description': '机构调研后效应，专业资金关注'
+    },
+    '北向资金择时': {
+        'class': NorthMoneyTimingStrategy,
+        'category': '资金流',
+        'risk': '中',
+        'description': '北向资金持仓变化择时'
+    },
+    '财报季惊喜': {
+        'class': EarningsSurpriseV2Strategy,
+        'category': '事件驱动',
+        'risk': '中',
+        'description': '业绩改善信号，财报季alpha'
     },
 }
 

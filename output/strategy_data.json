@@ -1,10 +1,10 @@
 {
-  "update_time": "2026-07-09 14:47:02",
+  "update_time": "2026-07-09 20:15:33",
   "backtest_type": "historical",
   "backtest_start": "2026-05-26",
   "backtest_end": "2026-07-07",
   "backtest_days": 30,
-  "strategy_count": 47,
+  "strategy_count": 50,
   "strategies": [
     {
       "name": "多周期共振",
@@ -12383,6 +12383,882 @@
           "value": 30000.0
         }
       ]
+    },
+    {
+      "name": "月线共振",
+      "category": "多时间框架",
+      "version": "1.0.0",
+      "description": "月线+周线+日线三周期共振",
+      "initial_capital": 30000,
+      "current_capital": 6977.0,
+      "total_value": 30751.0,
+      "total_return": 0.025033333333333335,
+      "monthly_return": 0.025033333333333335,
+      "sharpe_ratio": 2.504698417713571,
+      "max_drawdown": 0.015633333333333332,
+      "win_rate": 0.8,
+      "realized_pnl": 345.0,
+      "realized_pnl_pct": 1.15,
+      "floating_pnl": 406.0,
+      "floating_pnl_pct": 1.35,
+      "total_pnl": 751.0,
+      "total_pnl_pct": 2.5,
+      "holdings": [
+        {
+          "symbol": "600036.SH",
+          "name": "600036.SH",
+          "buy_price": 36.6,
+          "quantity": 200,
+          "buy_date": "20260702",
+          "cost": 7320.0,
+          "stock_reason": "月线共振：月MA5=37.52上穿月MA20=37.36",
+          "timing_reason": "MACD绿柱缩脚; KDJ金叉; RSI超卖(35.1); 温和放量上涨",
+          "hold_days": 6,
+          "current_price": 37.55,
+          "profit": 189.99999999999915,
+          "profit_pct": 2.595628415300535
+        },
+        {
+          "symbol": "600900.SH",
+          "name": "600900.SH",
+          "buy_price": 27.05,
+          "quantity": 300,
+          "buy_date": "20260703",
+          "cost": 8115.0,
+          "stock_reason": "月线共振：月MA5=27.45上穿月MA20=27.10",
+          "timing_reason": "MACD绿柱缩脚; KDJ超卖金叉; RSI超卖(35.3); 温和放量上涨",
+          "hold_days": 5,
+          "current_price": 27.77,
+          "profit": 215.99999999999966,
+          "profit_pct": 2.661737523105356
+        },
+        {
+          "symbol": "000333.SZ",
+          "name": "000333.SZ",
+          "buy_price": 79.33,
+          "quantity": 100,
+          "buy_date": "20260709",
+          "cost": 7933.0,
+          "stock_reason": "月线共振：月MA5=79.16上穿月MA20=78.84",
+          "timing_reason": "回踩MA5; 回踩MA20",
+          "hold_days": 1,
+          "current_price": 79.33,
+          "profit": 0.0,
+          "profit_pct": 0.0
+        }
+      ],
+      "trades": [
+        {
+          "symbol": "600036.SH",
+          "name": "600036.SH",
+          "buy_date": "20260629",
+          "buy_price": 36.42,
+          "sell_date": "20260630",
+          "sell_price": 35.5,
+          "quantity": 200,
+          "profit": -184.0,
+          "profit_pct": -2.5260845689181766,
+          "hold_days": 1,
+          "stock_reason": "月线共振：月MA5=37.52上穿月MA20=37.36",
+          "timing_reason": "MACD绿柱缩脚; RSI超卖(31.9); 温和放量上涨",
+          "sell_reason": "跌破MA5; 跌破MA20"
+        },
+        {
+          "symbol": "600900.SH",
+          "name": "600900.SH",
+          "buy_date": "20260629",
+          "buy_price": 26.84,
+          "sell_date": "20260630",
+          "sell_price": 26.47,
+          "quantity": 300,
+          "profit": -111.0,
+          "profit_pct": -1.3785394932935917,
+          "hold_days": 1,
+          "stock_reason": "月线共振：月MA5=27.45上穿月MA20=27.10",
+          "timing_reason": "回踩MA5; MACD绿柱缩脚; KDJ金叉; RSI超卖(41.6); 温和放量上涨",
+          "sell_reason": "跌破MA5; 跌破MA20"
+        },
+        {
+          "symbol": "000333.SZ",
+          "name": "000333.SZ",
+          "buy_date": "20260629",
+          "buy_price": 77.27,
+          "sell_date": "20260701",
+          "sell_price": 77.4,
+          "quantity": 100,
+          "profit": 13.00000000000091,
+          "profit_pct": 0.16824123204349567,
+          "hold_days": 2,
+          "stock_reason": "月线共振：月MA5=79.16上穿月MA20=78.84",
+          "timing_reason": "MACD绿柱缩脚; RSI超卖(33.3)",
+          "sell_reason": "跌破MA20"
+        },
+        {
+          "symbol": "600900.SH",
+          "name": "600900.SH",
+          "buy_date": "20260630",
+          "buy_price": 26.47,
+          "sell_date": "20260701",
+          "sell_price": 26.64,
+          "quantity": 300,
+          "profit": 51.0,
+          "profit_pct": 0.6422364941443143,
+          "hold_days": 1,
+          "stock_reason": "月线共振：月MA5=27.45上穿月MA20=27.10",
+          "timing_reason": "MACD绿柱缩脚; RSI超卖(36.4)",
+          "sell_reason": "跌破MA20"
+        },
+        {
+          "symbol": "600036.SH",
+          "name": "600036.SH",
+          "buy_date": "20260630",
+          "buy_price": 35.5,
+          "sell_date": "20260702",
+          "sell_price": 36.6,
+          "quantity": 200,
+          "profit": 220.0,
+          "profit_pct": 3.0985915492957745,
+          "hold_days": 2,
+          "stock_reason": "月线共振：月MA5=37.52上穿月MA20=37.36",
+          "timing_reason": "RSI超卖(27.5)",
+          "sell_reason": "跌破MA20"
+        },
+        {
+          "symbol": "600900.SH",
+          "name": "600900.SH",
+          "buy_date": "20260701",
+          "buy_price": 26.64,
+          "sell_date": "20260702",
+          "sell_price": 26.95,
+          "quantity": 300,
+          "profit": 93.0,
+          "profit_pct": 1.1636636636636637,
+          "hold_days": 1,
+          "stock_reason": "月线共振：月MA5=27.45上穿月MA20=27.10",
+          "timing_reason": "回踩MA5; MACD绿柱缩脚; KDJ金叉; RSI超卖(38.0); 温和放量上涨",
+          "sell_reason": "跌破MA20"
+        },
+        {
+          "symbol": "000333.SZ",
+          "name": "000333.SZ",
+          "buy_date": "20260701",
+          "buy_price": 77.4,
+          "sell_date": "20260703",
+          "sell_price": 77.96,
+          "quantity": 100,
+          "profit": 55.99999999999818,
+          "profit_pct": 0.7235142118862814,
+          "hold_days": 2,
+          "stock_reason": "月线共振：月MA5=79.16上穿月MA20=78.84",
+          "timing_reason": "回踩MA5; MACD绿柱缩脚; KDJ金叉; RSI超卖(32.3); 温和放量上涨",
+          "sell_reason": "跌破MA20"
+        },
+        {
+          "symbol": "600900.SH",
+          "name": "600900.SH",
+          "buy_date": "20260702",
+          "buy_price": 26.95,
+          "sell_date": "20260703",
+          "sell_price": 27.05,
+          "quantity": 300,
+          "profit": 30.0,
+          "profit_pct": 0.3710575139146568,
+          "hold_days": 1,
+          "stock_reason": "月线共振：月MA5=27.45上穿月MA20=27.10",
+          "timing_reason": "回踩MA5; MACD绿柱缩脚; RSI超卖(39.5); 温和放量上涨",
+          "sell_reason": "跌破MA20"
+        },
+        {
+          "symbol": "000333.SZ",
+          "name": "000333.SZ",
+          "buy_date": "20260703",
+          "buy_price": 77.96,
+          "sell_date": "20260707",
+          "sell_price": 79.12,
+          "quantity": 100,
+          "profit": 116.00000000000091,
+          "profit_pct": 1.4879425346331572,
+          "hold_days": 2,
+          "stock_reason": "月线共振：月MA5=79.16上穿月MA20=78.84",
+          "timing_reason": "MACD绿柱缩脚; KDJ超卖金叉; RSI超卖(33.6); 温和放量上涨",
+          "sell_reason": "跌破MA20"
+        },
+        {
+          "symbol": "002594.SZ",
+          "name": "002594.SZ",
+          "buy_date": "20260707",
+          "buy_price": 86.26,
+          "sell_date": "20260709",
+          "sell_price": 86.87,
+          "quantity": 100,
+          "profit": 61.0,
+          "profit_pct": 0.7071643867377696,
+          "hold_days": 2,
+          "stock_reason": "月线共振：月MA5=87.39上穿月MA20=85.71",
+          "timing_reason": "回踩MA20; RSI超卖(43.3)",
+          "sell_reason": "跌破MA5"
+        }
+      ],
+      "equity_curve": [
+        {
+          "date": "20260528",
+          "value": 30000
+        },
+        {
+          "date": "20260529",
+          "value": 30000
+        },
+        {
+          "date": "20260601",
+          "value": 30000
+        },
+        {
+          "date": "20260602",
+          "value": 30000
+        },
+        {
+          "date": "20260603",
+          "value": 30000
+        },
+        {
+          "date": "20260604",
+          "value": 30000
+        },
+        {
+          "date": "20260605",
+          "value": 30000
+        },
+        {
+          "date": "20260608",
+          "value": 30000
+        },
+        {
+          "date": "20260609",
+          "value": 30000
+        },
+        {
+          "date": "20260610",
+          "value": 30000
+        },
+        {
+          "date": "20260611",
+          "value": 30000
+        },
+        {
+          "date": "20260612",
+          "value": 30000
+        },
+        {
+          "date": "20260615",
+          "value": 30000
+        },
+        {
+          "date": "20260616",
+          "value": 30000
+        },
+        {
+          "date": "20260617",
+          "value": 30000
+        },
+        {
+          "date": "20260618",
+          "value": 30000
+        },
+        {
+          "date": "20260622",
+          "value": 30000
+        },
+        {
+          "date": "20260623",
+          "value": 30000
+        },
+        {
+          "date": "20260624",
+          "value": 30000
+        },
+        {
+          "date": "20260625",
+          "value": 30000
+        },
+        {
+          "date": "20260626",
+          "value": 30000
+        },
+        {
+          "date": "20260629",
+          "value": 30000.0
+        },
+        {
+          "date": "20260630",
+          "value": 29531.0
+        },
+        {
+          "date": "20260701",
+          "value": 29851.0
+        },
+        {
+          "date": "20260702",
+          "value": 30043.0
+        },
+        {
+          "date": "20260703",
+          "value": 30214.0
+        },
+        {
+          "date": "20260706",
+          "value": 30640.0
+        },
+        {
+          "date": "20260707",
+          "value": 30582.0
+        },
+        {
+          "date": "20260708",
+          "value": 30940.0
+        },
+        {
+          "date": "20260709",
+          "value": 30751.0
+        }
+      ],
+      "backtest_start": "20260526",
+      "backtest_end": "20260709",
+      "backtest_days": 32
+    },
+    {
+      "name": "北向择时",
+      "category": "资金流向",
+      "version": "1.0.0",
+      "description": "北向资金加减仓择时，RSI未超买，持有5天",
+      "initial_capital": 30000,
+      "current_capital": 23282.0,
+      "total_value": 30494.0,
+      "total_return": 0.016466666666666668,
+      "monthly_return": 0.016466666666666668,
+      "sharpe_ratio": 1.997432639743073,
+      "max_drawdown": 0.01077572216812723,
+      "win_rate": 0.8,
+      "realized_pnl": 494.0,
+      "realized_pnl_pct": 1.65,
+      "floating_pnl": 0.0,
+      "floating_pnl_pct": 0.0,
+      "total_pnl": 494.0,
+      "total_pnl_pct": 1.65,
+      "holdings": [
+        {
+          "symbol": "600150.SH",
+          "name": "600150.SH",
+          "buy_price": 36.06,
+          "quantity": 200,
+          "buy_date": "20260709",
+          "cost": 7212.0,
+          "stock_reason": "北向择时：RSI=49.7, 量比=1.2倍",
+          "timing_reason": "回踩MA20; RSI超卖(49.7); 温和放量上涨",
+          "hold_days": 1,
+          "current_price": 36.06,
+          "profit": 0.0,
+          "profit_pct": 0.0
+        }
+      ],
+      "trades": [
+        {
+          "symbol": "600150.SH",
+          "name": "600150.SH",
+          "buy_date": "20260629",
+          "buy_price": 33.59,
+          "sell_date": "20260630",
+          "sell_price": 33.79,
+          "quantity": 200,
+          "profit": 39.99999999999909,
+          "profit_pct": 0.5954153021732522,
+          "hold_days": 1,
+          "stock_reason": "北向择时：RSI=49.7, 量比=1.2倍",
+          "timing_reason": "RSI超卖(43.9); 温和放量上涨",
+          "sell_reason": "跌破MA5; 跌破MA20"
+        },
+        {
+          "symbol": "600150.SH",
+          "name": "600150.SH",
+          "buy_date": "20260630",
+          "buy_price": 33.79,
+          "sell_date": "20260701",
+          "sell_price": 35.19,
+          "quantity": 200,
+          "profit": 280.0,
+          "profit_pct": 4.143237644273453,
+          "hold_days": 1,
+          "stock_reason": "北向择时：RSI=49.7, 量比=1.2倍",
+          "timing_reason": "RSI超卖(45.8); 温和放量上涨",
+          "sell_reason": "跌破MA20"
+        },
+        {
+          "symbol": "600150.SH",
+          "name": "600150.SH",
+          "buy_date": "20260701",
+          "buy_price": 35.19,
+          "sell_date": "20260702",
+          "sell_price": 34.36,
+          "quantity": 200,
+          "profit": -166.0,
+          "profit_pct": -2.358624609263995,
+          "hold_days": 1,
+          "stock_reason": "北向择时：RSI=49.7, 量比=1.2倍",
+          "timing_reason": "回踩MA5; MACD绿柱缩脚; KDJ超卖金叉; 温和放量上涨",
+          "sell_reason": "跌破MA20"
+        },
+        {
+          "symbol": "600150.SH",
+          "name": "600150.SH",
+          "buy_date": "20260702",
+          "buy_price": 34.36,
+          "sell_date": "20260708",
+          "sell_price": 35.98,
+          "quantity": 200,
+          "profit": 323.9999999999991,
+          "profit_pct": 4.714784633294515,
+          "hold_days": 4,
+          "stock_reason": "北向择时：RSI=49.7, 量比=1.2倍",
+          "timing_reason": "MACD绿柱缩脚; RSI超卖(49.6)",
+          "sell_reason": "MACD红柱缩短; 跌破MA5"
+        },
+        {
+          "symbol": "600150.SH",
+          "name": "600150.SH",
+          "buy_date": "20260708",
+          "buy_price": 35.98,
+          "sell_date": "20260709",
+          "sell_price": 36.06,
+          "quantity": 200,
+          "profit": 16.00000000000091,
+          "profit_pct": 0.22234574763758908,
+          "hold_days": 1,
+          "stock_reason": "北向择时：RSI=49.7, 量比=1.2倍",
+          "timing_reason": "回踩MA20; RSI超卖(45.7)",
+          "sell_reason": "MACD红柱缩短; 跌破MA5"
+        }
+      ],
+      "equity_curve": [
+        {
+          "date": "20260528",
+          "value": 30000
+        },
+        {
+          "date": "20260529",
+          "value": 30000
+        },
+        {
+          "date": "20260601",
+          "value": 30000
+        },
+        {
+          "date": "20260602",
+          "value": 30000
+        },
+        {
+          "date": "20260603",
+          "value": 30000
+        },
+        {
+          "date": "20260604",
+          "value": 30000
+        },
+        {
+          "date": "20260605",
+          "value": 30000
+        },
+        {
+          "date": "20260608",
+          "value": 30000
+        },
+        {
+          "date": "20260609",
+          "value": 30000
+        },
+        {
+          "date": "20260610",
+          "value": 30000
+        },
+        {
+          "date": "20260611",
+          "value": 30000
+        },
+        {
+          "date": "20260612",
+          "value": 30000
+        },
+        {
+          "date": "20260615",
+          "value": 30000
+        },
+        {
+          "date": "20260616",
+          "value": 30000
+        },
+        {
+          "date": "20260617",
+          "value": 30000
+        },
+        {
+          "date": "20260618",
+          "value": 30000
+        },
+        {
+          "date": "20260622",
+          "value": 30000
+        },
+        {
+          "date": "20260623",
+          "value": 30000
+        },
+        {
+          "date": "20260624",
+          "value": 30000
+        },
+        {
+          "date": "20260625",
+          "value": 30000
+        },
+        {
+          "date": "20260626",
+          "value": 30000
+        },
+        {
+          "date": "20260629",
+          "value": 30000.0
+        },
+        {
+          "date": "20260630",
+          "value": 30040.0
+        },
+        {
+          "date": "20260701",
+          "value": 30320.0
+        },
+        {
+          "date": "20260702",
+          "value": 30154.0
+        },
+        {
+          "date": "20260703",
+          "value": 30712.0
+        },
+        {
+          "date": "20260706",
+          "value": 30810.0
+        },
+        {
+          "date": "20260707",
+          "value": 30748.0
+        },
+        {
+          "date": "20260708",
+          "value": 30478.0
+        },
+        {
+          "date": "20260709",
+          "value": 30494.0
+        }
+      ],
+      "backtest_start": "20260526",
+      "backtest_end": "20260709",
+      "backtest_days": 32
+    },
+    {
+      "name": "财报季",
+      "category": "业绩驱动",
+      "version": "1.0.0",
+      "description": "业绩超预期策略，净利润+营收双增长",
+      "initial_capital": 30000,
+      "current_capital": 13304.0,
+      "total_value": 29526.0,
+      "total_return": -0.0158,
+      "monthly_return": -0.0158,
+      "sharpe_ratio": -0.6683611333051436,
+      "max_drawdown": 0.06190791652865187,
+      "win_rate": 0.25,
+      "realized_pnl": -1415.0,
+      "realized_pnl_pct": -4.72,
+      "floating_pnl": 941.0,
+      "floating_pnl_pct": 3.14,
+      "total_pnl": -474.0,
+      "total_pnl_pct": -1.58,
+      "holdings": [
+        {
+          "symbol": "600584.SH",
+          "name": "600584.SH",
+          "buy_price": 94.11,
+          "quantity": 100,
+          "buy_date": "20260708",
+          "cost": 9411.0,
+          "stock_reason": "财报季：30日涨幅=22.2%, 60日涨幅=90.6%",
+          "timing_reason": "趋势向上(默认)",
+          "hold_days": 2,
+          "current_price": 103.52,
+          "profit": 940.9999999999997,
+          "profit_pct": 9.998937413664857
+        },
+        {
+          "symbol": "600176.SH",
+          "name": "600176.SH",
+          "buy_price": 58.7,
+          "quantity": 100,
+          "buy_date": "20260709",
+          "cost": 5870.0,
+          "stock_reason": "财报季：30日涨幅=35.0%, 60日涨幅=56.0%",
+          "timing_reason": "温和放量上涨",
+          "hold_days": 1,
+          "current_price": 58.7,
+          "profit": 0.0,
+          "profit_pct": 0.0
+        }
+      ],
+      "trades": [
+        {
+          "symbol": "600176.SH",
+          "name": "600176.SH",
+          "buy_date": "20260629",
+          "buy_price": 70.98,
+          "sell_date": "20260630",
+          "sell_price": 72.88,
+          "quantity": 100,
+          "profit": 190.0,
+          "profit_pct": 2.6768103691180616,
+          "hold_days": 1,
+          "stock_reason": "财报季：30日涨幅=35.0%, 60日涨幅=56.0%",
+          "timing_reason": "回踩MA5; 均线多头排列",
+          "sell_reason": "MACD红柱缩短; KDJ高位死叉; RSI超买(90.0)"
+        },
+        {
+          "symbol": "600176.SH",
+          "name": "600176.SH",
+          "buy_date": "20260630",
+          "buy_price": 72.88,
+          "sell_date": "20260701",
+          "sell_price": 70.27,
+          "quantity": 100,
+          "profit": -261.0,
+          "profit_pct": -3.5812294182217346,
+          "hold_days": 1,
+          "stock_reason": "财报季：30日涨幅=35.0%, 60日涨幅=56.0%",
+          "timing_reason": "回踩MA5; 温和放量上涨; 均线多头排列",
+          "sell_reason": "MACD红柱缩短; KDJ高位死叉; RSI超买(84.6); 跌破MA5"
+        },
+        {
+          "symbol": "600176.SH",
+          "name": "600176.SH",
+          "buy_date": "20260701",
+          "buy_price": 70.27,
+          "sell_date": "20260702",
+          "sell_price": 67.82,
+          "quantity": 100,
+          "profit": -245.0000000000009,
+          "profit_pct": -3.486551871353364,
+          "hold_days": 1,
+          "stock_reason": "财报季：30日涨幅=35.0%, 60日涨幅=56.0%",
+          "timing_reason": "均线多头排列",
+          "sell_reason": "MACD红柱缩短; KDJ高位死叉; RSI超买(79.5); 跌破MA5"
+        },
+        {
+          "symbol": "600176.SH",
+          "name": "600176.SH",
+          "buy_date": "20260702",
+          "buy_price": 67.82,
+          "sell_date": "20260703",
+          "sell_price": 70.9,
+          "quantity": 100,
+          "profit": 308.0000000000018,
+          "profit_pct": 4.541433205544115,
+          "hold_days": 1,
+          "stock_reason": "财报季：30日涨幅=35.0%, 60日涨幅=56.0%",
+          "timing_reason": "均线多头排列",
+          "sell_reason": "MACD红柱缩短; KDJ高位死叉; RSI超买(80.6)"
+        },
+        {
+          "symbol": "600584.SH",
+          "name": "600584.SH",
+          "buy_date": "20260702",
+          "buy_price": 95.98,
+          "sell_date": "20260706",
+          "sell_price": 95.09,
+          "quantity": 100,
+          "profit": -89.0,
+          "profit_pct": -0.927276515940821,
+          "hold_days": 2,
+          "stock_reason": "财报季：30日涨幅=22.2%, 60日涨幅=90.6%",
+          "timing_reason": "均线多头排列",
+          "sell_reason": "MACD红柱缩短; MACD死叉; KDJ高位死叉; 跌破MA5"
+        },
+        {
+          "symbol": "600176.SH",
+          "name": "600176.SH",
+          "buy_date": "20260703",
+          "buy_price": 70.9,
+          "sell_date": "20260707",
+          "sell_price": 60.0,
+          "quantity": 100,
+          "profit": -1090.000000000001,
+          "profit_pct": -15.373765867418912,
+          "hold_days": 2,
+          "stock_reason": "财报季：30日涨幅=35.0%, 60日涨幅=56.0%",
+          "timing_reason": "回踩MA5; 温和放量上涨; 均线多头排列",
+          "sell_reason": "止损(-15.4%)"
+        },
+        {
+          "symbol": "600584.SH",
+          "name": "600584.SH",
+          "buy_date": "20260706",
+          "buy_price": 95.09,
+          "sell_date": "20260708",
+          "sell_price": 94.11,
+          "quantity": 100,
+          "profit": -98.0,
+          "profit_pct": -1.0306025870228206,
+          "hold_days": 2,
+          "stock_reason": "财报季：30日涨幅=22.2%, 60日涨幅=90.6%",
+          "timing_reason": "温和放量上涨; 均线多头排列",
+          "sell_reason": "跌破MA5"
+        },
+        {
+          "symbol": "600176.SH",
+          "name": "600176.SH",
+          "buy_date": "20260707",
+          "buy_price": 60.0,
+          "sell_date": "20260709",
+          "sell_price": 58.7,
+          "quantity": 100,
+          "profit": -130.0,
+          "profit_pct": -2.166666666666667,
+          "hold_days": 2,
+          "stock_reason": "财报季：30日涨幅=35.0%, 60日涨幅=56.0%",
+          "timing_reason": "趋势向上(默认)",
+          "sell_reason": "跌破MA5; 跌破MA20"
+        }
+      ],
+      "equity_curve": [
+        {
+          "date": "20260528",
+          "value": 30000
+        },
+        {
+          "date": "20260529",
+          "value": 30000
+        },
+        {
+          "date": "20260601",
+          "value": 30000
+        },
+        {
+          "date": "20260602",
+          "value": 30000
+        },
+        {
+          "date": "20260603",
+          "value": 30000
+        },
+        {
+          "date": "20260604",
+          "value": 30000
+        },
+        {
+          "date": "20260605",
+          "value": 30000
+        },
+        {
+          "date": "20260608",
+          "value": 30000
+        },
+        {
+          "date": "20260609",
+          "value": 30000
+        },
+        {
+          "date": "20260610",
+          "value": 30000
+        },
+        {
+          "date": "20260611",
+          "value": 30000
+        },
+        {
+          "date": "20260612",
+          "value": 30000
+        },
+        {
+          "date": "20260615",
+          "value": 30000
+        },
+        {
+          "date": "20260616",
+          "value": 30000
+        },
+        {
+          "date": "20260617",
+          "value": 30000
+        },
+        {
+          "date": "20260618",
+          "value": 30000
+        },
+        {
+          "date": "20260622",
+          "value": 30000
+        },
+        {
+          "date": "20260623",
+          "value": 30000
+        },
+        {
+          "date": "20260624",
+          "value": 30000
+        },
+        {
+          "date": "20260625",
+          "value": 30000
+        },
+        {
+          "date": "20260626",
+          "value": 30000
+        },
+        {
+          "date": "20260629",
+          "value": 30000.0
+        },
+        {
+          "date": "20260630",
+          "value": 30190.0
+        },
+        {
+          "date": "20260701",
+          "value": 29929.0
+        },
+        {
+          "date": "20260702",
+          "value": 29684.0
+        },
+        {
+          "date": "20260703",
+          "value": 29482.0
+        },
+        {
+          "date": "20260706",
+          "value": 29194.0
+        },
+        {
+          "date": "20260707",
+          "value": 29403.0
+        },
+        {
+          "date": "20260708",
+          "value": 28321.0
+        },
+        {
+          "date": "20260709",
+          "value": 29526.0
+        }
+      ],
+      "backtest_start": "20260526",
+      "backtest_end": "20260709",
+      "backtest_days": 32
     }
   ]
 }

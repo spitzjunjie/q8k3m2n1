@@ -93,7 +93,13 @@ from strategies.new_strategies import (
     NorthboundMoneyStrategy, ValueGrowthStrategy, ProfitExplosionStrategy,
     ContinuousVolumeStrategy, LimitCallbackStrategy, GoldenCrossStrategy,
     RSIReboundStrategy, LowPBValueStrategy, KDJStrategy, HighDividendStrategy,
-    ProfitExceedsExpectationStrategy
+    ProfitExceedsExpectationStrategy,
+    # 新增3个S级策略
+    InstitutionResearchStrategy, EarningsPreviewStrategy, NorthboundChangeStrategy
+)
+from strategies.new_s_strategies import (
+    MonthlyResonanceStrategy, MainForceMoneyStrategy,
+    NorthMoneyTimingStrategy, EarningsSeasonStrategy
 )
 
 
@@ -171,6 +177,15 @@ def get_all_strategies():
         KDJStrategy(),                      # KDJ超卖金叉
         HighDividendStrategy(),             # 高股息
         ProfitExceedsExpectationStrategy(), # 业绩超预期
+        # 新增3个S级策略
+        InstitutionResearchStrategy(),      # 机构调研
+        EarningsPreviewStrategy(),          # 业绩预告超预期
+        NorthboundChangeStrategy(),         # 北向持仓变化
+        # 新增5个S级策略v2
+        MonthlyResonanceStrategy(),         # 月线共振
+        MainForceMoneyStrategy(),           # 主力资金
+        NorthMoneyTimingStrategy(),         # 北向择时
+        EarningsSeasonStrategy(),           # 财报季
     ]
     return strategies
 

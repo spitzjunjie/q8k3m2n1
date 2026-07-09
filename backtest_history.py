@@ -28,16 +28,20 @@ from timing.timing import TimingEngine
 from trading.simulator import TradingSimulator
 from backtest import get_all_strategies
 
-# 新开发的策略列表（22个）
+# 新开发的策略列表（25个）
 NEW_STRATEGIES = {
     'ETF二八轮动', '财务基本面过滤小市值', '资金流事件', '反过度自信',
     '行业动量', '研报推荐', '超跌反弹', '短线动量', '低波动',
     '南向资金', '龙虎榜', '北向资金', '价值成长', '业绩暴增',
     '量价齐升', '涨停回调', 'MACD金叉', 'RSI超卖反转',
-    '低PB价值', 'KDJ超卖金叉', '高股息', '业绩超预期'
+    '低PB价值', 'KDJ超卖金叉', '高股息', '业绩超预期',
+    # 新增3个S级策略
+    '机构调研', '业绩预告超预期', '北向持仓变化',
+    # 新增5个S级策略v2
+    '月线共振', '主力资金', '北向择时', '财报季'
 }
 
-# 基准日期：第一批策略开始回测的日期
+# 基准日期：第一批策略开始回测的日期（5月26日）
 BENCHMARK_START_DATE = datetime(2026, 5, 26)
 
 
@@ -137,8 +141,10 @@ def run_historical_backtest(strategy_names=None, days=None, max_workers=2):
         temp_dates = helper.get_trade_dates(days=1000)
     else:
         temp_dates = helper.get_trading_dates(n=1000)
+    # 统一日期格式（移除连字符）
     benchmark_str = BENCHMARK_START_DATE.strftime('%Y%m%d')
-    actual_days = len([d for d in temp_dates if d >= benchmark_str])
+    temp_dates_norm = [d.replace('-', '') for d in temp_dates]
+    actual_days = len([d for d in temp_dates_norm if d >= benchmark_str])
     
     if days is None or days > actual_days:
         days = actual_days  # 使用实际的交易日数

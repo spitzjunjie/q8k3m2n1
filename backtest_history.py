@@ -461,7 +461,7 @@ def run_historical_backtest(strategy_names=None, days=None, max_workers=2):
 if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser(description='历史回测引擎')
-    parser.add_argument('--days', type=int, default=60, help='回测天数（默认60）')
+    parser.add_argument('--days', type=int, default=None, help='回测天数（默认None=从基准日期2026-05-26自动计算，禁止指定固定天数）')
     parser.add_argument('--strategies', type=str, default=None, help='指定策略名（逗号分隔），默认全部')
     parser.add_argument('--workers', type=int, default=2, help='并行线程数（默认2，避免频率限制）')
     parser.add_argument('--source', type=str, default='tushare', choices=['tushare', 'akshare'], help='数据源（默认tushare）')

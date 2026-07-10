@@ -69,6 +69,7 @@ jobs:
           TUSHARE_TOKEN: ${{ secrets.TUSHARE_TOKEN }}
           FEISHU_APP_ID: ${{ secrets.FEISHU_APP_ID }}
           FEISHU_APP_SECRET: ${{ secrets.FEISHU_APP_SECRET }}
+          DATA_SOURCE: tushare  # GitHub Actions在美国，用Tushare API避免爬取中国网站不稳定
       
       - name: 验证数据生成
         run: |

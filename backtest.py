@@ -14,31 +14,43 @@ import pandas as pd
 from data.akshare_helper import AKShareHelper
 from data.tushare_helper import TushareHelper
 
-# 使用AKShare作为主数据源，Tushare作为备用
-PRIMARY_HELPER = AKShareHelper
-FALLBACK_HELPER = TushareHelper
+# 根据环境变量选择主数据源
+# GitHub Actions服务器在美国，AKShare爬取中国网站不稳定，使用Tushare API
+# 本地默认使用AKShare（免费，功能丰富）
+DATA_SOURCE = os.environ.get('DATA_SOURCE', 'akshare').lower()
+
+if DATA_SOURCE == 'tushare':
+    PRIMARY_HELPER = TushareHelper
+    FALLBACK_HELPER = AKShareHelper
+    print(f"[数据源] 主数据源: Tushare (环境变量DATA_SOURCE={DATA_SOURCE})")
+else:
+    PRIMARY_HELPER = AKShareHelper
+    FALLBACK_HELPER = TushareHelper
+    print(f"[数据源] 主数据源: AKShare (环境变量DATA_SOURCE={DATA_SOURCE})")
 
 
-def get_kline_with_fallback(primary_helper, symbol, days=5, end_date=None, source='akshare'):
+def get_kline_with_fallback(primary_helper, symbol, days=5, end_date=None, source=None):
     """获取K线数据，失败时自动切换数据源
-    
+
     Args:
         primary_helper: 主数据源
         symbol: 股票代码
         days: 天数
         end_date: 结束日期
         source: 当前数据源标识
-    
+
     Returns:
         DataFrame 或 None
     """
+    if source is None:
+        source = DATA_SOURCE
     try:
         df = primary_helper.get_history_kline(symbol, days=days, end_date=end_date)
         if isinstance(df, pd.DataFrame) and not df.empty and 'close' in df.columns:
             return df, source
     except Exception as e:
         pass
-    
+
     # 切换到备用数据源
     fallback_source = 'tushare' if source == 'akshare' else 'akshare'
     try:
@@ -227,7 +239,7 @@ def run_strategy(strategy, helper, timing, date=None):
 
         # 2. 获取股票价格（带自动切换数据源）
         prices = {}
-        current_source = 'akshare'
+        current_source = DATA_SOURCE
         for stock in selected[:30]:  # 扩大到前30只（原10只太少）
             try:
                 df, current_source = get_kline_with_fallback(helper, stock['symbol'], days=5, end_date=date, source=current_source)

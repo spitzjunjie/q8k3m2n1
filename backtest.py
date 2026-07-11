@@ -464,7 +464,7 @@ def main():
         sharpe = r.get('sharpe_ratio', 0)
         print(f"{i:2}. {grade_emoji.get(grade,'')} {name:<18} 分数:{score:>5.1f} 收益:{ret:>+7.2f}% 夏普:{sharpe:>5.2f} 权益:¥{value:,.0f}")
 
-    print(f"\n结果已保存到: {output_file}")
+    print(f"\n结果已保存到: {main_file}")
     print("=" * 60)
 
     return output

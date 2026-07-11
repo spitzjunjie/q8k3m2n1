@@ -201,20 +201,61 @@ class TushareHelper:
     # ==================== 实时行情 ====================
 
     def get_realtime_quote(self, symbols):
-        """获取实时行情"""
+        """获取实时行情 - 尝试多个接口"""
         if not symbols:
             return pd.DataFrame()
 
         try:
             if isinstance(symbols, str):
                 symbols = [symbols]
-            # 转换格式
-            codes = []
-            for s in symbols:
-                code = s.replace('.SH', '').replace('.SZ', '').replace('.BJ', '')
-                codes.append(code)
-            df = self.pro.realtime_quote(ts_codes=codes)
-            return df if df is not None else pd.DataFrame()
+            
+            # 转换格式为Tushare标准格式 (单个代码)
+            code = symbols[0].replace('.SH', '').replace('.SZ', '').replace('.BJ', '')
+            # 添加交易所后缀
+            if code.startswith('6') or code.startswith('5') or code.startswith('9'):
+                code = code + '.SH'
+            elif code.startswith('8') or code.startswith('4'):
+                code = code + '.BJ'
+            else:
+                code = code + '.SZ'
+            
+            # 方案1: realtime_quote - 单个股票直接传字符串
+            try:
+                df = self.pro.realtime_quote(ts_code=code)
+                if df is not None and not df.empty:
+                    return df
+            except Exception as e:
+                print(f"[Tushare]realtime_quote失败: {e}")
+            
+            # 方案2: rt_price - 实时价格接口
+            try:
+                df = self.pro.rt_price(ts_code=code)
+                if df is not None and not df.empty:
+                    return df
+            except Exception as e:
+                print(f"[Tushare]rt_price失败: {e}")
+            
+            # 方案3: 批量实时行情
+            if len(symbols) > 1:
+                try:
+                    codes = []
+                    for s in symbols:
+                        c = s.replace('.SH', '').replace('.SZ', '').replace('.BJ', '')
+                        if c.startswith('6') or c.startswith('5') or c.startswith('9'):
+                            c = c + '.SH'
+                        elif c.startswith('8') or c.startswith('4'):
+                            c = c + '.BJ'
+                        else:
+                            c = c + '.SZ'
+                        codes.append(c)
+                    codes_str = ','.join(codes)
+                    df = self.pro.realtime_quote(ts_code=codes_str)
+                    if df is not None and not df.empty:
+                        return df
+                except Exception as e:
+                    print(f"[Tushare]批量realtime_quote失败: {e}")
+            
+            return pd.DataFrame()
         except Exception as e:
             print(f"[Tushare]获取实时行情失败: {e}")
             return pd.DataFrame()

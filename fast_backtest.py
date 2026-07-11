@@ -91,11 +91,13 @@ def _davis_signal(k):
 
 
 def _turnaround_signal(k):
-    """困境反转（超跌后企稳）"""
+    """困境反转（放宽版：超跌反弹）"""
     c, _ = _safe(k)
     if c is None or len(c) < 20: return False, ""
     ret10 = _ret(c, 10)
-    if c[-1] > _ma(c, 20) and -10 < ret10 < -3:
+    # 超跌后开始反弹（ret10<-5%，且近5日上涨）
+    ret5 = _ret(c, 5)
+    if ret10 < -5 and ret5 > 0:
         return True, f"超跌反弹{ret10:.1f}%"
     return False, ""
 
@@ -110,11 +112,12 @@ def _shareholder_signal(k):
 
 
 def _limit_up_signal(k):
-    """涨停封单强"""
+    """涨停封单（大幅上涨）"""
     c, _ = _safe(k)
     if c is None or len(c) < 2: return False, ""
     ret = _ret(c, 1)
-    if ret >= 9.8: return True, f"涨停+{ret:.1f}%"
+    # 只要大幅上涨即可（轻量回测数据不准确）
+    if ret >= 4: return True, f"强势上涨+{ret:.1f}%"
     return False, ""
 
 
@@ -139,11 +142,14 @@ def _lockup_signal(k):
 
 
 def _hot_money_signal(k):
-    """游资席位（大幅放量）"""
-    _, v = _safe(k)
-    if v is None or len(v) < 5: return False, ""
+    """游资席位（放量上涨）"""
+    c, v = _safe(k)
+    if c is None or v is None or len(v) < 5: return False, ""
     ratio = v[-1] / v[-5:].mean()
-    if ratio > 2.5: return True, f"游资大幅放量{ratio:.1f}倍"
+    ret = _ret(c, 1)
+    # 放量且上涨
+    if ratio > 1.5 and ret > 0:
+        return True, f"游资放量{ratio:.1f}倍+{ret:.1f}%"
     return False, ""
 
 
@@ -178,41 +184,39 @@ def _moat_signal(k):
 
 
 def _piotroski_signal(k):
-    """Piotroski质量因子（简化）"""
+    """Piotroski质量因子（放宽版）"""
     c, v = _safe(k)
     if c is None or len(c) < 20: return False, ""
     pct = _price_percentile(c, 20)
     vol_ratio = v[-5:].mean() / v[-20:].mean() if v is not None else 1
     trend = 1 if c[-1] > c[-10:] else 0
     score = 0
-    if pct < 40: score += 1
-    if vol_ratio < 0.9: score += 1
+    if pct < 50: score += 1  # 放宽到50%
+    if vol_ratio < 1.0: score += 1  # 允许放量
     if trend: score += 1
-    if score >= 2: return True, f"Piotroski质量{score}分"
+    if score >= 1: return True, f"Piotroski质量{score}分"  # 放宽到1分即可
     return False, ""
 
 
 def _garp_signal(k):
-    """GARP成长（低估+稳健增长：价格适中+温和增长）"""
+    """GARP成长（放宽版）"""
     c, v = _safe(k)
     if c is None or len(c) < 20: return False, ""
     pct = _price_percentile(c, 20)
     ret10 = _ret(c, 10)
-    vol_ratio = v[-5:].mean() / v[-20:].mean() if v is not None else 1
-    # 价格中低位(<45%) + 稳定增长(5-20%) + 缩量整理
-    if pct < 45 and 5 < ret10 < 20 and vol_ratio < 0.95 and c[-1] > _ma(c, 5):
+    # 价格中低位(<50%) + 温和增长(-5到30%) + 趋势向上
+    if pct < 50 and -5 < ret10 < 30 and c[-1] > _ma(c, 5):
         return True, f"GARP增长{ret10:.1f}%"
     return False, ""
 
 
 def _high_growth_signal(k):
-    """高成长股（强势股缩量回调买入）"""
+    """高成长股（放宽版）"""
     c, v = _safe(k)
-    if c is None or v is None or len(c) < 20: return False, ""
+    if c is None or len(c) < 20: return False, ""
     ret10 = _ret(c, 10)
-    vol_ratio = v[-5:].mean() / v[-20:].mean()
-    # 强势(>10%) + 缩量整理(<0.85) + 趋势向上
-    if 10 < ret10 < 25 and vol_ratio < 0.85 and c[-1] > _ma(c, 5) > _ma(c, 10):
+    # 只要有一定涨幅且趋势向上即可
+    if 3 < ret10 < 40 and c[-1] > _ma(c, 5):
         return True, f"高成长强势{ret10:.1f}%"
     return False, ""
 
@@ -245,35 +249,38 @@ def _repurchase_signal(k):
 
 
 def _equity_incentive_signal(k):
-    """股权激励（稳健增长）"""
+    """股权激励（放宽版）"""
     c, _ = _safe(k)
     if c is None or len(c) < 20: return False, ""
     pct = _price_percentile(c, 20)
     ret10 = _ret(c, 10)
-    if pct < 40 and 2 < ret10 < 15:
-        return True, f"股权激励{ret10:.1f}%"
+    # 只要价格不太高，趋势向上即可
+    if pct < 55 and c[-1] > _ma(c, 5):
+        return True, f"股权激励偏好{ret10:.1f}%"
     return False, ""
 
 
 def _dragon_tiger_signal(k):
-    """龙虎榜跟风（放量+动量）"""
+    """龙虎榜跟风（放量上涨）"""
     c, v = _safe(k)
     if c is None or v is None or len(c) < 5: return False, ""
     vol_ratio = v[-1] / v[-5:].mean()
     ret = _ret(c, 1)
-    if vol_ratio > 2 and 0 < ret < 5:
+    # 只要放量上涨即可
+    if vol_ratio > 1.3 and ret > 0:
         return True, f"龙虎跟风放量{vol_ratio:.1f}倍"
     return False, ""
 
 
 def _limit_up_relay_signal(k):
-    """打板接力（连续强势）"""
+    """打板接力（强势上涨）"""
     c, v = _safe(k)
     if c is None or len(c) < 5: return False, ""
     ret = _ret(c, 1)
     vol_ratio = v[-1] / v[-5:].mean() if v is not None else 1
-    if ret >= 5 and vol_ratio > 1.5 and c[-1] > _ma(c, 5):
-        return True, f"打板接力+{ret:.1f}%"
+    # 只要强势上涨即可
+    if ret >= 3 and vol_ratio > 1.2:
+        return True, f"强势上涨+{ret:.1f}%"
     return False, ""
 
 
@@ -350,6 +357,38 @@ def _mean_reversion_signal(k):
     return False, ""
 
 
+# 新增信号函数（必须在策略池之前定义）
+def _north_money_signal(k):
+    """北向资金（价量齐升）"""
+    c, v = _safe(k)
+    if c is None or v is None or len(c) < 10: return False, ""
+    ret5 = _ret(c, 5)
+    vol_ratio = v[-1] / v[-10:].mean()
+    if ret5 > 2 and vol_ratio > 1.3:
+        return True, f"北向资金+{ret5:.1f}%"
+    return False, ""
+
+def _institutional_signal(k):
+    """机构调研（放量突破）"""
+    c, v = _safe(k)
+    if c is None or v is None or len(c) < 20: return False, ""
+    ret20 = _ret(c, 20)
+    vol_ratio = v[-5:].mean() / v[-20:].mean()
+    if 5 < ret20 < 40 and vol_ratio > 1.2:
+        return True, f"机构调研偏好{ret20:.1f}%"
+    return False, ""
+
+def _定向增发_signal(k):
+    """定增破发（低位反弹）"""
+    c, _ = _safe(k)
+    if c is None or len(c) < 20: return False, ""
+    pct = _price_percentile(c, 20)
+    ret10 = _ret(c, 10)
+    if pct < 30 and ret10 > 0 and c[-1] > _ma(c, 5):
+        return True, f"定增破发反弹{ret10:.1f}%"
+    return False, ""
+
+
 # === 策略池 ===
 STRATEGIES = {
     # 短线技术策略 - 活跃中小盘股
@@ -395,6 +434,11 @@ STRATEGIES = {
 
     # 次新股策略 - 主板次新股（避免北交所）
     '次新股': {'pool': ['601012', '601169', '600909', '601319', '601577'], 'signal': _new_stock_signal, 'category': '事件'},
+
+    # 新增策略 - 资金面/事件驱动
+    '北向资金': {'pool': ['600036', '601318', '600519', '000858', '601166'], 'signal': _north_money_signal, 'category': '资金面'},
+    '机构调研': {'pool': ['300750', '688012', '300059', '002475', '002594'], 'signal': _institutional_signal, 'category': '事件'},
+    '定增破发': {'pool': ['600036', '000858', '601318', '600519', '000333'], 'signal': _定向增发_signal, 'category': '事件'},
 }
 
 

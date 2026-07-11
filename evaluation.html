@@ -205,9 +205,12 @@
             // 按综合分降序排序
             strategies.sort((a, b) => b.composite_score - a.composite_score);
 
-            // 计算各指标
+            // 计算各指标（只计算有有效数据的策略）
             const avgReturn = strategies.reduce((s, x) => s + (x.total_return || 0), 0) / strategies.length;
-            const avgSharpe = strategies.reduce((s, x) => s + (x.sharpe_ratio || 0), 0) / strategies.length;
+            const validSharpeStrategies = strategies.filter(x => x.sharpe_ratio !== null && x.sharpe_ratio !== 0 && x.sharpe_ratio !== undefined);
+            const avgSharpe = validSharpeStrategies.length > 0 
+                ? validSharpeStrategies.reduce((s, x) => s + (x.sharpe_ratio || 0), 0) / validSharpeStrategies.length 
+                : 0;
             const positiveCount = strategies.filter(x => (x.total_return || 0) > 0).length;
 
             let html = `

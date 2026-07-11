@@ -54,27 +54,32 @@ def _ret(c, days):
 
 # === 信号定义 ===
 def _auction_signal(k):
-    """集合竞价控盘（机构控盘特征：量能萎缩+价格稳定）"""
+    """集合竞价控盘（趋势跟踪：缩量整理+均线多头）"""
     c, v = _safe(k)
     if c is None or v is None or len(v) < 20: return False, ""
-    # 缩量整理（控盘特征）
     vol_ratio = v[-5:].mean() / v[-20:].mean()
-    # 价格稳定（波动小）
-    price_vol = c[-5:].std() / c[-5:].mean()
-    # 趋势向上
-    trend = c[-1] > _ma(c, 5)
-    if vol_ratio < 0.8 and price_vol < 0.02 and trend:
+    pct = _price_percentile(c, 20)
+    # 严格条件：缩量整理(<0.8) + 价格低位(<45%) + 均线多头排列
+    ma5 = _ma(c, 5)
+    ma10 = _ma(c, 10)
+    ma20 = _ma(c, 20)
+    if vol_ratio < 0.8 and pct < 45 and ma5 > ma10 > ma20:
         return True, f"竞价控盘缩量{vol_ratio:.1f}倍"
     return False, ""
 
 
 def _after_hours_signal(k):
-    """尾盘动量"""
-    c, _ = _safe(k)
-    if c is None or len(c) < 10: return False, ""
-    if c[-1] > _ma(c, 10):
-        ret5 = _ret(c, 5)
-        if ret5 > 2: return True, f"尾盘强势+{ret5:.1f}%"
+    """尾盘动量（趋势跟踪：均线多头+温和上涨）"""
+    c, v = _safe(k)
+    if c is None or v is None or len(c) < 20: return False, ""
+    ret5 = _ret(c, 5)
+    pct = _price_percentile(c, 20)
+    # 严格条件：温和上涨(1-5%) + 价格合理(<50%) + 均线多头排列
+    ma5 = _ma(c, 5)
+    ma10 = _ma(c, 10)
+    ma20 = _ma(c, 20)
+    if 1 < ret5 < 5 and pct < 50 and ma5 > ma10 > ma20:
+        return True, f"尾盘趋势+{ret5:.1f}%"
     return False, ""
 
 
@@ -295,16 +300,17 @@ def _limit_up_relay_signal(k):
 
 
 def _new_stock_signal(k):
-    """次新股（严格版：趋势确认+回调买入）"""
+    """次新股（趋势跟踪版：均线多头+温和上涨）"""
     c, v = _safe(k)
     if c is None or v is None or len(c) < 20: return False, ""
-    vol_ratio = v[-3:].mean() / v[-10:].mean()
-    ret5 = _ret(c, 5)
     ret10 = _ret(c, 10)
     pct = _price_percentile(c, 20)
-    # 严格条件：回调后反弹(ret5>0) + 温和放量 + 价格低位(<45%) + 均线支撑
-    if ret5 > 0 and 0.9 < vol_ratio < 2.0 and pct < 45 and c[-1] > _ma(c, 5) and ret10 < 20:
-        return True, f"次新回调买入+{ret5:.1f}%"
+    # 严格条件：趋势向上(MA5>MA10>MA20) + 温和涨幅(5-20%) + 价格合理(<55%)
+    ma5 = _ma(c, 5)
+    ma10 = _ma(c, 10)
+    ma20 = _ma(c, 20)
+    if ma5 > ma10 > ma20 and 5 < ret10 < 20 and pct < 55 and c[-1] > c[-5]:
+        return True, f"次新趋势向上+{ret10:.1f}%"
     return False, ""
 
 
@@ -420,14 +426,16 @@ def _macd底背离_signal(k):
     return False, ""
 
 def _布林带收口_signal(k):
-    """布林带收口（波动率降低后突破）"""
+    """布林带收口（趋势跟踪：低位+均线多头）"""
     c, v = _safe(k)
     if c is None or v is None or len(c) < 20: return False, ""
     pct = _price_percentile(c, 20)
-    vol = v[-5:].std() / v[-20:].std() if len(v) >= 20 else 1
-    # 价格低位 + 波动率收窄 + 趋势向上
-    if pct < 30 and vol < 0.9 and c[-1] > _ma(c, 5):
-        return True, f"布林收口{pct:.0f}%"
+    # 价格低位(<40%) + 均线多头排列
+    ma5 = _ma(c, 5)
+    ma10 = _ma(c, 10)
+    ma20 = _ma(c, 20)
+    if pct < 40 and ma5 > ma10 > ma20 and c[-1] > c[-5]:
+        return True, f"布林低位多头{pct:.0f}%"
     return False, ""
 
 def _成交量缩量_signal(k):
@@ -499,6 +507,56 @@ def _外资持续买入_signal(k):
         return True, f"外资买入+{ret10:.1f}%"
     return False, ""
 
+# === 新增高价值策略 ===
+def _价值动量_signal(k):
+    """价值+动量（PE低位+趋势向上）"""
+    c, v = _safe(k)
+    if c is None or v is None or len(c) < 20: return False, ""
+    pct = _price_percentile(c, 20)
+    ret10 = _ret(c, 10)
+    # 价格低位(<45%) + 趋势向上(>5%) + 均线多头
+    ma5 = _ma(c, 5)
+    ma10 = _ma(c, 10)
+    if pct < 45 and 5 < ret10 < 25 and ma5 > ma10 and c[-1] > c[-5]:
+        return True, f"价值动量+{ret10:.1f}%"
+    return False, ""
+
+def _高股息_signal(k):
+    """高股息（稳健分红股）"""
+    c, _ = _safe(k)
+    if c is None or len(c) < 20: return False, ""
+    pct = _price_percentile(c, 20)
+    ret10 = _ret(c, 10)
+    # 价格低位(<50%) + 稳定上涨(0-15%) + 均线支撑
+    if pct < 50 and 0 < ret10 < 15 and c[-1] > _ma(c, 10):
+        return True, f"高股息稳健+{ret10:.1f}%"
+    return False, ""
+
+def _北向重仓_signal(k):
+    """北向重仓（外资持股增加）"""
+    c, v = _safe(k)
+    if c is None or v is None or len(c) < 20: return False, ""
+    ret10 = _ret(c, 10)
+    vol_ratio = v[-5:].mean() / v[-20:].mean()
+    pct = _price_percentile(c, 20)
+    # 温和上涨 + 温和放量 + 价格合理 + 均线多头
+    ma5 = _ma(c, 5)
+    ma10 = _ma(c, 10)
+    if 0 < ret10 < 20 and 0.9 < vol_ratio < 1.5 and pct < 50 and ma5 > ma10:
+        return True, f"北向加仓+{ret10:.1f}%"
+    return False, ""
+
+def _业绩预增_signal(k):
+    """业绩预增（业绩驱动）"""
+    c, _ = _safe(k)
+    if c is None or len(c) < 20: return False, ""
+    pct = _price_percentile(c, 20)
+    ret10 = _ret(c, 10)
+    # 价格低位(<45%) + 温和上涨(5-20%) + 均线支撑
+    if pct < 45 and 5 < ret10 < 20 and c[-1] > _ma(c, 5):
+        return True, f"业绩驱动+{ret10:.1f}%"
+    return False, ""
+
 
 # === 策略池 ===
 STRATEGIES = {
@@ -563,6 +621,12 @@ STRATEGIES = {
     '机构重仓': {'pool': ['600519', '601318', '600036', '000858', '601012'], 'signal': _机构重仓_signal, 'category': '资金面'},
     '社保重仓': {'pool': ['600519', '601318', '600036', '000858', '601012'], 'signal': _社保重仓_signal, 'category': '资金面'},
     '外资持续买入': {'pool': ['600519', '601318', '600036', '000858', '601012'], 'signal': _外资持续买入_signal, 'category': '资金面'},
+
+    # === 新增价值策略 ===
+    '价值动量': {'pool': ['600519', '601318', '600036', '000858', '601012'], 'signal': _价值动量_signal, 'category': '价值'},
+    '高股息': {'pool': ['600519', '601318', '600036', '000858', '601012'], 'signal': _高股息_signal, 'category': '价值'},
+    '北向重仓': {'pool': ['600519', '601318', '600036', '000858', '601012'], 'signal': _北向重仓_signal, 'category': '资金面'},
+    '业绩预增': {'pool': ['600519', '601318', '600036', '000858', '601012'], 'signal': _业绩预增_signal, 'category': '事件'},
 }
 
 

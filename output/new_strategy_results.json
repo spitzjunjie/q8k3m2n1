@@ -1,328 +1,420 @@
 {
-  "update_time": "2026-07-11 22:56:58",
+  "update_time": "2026-07-12 00:22:38",
   "backtest_type": "historical",
   "backtest_start": "2026-05-26",
   "backtest_end": "2026-07-10",
   "backtest_days": 33,
-  "strategy_count": 1,
+  "strategy_count": 2,
   "strategies": [
     {
-      "name": "行业动量",
-      "category": "轮动策略",
+      "name": "财务基本面过滤小市值",
+      "category": "基本面",
       "version": "1.0.0",
-      "description": "追强势行业：选取近20日涨幅最大的行业中的龙头股",
+      "description": "财务基本面过滤小市值：市值<50亿或后20% | ROE>5% | 增速>0% | 负债率<80%",
       "initial_capital": 30000,
-      "current_capital": 20345.0,
-      "total_value": 29345.0,
-      "total_return": -0.021833333333333333,
-      "monthly_return": -0.021833333333333333,
-      "sharpe_ratio": -1.5777587970137772,
-      "max_drawdown": 0.06182339029346125,
-      "win_rate": 0.4074074074074074,
-      "realized_pnl": -968.0,
-      "realized_pnl_pct": -3.23,
-      "floating_pnl": 313.0,
-      "floating_pnl_pct": 1.04,
-      "total_pnl": -655.0,
-      "total_pnl_pct": -2.18,
-      "holdings": [
-        {
-          "symbol": "002594",
-          "name": "002594",
-          "buy_price": 86.87,
-          "quantity": 100,
-          "buy_date": "2026-07-09",
-          "cost": 8687.0,
-          "stock_reason": "行业动量：新能源强势",
-          "timing_reason": "RSI超卖(47.5)",
-          "hold_days": 2,
-          "current_price": 90.0,
-          "profit": 312.99999999999955,
-          "profit_pct": 3.6030850696442904
-        }
-      ],
-      "trades": [
-        {
-          "symbol": "002594",
-          "name": "002594",
-          "buy_date": "2026-06-18",
-          "buy_price": 88.13,
-          "sell_date": "2026-06-22",
-          "sell_price": 87.59,
-          "quantity": 100,
-          "profit": -54.0,
-          "profit_pct": -0.6127311925564507,
-          "hold_days": 1,
-          "stock_reason": "行业动量：新能源强势",
-          "timing_reason": "RSI超卖(30.5); 温和放量上涨",
-          "sell_reason": "放量滞涨; 跌破MA5; 跌破MA20"
-        },
-        {
-          "symbol": "002594",
-          "name": "002594",
-          "buy_date": "2026-06-22",
-          "buy_price": 87.59,
-          "sell_date": "2026-06-23",
-          "sell_price": 85.0,
-          "quantity": 100,
-          "profit": -259.0,
-          "profit_pct": -2.95695855691289,
-          "hold_days": 1,
-          "stock_reason": "行业动量：新能源强势",
-          "timing_reason": "MACD绿柱缩脚; KDJ金叉; RSI超卖(33.7)",
-          "sell_reason": "跌破MA5; 跌破MA20"
-        },
-        {
-          "symbol": "002594",
-          "name": "002594",
-          "buy_date": "2026-06-23",
-          "buy_price": 85.0,
-          "sell_date": "2026-06-24",
-          "sell_price": 83.3,
-          "quantity": 100,
-          "profit": -170.0,
-          "profit_pct": -2.0,
-          "hold_days": 1,
-          "stock_reason": "行业动量：新能源强势",
-          "timing_reason": "RSI超卖(17.5)",
-          "sell_reason": "跌破MA5; 跌破MA20"
-        },
-        {
-          "symbol": "002594",
-          "name": "002594",
-          "buy_date": "2026-06-24",
-          "buy_price": 83.3,
-          "sell_date": "2026-06-25",
-          "sell_price": 82.2,
-          "quantity": 100,
-          "profit": -110.0,
-          "profit_pct": -1.3205282112845138,
-          "hold_days": 1,
-          "stock_reason": "行业动量：新能源强势",
-          "timing_reason": "RSI超卖(17.7)",
-          "sell_reason": "跌破MA5; 跌破MA20"
-        },
-        {
-          "symbol": "002594",
-          "name": "002594",
-          "buy_date": "2026-06-25",
-          "buy_price": 82.2,
-          "sell_date": "2026-06-26",
-          "sell_price": 78.2,
-          "quantity": 100,
-          "profit": -400.0,
-          "profit_pct": -4.866180048661801,
-          "hold_days": 1,
-          "stock_reason": "行业动量：新能源强势",
-          "timing_reason": "RSI超卖(18.0)",
-          "sell_reason": "跌破MA5; 跌破MA20"
-        },
-        {
-          "symbol": "002594",
-          "name": "002594",
-          "buy_date": "2026-06-26",
-          "buy_price": 78.2,
-          "sell_date": "2026-06-29",
-          "sell_price": 79.64,
-          "quantity": 100,
-          "profit": 144.0,
-          "profit_pct": 1.8414322250639386,
-          "hold_days": 1,
-          "stock_reason": "行业动量：新能源强势",
-          "timing_reason": "RSI超卖(15.0)",
-          "sell_reason": "跌破MA5; 跌破MA20"
-        },
-        {
-          "symbol": "002594",
-          "name": "002594",
-          "buy_date": "2026-06-29",
-          "buy_price": 79.64,
-          "sell_date": "2026-06-30",
-          "sell_price": 79.7,
-          "quantity": 100,
-          "profit": 6.0,
-          "profit_pct": 0.07533902561526871,
-          "hold_days": 1,
-          "stock_reason": "行业动量：新能源强势",
-          "timing_reason": "MACD绿柱缩脚; RSI超卖(22.2); 温和放量上涨",
-          "sell_reason": "跌破MA5; 跌破MA20"
-        },
-        {
-          "symbol": "002594",
-          "name": "002594",
-          "buy_date": "2026-06-30",
-          "buy_price": 79.7,
-          "sell_date": "2026-07-01",
-          "sell_price": 80.66,
-          "quantity": 100,
-          "profit": 96.0,
-          "profit_pct": 1.204516938519448,
-          "hold_days": 1,
-          "stock_reason": "行业动量：新能源强势",
-          "timing_reason": "MACD绿柱缩脚; KDJ金叉; RSI超卖(19.7); 温和放量上涨",
-          "sell_reason": "跌破MA20"
-        },
-        {
-          "symbol": "002594",
-          "name": "002594",
-          "buy_date": "2026-07-01",
-          "buy_price": 80.66,
-          "sell_date": "2026-07-02",
-          "sell_price": 83.57,
-          "quantity": 100,
-          "profit": 291.0,
-          "profit_pct": 3.6077361765435163,
-          "hold_days": 1,
-          "stock_reason": "行业动量：新能源强势",
-          "timing_reason": "回踩MA5; MACD绿柱缩脚; RSI超卖(25.2); 温和放量上涨",
-          "sell_reason": "跌破MA20"
-        },
-        {
-          "symbol": "002594",
-          "name": "002594",
-          "buy_date": "2026-07-02",
-          "buy_price": 83.57,
-          "sell_date": "2026-07-09",
-          "sell_price": 86.87,
-          "quantity": 100,
-          "profit": 330.0,
-          "profit_pct": 3.9487854493239203,
-          "hold_days": 5,
-          "stock_reason": "行业动量：新能源强势",
-          "timing_reason": "MACD绿柱缩脚; RSI超卖(35.8); 温和放量上涨",
-          "sell_reason": "跌破MA5"
-        }
-      ],
+      "current_capital": 30000,
+      "total_value": 30000,
+      "total_return": 0.0,
+      "monthly_return": 0.0,
+      "sharpe_ratio": 0,
+      "max_drawdown": 0,
+      "win_rate": 0,
+      "realized_pnl": 0.0,
+      "realized_pnl_pct": 0.0,
+      "floating_pnl": 0.0,
+      "floating_pnl_pct": 0.0,
+      "total_pnl": 0.0,
+      "total_pnl_pct": 0.0,
+      "holdings": [],
+      "trades": [],
       "equity_curve": [
         {
           "date": "2026-05-29",
-          "value": 29963.0
+          "value": 30000
         },
         {
           "date": "2026-06-01",
-          "value": 29710.0
+          "value": 30000
         },
         {
           "date": "2026-06-02",
-          "value": 30021.0
+          "value": 30000
         },
         {
           "date": "2026-06-03",
-          "value": 29827.0
+          "value": 30000
         },
         {
           "date": "2026-06-04",
-          "value": 29689.0
+          "value": 30000
         },
         {
           "date": "2026-06-05",
-          "value": 29646.0
+          "value": 30000
         },
         {
           "date": "2026-06-08",
-          "value": 29464.0
+          "value": 30000
         },
         {
           "date": "2026-06-09",
-          "value": 29534.0
+          "value": 30000
         },
         {
           "date": "2026-06-10",
-          "value": 29376.0
+          "value": 30000
         },
         {
           "date": "2026-06-11",
-          "value": 29325.0
+          "value": 30000
         },
         {
           "date": "2026-06-12",
-          "value": 29505.0
+          "value": 30000
         },
         {
           "date": "2026-06-15",
-          "value": 29427.0
+          "value": 30000
         },
         {
           "date": "2026-06-16",
-          "value": 29309.0
+          "value": 30000
         },
         {
           "date": "2026-06-17",
-          "value": 29092.0
+          "value": 30000
         },
         {
           "date": "2026-06-18",
-          "value": 29158.0
+          "value": 30000
         },
         {
           "date": "2026-06-22",
-          "value": 29104.0
+          "value": 30000
         },
         {
           "date": "2026-06-23",
-          "value": 28845.0
+          "value": 30000
         },
         {
           "date": "2026-06-24",
-          "value": 28675.0
+          "value": 30000
         },
         {
           "date": "2026-06-25",
-          "value": 28565.0
+          "value": 30000
         },
         {
           "date": "2026-06-26",
-          "value": 28165.0
+          "value": 30000
         },
         {
           "date": "2026-06-29",
-          "value": 28309.0
+          "value": 30000
         },
         {
           "date": "2026-06-30",
-          "value": 28315.0
+          "value": 30000
         },
         {
           "date": "2026-07-01",
-          "value": 28411.0
+          "value": 30000
         },
         {
           "date": "2026-07-02",
-          "value": 28702.0
+          "value": 30000
         },
         {
           "date": "2026-07-03",
-          "value": 29192.0
+          "value": 30000
         },
         {
           "date": "2026-07-06",
-          "value": 29099.0
+          "value": 30000
         },
         {
           "date": "2026-07-07",
-          "value": 28971.0
+          "value": 30000
         },
         {
           "date": "2026-07-08",
-          "value": 29125.0
+          "value": 30000
         },
         {
           "date": "2026-07-09",
-          "value": 29032.0
+          "value": 30000
         },
         {
           "date": "2026-07-10",
-          "value": 29345.0
+          "value": 30000
         }
       ],
       "backtest_start": "2026-05-26",
       "backtest_end": "2026-07-10",
       "backtest_days": 33,
-      "composite_score": 22.0,
+      "composite_score": 21.6,
       "grade": "D",
-      "profit_loss_ratio": 0.8731117824773414,
+      "profit_loss_ratio": 0.10587475790832795,
       "return_stability": 0,
-      "calmar_ratio": -0.3531565193965517
+      "calmar_ratio": -0.9670402109426499
+    },
+    {
+      "name": "质量因子选股",
+      "category": "质量因子",
+      "version": "1.0.0",
+      "description": "质量因子选股：F-Score≥3, PE<40, 持有30天",
+      "initial_capital": 30000,
+      "current_capital": 20883.0,
+      "total_value": 28533.0,
+      "total_return": -0.0489,
+      "monthly_return": -0.0489,
+      "sharpe_ratio": -4.034567570425982,
+      "max_drawdown": 0.05056666666666667,
+      "win_rate": 0.3333333333333333,
+      "realized_pnl": -1467.0,
+      "realized_pnl_pct": -4.89,
+      "floating_pnl": 0.0,
+      "floating_pnl_pct": 0.0,
+      "total_pnl": -1467.0,
+      "total_pnl_pct": -4.89,
+      "holdings": [
+        {
+          "symbol": "000651",
+          "name": "000651",
+          "buy_price": 38.25,
+          "quantity": 200,
+          "buy_date": "2026-07-10",
+          "cost": 7650.0,
+          "stock_reason": "F-Score=6分, ROE=4.0%, PE=35.1",
+          "timing_reason": "温和放量上涨; 均线多头排列",
+          "hold_days": 1,
+          "current_price": 38.25,
+          "profit": 0.0,
+          "profit_pct": 0.0
+        }
+      ],
+      "trades": [
+        {
+          "symbol": "000807",
+          "name": "000807",
+          "buy_date": "2026-05-26",
+          "buy_price": 31.24,
+          "sell_date": "2026-05-27",
+          "sell_price": 29.42,
+          "quantity": 300,
+          "profit": -546.0,
+          "profit_pct": -5.8258642765685025,
+          "hold_days": 1,
+          "stock_reason": "F-Score=8分, ROE=10.1%, PE=22.3",
+          "timing_reason": "回踩MA5; 回踩MA20; MACD绿柱缩脚; KDJ超卖金叉; RSI超卖(45.6); 温和放量上涨",
+          "sell_reason": "跌破MA5; 跌破MA20"
+        },
+        {
+          "symbol": "000651",
+          "name": "000651",
+          "buy_date": "2026-06-02",
+          "buy_price": 39.52,
+          "sell_date": "2026-06-04",
+          "sell_price": 38.88,
+          "quantity": 200,
+          "profit": -128.0,
+          "profit_pct": -1.6194331983805665,
+          "hold_days": 2,
+          "stock_reason": "F-Score=6分, ROE=4.0%, PE=35.1",
+          "timing_reason": "回踩MA20; MACD绿柱缩脚; RSI超卖(41.9); 温和放量上涨",
+          "sell_reason": "跌破MA5; 跌破MA20"
+        },
+        {
+          "symbol": "000807",
+          "name": "000807",
+          "buy_date": "2026-06-03",
+          "buy_price": 30.06,
+          "sell_date": "2026-06-05",
+          "sell_price": 27.25,
+          "quantity": 300,
+          "profit": -843.0,
+          "profit_pct": -9.347970725216234,
+          "hold_days": 2,
+          "stock_reason": "F-Score=8分, ROE=10.1%, PE=22.3",
+          "timing_reason": "回踩MA20; MACD金叉; KDJ超卖金叉; RSI超卖(46.1); 温和放量上涨",
+          "sell_reason": "跌破MA5; 跌破MA20"
+        },
+        {
+          "symbol": "000651",
+          "name": "000651",
+          "buy_date": "2026-07-02",
+          "buy_price": 38.0,
+          "sell_date": "2026-07-07",
+          "sell_price": 38.4,
+          "quantity": 200,
+          "profit": 80.0,
+          "profit_pct": 1.0526315789473684,
+          "hold_days": 3,
+          "stock_reason": "F-Score=6分, ROE=4.0%, PE=35.1",
+          "timing_reason": "回踩MA5; 回踩MA20; RSI超卖(44.6); 温和放量上涨",
+          "sell_reason": "MACD红柱缩短"
+        },
+        {
+          "symbol": "000651",
+          "name": "000651",
+          "buy_date": "2026-07-07",
+          "buy_price": 38.4,
+          "sell_date": "2026-07-09",
+          "sell_price": 38.24,
+          "quantity": 200,
+          "profit": -32.0,
+          "profit_pct": -0.4166666666666667,
+          "hold_days": 2,
+          "stock_reason": "F-Score=6分, ROE=4.0%, PE=35.1",
+          "timing_reason": "均线多头排列",
+          "sell_reason": "MACD红柱缩短; 跌破MA5"
+        },
+        {
+          "symbol": "000651",
+          "name": "000651",
+          "buy_date": "2026-07-09",
+          "buy_price": 38.24,
+          "sell_date": "2026-07-10",
+          "sell_price": 38.25,
+          "quantity": 200,
+          "profit": 2.0,
+          "profit_pct": 0.02615062761506276,
+          "hold_days": 1,
+          "stock_reason": "F-Score=6分, ROE=4.0%, PE=35.1",
+          "timing_reason": "均线多头排列",
+          "sell_reason": "MACD红柱缩短; 跌破MA5"
+        }
+      ],
+      "equity_curve": [
+        {
+          "date": "2026-05-29",
+          "value": 29454.0
+        },
+        {
+          "date": "2026-06-01",
+          "value": 29454.0
+        },
+        {
+          "date": "2026-06-02",
+          "value": 29454.0
+        },
+        {
+          "date": "2026-06-03",
+          "value": 29450.0
+        },
+        {
+          "date": "2026-06-04",
+          "value": 29326.0
+        },
+        {
+          "date": "2026-06-05",
+          "value": 28483.0
+        },
+        {
+          "date": "2026-06-08",
+          "value": 28483.0
+        },
+        {
+          "date": "2026-06-09",
+          "value": 28483.0
+        },
+        {
+          "date": "2026-06-10",
+          "value": 28483.0
+        },
+        {
+          "date": "2026-06-11",
+          "value": 28483.0
+        },
+        {
+          "date": "2026-06-12",
+          "value": 28483.0
+        },
+        {
+          "date": "2026-06-15",
+          "value": 28483.0
+        },
+        {
+          "date": "2026-06-16",
+          "value": 28483.0
+        },
+        {
+          "date": "2026-06-17",
+          "value": 28483.0
+        },
+        {
+          "date": "2026-06-18",
+          "value": 28483.0
+        },
+        {
+          "date": "2026-06-22",
+          "value": 28483.0
+        },
+        {
+          "date": "2026-06-23",
+          "value": 28483.0
+        },
+        {
+          "date": "2026-06-24",
+          "value": 28483.0
+        },
+        {
+          "date": "2026-06-25",
+          "value": 28483.0
+        },
+        {
+          "date": "2026-06-26",
+          "value": 28483.0
+        },
+        {
+          "date": "2026-06-29",
+          "value": 28483.0
+        },
+        {
+          "date": "2026-06-30",
+          "value": 28483.0
+        },
+        {
+          "date": "2026-07-01",
+          "value": 28483.0
+        },
+        {
+          "date": "2026-07-02",
+          "value": 28483.0
+        },
+        {
+          "date": "2026-07-03",
+          "value": 28549.0
+        },
+        {
+          "date": "2026-07-06",
+          "value": 28683.0
+        },
+        {
+          "date": "2026-07-07",
+          "value": 28563.0
+        },
+        {
+          "date": "2026-07-08",
+          "value": 28591.0
+        },
+        {
+          "date": "2026-07-09",
+          "value": 28531.0
+        },
+        {
+          "date": "2026-07-10",
+          "value": 28533.0
+        }
+      ],
+      "backtest_start": "2026-05-26",
+      "backtest_end": "2026-07-10",
+      "backtest_days": 33,
+      "composite_score": 20.0,
+      "grade": "D",
+      "profit_loss_ratio": 0,
+      "return_stability": 0,
+      "calmar_ratio": 0
     }
   ]
 }

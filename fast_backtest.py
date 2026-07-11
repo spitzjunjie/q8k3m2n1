@@ -15,6 +15,11 @@ BENCHMARK_START = datetime(2026, 5, 26)
 INITIAL_CAPITAL = 30000
 MAX_HOLDINGS = 3
 
+# === 风控参数 ===
+STOP_LOSS = -5      # 止损线：亏损超过5%自动卖出
+TAKE_PROFIT = 10    # 止盈线：盈利超过10%自动卖出
+MAX_HOLD_DAYS = 10  # 最大持仓天数
+
 
 # === 信号函数 ===
 def _safe(k):
@@ -533,17 +538,18 @@ def _高股息_signal(k):
     return False, ""
 
 def _北向重仓_signal(k):
-    """北向重仓（外资持股增加）"""
+    """北向重仓（严格版：趋势确认+价格低位）"""
     c, v = _safe(k)
     if c is None or v is None or len(c) < 20: return False, ""
     ret10 = _ret(c, 10)
     vol_ratio = v[-5:].mean() / v[-20:].mean()
     pct = _price_percentile(c, 20)
-    # 温和上涨 + 温和放量 + 价格合理 + 均线多头
+    # 严格条件：温和上涨(5-15%) + 温和放量(1.0-1.3) + 价格低位(<40%) + 均线多头
     ma5 = _ma(c, 5)
     ma10 = _ma(c, 10)
-    if 0 < ret10 < 20 and 0.9 < vol_ratio < 1.5 and pct < 50 and ma5 > ma10:
-        return True, f"北向加仓+{ret10:.1f}%"
+    ma20 = _ma(c, 20)
+    if 5 < ret10 < 15 and 1.0 < vol_ratio < 1.3 and pct < 40 and ma5 > ma10 > ma20:
+        return True, f"北向趋势+{ret10:.1f}%"
     return False, ""
 
 def _业绩预增_signal(k):
@@ -660,18 +666,38 @@ def run_backtest(strategy_name, config, helper, trading_dates):
             except:
                 pass
 
-        # 卖出
+        # 卖出（含止盈止损）
         for h in list(holdings):
-            idx = buy_date_idx.get(h['symbol'], 0)
-            if idx <= i - 5:
-                sp = prices.get(h['symbol'])
-                if sp:
-                    pnl = (sp - h['price']) / h['price'] * 100
+            sp = prices.get(h['symbol'])
+            if sp:
+                pnl = (sp - h['price']) / h['price'] * 100
+                idx = buy_date_idx.get(h['symbol'], 0)
+                hold_days = i - idx
+
+                # 止盈止损条件
+                should_sell = (
+                    pnl <= STOP_LOSS or                    # 止损：亏损超过5%
+                    pnl >= TAKE_PROFIT or                  # 止盈：盈利超过10%
+                    hold_days >= MAX_HOLD_DAYS or          # 持仓超时
+                    idx <= i - 5                           # 持有5天后到期
+                )
+
+                if should_sell:
+                    # 记录卖出原因
+                    if pnl <= STOP_LOSS:
+                        reason = f"止损({pnl:.1f}%)"
+                    elif pnl >= TAKE_PROFIT:
+                        reason = f"止盈({pnl:.1f}%)"
+                    elif hold_days >= MAX_HOLD_DAYS:
+                        reason = f"到期({hold_days}天)"
+                    else:
+                        reason = h['reason']
+
                     trades.append({
                         'buy_date': h['date'], 'sell_date': date,
                         'symbol': h['symbol'], 'name': h['name'],
                         'buy_price': h['price'], 'sell_price': sp,
-                        'profit': pnl, 'reason': h['reason']
+                        'profit': pnl, 'reason': reason
                     })
                     capital += h['qty'] * sp
                     holdings.remove(h)

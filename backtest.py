@@ -144,6 +144,20 @@ from strategies.lockup_expiry_arbitrage_strategy import LockupExpiryArbitrageStr
 from strategies.davis_double_hit_strategy import DavisDoubleHitStrategy
 from strategies.turnaround_strategy import TurnaroundStrategy
 from strategies.shareholder_change_strategy import ShareholderChangeStrategy
+# 新增新闻情感策略（基于FinBERT金融情感分析）
+from strategies.news_sentiment_strategy import NewsSentimentStrategy, HotNewsTrackingStrategy
+# 新增市场情绪策略
+from strategies.market_sentiment_strategy import SentimentIcePointStrategy
+# 新增筹码分布策略
+from strategies.chips_distribution_strategy import ChipsDistributionStrategy, ChipBreakoutStrategy
+# 新增行业轮动策略
+from strategies.sector_rotation_strategy import SectorRotationStrategy
+# 新增龙头战法策略
+from strategies.leading_stock_strategy import LeadingStockStrategy
+# 新增质量因子策略
+from strategies.quality_factor_strategy import QualityFactorStrategy
+# 新增集合竞价策略
+from strategies.closing_auction_strategy import ClosingAuctionStrategy
 
 
 def get_all_strategies():
@@ -252,6 +266,22 @@ def get_all_strategies():
         DavisDoubleHitStrategy(),          # 戴维斯双击
         TurnaroundStrategy(),              # 困境反转
         ShareholderChangeStrategy(),       # 股东户数变化
+        # 新增新闻情感策略（基于FinBERT金融情感分析）
+        NewsSentimentStrategy(),           # 新闻情感选股
+        HotNewsTrackingStrategy(),         # 热点新闻追踪
+        # 新增市场情绪策略（情绪冰点抄底）
+        SentimentIcePointStrategy(),       # 情绪冰点抄底
+        # 新增筹码分布策略
+        ChipsDistributionStrategy(),        # 筹码分布
+        ChipBreakoutStrategy(),            # 筹码突破
+        # 新增行业轮动策略
+        SectorRotationStrategy(),          # 行业轮动
+        # 新增龙头战法策略
+        LeadingStockStrategy(),            # 龙头战法
+        # 新增质量因子策略
+        QualityFactorStrategy(),            # 质量因子选股
+        # 新增集合竞价策略
+        ClosingAuctionStrategy(),          # 集合竞价选股
     ]
     return strategies
 

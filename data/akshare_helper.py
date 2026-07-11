@@ -11,14 +11,69 @@ from datetime import datetime, timedelta
 import json
 import os
 import time
+import random
 
 class AKShareHelper:
-    """AKShare数据助手"""
+    """AKShare数据助手 - 优化版"""
 
     def __init__(self, cache_dir="data/cache"):
         self.cache_dir = cache_dir
         os.makedirs(cache_dir, exist_ok=True)
         self._hs300_cache = None
+        self._request_count = 0  # 请求计数器
+        self._last_request_time = 0  # 上次请求时间
+        self._min_request_interval = 0.3  # 最小请求间隔(秒)
+        self._max_retries = 5  # 最大重试次数
+        self._base_wait_time = 2  # 基础等待时间(秒)
+
+    def _rate_limit(self):
+        """请求频率限制，避免被封"""
+        self._request_count += 1
+        current_time = time.time()
+        elapsed = current_time - self._last_request_time
+        
+        # 如果距离上次请求时间太短，等待一下
+        if elapsed < self._min_request_interval:
+            wait_time = self._min_request_interval - elapsed + random.uniform(0.1, 0.3)
+            time.sleep(wait_time)
+        
+        # 每隔一定请求后增加随机等待
+        if self._request_count % 10 == 0:
+            time.sleep(random.uniform(0.5, 1.5))
+        
+        self._last_request_time = time.time()
+
+    def _retry_request(self, func, *args, **kwargs):
+        """带重试的请求，自动处理网络错误"""
+        last_error = None
+        
+        for attempt in range(self._max_retries):
+            try:
+                self._rate_limit()
+                return func(*args, **kwargs)
+            except Exception as e:
+                last_error = e
+                error_str = str(e)
+                
+                # 判断是否是网络错误
+                is_network_error = any(x in error_str for x in [
+                    'RemoteDisconnected', 'Connection aborted', 'ConnectionReset',
+                    'ConnectionRefused', 'timed out', 'ReadTimeout',
+                    'SSLError', 'EOF', 'getaddrinfo'
+                ])
+                
+                if is_network_error and attempt < self._max_retries - 1:
+                    wait_time = self._base_wait_time * (attempt + 1) + random.uniform(0, 2)
+                    print(f"  网络错误，{wait_time:.1f}秒后重试 ({attempt + 1}/{self._max_retries}): {e}")
+                    time.sleep(wait_time)
+                else:
+                    break
+        
+        raise last_error
+
+    def wrap_akshare(self, func, *args, **kwargs):
+        """包装AKShare函数，自动重试（供策略直接调用）"""
+        return self._retry_request(func, *args, **kwargs)
 
     def _get_cache(self, key, days=1):
         cache_file = os.path.join(self.cache_dir, f"{key}.json")
@@ -51,21 +106,167 @@ class AKShareHelper:
             return []
 
     def get_realtime_quote(self, symbol):
-        """获取实时行情"""
+        """获取单只股票实时行情（多备用接口）"""
+        # 方案1: 东方财富
         try:
-            df = ak.stock_zh_a_spot_em()
+            df = self.wrap_akshare(ak.stock_zh_a_spot_em)
             stock = df[df['代码'] == symbol]
             if not stock.empty:
                 return stock.iloc[0].to_dict()
         except Exception as e:
-            print(f"获取实时行情失败 {symbol}: {e}")
+            pass
+
+        # 方案2: 新浪
+        try:
+            prefix = 'sh' if symbol.startswith('6') else 'sz'
+            df = self.wrap_akshare(ak.stock_zh_a_spot, symbol=prefix + symbol)
+            if df is not None and not df.empty:
+                return df.iloc[0].to_dict()
+        except Exception as e:
+            pass
+
+        # 方案3: 腾讯财经
+        try:
+            df = self.wrap_akshare(ak.stock_zh_a_spot_tencent, symbol=symbol)
+            if df is not None and not df.empty:
+                return df.iloc[0].to_dict()
+        except Exception as e:
+            pass
+
         return None
 
+    def get_market_stocks(self):
+        """获取全市场股票列表（多备用接口，带重试机制）"""
+        cache = self._get_cache("market_stocks", days=1)
+        if cache:
+            return cache
+
+        # 方案1: 东方财富全市场实时行情
+        try:
+            df = self.wrap_akshare(ak.stock_zh_a_spot_em)
+            if df is not None and not df.empty:
+                stocks = []
+                for _, row in df.iterrows():
+                    code = str(row.get('代码', ''))
+                    name = str(row.get('名称', ''))
+
+                    if not code or len(code) != 6:
+                        continue
+                    if 'ST' in name or '退' in name:
+                        continue
+
+                    total_mv = row.get('总市值', 0)
+                    if total_mv and isinstance(total_mv, (int, float)):
+                        total_mv = total_mv / 1e8
+
+                    stocks.append({
+                        'symbol': code,
+                        'name': name,
+                        'total_mv': total_mv,
+                        'pb': row.get('市净率', 0),
+                        'pe': row.get('市盈率-动态', 0),
+                        'change_pct': row.get('涨跌幅', 0),
+                    })
+
+                self._set_cache("market_stocks", stocks)
+                print(f"全市场股票获取成功: {len(stocks)} 只")
+                return stocks
+        except Exception as e:
+            print(f"东方财富接口失败: {e}")
+
+        # 方案2: 新浪实时行情
+        try:
+            df = self.wrap_akshare(ak.stock_zh_a_spot)
+            if df is not None and not df.empty:
+                stocks = []
+                for _, row in df.iterrows():
+                    code = str(row.get('symbol', '')).replace('sh', '').replace('sz', '')
+                    name = str(row.get('name', ''))
+
+                    if not code or len(code) != 6:
+                        continue
+                    if 'ST' in name or '退' in name:
+                        continue
+
+                    stocks.append({
+                        'symbol': code,
+                        'name': name,
+                        'total_mv': 0,
+                        'pb': 0,
+                        'pe': 0,
+                        'change_pct': row.get('change_pct', 0),
+                    })
+
+                self._set_cache("market_stocks", stocks)
+                print(f"新浪接口获取成功: {len(stocks)} 只")
+                return stocks
+        except Exception as e:
+            print(f"新浪接口失败: {e}")
+
+        # 方案3: 新浪股票列表（基本信息）
+        try:
+            df = self.wrap_akshare(ak.stock_info_a_code_name)
+            if df is not None and not df.empty:
+                stocks = []
+                for _, row in df.iterrows():
+                    code = str(row.get('代码', ''))
+                    name = str(row.get('名称', ''))
+
+                    if not code or len(code) != 6:
+                        continue
+                    if 'ST' in name or '退' in name:
+                        continue
+
+                    stocks.append({
+                        'symbol': code,
+                        'name': name,
+                        'total_mv': 0,
+                        'pb': 0,
+                        'pe': 0,
+                        'change_pct': 0,
+                    })
+
+                self._set_cache("market_stocks", stocks)
+                print(f"股票列表获取成功: {len(stocks)} 只")
+                return stocks
+        except Exception as e:
+            print(f"股票列表接口失败: {e}")
+
+        # 方案4: 腾讯财经接口
+        try:
+            df = self.wrap_akshare(ak.stock_zh_a_spot_tencent)
+            if df is not None and not df.empty:
+                stocks = []
+                for _, row in df.iterrows():
+                    code = str(row.get('code', ''))
+                    name = str(row.get('name', ''))
+
+                    if not code or len(code) != 6:
+                        continue
+                    if 'ST' in name or '退' in name:
+                        continue
+
+                    stocks.append({
+                        'symbol': code,
+                        'name': name,
+                        'total_mv': 0,
+                        'pb': 0,
+                        'pe': 0,
+                        'change_pct': 0,
+                    })
+
+                self._set_cache("market_stocks", stocks)
+                print(f"腾讯财经接口获取成功: {len(stocks)} 只")
+                return stocks
+        except Exception as e:
+            print(f"腾讯财经接口失败: {e}")
+
+        return []
+
     def get_etf_history_kline(self, symbol, period="daily", days=60, end_date=None):
-        """获取ETF历史K线
+        """获取ETF历史K线（优化版）
         symbol: ETF代码，如 '510300' / '159915'
         end_date: 指定结束日期(YYYYMMDD字符串或YYYY-MM-DD)，None=今天
-        使用东方财富ETF接口 fund_etf_hist_em
         """
         # 统一end_date格式为YYYYMMDD
         if end_date and isinstance(end_date, str) and '-' in end_date:
@@ -77,9 +278,10 @@ class AKShareHelper:
         actual_end = end_date or datetime.now().strftime("%Y%m%d")
         actual_start = (datetime.strptime(actual_end, "%Y%m%d") - timedelta(days=days*2)).strftime("%Y%m%d")
         
+        # 方案1: 东方财富ETF接口
         try:
-            df = ak.fund_etf_hist_em(symbol=symbol, period=period,
-                                      start_date=actual_start, end_date=actual_end)
+            df = self._retry_request(ak.fund_etf_hist_em, symbol=symbol, period=period,
+                                     start_date=actual_start, end_date=actual_end)
             if df is not None and not df.empty:
                 df = df.tail(days)
                 col_map = {
@@ -89,7 +291,6 @@ class AKShareHelper:
                 }
                 df = df.rename(columns=col_map)
                 if 'date' not in df.columns and '日期' not in df.columns:
-                    # 尝试自动检测日期列
                     for col in df.columns:
                         if 'date' in col.lower() or '日期' in col:
                             df = df.rename(columns={col: 'date'})
@@ -98,7 +299,20 @@ class AKShareHelper:
                 self._set_cache(cache_key, df.to_dict('records'))
                 return df
         except Exception as e:
-            print(f"ETF历史K线获取失败 {symbol}: {e}")
+            print(f"东财ETF接口失败 {symbol}: {e}")
+        
+        # 方案2: 降级用股票K线（ETF也是股票代码）
+        try:
+            df = self._retry_request(ak.stock_zh_a_daily, symbol=f"sh{symbol}",
+                                     start_date=actual_start, end_date=actual_end, adjust="qfq")
+            if df is not None and not df.empty:
+                df = df.tail(days)
+                df['date'] = df['date'].astype(str)
+                self._set_cache(cache_key, df.to_dict('records'))
+                return df
+        except Exception as e:
+            print(f"ETF备用接口也失败 {symbol}: {e}")
+        
         return pd.DataFrame()
 
     def get_history_kline(self, symbol, period="daily", days=60, end_date=None):
@@ -119,14 +333,12 @@ class AKShareHelper:
 
         # 方案1: 新浪源 stock_zh_a_daily（稳定，需要sz/sh前缀）
         try:
-            # 转换symbol为新浪格式：6开头=sh，其余=sz
             prefix = 'sh' if symbol.startswith('6') else 'sz'
             sina_symbol = f"{prefix}{symbol}"
-            df = ak.stock_zh_a_daily(symbol=sina_symbol, start_date=actual_start,
-                                      end_date=actual_end, adjust="qfq")
+            df = self._retry_request(ak.stock_zh_a_daily, symbol=sina_symbol, 
+                                     start_date=actual_start, end_date=actual_end, adjust="qfq")
             if df is not None and not df.empty:
                 df = df.tail(days)
-                # 自动检测并标准化日期列
                 date_col = None
                 for col in df.columns:
                     if 'date' in col.lower() or '日期' in col:
@@ -134,51 +346,32 @@ class AKShareHelper:
                         break
                 if date_col:
                     df = df.rename(columns={date_col: 'date'})
-                
-                # 标准化列名
                 keep_cols = ['date', 'open', 'high', 'low', 'close', 'volume', 'amount']
                 existing_cols = [c for c in keep_cols if c in df.columns]
                 df = df[existing_cols]
-                
                 if 'date' in df.columns:
                     df['date'] = df['date'].astype(str)
-                
                 self._set_cache(cache_key, df.to_dict('records'))
                 return df
         except Exception as e:
             print(f"新浪源K线失败 {symbol}: {e}")
 
-        # 方案2: 东方财富源 stock_zh_a_hist（降级）- 带重试
-        max_retries = 3
-        for attempt in range(max_retries):
-            try:
-                df = ak.stock_zh_a_hist(symbol=symbol, period=period,
-                                        start_date=actual_start, end_date=actual_end, adjust="qfq")
-                if df is not None and not df.empty:
-                    df = df.tail(days)
-                    col_map = {
-                        '日期': 'date', '开盘': 'open', '收盘': 'close',
-                        '最高': 'high', '最低': 'low', '成交量': 'volume',
-                        '成交额': 'amount', '振幅': 'amplitude'
-                    }
-                    df = df.rename(columns=col_map)
-                    self._set_cache(cache_key, df.to_dict('records'))
-                    return df
-                break
-            except Exception as e:
-                error_str = str(e)
-                is_connection_error = any(x in error_str for x in [
-                    'RemoteDisconnected', 'Connection aborted', 'ConnectionReset',
-                    'ConnectionRefused', 'timed out', 'ReadTimeout'
-                ])
-                if is_connection_error and attempt < max_retries - 1:
-                    wait_time = (attempt + 1) * 2
-                    print(f"东财K线连接失败 {symbol}，{wait_time}秒后重试 ({attempt + 1}/{max_retries})")
-                    time.sleep(wait_time)
-                    continue
-                else:
-                    print(f"东方财富源K线失败 {symbol}: {e}")
-                    break
+        # 方案2: 东方财富源 stock_zh_a_hist（降级）
+        try:
+            df = self._retry_request(ak.stock_zh_a_hist, symbol=symbol, period=period,
+                                     start_date=actual_start, end_date=actual_end, adjust="qfq")
+            if df is not None and not df.empty:
+                df = df.tail(days)
+                col_map = {
+                    '日期': 'date', '开盘': 'open', '收盘': 'close',
+                    '最高': 'high', '最低': 'low', '成交量': 'volume',
+                    '成交额': 'amount', '振幅': 'amplitude'
+                }
+                df = df.rename(columns=col_map)
+                self._set_cache(cache_key, df.to_dict('records'))
+                return df
+        except Exception as e:
+            print(f"东方财富源K线失败 {symbol}: {e}")
         
         return pd.DataFrame()
 

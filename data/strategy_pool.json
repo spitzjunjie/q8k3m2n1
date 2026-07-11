@@ -1,6 +1,15 @@
 {
   "active": [
     {
+      "name": "行业轮动",
+      "version": "1.0.0",
+      "added_date": "2026-07-11",
+      "consecutive_d_days": 0,
+      "last_grade": "A",
+      "best_score": 0,
+      "last_score": 0
+    },
+    {
       "name": "AI供应链紫苏叶",
       "version": "1.0.0",
       "added_date": "2026-07-06",
@@ -287,6 +296,247 @@
       "last_grade": "D",
       "best_score": 20.0,
       "last_score": 20.0
+    },
+    {
+      "name": "情绪冰点抄底",
+      "version": "1.1.0",
+      "added_date": "2026-07-11",
+      "consecutive_d_days": 0,
+      "last_grade": "B",
+      "best_score": 50.0,
+      "last_score": 50.0,
+      "description": "情绪冰点抄底ETF：涨停家数<30冰点信号，沪深300 PE<15，分3批建仓510300 | 止损-10% | 止盈20%",
+      "category": "择时策略",
+      "params": {
+        "limit_up_icepoint": 30,
+        "limit_up_euphoria": 80,
+        "broken_board_rate": 20,
+        "max_hold_days": 20,
+        "take_profit_pct": 20,
+        "stop_loss_pct": -10,
+        "target_etf": "510300"
+      },
+      "target": "510300"
+    },
+    {
+      "name": "财务基本面过滤小市值",
+      "version": "1.1.0",
+      "added_date": "2026-07-11",
+      "consecutive_d_days": 1,
+      "last_grade": "D",
+      "best_score": 20.0,
+      "last_score": 20.0,
+      "description": "财务基本面过滤小市值：市值<50亿或后20% | ROE>5% | 增速>0% | 负债率<80% | 止损-8%",
+      "category": "基本面",
+      "params": {
+        "min_market_cap": 50,
+        "max_market_cap_percentile": 20,
+        "min_roe": 5,
+        "min_profit_growth": 0,
+        "max_debt_ratio": 80,
+        "top_n": 10,
+        "stop_loss": -8,
+        "take_profit": 15
+      }
+    },
+    {
+      "name": "龙头战法",
+      "version": "1.0.0",
+      "added_date": "2026-07-11",
+      "consecutive_d_days": 0,
+      "last_grade": "D",
+      "best_score": 20.0,
+      "last_score": 20.0,
+      "description": "龙头战法：板块龙头→资金聚集→趋势延续→顺势而为。流通市值30-80亿，股价<15元，早盘涨停(9:30-10:00)，封单/成交额>8%，板块涨停>10家，风3家，止损7%",
+      "category": "短线事件",
+      "params": {
+        "min_circ_mv": 30,
+        "max_circ_mv": 80,
+        "max_price": 15,
+        "min_seal_time": "093000",
+        "max_seal_time": "100000",
+        "min_seal_ratio": 8,
+        "min_sector_limit": 10,
+        "min_followers": 3,
+        "stop_loss": -7,
+        "holding_days": 3,
+        "top_n": 5
+      }
+    },
+    {
+      "name": "拿破仑事件",
+      "version": "1.0.0",
+      "added_date": "2026-07-11",
+      "consecutive_d_days": 0,
+      "last_grade": "D",
+      "best_score": 20.0,
+      "last_score": 20.0,
+      "description": "拿破仑事件策略（机构事件）：机构龙虎榜净买入+筹码低位集中+主力资金3日净流入。持有5-10天，到期无条件卖出。",
+      "category": "事件驱动",
+      "params": {
+        "holding_days_min": 5,
+        "holding_days_max": 10,
+        "top_n": 10
+      }
+    },
+    {
+      "name": "萨拉丁事件",
+      "version": "1.0.0",
+      "added_date": "2026-07-11",
+      "consecutive_d_days": 0,
+      "last_grade": "D",
+      "best_score": 20.0,
+      "last_score": 20.0,
+      "description": "萨拉丁事件策略（游资事件）：游资席位连续上榜+涨停板回调，换手率>15%，成交额>5亿。回调第2天买入，持有3-5天，止损8%。",
+      "category": "事件驱动",
+      "params": {
+        "min_turnover": 15,
+        "min_amount": 500000000,
+        "holding_days_min": 3,
+        "holding_days_max": 5,
+        "stop_loss": -8,
+        "top_n": 10
+      }
+    },
+    {
+      "name": "俾斯麦事件",
+      "version": "1.0.0",
+      "added_date": "2026-07-11",
+      "consecutive_d_days": 0,
+      "last_grade": "D",
+      "best_score": 20.0,
+      "last_score": 20.0,
+      "description": "俾斯麦事件策略（机构事件）：机构专用席位净买入>5000万+股价站上20日均线+基本面无恶化。持有10-20天，跌破60日均线卖出。",
+      "category": "事件驱动",
+      "params": {
+        "min_buy_amount": 5000,
+        "holding_days_min": 10,
+        "holding_days_max": 20,
+        "top_n": 10
+      }
+    },
+    {
+      "name": "大小盘风格轮动",
+      "version": "1.1.0",
+      "added_date": "2026-07-11",
+      "consecutive_d_days": 0,
+      "last_grade": "A",
+      "best_score": 75.0,
+      "last_score": 75.0,
+      "description": "大小盘风格轮动：比较沪深300和创业板近20日涨幅，强弱差距>5%时轮动到强势品种 | 止损-5%",
+      "category": "风格轮动",
+      "params": {
+        "lookback_days": 20,
+        "holding_days": 5,
+        "switch_threshold": 5,
+        "large_cap_etf": "510300",
+        "small_cap_etf": "159915",
+        "stop_loss": -5,
+        "take_profit": 10
+      },
+      "target": "510300/159915"
+    },
+    {
+      "name": "行业动量",
+      "version": "1.1.0",
+      "added_date": "2026-07-11",
+      "consecutive_d_days": 0,
+      "last_grade": "B",
+      "best_score": 50.0,
+      "last_score": 50.0,
+      "description": "行业动量：选取近5日涨幅最大行业板块，龙头股（成交额最大）| 止损-8% | 止盈15%",
+      "category": "轮动策略",
+      "params": {
+        "momentum_days": 5,
+        "top_n_sectors": 3,
+        "top_n_stocks": 1,
+        "holding_days": 5,
+        "ma_period": 20,
+        "stop_loss": -8,
+        "take_profit": 15
+      }
+    },
+    {
+      "name": "筹码分布",
+      "version": "1.1.0",
+      "added_date": "2026-07-11",
+      "consecutive_d_days": 0,
+      "last_grade": "D",
+      "best_score": 20.0,
+      "last_score": 20.0,
+      "description": "筹码分布策略：筹码集中度>70%+低位密集+放量突破 | 止损-6% | 止盈12%",
+      "category": "技术/筹码",
+      "params": {
+        "concentration_threshold": 70,
+        "width_threshold": 20,
+        "volume_multiplier": 2,
+        "hold_days": 20,
+        "top_n": 10,
+        "stop_loss": -6,
+        "take_profit": 12
+      }
+    },
+    {
+      "name": "尾盘抢筹",
+      "version": "1.1.0",
+      "added_date": "2026-07-11",
+      "consecutive_d_days": 0,
+      "last_grade": "D",
+      "best_score": 20.0,
+      "last_score": 20.0,
+      "description": "尾盘抢筹：14:30后筛选强势尾盘异动个股 | 止盈5% | 止损-3%",
+      "category": "短线事件",
+      "params": {
+        "min_gain": 2.0,
+        "max_gain": 5.0,
+        "min_volume_ratio": 1.5,
+        "min_turnover": 4.0,
+        "max_turnover": 10.0,
+        "min_circ_mv": 50,
+        "max_circ_mv": 200,
+        "ma_periods": [5, 10, 20],
+        "take_profit": 5.0,
+        "stop_loss": -3.0,
+        "holding_days": 2,
+        "top_n": 3
+      }
+    },
+    {
+      "name": "AI量化选股",
+      "version": "1.0.0",
+      "added_date": "2026-07-11",
+      "consecutive_d_days": 0,
+      "last_grade": "D",
+      "best_score": 20.0,
+      "last_score": 20.0,
+      "description": "AI量化选股：排雷(负债率<80%) | 基本面(ROE>5%, 增速>0%) | 技术面(站上20日均线) | 资金面(主力净流入)",
+      "category": "多因子AI",
+      "params": {
+        "max_debt_ratio": 80,
+        "min_roe": 5,
+        "min_profit_growth": 0,
+        "ma_period": 20,
+        "min_money_flow": 0,
+        "top_n": 10,
+        "min_listed_days": 365
+      }
+    },
+    {
+      "name": "南向资金",
+      "version": "1.0.0",
+      "added_date": "2026-07-11",
+      "consecutive_d_days": 0,
+      "last_grade": "D",
+      "best_score": 20.0,
+      "last_score": 20.0,
+      "description": "南向资金策略：追踪港股通南向资金净买入top股票，持续买入时买入，转为卖出时卖出",
+      "category": "资金流",
+      "params": {
+        "lookback_days": 5,
+        "holding_days": 10,
+        "min_net_buy": 100000000,
+        "top_n": 10
+      }
     }
   ],
   "candidate": [],

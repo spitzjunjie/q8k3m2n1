@@ -67,6 +67,9 @@ from strategies.lockup_expiry_arbitrage_strategy import LockupExpiryArbitrageStr
 from strategies.davis_double_hit_strategy import DavisDoubleHitStrategy
 from strategies.turnaround_strategy import TurnaroundStrategy
 from strategies.shareholder_change_strategy import ShareholderChangeStrategy
+from strategies.chip_distribution_strategy import ChipDistributionStrategy
+# 新增强版质量因子选股策略（ Piotroski F-Score + Altman Z-Score）
+from strategies.quality_factor_strategy import QualityFactorStrategy
 
 # 新策略注册表
 NEW_STRATEGIES = {
@@ -425,6 +428,19 @@ NEW_STRATEGIES = {
         'category': '事件驱动',
         'risk': '中',
         'description': '户数减少=筹码集中，机构持股提升'
+    },
+    '筹码分布': {
+        'class': ChipDistributionStrategy,
+        'category': '技术/筹码',
+        'risk': '中',
+        'description': '筹码集中度>70%+低位密集+放量突破，捕捉主力建仓'
+    },
+    # 新增强版质量因子策略（ Piotroski F-Score + Altman Z-Score）
+    '质量因子选股Pro': {
+        'class': QualityFactorStrategy,
+        'category': '质量因子',
+        'risk': '低',
+        'description': 'F-Score≥7 + Z-Score>2.99，财务优秀+破产风险低，PB最低20%池筛选'
     },
 }
 

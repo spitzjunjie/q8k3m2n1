@@ -54,12 +54,17 @@ def _ret(c, days):
 
 # === 信号定义 ===
 def _auction_signal(k):
-    """集合竞价放量"""
+    """集合竞价控盘（机构控盘特征：量能萎缩+价格稳定）"""
     c, v = _safe(k)
-    if c is None or v is None or len(v) < 5: return False, ""
-    if v[-1] > v[-5:].mean() * 1.5:
-        ret = (c[-1] / c[-2] - 1) * 100 if len(c) >= 2 else 0
-        if 0 < ret < 3: return True, f"竞价放量{v[-1]/v[-5:].mean():.1f}倍"
+    if c is None or v is None or len(v) < 20: return False, ""
+    # 缩量整理（控盘特征）
+    vol_ratio = v[-5:].mean() / v[-20:].mean()
+    # 价格稳定（波动小）
+    price_vol = c[-5:].std() / c[-5:].mean()
+    # 趋势向上
+    trend = c[-1] > _ma(c, 5)
+    if vol_ratio < 0.8 and price_vol < 0.02 and trend:
+        return True, f"竞价控盘缩量{vol_ratio:.1f}倍"
     return False, ""
 
 
@@ -74,11 +79,14 @@ def _after_hours_signal(k):
 
 
 def _davis_signal(k):
-    """戴维斯双击（低PE+低价位）"""
-    c, _ = _safe(k)
+    """戴维斯双击（低估+成长：价格低位+稳健增长）"""
+    c, v = _safe(k)
     if c is None or len(c) < 20: return False, ""
     pct = _price_percentile(c, 20)
-    if pct < 25: return True, f"价格低位{pct:.0f}%"
+    ret10 = _ret(c, 10)
+    # 价格低位(<40%) 且 增长适中(0-15%)
+    if pct < 40 and 0 < ret10 < 15:
+        return True, f"戴维斯低位{pct:.0f}%增长{ret10:.1f}%"
     return False, ""
 
 
@@ -111,11 +119,14 @@ def _limit_up_signal(k):
 
 
 def _limit_down_signal(k):
-    """跌停撬板（大幅低开后反弹）"""
+    """跌停撬板（强势撬板：低开后快速反弹收红）"""
     c, _ = _safe(k)
-    if c is None or len(c) < 2: return False, ""
-    ret = _ret(c, 1)
-    if -4 < ret < 0: return True, f"撬板{ret:.1f}%"
+    if c is None or len(c) < 5: return False, ""
+    ret1 = _ret(c, 1)
+    ret3 = _ret(c, 3)
+    # 今日小跌(-2%~0%) + 近3日有反弹
+    if -2 < ret1 < 0 and ret3 > 0 and c[-1] > _ma(c, 5):
+        return True, f"撬板反弹{ret3:.1f}%"
     return False, ""
 
 
@@ -137,12 +148,13 @@ def _hot_money_signal(k):
 
 
 def _hurst_signal(k):
-    """Hurst择时动量"""
+    """Hurst择时动量（简化版：两均线多头）"""
     c, _ = _safe(k)
-    if c is None or len(c) < 30: return False, ""
-    if c[-1] > _ma(c, 5) > _ma(c, 20) > _ma(c, 60):
-        ret20 = _ret(c, 20)
-        if ret20 > 5: return True, f"Hurst上升趋势+{ret20:.1f}%"
+    if c is None or len(c) < 20: return False, ""
+    # 两均线多头排列（简化）
+    if c[-1] > _ma(c, 5) > _ma(c, 20):
+        ret10 = _ret(c, 10)
+        if ret10 > 3: return True, f"Hurst多头+{ret10:.1f}%"
     return False, ""
 
 
@@ -181,35 +193,40 @@ def _piotroski_signal(k):
 
 
 def _garp_signal(k):
-    """GARP成长（稳定增长+合理估值）"""
-    c, _ = _safe(k)
+    """GARP成长（低估+稳健增长：价格适中+温和增长）"""
+    c, v = _safe(k)
     if c is None or len(c) < 20: return False, ""
     pct = _price_percentile(c, 20)
-    ret20 = _ret(c, 20)
-    if pct < 35 and 0 < ret20 < 15:
-        return True, f"GARP成长{ret20:.1f}%"
+    ret10 = _ret(c, 10)
+    vol_ratio = v[-5:].mean() / v[-20:].mean() if v is not None else 1
+    # 价格中低位(<45%) + 稳定增长(5-20%) + 缩量整理
+    if pct < 45 and 5 < ret10 < 20 and vol_ratio < 0.95 and c[-1] > _ma(c, 5):
+        return True, f"GARP增长{ret10:.1f}%"
     return False, ""
 
 
 def _high_growth_signal(k):
-    """高成长股（动量+缩量整理）"""
+    """高成长股（强势股缩量回调买入）"""
     c, v = _safe(k)
     if c is None or v is None or len(c) < 20: return False, ""
     ret10 = _ret(c, 10)
-    vol_ratio = v[-5:].mean() / v[-10:].mean()
-    if 5 < ret10 < 20 and vol_ratio < 0.9 and c[-1] > _ma(c, 5):
-        return True, f"高成长+{ret10:.1f}%"
+    vol_ratio = v[-5:].mean() / v[-20:].mean()
+    # 强势(>10%) + 缩量整理(<0.85) + 趋势向上
+    if 10 < ret10 < 25 and vol_ratio < 0.85 and c[-1] > _ma(c, 5) > _ma(c, 10):
+        return True, f"高成长强势{ret10:.1f}%"
     return False, ""
 
 
 def _cycle_signal(k):
-    """周期股择时（超跌+企稳）"""
-    c, _ = _safe(k)
-    if c is None or len(c) < 30: return False, ""
-    pct = _price_percentile(c, 30)
-    ret20 = _ret(c, 20)
-    if pct < 25 and -15 < ret20 < 0 and c[-1] > _ma(c, 5):
-        return True, f"周期超跌{pct:.0f}%"
+    """周期股择时（超跌反弹：价格低位+企稳信号）"""
+    c, v = _safe(k)
+    if c is None or len(c) < 20: return False, ""
+    pct = _price_percentile(c, 20)
+    ret10 = _ret(c, 10)
+    vol_ratio = v[-5:].mean() / v[-20:].mean() if v is not None else 1
+    # 价格低位(<40%) + 超跌(-20%) + 缩量整理 + 企稳
+    if pct < 40 and -20 < ret10 < 0 and vol_ratio < 0.9 and c[-1] > _ma(c, 5):
+        return True, f"周期低位反弹{pct:.0f}%"
     return False, ""
 
 
@@ -309,12 +326,13 @@ def _downward_amend_signal(k):
 
 
 def _momentum_break_signal(k):
-    """动量突破（放量突破）"""
+    """动量突破（强势突破整理区间）"""
     c, v = _safe(k)
     if c is None or v is None or len(c) < 20: return False, ""
-    vol_ratio = v[-1] / v[-20:].mean()
+    vol_ratio = v[-1] / v[-10:].mean()
     ret = _ret(c, 1)
-    if vol_ratio > 1.8 and ret > 2 and c[-1] > c[-20:].max() * 0.95:
+    # 放量(>1.5倍) + 上涨(>2%) + 在近期高位附近
+    if vol_ratio > 1.5 and ret > 2 and c[-1] > c[-10:].max() * 0.95:
         return True, f"动量突破+{ret:.1f}%"
     return False, ""
 

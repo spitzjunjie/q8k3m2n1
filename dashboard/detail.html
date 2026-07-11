@@ -293,7 +293,7 @@
                     </div>
                     <div class="overview-item">
                         <div class="label">胜率</div>
-                        <div class="value">${((strategy.win_rate || 0) * 100).toFixed(0)}%</div>
+                        <div class="value">${((strategy.win_rate || 0) > 1 ? (strategy.win_rate || 0) : (strategy.win_rate || 0) * 100).toFixed(0)}%</div>
                     </div>
                     <div class="overview-item">
                         <div class="label">当前权益</div>

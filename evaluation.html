@@ -181,7 +181,7 @@
                 const ret = (s.total_return || 0) * 100;  // 转为百分比
                 const sharpe = s.sharpe_ratio || 0;
                 const dd = (s.max_drawdown || 0) * 100;  // 转为百分比
-                const win = (s.win_rate || 0) * 100;  // 转为百分比
+                const win = (s.win_rate || 0) > 1 ? (s.win_rate || 0) : (s.win_rate || 0) * 100;  // 胜率
 
                 // 综合分（0-100）
                 // 收益率(30) + 夏普(25) + 稳定性(25) + 胜率(20)
@@ -282,7 +282,7 @@
                         <td style="color:${(s.total_return||0)>=0?'#00f0ff':'#ef4444'}">${((s.total_return||0)*100).toFixed(2)}%</td>
                         <td>${(s.sharpe_ratio||0).toFixed(2)}</td>
                         <td>${((s.max_drawdown||0)*100).toFixed(1)}%</td>
-                        <td>${((s.win_rate||0)*100).toFixed(0)}%</td>
+                        <td>${((s.win_rate||0) > 1 ? (s.win_rate||0) : (s.win_rate||0)*100).toFixed(0)}%</td>
                         <td>${(s.profit_loss_ratio||0).toFixed(2)}</td>
                         <td>${(s.return_stability||0).toFixed(2)}</td>
                     </tr>

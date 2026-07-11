@@ -307,7 +307,7 @@
                     </div>
                     <div class="stats">
                         <span>💰 持仓: ${holdings.length}只</span>
-                        <span>📈 胜率: ${((strategy.win_rate || 0) * 100).toFixed(0)}%</span>
+                        <span>📈 胜率: ${((strategy.win_rate || 0) > 1 ? (strategy.win_rate || 0) : (strategy.win_rate || 0) * 100).toFixed(0)}%</span>
                         <span>📉 回撤: ${((strategy.max_drawdown || 0) * 100).toFixed(1)}%</span>
                     </div>
                 `;

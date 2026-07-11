@@ -187,19 +187,15 @@ def get_all_strategies():
         # 技术突破 (5) - 捕捉放量突破、动能突破
         VolumeBreakoutStrategy(),
         MACDCrossStrategy(),
-        KDJOversoldStrategy(),
         RSIReversalStrategy(),
         MomentumBreakoutStrategy(),
         # 综合 (1)
         MultiFactorStrategy(),
-        # 高级策略 (6) - 新增
+        # 高级策略 (4) - 新增（移除重复注册：OversoldRebound/ValueLowPB/AdvEarningsSurprise）
         IndustryMomentumStrategy(),
         SouthboundFlowStrategy(),
-        OversoldReboundStrategy(),
-        ValueLowPBStrategy(),
-        AdvEarningsSurprise(),
         AdvVolumeBreakout(),
-        # 新策略 (22个) - 完整导入
+        # 新策略 (17个) - 完整导入（移除重复注册：GoldenCross/RSIRebound/HighDividend/ProfitExceeds）
         ETFRotationStrategy(),              # ETF二八轮动
         FundamentalSmallCapStrategy(),      # 财务基本面过滤小市值
         MoneyFlowEventStrategy(),           # 资金流事件
@@ -214,12 +210,8 @@ def get_all_strategies():
         ProfitExplosionStrategy(),          # 业绩暴增
         ContinuousVolumeStrategy(),         # 量价齐升
         LimitCallbackStrategy(),            # 涨停回调
-        GoldenCrossStrategy(),              # MACD金叉
-        RSIReboundStrategy(),               # RSI超卖反转
         LowPBValueStrategy(),               # 低PB价值
         KDJStrategy(),                      # KDJ超卖金叉
-        HighDividendStrategy(),             # 高股息
-        ProfitExceedsExpectationStrategy(), # 业绩超预期
         # 新增3个S级策略
         InstitutionResearchStrategy(),      # 机构调研
         EarningsPreviewStrategy(),          # 业绩预告超预期

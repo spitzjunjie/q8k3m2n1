@@ -112,15 +112,15 @@ def _shareholder_signal(k):
 
 
 def _limit_up_signal(k):
-    """涨停封单（稳健版：低位放量突破）"""
+    """涨停封单（严格版：回调买入+趋势确认）"""
     c, v = _safe(k)
     if c is None or v is None or len(c) < 20: return False, ""
     ret = _ret(c, 1)
     vol_ratio = v[-1] / v[-5:].mean()
     pct = _price_percentile(c, 20)
-    # 低位放量上涨（追突破但要低位）
-    if ret >= 2 and vol_ratio > 1.3 and pct < 50:
-        return True, f"低位放量+{ret:.1f}%"
+    # 严格条件：涨幅温和(2-5%) + 明显放量(>1.5倍) + 价格低位(<45%) + 均线支撑
+    if 2 <= ret <= 5 and vol_ratio > 1.5 and pct < 45 and c[-1] > _ma(c, 5):
+        return True, f"涨停回调买入+{ret:.1f}%"
     return False, ""
 
 
@@ -145,14 +145,15 @@ def _lockup_signal(k):
 
 
 def _hot_money_signal(k):
-    """游资席位（稳健版：温和放量+趋势）"""
+    """游资席位（严格版：回调买入+趋势确认）"""
     c, v = _safe(k)
-    if c is None or v is None or len(v) < 5: return False, ""
+    if c is None or v is None or len(v) < 20: return False, ""
     ratio = v[-1] / v[-5:].mean()
     ret = _ret(c, 1)
-    # 温和放量且上涨
-    if 1.2 < ratio < 3 and ret > 0 and c[-1] > _ma(c, 5):
-        return True, f"游资偏好{ratio:.1f}倍+{ret:.1f}%"
+    pct = _price_percentile(c, 20)
+    # 严格条件：放量上涨 + 价格低位(<45%) + 均线支撑 + 涨幅温和(<2.5%)
+    if 1.3 < ratio < 3 and ret > 0 and pct < 45 and c[-1] > _ma(c, 5) and 0 < ret < 2.5:
+        return True, f"游资回调{ratio:.1f}倍+{ret:.1f}%"
     return False, ""
 
 
@@ -267,49 +268,55 @@ def _equity_incentive_signal(k):
 
 
 def _dragon_tiger_signal(k):
-    """龙虎榜跟风（放量上涨）"""
+    """龙虎榜跟风（严格版：趋势确认+回调买入）"""
     c, v = _safe(k)
-    if c is None or v is None or len(c) < 5: return False, ""
+    if c is None or v is None or len(c) < 20: return False, ""
     vol_ratio = v[-1] / v[-5:].mean()
     ret = _ret(c, 1)
-    # 只要放量上涨即可
-    if vol_ratio > 1.3 and ret > 0:
-        return True, f"龙虎跟风放量{vol_ratio:.1f}倍"
+    pct = _price_percentile(c, 20)
+    # 严格条件：放量上涨 + 价格低位(<50%) + 均线支撑 + 涨幅温和(<3%)
+    if vol_ratio > 1.5 and ret > 0 and pct < 50 and c[-1] > _ma(c, 5) and 0 < ret < 3:
+        return True, f"龙虎回调买入{ret:.1f}%"
     return False, ""
 
 
 def _limit_up_relay_signal(k):
-    """打板接力（稳健版：温和放量+趋势）"""
+    """打板接力（严格版：趋势确认+回调买入）"""
     c, v = _safe(k)
-    if c is None or v is None or len(c) < 5: return False, ""
+    if c is None or v is None or len(c) < 20: return False, ""
     ret = _ret(c, 1)
+    ret5 = _ret(c, 5)
     vol_ratio = v[-1] / v[-5:].mean()
-    # 温和放量+趋势向上
-    if 1.5 < ret < 8 and vol_ratio > 1.1 and c[-1] > _ma(c, 5):
-        return True, f"稳健追涨+{ret:.1f}%"
+    pct = _price_percentile(c, 20)
+    # 严格条件：回调后反弹（ret<3%）+ 放量（>1.3倍）+ 价格低位(<50%) + 均线支撑
+    if 0 < ret < 3 and vol_ratio > 1.3 and pct < 50 and c[-1] > _ma(c, 5) > _ma(c, 10):
+        return True, f"回调买入+{ret:.1f}%"
     return False, ""
 
 
 def _new_stock_signal(k):
-    """次新股（稳健版：量能活跃+主板股票）"""
+    """次新股（严格版：趋势确认+回调买入）"""
     c, v = _safe(k)
-    if c is None or v is None or len(c) < 15: return False, ""
+    if c is None or v is None or len(c) < 20: return False, ""
     vol_ratio = v[-3:].mean() / v[-10:].mean()
     ret5 = _ret(c, 5)
-    # 只要温和放量+温和上涨+趋势向上
-    if 1.0 < vol_ratio < 2.5 and -3 < ret5 < 10 and c[-1] > _ma(c, 5):
-        return True, f"活跃股关注+{ret5:.1f}%"
+    ret10 = _ret(c, 10)
+    pct = _price_percentile(c, 20)
+    # 严格条件：回调后反弹(ret5>0) + 温和放量 + 价格低位(<45%) + 均线支撑
+    if ret5 > 0 and 0.9 < vol_ratio < 2.0 and pct < 45 and c[-1] > _ma(c, 5) and ret10 < 20:
+        return True, f"次新回调买入+{ret5:.1f}%"
     return False, ""
 
 
 def _grid_signal(k):
-    """网格交易（震荡市场）"""
-    c, _ = _safe(k)
-    if c is None or len(c) < 20: return False, ""
+    """网格交易（严格版：低位震荡+趋势支撑）"""
+    c, v = _safe(k)
+    if c is None or v is None or len(c) < 20: return False, ""
     pct = _price_percentile(c, 20)
     vol = c[-5:].std() / c[-5:].mean()  # 波动率
-    if 30 < pct < 70 and vol > 0.01:  # 中位震荡
-        return True, f"网格震荡{pct:.0f}%"
+    # 严格条件：低位震荡(35-55%) + 有波动 + 均线支撑
+    if 35 < pct < 55 and vol > 0.005 and c[-1] > _ma(c, 20):
+        return True, f"网格低位震荡{pct:.0f}%"
     return False, ""
 
 
@@ -366,14 +373,16 @@ def _mean_reversion_signal(k):
 
 # 新增信号函数（必须在策略池之前定义）
 def _north_money_signal(k):
-    """北向资金（稳健版：趋势确认）"""
+    """北向资金（严格版：趋势确认+回调买入）"""
     c, v = _safe(k)
     if c is None or v is None or len(c) < 20: return False, ""
     ret10 = _ret(c, 10)
+    ret5 = _ret(c, 5)
     vol_ratio = v[-5:].mean() / v[-20:].mean()
-    # 温和上涨+温和放量+趋势向上
-    if 0 < ret10 < 20 and 0.9 < vol_ratio < 1.5 and c[-1] > _ma(c, 5):
-        return True, f"北向偏好+{ret10:.1f}%"
+    pct = _price_percentile(c, 20)
+    # 严格条件：温和上涨 + 回调后反弹(ret5>0) + 放量 + 价格低位(<50%) + 均线多头
+    if 0 < ret10 < 15 and ret5 > 0 and vol_ratio > 1.0 and pct < 50 and c[-1] > _ma(c, 5) > _ma(c, 10):
+        return True, f"北向回调+{ret10:.1f}%"
     return False, ""
 
 def _institutional_signal(k):
@@ -444,14 +453,16 @@ def _趋势线突破_signal(k):
     return False, ""
 
 def _kdj低位金叉_signal(k):
-    """KDJ低位金叉（超卖反弹）"""
+    """KDJ低位金叉（严格版：超卖+放量+趋势确认）"""
     c, v = _safe(k)
     if c is None or v is None or len(c) < 20: return False, ""
     ret10 = _ret(c, 10)
+    ret5 = _ret(c, 5)
     vol_ratio = v[-3:].mean() / v[-10:].mean()
-    # 近10日下跌 + 近3日放量
-    if -15 < ret10 < -3 and vol_ratio > 1.2:
-        return True, f"KDJ金叉{ret10:.1f}%"
+    pct = _price_percentile(c, 20)
+    # 严格条件：超跌(<-10%) + 近5日反弹 + 明显放量(>1.5倍) + 价格低位(<40%)
+    if ret10 < -10 and ret5 > 0 and vol_ratio > 1.5 and pct < 40 and c[-1] > _ma(c, 5):
+        return True, f"KDJ低位反弹{ret10:.1f}%"
     return False, ""
 
 def _机构重仓_signal(k):

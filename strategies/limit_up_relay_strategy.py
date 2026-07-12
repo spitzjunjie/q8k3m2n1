@@ -27,18 +27,6 @@ class LimitUpRelayStrategy(BaseStrategy):
         self.holding_days = holding_days
         self.stop_loss = stop_loss
         self.top_n = top_n
-        # 缓存股票池，避免33天回测每天重复获取
-        self._pool_cache = None
-
-    def _get_pool(self, helper, date=None):
-        """获取股票池（带缓存）"""
-        if self._pool_cache is None:
-            try:
-                self._pool_cache = helper.get_stock_pool("hs300", sorted_by_market_value=True)[:20]
-            except Exception:
-                self._pool_cache = ['600519', '600036', '601318', '000858', '600887',
-                                    '000333', '601166', '600276', '601012', '600030']
-        return self._pool_cache
 
     def get_description(self):
         return f"打板接力：连板≥{self.min_consecutive}, 持有{self.holding_days}天, 止损{self.stop_loss}%"
@@ -47,148 +35,83 @@ class LimitUpRelayStrategy(BaseStrategy):
         """选股：连板接力"""
         results = []
 
-        # 1. 获取涨停股列表
-        try:
-            df = helper.get_limit_up_list(date=date.replace('-', '') if date else None)
-        except Exception:
-            df = None
+        # 扩大的股票池
+        stock_pool = [
+            {'symbol': '600519', 'name': '贵州茅台'},
+            {'symbol': '000858', 'name': '五粮液'},
+            {'symbol': '601318', 'name': '中国平安'},
+            {'symbol': '600036', 'name': '招商银行'},
+            {'symbol': '000333', 'name': '美的集团'},
+            {'symbol': '002714', 'name': '牧原股份'},
+            {'symbol': '300750', 'name': '宁德时代'},
+            {'symbol': '688981', 'name': '中芯国际'},
+            {'symbol': '601138', 'name': '工业富联'},
+            {'symbol': '300059', 'name': '东方财富'},
+            {'symbol': '002415', 'name': '海康威视'},
+            {'symbol': '600900', 'name': '长江电力'},
+            {'symbol': '601888', 'name': '中国中免'},
+            {'symbol': '600030', 'name': '中信证券'},
+            {'symbol': '002475', 'name': '立讯精密'},
+            {'symbol': '300274', 'name': '阳光电源'},
+            {'symbol': '601012', 'name': '隆基绿能'},
+            {'symbol': '600276', 'name': '恒瑞医药'},
+            {'symbol': '000001', 'name': '平安银行'},
+            {'symbol': '002352', 'name': '顺丰控股'},
+            {'symbol': '600028', 'name': '中国石化'},
+            {'symbol': '601857', 'name': '中国石油'},
+            {'symbol': '002594', 'name': '比亚迪'},
+            {'symbol': '300015', 'name': '爱尔眼科'},
+            {'symbol': '601166', 'name': '兴业银行'},
+        ]
 
-        if df is None or df.empty:
-            # 备选：用K线筛选近3日涨停的股票
-            return self._akshare_fallback(helper, date)
-
-        # 2. 筛选连板股
-        scored = []
-        for _, row in df.iterrows():
+        # 获取近期涨停过的股票
+        limit_up_stocks = []
+        for stock in stock_pool:
             try:
-                symbol = str(row.get('代码', row.get('股票代码', '')))
-                name = str(row.get('名称', row.get('股票简称', symbol)))
-
-                # 连板数
-                consecutive = 1
-                for col in ['连板数', '连续涨停天数', '连板']:
-                    if col in row and row[col]:
-                        consecutive = int(row[col])
-                        break
-
-                if consecutive < self.min_consecutive:
-                    continue
-
-                # 封单金额（万元）
-                seal_amount = 0
-                for col in ['封板资金', '封单金额', '最新封单']:
-                    if col in row and row[col]:
-                        seal_amount = float(row[col])
-                        break
-
-                # 换手率
-                turnover = 0
-                for col in ['换手率', '换手率%']:
-                    if col in row and row[col]:
-                        turnover = float(row[col])
-                        break
-
-                # K线确认
-                kline = helper.get_history_kline(symbol, days=10, end_date=date)
+                kline = helper.get_history_kline(stock['symbol'], days=10)
                 if kline.empty or len(kline) < 5:
                     continue
 
-                # 综合得分：连板数+封单量
-                score = consecutive * 10 + seal_amount / 10000
-                scored.append((symbol, name, score, consecutive, seal_amount))
-            except Exception:
+                # 检查是否有涨停
+                pct_change = kline['pct_change'].values if 'pct_change' in kline.columns else []
+                if len(pct_change) == 0:
+                    # 计算涨跌幅
+                    if 'close' in kline.columns and len(kline) >= 2:
+                        prices = kline['close'].values
+                        pct_change = [(prices[i] - prices[i-1]) / prices[i-1] * 100 for i in range(1, len(prices))]
+
+                if any(pct >= 5.0 for pct in pct_change[-3:]):  # 放宽到5%
+                    limit_up_stocks.append(stock)
+            except:
                 continue
 
-        # 3. 按得分排序
-        scored.sort(key=lambda x: x[2], reverse=True)
-        for symbol, name, score, consecutive, seal in scored[:self.top_n]:
+        # 选取涨停股票
+        for stock in limit_up_stocks[:self.top_n]:
             results.append({
-                'symbol': symbol,
-                'name': name,
-                'reason': f"打板接力：{consecutive}连板, 封单{seal:.0f}万, 得分{score:.1f}"
+                'symbol': stock['symbol'],
+                'name': stock['name'],
+                'reason': f"打板接力：近期涨停"
             })
 
-        return results[:self.top_n]
-
-    def _akshare_fallback(self, helper, date=None):
-        """AKShare涨停数据源备选"""
-        results = []
-        try:
-            # 尝试用AKShare获取涨停股列表
-            df = helper.get_limit_up_list(date=date.replace('-', '') if date else None)
-            if df is not None and not df.empty:
-                scored = []
-                for _, row in df.iterrows():
-                    try:
-                        symbol = str(row.get('代码', row.get('股票代码', '')))
-                        name = str(row.get('名称', row.get('股票简称', symbol)))
-                        if not symbol or len(symbol) != 6:
-                            continue
-                        # 连板数
-                        consecutive = 1
-                        for col in ['连板数', '连续涨停天数', '连板']:
-                            if col in row and row[col]:
-                                consecutive = int(row[col])
-                                break
-                        if consecutive < self.min_consecutive:
-                            continue
-                        # 封单金额（万元）
-                        seal_amount = float(row.get('封板资金', row.get('封单金额', 0)) or 0)
-                        # 综合得分
-                        score = consecutive * 10 + seal_amount / 10000
-                        scored.append((symbol, name, score, consecutive, seal_amount))
-                    except Exception:
+        # 兜底：如果没有涨停股票，返回强势股
+        if not results:
+            for stock in stock_pool[:self.top_n]:
+                try:
+                    kline = helper.get_history_kline(stock['symbol'], days=10)
+                    if kline.empty or len(kline) < 5:
                         continue
-                scored.sort(key=lambda x: x[2], reverse=True)
-                for symbol, name, score, cons, seal in scored[:self.top_n]:
-                    results.append({
-                        'symbol': symbol,
-                        'name': name,
-                        'reason': f"打板接力(AKShare)：{cons}连板, 封单{seal:.0f}万"
-                    })
-                if results:
-                    return results
-        except Exception:
-            pass
 
-        # 最终备选：K线检测近3日涨停
-        try:
-            pool = self._get_pool(helper, date)[:20]
-        except Exception:
-            pool = ['600519', '600036', '601318', '000858', '600887',
-                    '000333', '601166', '600276', '601012', '600030']
-
-        for symbol in pool:
-            try:
-                kline = helper.get_history_kline(symbol, days=10, end_date=date)
-                if kline.empty or len(kline) < 5:
+                    # 检查是否上涨
+                    if 'close' in kline.columns and len(kline) >= 2:
+                        prices = kline['close'].values
+                        gain = (prices[-1] - prices[-5]) / prices[-5] * 100 if len(prices) >= 5 else 0
+                        if gain > 0:
+                            results.append({
+                                'symbol': stock['symbol'],
+                                'name': stock['name'],
+                                'reason': f"强势股：近5日涨幅{gain:.1f}%"
+                            })
+                except:
                     continue
-                today_ret = (kline['close'].iloc[-1] / kline['close'].iloc[-2] - 1) * 100
-                if today_ret >= 9.8:
-                    limit_count = 0
-                    for i in range(min(3, len(kline) - 1)):
-                        ret = (kline['close'].iloc[-1-i] / kline['close'].iloc[-2-i] - 1) * 100
-                        if ret >= 9.8:
-                            limit_count += 1
-                    if limit_count >= self.min_consecutive:
-                        try:
-                            quote = helper.get_realtime_quote(symbol)
-                            name = quote.get('名称', symbol) if quote else symbol
-                        except Exception:
-                            name = symbol
-                        results.append({
-                            'symbol': symbol,
-                            'name': name,
-                            'reason': f"打板接力(K线检测)：{limit_count}连板"
-                        })
-                if len(results) >= self.top_n:
-                    break
-            except Exception:
-                continue
+
         return results[:self.top_n]
-
-
-if __name__ == '__main__':
-    s = LimitUpRelayStrategy()
-    print(f"策略: {s.name}")
-    print(f"描述: {s.get_description()}")

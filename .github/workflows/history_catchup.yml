@@ -9,18 +9,10 @@ on:
   # 手动触发
   workflow_dispatch:
     inputs:
-      start_date:
-        description: '开始日期 (YYYY-MM-DD)'
-        required: false
-        default: '2026-07-10'
-      end_date:
-        description: '结束日期 (YYYY-MM-DD)'
-        required: false
-        default: '2026-07-24'
       days:
-        description: '回测天数 (优先于日期范围)'
+        description: '回测天数'
         required: false
-        default: ''
+        default: '14'
       strategies:
         description: '策略名 (逗号分隔，默认全部)'
         required: false
@@ -33,7 +25,6 @@ on:
         options:
           - tushare
           - akshare
-          - auto
 
   # 定时触发（每周日凌晨运行）
   schedule:
@@ -59,48 +50,24 @@ jobs:
 
       - name: 安装依赖
         run: |
-          pip install pandas numpy akshare tushare -q
-          pip install lxml bs4 requests -q
+          pip install akshare pandas numpy requests tushare tqdm lxml bs4 -q
+
+      - name: 创建必要目录
+        run: |
+          mkdir -p data/cache output dashboard logs
 
       - name: 运行历史回测
         run: |
-          cd stock_intelligence/multi_strategy_trading
-          
-          # 构建命令参数
-          CMD="python backtest_history.py"
-          
-          # 数据源
-          if [ "${{ inputs.source }}" == "auto" ]; then
-            CMD="$CMD --source tushare"
-          elif [ -n "${{ inputs.source }}" ]; then
-            CMD="$CMD --source ${{ inputs.source }}"
-          fi
-          
-          # 指定天数（如果有）
-          if [ -n "${{ inputs.days }}" ]; then
-            CMD="$CMD --days ${{ inputs.days }}"
-          fi
-          
-          # 指定策略（如果有）
-          if [ -n "${{ inputs.strategies }}" ]; then
-            CMD="$CMD --strategies ${{ inputs.strategies }}"
-          fi
-          
-          echo "执行命令: $CMD"
-          eval $CMD
-        shell: bash
+          echo "开始历史回测..."
+          python backtest_history.py --source ${{ inputs.source || 'tushare' }} --days ${{ inputs.days || '14' }} ${{ inputs.strategies && format('--strategies {0}', inputs.strategies) || '' }}
         env:
           TUSHARE_TOKEN: ${{ secrets.TUSHARE_TOKEN }}
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
 
       - name: 检查结果
         run: |
-          cd stock_intelligence/multi_strategy_trading
-          
           if [ -f output/strategy_data.json ]; then
             echo "✅ 回测数据已更新"
             python -c "import json; d=json.load(open('output/strategy_data.json')); print(f'策略数: {d.get(\"strategy_count\", len(d.get(\"strategies\", [])))}')"
-            echo "回测区间: ${d.get('backtest_start', 'N/A')} ~ ${d.get('backtest_end', 'N/A')}"
           else
             echo "⚠️ 未找到回测数据文件"
             exit 1
@@ -108,10 +75,13 @@ jobs:
 
       - name: 提交结果
         run: |
-          cd stock_intelligence/multi_strategy_trading
           git config user.name "GitHub Actions Bot"
           git config user.email "actions@github.com"
           git add output/strategy_data.json output/new_strategy_results.json 2>/dev/null || true
-          git diff --cached --quiet || git commit -m "历史回测数据补齐 $(date +%Y-%m-%d)"
-          git push
-        shell: bash
+          if git diff --cached --quiet; then
+            echo "无新数据变化"
+          else
+            git commit -m "历史回测数据补齐 $(date +%Y-%m-%d)"
+            git push
+            echo "数据已推送"
+          fi

@@ -318,15 +318,7 @@ EOF
           echo "回测流程失败报告"
           echo "=========================================="
           echo "失败任务:"
-          
-          if ${{ needs.backtest-tushare.result == 'failure' }}; then
-            echo "  - Tushare 回测失败"
-          fi
-          
-          if ${{ needs.backtest-akshare.result == 'failure' }}; then
-            echo "  - AKShare 回测失败"
-          fi
-          
+          echo "  - 请检查 logs/error*.log 获取详细信息"
           echo ""
           echo "请检查以下内容:"
           echo "  1. API 密钥是否有效"

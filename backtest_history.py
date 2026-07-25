@@ -420,7 +420,12 @@ def run_historical_backtest(strategy_names=None, days=None, max_workers=2):
     with open(temp_file, 'w', encoding='utf-8') as f:
         json.dump(output, f, ensure_ascii=False, indent=2, default=json_serializer)
 
-    # 【新增】自动合并到主数据文件
+    # 【新增】自动合并到主数据文件（保留7月10日之前的数据）
+    from datetime import datetime as dt
+    
+    # 保留数据的截止日期（7月10日之前的交易记录都要保留）
+    PROTECT_DATE = dt(2026, 7, 10)
+    
     main_file = os.path.join(output_dir, 'strategy_data.json')
     if os.path.exists(main_file):
         try:
@@ -440,12 +445,47 @@ def run_historical_backtest(strategy_names=None, days=None, max_workers=2):
         trades = len(s.get('trades', []))
         if trades > 0:  # 只合并有交易的策略
             if s['name'] in old_names:
-                # 替换旧策略
+                # 替换旧策略，但保留7月10日之前的交易记录
                 for i, old_s in enumerate(main_data['strategies']):
                     if old_s['name'] == s['name']:
-                        main_data['strategies'][i] = s
+                        # 保留7月10日之前的交易
+                        old_trades = old_s.get('trades', [])
+                        protected_trades = []
+                        for t in old_trades:
+                            try:
+                                trade_date = dt.strptime(str(t.get('date', ''))[:10], '%Y-%m-%d')
+                                if trade_date < PROTECT_DATE:
+                                    protected_trades.append(t)
+                            except:
+                                pass
+                        
+                        # 合并：保护旧交易 + 新交易
+                        new_trades = s.get('trades', [])
+                        all_trades = protected_trades + [t for t in new_trades 
+                            if str(t.get('date', ''))[:10] >= '2026-07-10']
+                        
+                        # 更新策略数据
+                        main_data['strategies'][i] = s.copy()
+                        main_data['strategies'][i]['trades'] = all_trades
+                        
+                        # 保留旧的权益曲线（7月10日之前）
+                        old_equity = old_s.get('equity_curve', [])
+                        protected_equity = []
+                        for e in old_equity:
+                            try:
+                                eq_date = dt.strptime(str(e.get('date', ''))[:10], '%Y-%m-%d')
+                                if eq_date < PROTECT_DATE:
+                                    protected_equity.append(e)
+                            except:
+                                pass
+                        
+                        new_equity = s.get('equity_curve', [])
+                        all_equity = protected_equity + [e for e in new_equity
+                            if str(e.get('date', ''))[:10] >= '2026-07-10']
+                        main_data['strategies'][i]['equity_curve'] = all_equity
+                        
                         added_count += 1
-                        print(f"🔄 更新: {s['name']}")
+                        print(f"🔄 更新: {s['name']} (保留{len(protected_trades)}条历史交易)")
                         break
             else:
                 # 添加新策略

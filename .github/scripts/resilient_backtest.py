@@ -251,10 +251,6 @@ def main():
     
     args = parser.parse_args()
     
-    # 更新全局配置
-    global MAX_RETRIES
-    MAX_RETRIES = args.max_retries
-    
     # 创建执行器
     runner = ResilientBacktest(
         source=args.source,

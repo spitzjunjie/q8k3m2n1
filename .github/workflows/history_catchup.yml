@@ -42,6 +42,9 @@ jobs:
     steps:
       - name: 检出的代码
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          persist-credentials: true
 
       - name: 设置 Python
         uses: actions/setup-python@v4

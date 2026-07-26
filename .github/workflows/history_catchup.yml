@@ -38,12 +38,13 @@ jobs:
   history-backtest:
     runs-on: ubuntu-latest
     timeout-minutes: 360  # 6小时超时保护
+    permissions:
+      contents: write  # 允许写入内容
 
     steps:
       - name: 检出的代码
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
           persist-credentials: true
 
       - name: 设置 Python

@@ -1,9 +1,9 @@
 {
-  "update_time": "2026-07-26 10:47:06",
+  "update_time": "2026-07-26 15:25:49",
   "backtest_type": "historical",
   "backtest_start": "20260526",
-  "backtest_end": "20260528",
-  "backtest_days": 3,
+  "backtest_end": "20260617",
+  "backtest_days": 17,
   "strategy_count": 45,
   "strategies": [
     {
@@ -39,11 +39,67 @@
         {
           "date": "20260528",
           "value": 30000
+        },
+        {
+          "date": "20260529",
+          "value": 30000
+        },
+        {
+          "date": "20260601",
+          "value": 30000
+        },
+        {
+          "date": "20260602",
+          "value": 30000
+        },
+        {
+          "date": "20260603",
+          "value": 30000
+        },
+        {
+          "date": "20260604",
+          "value": 30000
+        },
+        {
+          "date": "20260605",
+          "value": 30000
+        },
+        {
+          "date": "20260608",
+          "value": 30000
+        },
+        {
+          "date": "20260609",
+          "value": 30000
+        },
+        {
+          "date": "20260610",
+          "value": 30000
+        },
+        {
+          "date": "20260611",
+          "value": 30000
+        },
+        {
+          "date": "20260612",
+          "value": 30000
+        },
+        {
+          "date": "20260615",
+          "value": 30000
+        },
+        {
+          "date": "20260616",
+          "value": 30000
+        },
+        {
+          "date": "20260617",
+          "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260528",
-      "backtest_days": 3,
+      "backtest_end": "20260617",
+      "backtest_days": 17,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -83,11 +139,67 @@
         {
           "date": "20260528",
           "value": 30000
+        },
+        {
+          "date": "20260529",
+          "value": 30000
+        },
+        {
+          "date": "20260601",
+          "value": 30000
+        },
+        {
+          "date": "20260602",
+          "value": 30000
+        },
+        {
+          "date": "20260603",
+          "value": 30000
+        },
+        {
+          "date": "20260604",
+          "value": 30000
+        },
+        {
+          "date": "20260605",
+          "value": 30000
+        },
+        {
+          "date": "20260608",
+          "value": 30000
+        },
+        {
+          "date": "20260609",
+          "value": 30000
+        },
+        {
+          "date": "20260610",
+          "value": 30000
+        },
+        {
+          "date": "20260611",
+          "value": 30000
+        },
+        {
+          "date": "20260612",
+          "value": 30000
+        },
+        {
+          "date": "20260615",
+          "value": 30000
+        },
+        {
+          "date": "20260616",
+          "value": 30000
+        },
+        {
+          "date": "20260617",
+          "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260528",
-      "backtest_days": 3,
+      "backtest_end": "20260617",
+      "backtest_days": 17,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -127,11 +239,67 @@
         {
           "date": "20260528",
           "value": 30000
+        },
+        {
+          "date": "20260529",
+          "value": 30000
+        },
+        {
+          "date": "20260601",
+          "value": 30000
+        },
+        {
+          "date": "20260602",
+          "value": 30000
+        },
+        {
+          "date": "20260603",
+          "value": 30000
+        },
+        {
+          "date": "20260604",
+          "value": 30000
+        },
+        {
+          "date": "20260605",
+          "value": 30000
+        },
+        {
+          "date": "20260608",
+          "value": 30000
+        },
+        {
+          "date": "20260609",
+          "value": 30000
+        },
+        {
+          "date": "20260610",
+          "value": 30000
+        },
+        {
+          "date": "20260611",
+          "value": 30000
+        },
+        {
+          "date": "20260612",
+          "value": 30000
+        },
+        {
+          "date": "20260615",
+          "value": 30000
+        },
+        {
+          "date": "20260616",
+          "value": 30000
+        },
+        {
+          "date": "20260617",
+          "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260528",
-      "backtest_days": 3,
+      "backtest_end": "20260617",
+      "backtest_days": 17,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -171,11 +339,67 @@
         {
           "date": "20260528",
           "value": 30000
+        },
+        {
+          "date": "20260529",
+          "value": 30000
+        },
+        {
+          "date": "20260601",
+          "value": 30000
+        },
+        {
+          "date": "20260602",
+          "value": 30000
+        },
+        {
+          "date": "20260603",
+          "value": 30000
+        },
+        {
+          "date": "20260604",
+          "value": 30000
+        },
+        {
+          "date": "20260605",
+          "value": 30000
+        },
+        {
+          "date": "20260608",
+          "value": 30000
+        },
+        {
+          "date": "20260609",
+          "value": 30000
+        },
+        {
+          "date": "20260610",
+          "value": 30000
+        },
+        {
+          "date": "20260611",
+          "value": 30000
+        },
+        {
+          "date": "20260612",
+          "value": 30000
+        },
+        {
+          "date": "20260615",
+          "value": 30000
+        },
+        {
+          "date": "20260616",
+          "value": 30000
+        },
+        {
+          "date": "20260617",
+          "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260528",
-      "backtest_days": 3,
+      "backtest_end": "20260617",
+      "backtest_days": 17,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -215,11 +439,67 @@
         {
           "date": "20260528",
           "value": 30000
+        },
+        {
+          "date": "20260529",
+          "value": 30000
+        },
+        {
+          "date": "20260601",
+          "value": 30000
+        },
+        {
+          "date": "20260602",
+          "value": 30000
+        },
+        {
+          "date": "20260603",
+          "value": 30000
+        },
+        {
+          "date": "20260604",
+          "value": 30000
+        },
+        {
+          "date": "20260605",
+          "value": 30000
+        },
+        {
+          "date": "20260608",
+          "value": 30000
+        },
+        {
+          "date": "20260609",
+          "value": 30000
+        },
+        {
+          "date": "20260610",
+          "value": 30000
+        },
+        {
+          "date": "20260611",
+          "value": 30000
+        },
+        {
+          "date": "20260612",
+          "value": 30000
+        },
+        {
+          "date": "20260615",
+          "value": 30000
+        },
+        {
+          "date": "20260616",
+          "value": 30000
+        },
+        {
+          "date": "20260617",
+          "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260528",
-      "backtest_days": 3,
+      "backtest_end": "20260617",
+      "backtest_days": 17,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -259,11 +539,67 @@
         {
           "date": "20260528",
           "value": 30000
+        },
+        {
+          "date": "20260529",
+          "value": 30000
+        },
+        {
+          "date": "20260601",
+          "value": 30000
+        },
+        {
+          "date": "20260602",
+          "value": 30000
+        },
+        {
+          "date": "20260603",
+          "value": 30000
+        },
+        {
+          "date": "20260604",
+          "value": 30000
+        },
+        {
+          "date": "20260605",
+          "value": 30000
+        },
+        {
+          "date": "20260608",
+          "value": 30000
+        },
+        {
+          "date": "20260609",
+          "value": 30000
+        },
+        {
+          "date": "20260610",
+          "value": 30000
+        },
+        {
+          "date": "20260611",
+          "value": 30000
+        },
+        {
+          "date": "20260612",
+          "value": 30000
+        },
+        {
+          "date": "20260615",
+          "value": 30000
+        },
+        {
+          "date": "20260616",
+          "value": 30000
+        },
+        {
+          "date": "20260617",
+          "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260528",
-      "backtest_days": 3,
+      "backtest_end": "20260617",
+      "backtest_days": 17,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -303,11 +639,67 @@
         {
           "date": "20260528",
           "value": 30000
+        },
+        {
+          "date": "20260529",
+          "value": 30000
+        },
+        {
+          "date": "20260601",
+          "value": 30000
+        },
+        {
+          "date": "20260602",
+          "value": 30000
+        },
+        {
+          "date": "20260603",
+          "value": 30000
+        },
+        {
+          "date": "20260604",
+          "value": 30000
+        },
+        {
+          "date": "20260605",
+          "value": 30000
+        },
+        {
+          "date": "20260608",
+          "value": 30000
+        },
+        {
+          "date": "20260609",
+          "value": 30000
+        },
+        {
+          "date": "20260610",
+          "value": 30000
+        },
+        {
+          "date": "20260611",
+          "value": 30000
+        },
+        {
+          "date": "20260612",
+          "value": 30000
+        },
+        {
+          "date": "20260615",
+          "value": 30000
+        },
+        {
+          "date": "20260616",
+          "value": 30000
+        },
+        {
+          "date": "20260617",
+          "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260528",
-      "backtest_days": 3,
+      "backtest_end": "20260617",
+      "backtest_days": 17,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -347,11 +739,67 @@
         {
           "date": "20260528",
           "value": 30000
+        },
+        {
+          "date": "20260529",
+          "value": 30000
+        },
+        {
+          "date": "20260601",
+          "value": 30000
+        },
+        {
+          "date": "20260602",
+          "value": 30000
+        },
+        {
+          "date": "20260603",
+          "value": 30000
+        },
+        {
+          "date": "20260604",
+          "value": 30000
+        },
+        {
+          "date": "20260605",
+          "value": 30000
+        },
+        {
+          "date": "20260608",
+          "value": 30000
+        },
+        {
+          "date": "20260609",
+          "value": 30000
+        },
+        {
+          "date": "20260610",
+          "value": 30000
+        },
+        {
+          "date": "20260611",
+          "value": 30000
+        },
+        {
+          "date": "20260612",
+          "value": 30000
+        },
+        {
+          "date": "20260615",
+          "value": 30000
+        },
+        {
+          "date": "20260616",
+          "value": 30000
+        },
+        {
+          "date": "20260617",
+          "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260528",
-      "backtest_days": 3,
+      "backtest_end": "20260617",
+      "backtest_days": 17,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -391,11 +839,67 @@
         {
           "date": "20260528",
           "value": 30000
+        },
+        {
+          "date": "20260529",
+          "value": 30000
+        },
+        {
+          "date": "20260601",
+          "value": 30000
+        },
+        {
+          "date": "20260602",
+          "value": 30000
+        },
+        {
+          "date": "20260603",
+          "value": 30000
+        },
+        {
+          "date": "20260604",
+          "value": 30000
+        },
+        {
+          "date": "20260605",
+          "value": 30000
+        },
+        {
+          "date": "20260608",
+          "value": 30000
+        },
+        {
+          "date": "20260609",
+          "value": 30000
+        },
+        {
+          "date": "20260610",
+          "value": 30000
+        },
+        {
+          "date": "20260611",
+          "value": 30000
+        },
+        {
+          "date": "20260612",
+          "value": 30000
+        },
+        {
+          "date": "20260615",
+          "value": 30000
+        },
+        {
+          "date": "20260616",
+          "value": 30000
+        },
+        {
+          "date": "20260617",
+          "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260528",
-      "backtest_days": 3,
+      "backtest_end": "20260617",
+      "backtest_days": 17,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -435,11 +939,67 @@
         {
           "date": "20260528",
           "value": 30000
+        },
+        {
+          "date": "20260529",
+          "value": 30000
+        },
+        {
+          "date": "20260601",
+          "value": 30000
+        },
+        {
+          "date": "20260602",
+          "value": 30000
+        },
+        {
+          "date": "20260603",
+          "value": 30000
+        },
+        {
+          "date": "20260604",
+          "value": 30000
+        },
+        {
+          "date": "20260605",
+          "value": 30000
+        },
+        {
+          "date": "20260608",
+          "value": 30000
+        },
+        {
+          "date": "20260609",
+          "value": 30000
+        },
+        {
+          "date": "20260610",
+          "value": 30000
+        },
+        {
+          "date": "20260611",
+          "value": 30000
+        },
+        {
+          "date": "20260612",
+          "value": 30000
+        },
+        {
+          "date": "20260615",
+          "value": 30000
+        },
+        {
+          "date": "20260616",
+          "value": 30000
+        },
+        {
+          "date": "20260617",
+          "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260528",
-      "backtest_days": 3,
+      "backtest_end": "20260617",
+      "backtest_days": 17,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -479,11 +1039,67 @@
         {
           "date": "20260528",
           "value": 30000
+        },
+        {
+          "date": "20260529",
+          "value": 30000
+        },
+        {
+          "date": "20260601",
+          "value": 30000
+        },
+        {
+          "date": "20260602",
+          "value": 30000
+        },
+        {
+          "date": "20260603",
+          "value": 30000
+        },
+        {
+          "date": "20260604",
+          "value": 30000
+        },
+        {
+          "date": "20260605",
+          "value": 30000
+        },
+        {
+          "date": "20260608",
+          "value": 30000
+        },
+        {
+          "date": "20260609",
+          "value": 30000
+        },
+        {
+          "date": "20260610",
+          "value": 30000
+        },
+        {
+          "date": "20260611",
+          "value": 30000
+        },
+        {
+          "date": "20260612",
+          "value": 30000
+        },
+        {
+          "date": "20260615",
+          "value": 30000
+        },
+        {
+          "date": "20260616",
+          "value": 30000
+        },
+        {
+          "date": "20260617",
+          "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260528",
-      "backtest_days": 3,
+      "backtest_end": "20260617",
+      "backtest_days": 17,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -523,11 +1139,67 @@
         {
           "date": "20260528",
           "value": 30000
+        },
+        {
+          "date": "20260529",
+          "value": 30000
+        },
+        {
+          "date": "20260601",
+          "value": 30000
+        },
+        {
+          "date": "20260602",
+          "value": 30000
+        },
+        {
+          "date": "20260603",
+          "value": 30000
+        },
+        {
+          "date": "20260604",
+          "value": 30000
+        },
+        {
+          "date": "20260605",
+          "value": 30000
+        },
+        {
+          "date": "20260608",
+          "value": 30000
+        },
+        {
+          "date": "20260609",
+          "value": 30000
+        },
+        {
+          "date": "20260610",
+          "value": 30000
+        },
+        {
+          "date": "20260611",
+          "value": 30000
+        },
+        {
+          "date": "20260612",
+          "value": 30000
+        },
+        {
+          "date": "20260615",
+          "value": 30000
+        },
+        {
+          "date": "20260616",
+          "value": 30000
+        },
+        {
+          "date": "20260617",
+          "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260528",
-      "backtest_days": 3,
+      "backtest_end": "20260617",
+      "backtest_days": 17,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -567,11 +1239,67 @@
         {
           "date": "20260528",
           "value": 30000
+        },
+        {
+          "date": "20260529",
+          "value": 30000
+        },
+        {
+          "date": "20260601",
+          "value": 30000
+        },
+        {
+          "date": "20260602",
+          "value": 30000
+        },
+        {
+          "date": "20260603",
+          "value": 30000
+        },
+        {
+          "date": "20260604",
+          "value": 30000
+        },
+        {
+          "date": "20260605",
+          "value": 30000
+        },
+        {
+          "date": "20260608",
+          "value": 30000
+        },
+        {
+          "date": "20260609",
+          "value": 30000
+        },
+        {
+          "date": "20260610",
+          "value": 30000
+        },
+        {
+          "date": "20260611",
+          "value": 30000
+        },
+        {
+          "date": "20260612",
+          "value": 30000
+        },
+        {
+          "date": "20260615",
+          "value": 30000
+        },
+        {
+          "date": "20260616",
+          "value": 30000
+        },
+        {
+          "date": "20260617",
+          "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260528",
-      "backtest_days": 3,
+      "backtest_end": "20260617",
+      "backtest_days": 17,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -611,55 +1339,67 @@
         {
           "date": "20260528",
           "value": 30000
-        }
-      ],
-      "backtest_start": "20260526",
-      "backtest_end": "20260528",
-      "backtest_days": 3,
-      "composite_score": 20.0,
-      "grade": "D",
-      "profit_loss_ratio": 0,
-      "return_stability": 0,
-      "calmar_ratio": 0
-    },
-    {
-      "name": "龙虎榜",
-      "category": "事件驱动",
-      "version": "1.0.0",
-      "description": "龙虎榜：机构和游资同时买入, 持有3天, 止损5%",
-      "initial_capital": 30000,
-      "current_capital": 30000,
-      "total_value": 30000,
-      "total_return": 0.0,
-      "monthly_return": 0.0,
-      "sharpe_ratio": 0,
-      "max_drawdown": 0,
-      "win_rate": 0,
-      "realized_pnl": 0.0,
-      "realized_pnl_pct": 0.0,
-      "floating_pnl": 0.0,
-      "floating_pnl_pct": 0.0,
-      "total_pnl": 0.0,
-      "total_pnl_pct": 0.0,
-      "holdings": [],
-      "trades": [],
-      "equity_curve": [
+        },
         {
-          "date": "20260526",
+          "date": "20260529",
           "value": 30000
         },
         {
-          "date": "20260527",
+          "date": "20260601",
           "value": 30000
         },
         {
-          "date": "20260528",
+          "date": "20260602",
+          "value": 30000
+        },
+        {
+          "date": "20260603",
+          "value": 30000
+        },
+        {
+          "date": "20260604",
+          "value": 30000
+        },
+        {
+          "date": "20260605",
+          "value": 30000
+        },
+        {
+          "date": "20260608",
+          "value": 30000
+        },
+        {
+          "date": "20260609",
+          "value": 30000
+        },
+        {
+          "date": "20260610",
+          "value": 30000
+        },
+        {
+          "date": "20260611",
+          "value": 30000
+        },
+        {
+          "date": "20260612",
+          "value": 30000
+        },
+        {
+          "date": "20260615",
+          "value": 30000
+        },
+        {
+          "date": "20260616",
+          "value": 30000
+        },
+        {
+          "date": "20260617",
           "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260528",
-      "backtest_days": 3,
+      "backtest_end": "20260617",
+      "backtest_days": 17,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -699,11 +1439,67 @@
         {
           "date": "20260528",
           "value": 30000
+        },
+        {
+          "date": "20260529",
+          "value": 30000
+        },
+        {
+          "date": "20260601",
+          "value": 30000
+        },
+        {
+          "date": "20260602",
+          "value": 30000
+        },
+        {
+          "date": "20260603",
+          "value": 30000
+        },
+        {
+          "date": "20260604",
+          "value": 30000
+        },
+        {
+          "date": "20260605",
+          "value": 30000
+        },
+        {
+          "date": "20260608",
+          "value": 30000
+        },
+        {
+          "date": "20260609",
+          "value": 30000
+        },
+        {
+          "date": "20260610",
+          "value": 30000
+        },
+        {
+          "date": "20260611",
+          "value": 30000
+        },
+        {
+          "date": "20260612",
+          "value": 30000
+        },
+        {
+          "date": "20260615",
+          "value": 30000
+        },
+        {
+          "date": "20260616",
+          "value": 30000
+        },
+        {
+          "date": "20260617",
+          "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260528",
-      "backtest_days": 3,
+      "backtest_end": "20260617",
+      "backtest_days": 17,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -711,10 +1507,10 @@
       "calmar_ratio": 0
     },
     {
-      "name": "北向资金",
-      "category": "资金流",
+      "name": "龙虎榜",
+      "category": "事件驱动",
       "version": "1.0.0",
-      "description": "北向资金：连续5日净买入, 持有5天",
+      "description": "龙虎榜：机构和游资同时买入, 持有3天, 止损5%",
       "initial_capital": 30000,
       "current_capital": 30000,
       "total_value": 30000,
@@ -743,11 +1539,67 @@
         {
           "date": "20260528",
           "value": 30000
+        },
+        {
+          "date": "20260529",
+          "value": 30000
+        },
+        {
+          "date": "20260601",
+          "value": 30000
+        },
+        {
+          "date": "20260602",
+          "value": 30000
+        },
+        {
+          "date": "20260603",
+          "value": 30000
+        },
+        {
+          "date": "20260604",
+          "value": 30000
+        },
+        {
+          "date": "20260605",
+          "value": 30000
+        },
+        {
+          "date": "20260608",
+          "value": 30000
+        },
+        {
+          "date": "20260609",
+          "value": 30000
+        },
+        {
+          "date": "20260610",
+          "value": 30000
+        },
+        {
+          "date": "20260611",
+          "value": 30000
+        },
+        {
+          "date": "20260612",
+          "value": 30000
+        },
+        {
+          "date": "20260615",
+          "value": 30000
+        },
+        {
+          "date": "20260616",
+          "value": 30000
+        },
+        {
+          "date": "20260617",
+          "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260528",
-      "backtest_days": 3,
+      "backtest_end": "20260617",
+      "backtest_days": 17,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -787,11 +1639,167 @@
         {
           "date": "20260528",
           "value": 30000
+        },
+        {
+          "date": "20260529",
+          "value": 30000
+        },
+        {
+          "date": "20260601",
+          "value": 30000
+        },
+        {
+          "date": "20260602",
+          "value": 30000
+        },
+        {
+          "date": "20260603",
+          "value": 30000
+        },
+        {
+          "date": "20260604",
+          "value": 30000
+        },
+        {
+          "date": "20260605",
+          "value": 30000
+        },
+        {
+          "date": "20260608",
+          "value": 30000
+        },
+        {
+          "date": "20260609",
+          "value": 30000
+        },
+        {
+          "date": "20260610",
+          "value": 30000
+        },
+        {
+          "date": "20260611",
+          "value": 30000
+        },
+        {
+          "date": "20260612",
+          "value": 30000
+        },
+        {
+          "date": "20260615",
+          "value": 30000
+        },
+        {
+          "date": "20260616",
+          "value": 30000
+        },
+        {
+          "date": "20260617",
+          "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260528",
-      "backtest_days": 3,
+      "backtest_end": "20260617",
+      "backtest_days": 17,
+      "composite_score": 20.0,
+      "grade": "D",
+      "profit_loss_ratio": 0,
+      "return_stability": 0,
+      "calmar_ratio": 0
+    },
+    {
+      "name": "北向资金",
+      "category": "资金流",
+      "version": "1.0.0",
+      "description": "北向资金：连续5日净买入, 持有5天",
+      "initial_capital": 30000,
+      "current_capital": 30000,
+      "total_value": 30000,
+      "total_return": 0.0,
+      "monthly_return": 0.0,
+      "sharpe_ratio": 0,
+      "max_drawdown": 0,
+      "win_rate": 0,
+      "realized_pnl": 0.0,
+      "realized_pnl_pct": 0.0,
+      "floating_pnl": 0.0,
+      "floating_pnl_pct": 0.0,
+      "total_pnl": 0.0,
+      "total_pnl_pct": 0.0,
+      "holdings": [],
+      "trades": [],
+      "equity_curve": [
+        {
+          "date": "20260526",
+          "value": 30000
+        },
+        {
+          "date": "20260527",
+          "value": 30000
+        },
+        {
+          "date": "20260528",
+          "value": 30000
+        },
+        {
+          "date": "20260529",
+          "value": 30000
+        },
+        {
+          "date": "20260601",
+          "value": 30000
+        },
+        {
+          "date": "20260602",
+          "value": 30000
+        },
+        {
+          "date": "20260603",
+          "value": 30000
+        },
+        {
+          "date": "20260604",
+          "value": 30000
+        },
+        {
+          "date": "20260605",
+          "value": 30000
+        },
+        {
+          "date": "20260608",
+          "value": 30000
+        },
+        {
+          "date": "20260609",
+          "value": 30000
+        },
+        {
+          "date": "20260610",
+          "value": 30000
+        },
+        {
+          "date": "20260611",
+          "value": 30000
+        },
+        {
+          "date": "20260612",
+          "value": 30000
+        },
+        {
+          "date": "20260615",
+          "value": 30000
+        },
+        {
+          "date": "20260616",
+          "value": 30000
+        },
+        {
+          "date": "20260617",
+          "value": 30000
+        }
+      ],
+      "backtest_start": "20260526",
+      "backtest_end": "20260617",
+      "backtest_days": 17,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -831,11 +1839,67 @@
         {
           "date": "20260528",
           "value": 30000
+        },
+        {
+          "date": "20260529",
+          "value": 30000
+        },
+        {
+          "date": "20260601",
+          "value": 30000
+        },
+        {
+          "date": "20260602",
+          "value": 30000
+        },
+        {
+          "date": "20260603",
+          "value": 30000
+        },
+        {
+          "date": "20260604",
+          "value": 30000
+        },
+        {
+          "date": "20260605",
+          "value": 30000
+        },
+        {
+          "date": "20260608",
+          "value": 30000
+        },
+        {
+          "date": "20260609",
+          "value": 30000
+        },
+        {
+          "date": "20260610",
+          "value": 30000
+        },
+        {
+          "date": "20260611",
+          "value": 30000
+        },
+        {
+          "date": "20260612",
+          "value": 30000
+        },
+        {
+          "date": "20260615",
+          "value": 30000
+        },
+        {
+          "date": "20260616",
+          "value": 30000
+        },
+        {
+          "date": "20260617",
+          "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260528",
-      "backtest_days": 3,
+      "backtest_end": "20260617",
+      "backtest_days": 17,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -875,11 +1939,67 @@
         {
           "date": "20260528",
           "value": 30000
+        },
+        {
+          "date": "20260529",
+          "value": 30000
+        },
+        {
+          "date": "20260601",
+          "value": 30000
+        },
+        {
+          "date": "20260602",
+          "value": 30000
+        },
+        {
+          "date": "20260603",
+          "value": 30000
+        },
+        {
+          "date": "20260604",
+          "value": 30000
+        },
+        {
+          "date": "20260605",
+          "value": 30000
+        },
+        {
+          "date": "20260608",
+          "value": 30000
+        },
+        {
+          "date": "20260609",
+          "value": 30000
+        },
+        {
+          "date": "20260610",
+          "value": 30000
+        },
+        {
+          "date": "20260611",
+          "value": 30000
+        },
+        {
+          "date": "20260612",
+          "value": 30000
+        },
+        {
+          "date": "20260615",
+          "value": 30000
+        },
+        {
+          "date": "20260616",
+          "value": 30000
+        },
+        {
+          "date": "20260617",
+          "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260528",
-      "backtest_days": 3,
+      "backtest_end": "20260617",
+      "backtest_days": 17,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -919,11 +2039,67 @@
         {
           "date": "20260528",
           "value": 30000
+        },
+        {
+          "date": "20260529",
+          "value": 30000
+        },
+        {
+          "date": "20260601",
+          "value": 30000
+        },
+        {
+          "date": "20260602",
+          "value": 30000
+        },
+        {
+          "date": "20260603",
+          "value": 30000
+        },
+        {
+          "date": "20260604",
+          "value": 30000
+        },
+        {
+          "date": "20260605",
+          "value": 30000
+        },
+        {
+          "date": "20260608",
+          "value": 30000
+        },
+        {
+          "date": "20260609",
+          "value": 30000
+        },
+        {
+          "date": "20260610",
+          "value": 30000
+        },
+        {
+          "date": "20260611",
+          "value": 30000
+        },
+        {
+          "date": "20260612",
+          "value": 30000
+        },
+        {
+          "date": "20260615",
+          "value": 30000
+        },
+        {
+          "date": "20260616",
+          "value": 30000
+        },
+        {
+          "date": "20260617",
+          "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260528",
-      "backtest_days": 3,
+      "backtest_end": "20260617",
+      "backtest_days": 17,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -963,11 +2139,67 @@
         {
           "date": "20260528",
           "value": 30000
+        },
+        {
+          "date": "20260529",
+          "value": 30000
+        },
+        {
+          "date": "20260601",
+          "value": 30000
+        },
+        {
+          "date": "20260602",
+          "value": 30000
+        },
+        {
+          "date": "20260603",
+          "value": 30000
+        },
+        {
+          "date": "20260604",
+          "value": 30000
+        },
+        {
+          "date": "20260605",
+          "value": 30000
+        },
+        {
+          "date": "20260608",
+          "value": 30000
+        },
+        {
+          "date": "20260609",
+          "value": 30000
+        },
+        {
+          "date": "20260610",
+          "value": 30000
+        },
+        {
+          "date": "20260611",
+          "value": 30000
+        },
+        {
+          "date": "20260612",
+          "value": 30000
+        },
+        {
+          "date": "20260615",
+          "value": 30000
+        },
+        {
+          "date": "20260616",
+          "value": 30000
+        },
+        {
+          "date": "20260617",
+          "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260528",
-      "backtest_days": 3,
+      "backtest_end": "20260617",
+      "backtest_days": 17,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -1007,55 +2239,67 @@
         {
           "date": "20260528",
           "value": 30000
-        }
-      ],
-      "backtest_start": "20260526",
-      "backtest_end": "20260528",
-      "backtest_days": 3,
-      "composite_score": 20.0,
-      "grade": "D",
-      "profit_loss_ratio": 0,
-      "return_stability": 0,
-      "calmar_ratio": 0
-    },
-    {
-      "name": "业绩预告超预期",
-      "category": "事件驱动",
-      "version": "1.0.0",
-      "description": "业绩预告：净利润增速>20%，持有10天",
-      "initial_capital": 30000,
-      "current_capital": 30000,
-      "total_value": 30000,
-      "total_return": 0.0,
-      "monthly_return": 0.0,
-      "sharpe_ratio": 0,
-      "max_drawdown": 0,
-      "win_rate": 0,
-      "realized_pnl": 0.0,
-      "realized_pnl_pct": 0.0,
-      "floating_pnl": 0.0,
-      "floating_pnl_pct": 0.0,
-      "total_pnl": 0.0,
-      "total_pnl_pct": 0.0,
-      "holdings": [],
-      "trades": [],
-      "equity_curve": [
+        },
         {
-          "date": "20260526",
+          "date": "20260529",
           "value": 30000
         },
         {
-          "date": "20260527",
+          "date": "20260601",
           "value": 30000
         },
         {
-          "date": "20260528",
+          "date": "20260602",
+          "value": 30000
+        },
+        {
+          "date": "20260603",
+          "value": 30000
+        },
+        {
+          "date": "20260604",
+          "value": 30000
+        },
+        {
+          "date": "20260605",
+          "value": 30000
+        },
+        {
+          "date": "20260608",
+          "value": 30000
+        },
+        {
+          "date": "20260609",
+          "value": 30000
+        },
+        {
+          "date": "20260610",
+          "value": 30000
+        },
+        {
+          "date": "20260611",
+          "value": 30000
+        },
+        {
+          "date": "20260612",
+          "value": 30000
+        },
+        {
+          "date": "20260615",
+          "value": 30000
+        },
+        {
+          "date": "20260616",
+          "value": 30000
+        },
+        {
+          "date": "20260617",
           "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260528",
-      "backtest_days": 3,
+      "backtest_end": "20260617",
+      "backtest_days": 17,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -1095,11 +2339,167 @@
         {
           "date": "20260528",
           "value": 30000
+        },
+        {
+          "date": "20260529",
+          "value": 30000
+        },
+        {
+          "date": "20260601",
+          "value": 30000
+        },
+        {
+          "date": "20260602",
+          "value": 30000
+        },
+        {
+          "date": "20260603",
+          "value": 30000
+        },
+        {
+          "date": "20260604",
+          "value": 30000
+        },
+        {
+          "date": "20260605",
+          "value": 30000
+        },
+        {
+          "date": "20260608",
+          "value": 30000
+        },
+        {
+          "date": "20260609",
+          "value": 30000
+        },
+        {
+          "date": "20260610",
+          "value": 30000
+        },
+        {
+          "date": "20260611",
+          "value": 30000
+        },
+        {
+          "date": "20260612",
+          "value": 30000
+        },
+        {
+          "date": "20260615",
+          "value": 30000
+        },
+        {
+          "date": "20260616",
+          "value": 30000
+        },
+        {
+          "date": "20260617",
+          "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260528",
-      "backtest_days": 3,
+      "backtest_end": "20260617",
+      "backtest_days": 17,
+      "composite_score": 20.0,
+      "grade": "D",
+      "profit_loss_ratio": 0,
+      "return_stability": 0,
+      "calmar_ratio": 0
+    },
+    {
+      "name": "业绩预告超预期",
+      "category": "事件驱动",
+      "version": "1.0.0",
+      "description": "业绩预告：净利润增速>20%，持有10天",
+      "initial_capital": 30000,
+      "current_capital": 30000,
+      "total_value": 30000,
+      "total_return": 0.0,
+      "monthly_return": 0.0,
+      "sharpe_ratio": 0,
+      "max_drawdown": 0,
+      "win_rate": 0,
+      "realized_pnl": 0.0,
+      "realized_pnl_pct": 0.0,
+      "floating_pnl": 0.0,
+      "floating_pnl_pct": 0.0,
+      "total_pnl": 0.0,
+      "total_pnl_pct": 0.0,
+      "holdings": [],
+      "trades": [],
+      "equity_curve": [
+        {
+          "date": "20260526",
+          "value": 30000
+        },
+        {
+          "date": "20260527",
+          "value": 30000
+        },
+        {
+          "date": "20260528",
+          "value": 30000
+        },
+        {
+          "date": "20260529",
+          "value": 30000
+        },
+        {
+          "date": "20260601",
+          "value": 30000
+        },
+        {
+          "date": "20260602",
+          "value": 30000
+        },
+        {
+          "date": "20260603",
+          "value": 30000
+        },
+        {
+          "date": "20260604",
+          "value": 30000
+        },
+        {
+          "date": "20260605",
+          "value": 30000
+        },
+        {
+          "date": "20260608",
+          "value": 30000
+        },
+        {
+          "date": "20260609",
+          "value": 30000
+        },
+        {
+          "date": "20260610",
+          "value": 30000
+        },
+        {
+          "date": "20260611",
+          "value": 30000
+        },
+        {
+          "date": "20260612",
+          "value": 30000
+        },
+        {
+          "date": "20260615",
+          "value": 30000
+        },
+        {
+          "date": "20260616",
+          "value": 30000
+        },
+        {
+          "date": "20260617",
+          "value": 30000
+        }
+      ],
+      "backtest_start": "20260526",
+      "backtest_end": "20260617",
+      "backtest_days": 17,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -1139,11 +2539,67 @@
         {
           "date": "20260528",
           "value": 30000
+        },
+        {
+          "date": "20260529",
+          "value": 30000
+        },
+        {
+          "date": "20260601",
+          "value": 30000
+        },
+        {
+          "date": "20260602",
+          "value": 30000
+        },
+        {
+          "date": "20260603",
+          "value": 30000
+        },
+        {
+          "date": "20260604",
+          "value": 30000
+        },
+        {
+          "date": "20260605",
+          "value": 30000
+        },
+        {
+          "date": "20260608",
+          "value": 30000
+        },
+        {
+          "date": "20260609",
+          "value": 30000
+        },
+        {
+          "date": "20260610",
+          "value": 30000
+        },
+        {
+          "date": "20260611",
+          "value": 30000
+        },
+        {
+          "date": "20260612",
+          "value": 30000
+        },
+        {
+          "date": "20260615",
+          "value": 30000
+        },
+        {
+          "date": "20260616",
+          "value": 30000
+        },
+        {
+          "date": "20260617",
+          "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260528",
-      "backtest_days": 3,
+      "backtest_end": "20260617",
+      "backtest_days": 17,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -1183,11 +2639,67 @@
         {
           "date": "20260528",
           "value": 30000
+        },
+        {
+          "date": "20260529",
+          "value": 30000
+        },
+        {
+          "date": "20260601",
+          "value": 30000
+        },
+        {
+          "date": "20260602",
+          "value": 30000
+        },
+        {
+          "date": "20260603",
+          "value": 30000
+        },
+        {
+          "date": "20260604",
+          "value": 30000
+        },
+        {
+          "date": "20260605",
+          "value": 30000
+        },
+        {
+          "date": "20260608",
+          "value": 30000
+        },
+        {
+          "date": "20260609",
+          "value": 30000
+        },
+        {
+          "date": "20260610",
+          "value": 30000
+        },
+        {
+          "date": "20260611",
+          "value": 30000
+        },
+        {
+          "date": "20260612",
+          "value": 30000
+        },
+        {
+          "date": "20260615",
+          "value": 30000
+        },
+        {
+          "date": "20260616",
+          "value": 30000
+        },
+        {
+          "date": "20260617",
+          "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260528",
-      "backtest_days": 3,
+      "backtest_end": "20260617",
+      "backtest_days": 17,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -1227,11 +2739,67 @@
         {
           "date": "20260528",
           "value": 30000
+        },
+        {
+          "date": "20260529",
+          "value": 30000
+        },
+        {
+          "date": "20260601",
+          "value": 30000
+        },
+        {
+          "date": "20260602",
+          "value": 30000
+        },
+        {
+          "date": "20260603",
+          "value": 30000
+        },
+        {
+          "date": "20260604",
+          "value": 30000
+        },
+        {
+          "date": "20260605",
+          "value": 30000
+        },
+        {
+          "date": "20260608",
+          "value": 30000
+        },
+        {
+          "date": "20260609",
+          "value": 30000
+        },
+        {
+          "date": "20260610",
+          "value": 30000
+        },
+        {
+          "date": "20260611",
+          "value": 30000
+        },
+        {
+          "date": "20260612",
+          "value": 30000
+        },
+        {
+          "date": "20260615",
+          "value": 30000
+        },
+        {
+          "date": "20260616",
+          "value": 30000
+        },
+        {
+          "date": "20260617",
+          "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260528",
-      "backtest_days": 3,
+      "backtest_end": "20260617",
+      "backtest_days": 17,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -1271,11 +2839,67 @@
         {
           "date": "20260528",
           "value": 30000
+        },
+        {
+          "date": "20260529",
+          "value": 30000
+        },
+        {
+          "date": "20260601",
+          "value": 30000
+        },
+        {
+          "date": "20260602",
+          "value": 30000
+        },
+        {
+          "date": "20260603",
+          "value": 30000
+        },
+        {
+          "date": "20260604",
+          "value": 30000
+        },
+        {
+          "date": "20260605",
+          "value": 30000
+        },
+        {
+          "date": "20260608",
+          "value": 30000
+        },
+        {
+          "date": "20260609",
+          "value": 30000
+        },
+        {
+          "date": "20260610",
+          "value": 30000
+        },
+        {
+          "date": "20260611",
+          "value": 30000
+        },
+        {
+          "date": "20260612",
+          "value": 30000
+        },
+        {
+          "date": "20260615",
+          "value": 30000
+        },
+        {
+          "date": "20260616",
+          "value": 30000
+        },
+        {
+          "date": "20260617",
+          "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260528",
-      "backtest_days": 3,
+      "backtest_end": "20260617",
+      "backtest_days": 17,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -1315,11 +2939,67 @@
         {
           "date": "20260528",
           "value": 30000
+        },
+        {
+          "date": "20260529",
+          "value": 30000
+        },
+        {
+          "date": "20260601",
+          "value": 30000
+        },
+        {
+          "date": "20260602",
+          "value": 30000
+        },
+        {
+          "date": "20260603",
+          "value": 30000
+        },
+        {
+          "date": "20260604",
+          "value": 30000
+        },
+        {
+          "date": "20260605",
+          "value": 30000
+        },
+        {
+          "date": "20260608",
+          "value": 30000
+        },
+        {
+          "date": "20260609",
+          "value": 30000
+        },
+        {
+          "date": "20260610",
+          "value": 30000
+        },
+        {
+          "date": "20260611",
+          "value": 30000
+        },
+        {
+          "date": "20260612",
+          "value": 30000
+        },
+        {
+          "date": "20260615",
+          "value": 30000
+        },
+        {
+          "date": "20260616",
+          "value": 30000
+        },
+        {
+          "date": "20260617",
+          "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260528",
-      "backtest_days": 3,
+      "backtest_end": "20260617",
+      "backtest_days": 17,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -1359,55 +3039,67 @@
         {
           "date": "20260528",
           "value": 30000
-        }
-      ],
-      "backtest_start": "20260526",
-      "backtest_end": "20260528",
-      "backtest_days": 3,
-      "composite_score": 20.0,
-      "grade": "D",
-      "profit_loss_ratio": 0,
-      "return_stability": 0,
-      "calmar_ratio": 0
-    },
-    {
-      "name": "护城河选股",
-      "category": "质量因子",
-      "version": "1.0.0",
-      "description": "护城河选股：ROE>8%, 毛利率>30%, 负债<50%, PE<40",
-      "initial_capital": 30000,
-      "current_capital": 30000,
-      "total_value": 30000,
-      "total_return": 0.0,
-      "monthly_return": 0.0,
-      "sharpe_ratio": 0,
-      "max_drawdown": 0,
-      "win_rate": 0,
-      "realized_pnl": 0.0,
-      "realized_pnl_pct": 0.0,
-      "floating_pnl": 0.0,
-      "floating_pnl_pct": 0.0,
-      "total_pnl": 0.0,
-      "total_pnl_pct": 0.0,
-      "holdings": [],
-      "trades": [],
-      "equity_curve": [
+        },
         {
-          "date": "20260526",
+          "date": "20260529",
           "value": 30000
         },
         {
-          "date": "20260527",
+          "date": "20260601",
           "value": 30000
         },
         {
-          "date": "20260528",
+          "date": "20260602",
+          "value": 30000
+        },
+        {
+          "date": "20260603",
+          "value": 30000
+        },
+        {
+          "date": "20260604",
+          "value": 30000
+        },
+        {
+          "date": "20260605",
+          "value": 30000
+        },
+        {
+          "date": "20260608",
+          "value": 30000
+        },
+        {
+          "date": "20260609",
+          "value": 30000
+        },
+        {
+          "date": "20260610",
+          "value": 30000
+        },
+        {
+          "date": "20260611",
+          "value": 30000
+        },
+        {
+          "date": "20260612",
+          "value": 30000
+        },
+        {
+          "date": "20260615",
+          "value": 30000
+        },
+        {
+          "date": "20260616",
+          "value": 30000
+        },
+        {
+          "date": "20260617",
           "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260528",
-      "backtest_days": 3,
+      "backtest_end": "20260617",
+      "backtest_days": 17,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -1447,11 +3139,67 @@
         {
           "date": "20260528",
           "value": 30000
+        },
+        {
+          "date": "20260529",
+          "value": 30000
+        },
+        {
+          "date": "20260601",
+          "value": 30000
+        },
+        {
+          "date": "20260602",
+          "value": 30000
+        },
+        {
+          "date": "20260603",
+          "value": 30000
+        },
+        {
+          "date": "20260604",
+          "value": 30000
+        },
+        {
+          "date": "20260605",
+          "value": 30000
+        },
+        {
+          "date": "20260608",
+          "value": 30000
+        },
+        {
+          "date": "20260609",
+          "value": 30000
+        },
+        {
+          "date": "20260610",
+          "value": 30000
+        },
+        {
+          "date": "20260611",
+          "value": 30000
+        },
+        {
+          "date": "20260612",
+          "value": 30000
+        },
+        {
+          "date": "20260615",
+          "value": 30000
+        },
+        {
+          "date": "20260616",
+          "value": 30000
+        },
+        {
+          "date": "20260617",
+          "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260528",
-      "backtest_days": 3,
+      "backtest_end": "20260617",
+      "backtest_days": 17,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -1491,11 +3239,167 @@
         {
           "date": "20260528",
           "value": 30000
+        },
+        {
+          "date": "20260529",
+          "value": 30000
+        },
+        {
+          "date": "20260601",
+          "value": 30000
+        },
+        {
+          "date": "20260602",
+          "value": 30000
+        },
+        {
+          "date": "20260603",
+          "value": 30000
+        },
+        {
+          "date": "20260604",
+          "value": 30000
+        },
+        {
+          "date": "20260605",
+          "value": 30000
+        },
+        {
+          "date": "20260608",
+          "value": 30000
+        },
+        {
+          "date": "20260609",
+          "value": 30000
+        },
+        {
+          "date": "20260610",
+          "value": 30000
+        },
+        {
+          "date": "20260611",
+          "value": 30000
+        },
+        {
+          "date": "20260612",
+          "value": 30000
+        },
+        {
+          "date": "20260615",
+          "value": 30000
+        },
+        {
+          "date": "20260616",
+          "value": 30000
+        },
+        {
+          "date": "20260617",
+          "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260528",
-      "backtest_days": 3,
+      "backtest_end": "20260617",
+      "backtest_days": 17,
+      "composite_score": 20.0,
+      "grade": "D",
+      "profit_loss_ratio": 0,
+      "return_stability": 0,
+      "calmar_ratio": 0
+    },
+    {
+      "name": "护城河选股",
+      "category": "质量因子",
+      "version": "1.0.0",
+      "description": "护城河选股：ROE>8%, 毛利率>30%, 负债<50%, PE<40",
+      "initial_capital": 30000,
+      "current_capital": 30000,
+      "total_value": 30000,
+      "total_return": 0.0,
+      "monthly_return": 0.0,
+      "sharpe_ratio": 0,
+      "max_drawdown": 0,
+      "win_rate": 0,
+      "realized_pnl": 0.0,
+      "realized_pnl_pct": 0.0,
+      "floating_pnl": 0.0,
+      "floating_pnl_pct": 0.0,
+      "total_pnl": 0.0,
+      "total_pnl_pct": 0.0,
+      "holdings": [],
+      "trades": [],
+      "equity_curve": [
+        {
+          "date": "20260526",
+          "value": 30000
+        },
+        {
+          "date": "20260527",
+          "value": 30000
+        },
+        {
+          "date": "20260528",
+          "value": 30000
+        },
+        {
+          "date": "20260529",
+          "value": 30000
+        },
+        {
+          "date": "20260601",
+          "value": 30000
+        },
+        {
+          "date": "20260602",
+          "value": 30000
+        },
+        {
+          "date": "20260603",
+          "value": 30000
+        },
+        {
+          "date": "20260604",
+          "value": 30000
+        },
+        {
+          "date": "20260605",
+          "value": 30000
+        },
+        {
+          "date": "20260608",
+          "value": 30000
+        },
+        {
+          "date": "20260609",
+          "value": 30000
+        },
+        {
+          "date": "20260610",
+          "value": 30000
+        },
+        {
+          "date": "20260611",
+          "value": 30000
+        },
+        {
+          "date": "20260612",
+          "value": 30000
+        },
+        {
+          "date": "20260615",
+          "value": 30000
+        },
+        {
+          "date": "20260616",
+          "value": 30000
+        },
+        {
+          "date": "20260617",
+          "value": 30000
+        }
+      ],
+      "backtest_start": "20260526",
+      "backtest_end": "20260617",
+      "backtest_days": 17,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -1535,11 +3439,67 @@
         {
           "date": "20260528",
           "value": 30000
+        },
+        {
+          "date": "20260529",
+          "value": 30000
+        },
+        {
+          "date": "20260601",
+          "value": 30000
+        },
+        {
+          "date": "20260602",
+          "value": 30000
+        },
+        {
+          "date": "20260603",
+          "value": 30000
+        },
+        {
+          "date": "20260604",
+          "value": 30000
+        },
+        {
+          "date": "20260605",
+          "value": 30000
+        },
+        {
+          "date": "20260608",
+          "value": 30000
+        },
+        {
+          "date": "20260609",
+          "value": 30000
+        },
+        {
+          "date": "20260610",
+          "value": 30000
+        },
+        {
+          "date": "20260611",
+          "value": 30000
+        },
+        {
+          "date": "20260612",
+          "value": 30000
+        },
+        {
+          "date": "20260615",
+          "value": 30000
+        },
+        {
+          "date": "20260616",
+          "value": 30000
+        },
+        {
+          "date": "20260617",
+          "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260528",
-      "backtest_days": 3,
+      "backtest_end": "20260617",
+      "backtest_days": 17,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -1579,11 +3539,67 @@
         {
           "date": "20260528",
           "value": 30000
+        },
+        {
+          "date": "20260529",
+          "value": 30000
+        },
+        {
+          "date": "20260601",
+          "value": 30000
+        },
+        {
+          "date": "20260602",
+          "value": 30000
+        },
+        {
+          "date": "20260603",
+          "value": 30000
+        },
+        {
+          "date": "20260604",
+          "value": 30000
+        },
+        {
+          "date": "20260605",
+          "value": 30000
+        },
+        {
+          "date": "20260608",
+          "value": 30000
+        },
+        {
+          "date": "20260609",
+          "value": 30000
+        },
+        {
+          "date": "20260610",
+          "value": 30000
+        },
+        {
+          "date": "20260611",
+          "value": 30000
+        },
+        {
+          "date": "20260612",
+          "value": 30000
+        },
+        {
+          "date": "20260615",
+          "value": 30000
+        },
+        {
+          "date": "20260616",
+          "value": 30000
+        },
+        {
+          "date": "20260617",
+          "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260528",
-      "backtest_days": 3,
+      "backtest_end": "20260617",
+      "backtest_days": 17,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -1623,11 +3639,67 @@
         {
           "date": "20260528",
           "value": 30000
+        },
+        {
+          "date": "20260529",
+          "value": 30000
+        },
+        {
+          "date": "20260601",
+          "value": 30000
+        },
+        {
+          "date": "20260602",
+          "value": 30000
+        },
+        {
+          "date": "20260603",
+          "value": 30000
+        },
+        {
+          "date": "20260604",
+          "value": 30000
+        },
+        {
+          "date": "20260605",
+          "value": 30000
+        },
+        {
+          "date": "20260608",
+          "value": 30000
+        },
+        {
+          "date": "20260609",
+          "value": 30000
+        },
+        {
+          "date": "20260610",
+          "value": 30000
+        },
+        {
+          "date": "20260611",
+          "value": 30000
+        },
+        {
+          "date": "20260612",
+          "value": 30000
+        },
+        {
+          "date": "20260615",
+          "value": 30000
+        },
+        {
+          "date": "20260616",
+          "value": 30000
+        },
+        {
+          "date": "20260617",
+          "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260528",
-      "backtest_days": 3,
+      "backtest_end": "20260617",
+      "backtest_days": 17,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -1667,11 +3739,67 @@
         {
           "date": "20260528",
           "value": 30000
+        },
+        {
+          "date": "20260529",
+          "value": 30000
+        },
+        {
+          "date": "20260601",
+          "value": 30000
+        },
+        {
+          "date": "20260602",
+          "value": 30000
+        },
+        {
+          "date": "20260603",
+          "value": 30000
+        },
+        {
+          "date": "20260604",
+          "value": 30000
+        },
+        {
+          "date": "20260605",
+          "value": 30000
+        },
+        {
+          "date": "20260608",
+          "value": 30000
+        },
+        {
+          "date": "20260609",
+          "value": 30000
+        },
+        {
+          "date": "20260610",
+          "value": 30000
+        },
+        {
+          "date": "20260611",
+          "value": 30000
+        },
+        {
+          "date": "20260612",
+          "value": 30000
+        },
+        {
+          "date": "20260615",
+          "value": 30000
+        },
+        {
+          "date": "20260616",
+          "value": 30000
+        },
+        {
+          "date": "20260617",
+          "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260528",
-      "backtest_days": 3,
+      "backtest_end": "20260617",
+      "backtest_days": 17,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -1711,11 +3839,67 @@
         {
           "date": "20260528",
           "value": 30000
+        },
+        {
+          "date": "20260529",
+          "value": 30000
+        },
+        {
+          "date": "20260601",
+          "value": 30000
+        },
+        {
+          "date": "20260602",
+          "value": 30000
+        },
+        {
+          "date": "20260603",
+          "value": 30000
+        },
+        {
+          "date": "20260604",
+          "value": 30000
+        },
+        {
+          "date": "20260605",
+          "value": 30000
+        },
+        {
+          "date": "20260608",
+          "value": 30000
+        },
+        {
+          "date": "20260609",
+          "value": 30000
+        },
+        {
+          "date": "20260610",
+          "value": 30000
+        },
+        {
+          "date": "20260611",
+          "value": 30000
+        },
+        {
+          "date": "20260612",
+          "value": 30000
+        },
+        {
+          "date": "20260615",
+          "value": 30000
+        },
+        {
+          "date": "20260616",
+          "value": 30000
+        },
+        {
+          "date": "20260617",
+          "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260528",
-      "backtest_days": 3,
+      "backtest_end": "20260617",
+      "backtest_days": 17,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -1755,11 +3939,67 @@
         {
           "date": "20260528",
           "value": 30000
+        },
+        {
+          "date": "20260529",
+          "value": 30000
+        },
+        {
+          "date": "20260601",
+          "value": 30000
+        },
+        {
+          "date": "20260602",
+          "value": 30000
+        },
+        {
+          "date": "20260603",
+          "value": 30000
+        },
+        {
+          "date": "20260604",
+          "value": 30000
+        },
+        {
+          "date": "20260605",
+          "value": 30000
+        },
+        {
+          "date": "20260608",
+          "value": 30000
+        },
+        {
+          "date": "20260609",
+          "value": 30000
+        },
+        {
+          "date": "20260610",
+          "value": 30000
+        },
+        {
+          "date": "20260611",
+          "value": 30000
+        },
+        {
+          "date": "20260612",
+          "value": 30000
+        },
+        {
+          "date": "20260615",
+          "value": 30000
+        },
+        {
+          "date": "20260616",
+          "value": 30000
+        },
+        {
+          "date": "20260617",
+          "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260528",
-      "backtest_days": 3,
+      "backtest_end": "20260617",
+      "backtest_days": 17,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -1799,11 +4039,67 @@
         {
           "date": "20260528",
           "value": 30000
+        },
+        {
+          "date": "20260529",
+          "value": 30000
+        },
+        {
+          "date": "20260601",
+          "value": 30000
+        },
+        {
+          "date": "20260602",
+          "value": 30000
+        },
+        {
+          "date": "20260603",
+          "value": 30000
+        },
+        {
+          "date": "20260604",
+          "value": 30000
+        },
+        {
+          "date": "20260605",
+          "value": 30000
+        },
+        {
+          "date": "20260608",
+          "value": 30000
+        },
+        {
+          "date": "20260609",
+          "value": 30000
+        },
+        {
+          "date": "20260610",
+          "value": 30000
+        },
+        {
+          "date": "20260611",
+          "value": 30000
+        },
+        {
+          "date": "20260612",
+          "value": 30000
+        },
+        {
+          "date": "20260615",
+          "value": 30000
+        },
+        {
+          "date": "20260616",
+          "value": 30000
+        },
+        {
+          "date": "20260617",
+          "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260528",
-      "backtest_days": 3,
+      "backtest_end": "20260617",
+      "backtest_days": 17,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -1843,11 +4139,67 @@
         {
           "date": "20260528",
           "value": 30000
+        },
+        {
+          "date": "20260529",
+          "value": 30000
+        },
+        {
+          "date": "20260601",
+          "value": 30000
+        },
+        {
+          "date": "20260602",
+          "value": 30000
+        },
+        {
+          "date": "20260603",
+          "value": 30000
+        },
+        {
+          "date": "20260604",
+          "value": 30000
+        },
+        {
+          "date": "20260605",
+          "value": 30000
+        },
+        {
+          "date": "20260608",
+          "value": 30000
+        },
+        {
+          "date": "20260609",
+          "value": 30000
+        },
+        {
+          "date": "20260610",
+          "value": 30000
+        },
+        {
+          "date": "20260611",
+          "value": 30000
+        },
+        {
+          "date": "20260612",
+          "value": 30000
+        },
+        {
+          "date": "20260615",
+          "value": 30000
+        },
+        {
+          "date": "20260616",
+          "value": 30000
+        },
+        {
+          "date": "20260617",
+          "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260528",
-      "backtest_days": 3,
+      "backtest_end": "20260617",
+      "backtest_days": 17,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -1887,11 +4239,67 @@
         {
           "date": "20260528",
           "value": 30000
+        },
+        {
+          "date": "20260529",
+          "value": 30000
+        },
+        {
+          "date": "20260601",
+          "value": 30000
+        },
+        {
+          "date": "20260602",
+          "value": 30000
+        },
+        {
+          "date": "20260603",
+          "value": 30000
+        },
+        {
+          "date": "20260604",
+          "value": 30000
+        },
+        {
+          "date": "20260605",
+          "value": 30000
+        },
+        {
+          "date": "20260608",
+          "value": 30000
+        },
+        {
+          "date": "20260609",
+          "value": 30000
+        },
+        {
+          "date": "20260610",
+          "value": 30000
+        },
+        {
+          "date": "20260611",
+          "value": 30000
+        },
+        {
+          "date": "20260612",
+          "value": 30000
+        },
+        {
+          "date": "20260615",
+          "value": 30000
+        },
+        {
+          "date": "20260616",
+          "value": 30000
+        },
+        {
+          "date": "20260617",
+          "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260528",
-      "backtest_days": 3,
+      "backtest_end": "20260617",
+      "backtest_days": 17,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -1931,11 +4339,67 @@
         {
           "date": "20260528",
           "value": 30000
+        },
+        {
+          "date": "20260529",
+          "value": 30000
+        },
+        {
+          "date": "20260601",
+          "value": 30000
+        },
+        {
+          "date": "20260602",
+          "value": 30000
+        },
+        {
+          "date": "20260603",
+          "value": 30000
+        },
+        {
+          "date": "20260604",
+          "value": 30000
+        },
+        {
+          "date": "20260605",
+          "value": 30000
+        },
+        {
+          "date": "20260608",
+          "value": 30000
+        },
+        {
+          "date": "20260609",
+          "value": 30000
+        },
+        {
+          "date": "20260610",
+          "value": 30000
+        },
+        {
+          "date": "20260611",
+          "value": 30000
+        },
+        {
+          "date": "20260612",
+          "value": 30000
+        },
+        {
+          "date": "20260615",
+          "value": 30000
+        },
+        {
+          "date": "20260616",
+          "value": 30000
+        },
+        {
+          "date": "20260617",
+          "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260528",
-      "backtest_days": 3,
+      "backtest_end": "20260617",
+      "backtest_days": 17,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -1975,11 +4439,67 @@
         {
           "date": "20260528",
           "value": 30000
+        },
+        {
+          "date": "20260529",
+          "value": 30000
+        },
+        {
+          "date": "20260601",
+          "value": 30000
+        },
+        {
+          "date": "20260602",
+          "value": 30000
+        },
+        {
+          "date": "20260603",
+          "value": 30000
+        },
+        {
+          "date": "20260604",
+          "value": 30000
+        },
+        {
+          "date": "20260605",
+          "value": 30000
+        },
+        {
+          "date": "20260608",
+          "value": 30000
+        },
+        {
+          "date": "20260609",
+          "value": 30000
+        },
+        {
+          "date": "20260610",
+          "value": 30000
+        },
+        {
+          "date": "20260611",
+          "value": 30000
+        },
+        {
+          "date": "20260612",
+          "value": 30000
+        },
+        {
+          "date": "20260615",
+          "value": 30000
+        },
+        {
+          "date": "20260616",
+          "value": 30000
+        },
+        {
+          "date": "20260617",
+          "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260528",
-      "backtest_days": 3,
+      "backtest_end": "20260617",
+      "backtest_days": 17,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,

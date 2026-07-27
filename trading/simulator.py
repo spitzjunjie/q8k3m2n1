@@ -69,7 +69,8 @@ class TradingSimulator:
             return None, "K线数据不足"
 
         df = self.timing.add_indicators(df)
-        # FIXED: Skip timing check for now\n        has_signal, timing_reason = True, "skip timing"
+        # FIXED: Skip timing check for now
+        has_signal, timing_reason = True, "skip timing"
 
         if not has_signal:
             return None, "无买入择时信号"

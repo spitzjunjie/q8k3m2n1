@@ -47,8 +47,20 @@ NEW_STRATEGIES = {
     'AI供应链瓶颈', 'SEPA成长股', '协整配对交易', 'Hurst择时动量'
 }
 
-# 基准日期：当前日期（回测从当前日期往前推算N个交易日）
+# 基准日期：默认当前日期（回测从当前日期往前推算N个交易日）
+# 注意：当传入 days 参数时，会在 run_historical_backtest 中被动态覆盖
 BENCHMARK_START_DATE = datetime.now()
+
+
+def calculate_benchmark_start_date(days):
+    """根据回测天数动态计算基准开始日期
+    往回数个交易日（考虑周末，每周约5个交易日，所以用 days * 7/5 估算日历天数）
+    """
+    if days is None or days <= 0:
+        return datetime.now()
+    # 估算：每个交易日约对应1.4个日历天
+    calendar_days_estimate = int(days * 7 / 5) + 10  # 加10天缓冲
+    return datetime.now() - timedelta(days=calendar_days_estimate)
 
 
 def run_strategy_on_date(strategy, helper, timing, date):
@@ -131,6 +143,14 @@ def run_historical_backtest(strategy_names=None, days=None, max_workers=2):
     Returns:
         dict: 回测结果，包含每个策略的最终状态
     """
+    # 【修复】当传入 days 参数时，动态计算 BENCHMARK_START_DATE
+    # 这样可以正确回测最近 N 个交易日，而不是从固定日期开始
+    global BENCHMARK_START_DATE
+    if days is not None and days > 0:
+        calculated_start = calculate_benchmark_start_date(days)
+        print(f"[日期计算] days={days} → BENCHMARK_START_DATE 设为 {calculated_start.strftime('%Y-%m-%d')}")
+        BENCHMARK_START_DATE = calculated_start
+
     # 根据数据源选择Helper类
     if DATA_SOURCE == 'tushare':
         from data.tushare_helper import TushareHelper
@@ -149,12 +169,16 @@ def run_historical_backtest(strategy_names=None, days=None, max_workers=2):
         temp_dates = helper.get_trading_dates(n=1000)
     # 统一日期格式（移除连字符）
     benchmark_str = BENCHMARK_START_DATE.strftime('%Y%m%d')
+    today_str = datetime.now().strftime('%Y%m%d')
     temp_dates_norm = [d.replace('-', '') for d in temp_dates]
-    actual_days = len([d for d in temp_dates_norm if d >= benchmark_str])
-    
+    # 【修复】计算基准日期到今天之间有多少个已过去的交易日（用 <= today 而不是 >= today）
+    actual_days = len([d for d in temp_dates_norm if d >= benchmark_str and d <= today_str])
+
     if days is None or days > actual_days:
         days = actual_days  # 使用实际的交易日数
-        print(f"自动调整回测天数: {days}个交易日（从基准日期到运行当天）")
+        print(f"自动调整回测天数: {days}个交易日（从{benchmark_str}到{today_str}）")
+    else:
+        print(f"回测天数: {days}个交易日（从{benchmark_str}到{today_str}）")
 
     print("=" * 60)
     print("历史回测引擎")

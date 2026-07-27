@@ -418,23 +418,35 @@ class TushareHelper:
 
     def get_trade_dates(self, days=30, start_date=None):
         """获取最近交易日（升序排列）
-        start_date: 开始日期（YYYYMMDD），None=自动从基准日期2026-05-26开始
+        start_date: 开始日期（YYYYMMDD），None=返回最近 days 个交易日
+        注意：修复了之前默认从20260526开始的bug，现在行为与AKShare一致
         """
         end_date = datetime.now().strftime('%Y%m%d')
         if start_date is None:
-            # 默认从基准日期开始（与backtest_history.py的BENCHMARK_START_DATE保持一致）
-            start_date = '20260526'
-        try:
-            df = self.pro.trade_cal(exchange='SSE', start_date=start_date, end_date=end_date)
-            if df is not None:
-                # 筛选交易日并排序（升序）
-                dates = df[df['is_open'] == 1]['cal_date'].tolist()
-                dates.sort()  # 升序排列
-                # 筛选基准日期之后的交易日
-                dates = [d for d in dates if d >= start_date]
-                return dates[:days]  # 只返回最近的days个（从基准日期开始算）
-        except:
-            pass
+            # 【修复】获取足够多的历史交易日（2年约500个交易日），返回最后 days 个
+            # 而不是固定从20260526开始
+            try:
+                # 从2年前的日期开始取，确保能取到足够的交易日
+                start_calc = (datetime.now() - timedelta(days=730)).strftime('%Y%m%d')
+                df = self.pro.trade_cal(exchange='SSE', start_date=start_calc, end_date=end_date)
+                if df is not None:
+                    dates = df[df['is_open'] == 1]['cal_date'].tolist()
+                    dates.sort()  # 升序排列
+                    # 只返回最近的 days 个
+                    return dates[-days:] if len(dates) >= days else dates
+            except:
+                pass
+        else:
+            # 如果显式指定了 start_date，使用原来的逻辑
+            try:
+                df = self.pro.trade_cal(exchange='SSE', start_date=start_date, end_date=end_date)
+                if df is not None:
+                    dates = df[df['is_open'] == 1]['cal_date'].tolist()
+                    dates.sort()
+                    dates = [d for d in dates if d >= start_date]
+                    return dates[:days]
+            except:
+                pass
         return []
 
     # ==================== 财报数据 ====================

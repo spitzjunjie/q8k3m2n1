@@ -1,9 +1,9 @@
 {
-  "update_time": "2026-07-26 15:25:49",
+  "update_time": "2026-07-27 12:03:10",
   "backtest_type": "historical",
   "backtest_start": "20260526",
-  "backtest_end": "20260617",
-  "backtest_days": 17,
+  "backtest_end": "20260526",
+  "backtest_days": 1,
   "strategy_count": 45,
   "strategies": [
     {
@@ -31,75 +31,11 @@
         {
           "date": "20260526",
           "value": 30000
-        },
-        {
-          "date": "20260527",
-          "value": 30000
-        },
-        {
-          "date": "20260528",
-          "value": 30000
-        },
-        {
-          "date": "20260529",
-          "value": 30000
-        },
-        {
-          "date": "20260601",
-          "value": 30000
-        },
-        {
-          "date": "20260602",
-          "value": 30000
-        },
-        {
-          "date": "20260603",
-          "value": 30000
-        },
-        {
-          "date": "20260604",
-          "value": 30000
-        },
-        {
-          "date": "20260605",
-          "value": 30000
-        },
-        {
-          "date": "20260608",
-          "value": 30000
-        },
-        {
-          "date": "20260609",
-          "value": 30000
-        },
-        {
-          "date": "20260610",
-          "value": 30000
-        },
-        {
-          "date": "20260611",
-          "value": 30000
-        },
-        {
-          "date": "20260612",
-          "value": 30000
-        },
-        {
-          "date": "20260615",
-          "value": 30000
-        },
-        {
-          "date": "20260616",
-          "value": 30000
-        },
-        {
-          "date": "20260617",
-          "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260617",
-      "backtest_days": 17,
+      "backtest_end": "20260526",
+      "backtest_days": 1,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -131,175 +67,11 @@
         {
           "date": "20260526",
           "value": 30000
-        },
-        {
-          "date": "20260527",
-          "value": 30000
-        },
-        {
-          "date": "20260528",
-          "value": 30000
-        },
-        {
-          "date": "20260529",
-          "value": 30000
-        },
-        {
-          "date": "20260601",
-          "value": 30000
-        },
-        {
-          "date": "20260602",
-          "value": 30000
-        },
-        {
-          "date": "20260603",
-          "value": 30000
-        },
-        {
-          "date": "20260604",
-          "value": 30000
-        },
-        {
-          "date": "20260605",
-          "value": 30000
-        },
-        {
-          "date": "20260608",
-          "value": 30000
-        },
-        {
-          "date": "20260609",
-          "value": 30000
-        },
-        {
-          "date": "20260610",
-          "value": 30000
-        },
-        {
-          "date": "20260611",
-          "value": 30000
-        },
-        {
-          "date": "20260612",
-          "value": 30000
-        },
-        {
-          "date": "20260615",
-          "value": 30000
-        },
-        {
-          "date": "20260616",
-          "value": 30000
-        },
-        {
-          "date": "20260617",
-          "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260617",
-      "backtest_days": 17,
-      "composite_score": 20.0,
-      "grade": "D",
-      "profit_loss_ratio": 0,
-      "return_stability": 0,
-      "calmar_ratio": 0
-    },
-    {
-      "name": "MACD金叉",
-      "category": "技术突破",
-      "version": "1.0.0",
-      "description": "MACD金叉信号，捕捉动能转强（放宽至任意金叉）",
-      "initial_capital": 30000,
-      "current_capital": 30000,
-      "total_value": 30000,
-      "total_return": 0.0,
-      "monthly_return": 0.0,
-      "sharpe_ratio": 0,
-      "max_drawdown": 0,
-      "win_rate": 0,
-      "realized_pnl": 0.0,
-      "realized_pnl_pct": 0.0,
-      "floating_pnl": 0.0,
-      "floating_pnl_pct": 0.0,
-      "total_pnl": 0.0,
-      "total_pnl_pct": 0.0,
-      "holdings": [],
-      "trades": [],
-      "equity_curve": [
-        {
-          "date": "20260526",
-          "value": 30000
-        },
-        {
-          "date": "20260527",
-          "value": 30000
-        },
-        {
-          "date": "20260528",
-          "value": 30000
-        },
-        {
-          "date": "20260529",
-          "value": 30000
-        },
-        {
-          "date": "20260601",
-          "value": 30000
-        },
-        {
-          "date": "20260602",
-          "value": 30000
-        },
-        {
-          "date": "20260603",
-          "value": 30000
-        },
-        {
-          "date": "20260604",
-          "value": 30000
-        },
-        {
-          "date": "20260605",
-          "value": 30000
-        },
-        {
-          "date": "20260608",
-          "value": 30000
-        },
-        {
-          "date": "20260609",
-          "value": 30000
-        },
-        {
-          "date": "20260610",
-          "value": 30000
-        },
-        {
-          "date": "20260611",
-          "value": 30000
-        },
-        {
-          "date": "20260612",
-          "value": 30000
-        },
-        {
-          "date": "20260615",
-          "value": 30000
-        },
-        {
-          "date": "20260616",
-          "value": 30000
-        },
-        {
-          "date": "20260617",
-          "value": 30000
-        }
-      ],
-      "backtest_start": "20260526",
-      "backtest_end": "20260617",
-      "backtest_days": 17,
+      "backtest_end": "20260526",
+      "backtest_days": 1,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -331,75 +103,11 @@
         {
           "date": "20260526",
           "value": 30000
-        },
-        {
-          "date": "20260527",
-          "value": 30000
-        },
-        {
-          "date": "20260528",
-          "value": 30000
-        },
-        {
-          "date": "20260529",
-          "value": 30000
-        },
-        {
-          "date": "20260601",
-          "value": 30000
-        },
-        {
-          "date": "20260602",
-          "value": 30000
-        },
-        {
-          "date": "20260603",
-          "value": 30000
-        },
-        {
-          "date": "20260604",
-          "value": 30000
-        },
-        {
-          "date": "20260605",
-          "value": 30000
-        },
-        {
-          "date": "20260608",
-          "value": 30000
-        },
-        {
-          "date": "20260609",
-          "value": 30000
-        },
-        {
-          "date": "20260610",
-          "value": 30000
-        },
-        {
-          "date": "20260611",
-          "value": 30000
-        },
-        {
-          "date": "20260612",
-          "value": 30000
-        },
-        {
-          "date": "20260615",
-          "value": 30000
-        },
-        {
-          "date": "20260616",
-          "value": 30000
-        },
-        {
-          "date": "20260617",
-          "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260617",
-      "backtest_days": 17,
+      "backtest_end": "20260526",
+      "backtest_days": 1,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -431,175 +139,11 @@
         {
           "date": "20260526",
           "value": 30000
-        },
-        {
-          "date": "20260527",
-          "value": 30000
-        },
-        {
-          "date": "20260528",
-          "value": 30000
-        },
-        {
-          "date": "20260529",
-          "value": 30000
-        },
-        {
-          "date": "20260601",
-          "value": 30000
-        },
-        {
-          "date": "20260602",
-          "value": 30000
-        },
-        {
-          "date": "20260603",
-          "value": 30000
-        },
-        {
-          "date": "20260604",
-          "value": 30000
-        },
-        {
-          "date": "20260605",
-          "value": 30000
-        },
-        {
-          "date": "20260608",
-          "value": 30000
-        },
-        {
-          "date": "20260609",
-          "value": 30000
-        },
-        {
-          "date": "20260610",
-          "value": 30000
-        },
-        {
-          "date": "20260611",
-          "value": 30000
-        },
-        {
-          "date": "20260612",
-          "value": 30000
-        },
-        {
-          "date": "20260615",
-          "value": 30000
-        },
-        {
-          "date": "20260616",
-          "value": 30000
-        },
-        {
-          "date": "20260617",
-          "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260617",
-      "backtest_days": 17,
-      "composite_score": 20.0,
-      "grade": "D",
-      "profit_loss_ratio": 0,
-      "return_stability": 0,
-      "calmar_ratio": 0
-    },
-    {
-      "name": "量价齐升",
-      "category": "技术策略",
-      "version": "1.0.0",
-      "description": "放量突破：成交量放大2倍+价格突破",
-      "initial_capital": 30000,
-      "current_capital": 30000,
-      "total_value": 30000,
-      "total_return": 0.0,
-      "monthly_return": 0.0,
-      "sharpe_ratio": 0,
-      "max_drawdown": 0,
-      "win_rate": 0,
-      "realized_pnl": 0.0,
-      "realized_pnl_pct": 0.0,
-      "floating_pnl": 0.0,
-      "floating_pnl_pct": 0.0,
-      "total_pnl": 0.0,
-      "total_pnl_pct": 0.0,
-      "holdings": [],
-      "trades": [],
-      "equity_curve": [
-        {
-          "date": "20260526",
-          "value": 30000
-        },
-        {
-          "date": "20260527",
-          "value": 30000
-        },
-        {
-          "date": "20260528",
-          "value": 30000
-        },
-        {
-          "date": "20260529",
-          "value": 30000
-        },
-        {
-          "date": "20260601",
-          "value": 30000
-        },
-        {
-          "date": "20260602",
-          "value": 30000
-        },
-        {
-          "date": "20260603",
-          "value": 30000
-        },
-        {
-          "date": "20260604",
-          "value": 30000
-        },
-        {
-          "date": "20260605",
-          "value": 30000
-        },
-        {
-          "date": "20260608",
-          "value": 30000
-        },
-        {
-          "date": "20260609",
-          "value": 30000
-        },
-        {
-          "date": "20260610",
-          "value": 30000
-        },
-        {
-          "date": "20260611",
-          "value": 30000
-        },
-        {
-          "date": "20260612",
-          "value": 30000
-        },
-        {
-          "date": "20260615",
-          "value": 30000
-        },
-        {
-          "date": "20260616",
-          "value": 30000
-        },
-        {
-          "date": "20260617",
-          "value": 30000
-        }
-      ],
-      "backtest_start": "20260526",
-      "backtest_end": "20260617",
-      "backtest_days": 17,
+      "backtest_end": "20260526",
+      "backtest_days": 1,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -631,75 +175,47 @@
         {
           "date": "20260526",
           "value": 30000
-        },
+        }
+      ],
+      "backtest_start": "20260526",
+      "backtest_end": "20260526",
+      "backtest_days": 1,
+      "composite_score": 20.0,
+      "grade": "D",
+      "profit_loss_ratio": 0,
+      "return_stability": 0,
+      "calmar_ratio": 0
+    },
+    {
+      "name": "MACD金叉",
+      "category": "技术突破",
+      "version": "1.0.0",
+      "description": "MACD金叉信号，捕捉动能转强（放宽至任意金叉）",
+      "initial_capital": 30000,
+      "current_capital": 30000,
+      "total_value": 30000,
+      "total_return": 0.0,
+      "monthly_return": 0.0,
+      "sharpe_ratio": 0,
+      "max_drawdown": 0,
+      "win_rate": 0,
+      "realized_pnl": 0.0,
+      "realized_pnl_pct": 0.0,
+      "floating_pnl": 0.0,
+      "floating_pnl_pct": 0.0,
+      "total_pnl": 0.0,
+      "total_pnl_pct": 0.0,
+      "holdings": [],
+      "trades": [],
+      "equity_curve": [
         {
-          "date": "20260527",
-          "value": 30000
-        },
-        {
-          "date": "20260528",
-          "value": 30000
-        },
-        {
-          "date": "20260529",
-          "value": 30000
-        },
-        {
-          "date": "20260601",
-          "value": 30000
-        },
-        {
-          "date": "20260602",
-          "value": 30000
-        },
-        {
-          "date": "20260603",
-          "value": 30000
-        },
-        {
-          "date": "20260604",
-          "value": 30000
-        },
-        {
-          "date": "20260605",
-          "value": 30000
-        },
-        {
-          "date": "20260608",
-          "value": 30000
-        },
-        {
-          "date": "20260609",
-          "value": 30000
-        },
-        {
-          "date": "20260610",
-          "value": 30000
-        },
-        {
-          "date": "20260611",
-          "value": 30000
-        },
-        {
-          "date": "20260612",
-          "value": 30000
-        },
-        {
-          "date": "20260615",
-          "value": 30000
-        },
-        {
-          "date": "20260616",
-          "value": 30000
-        },
-        {
-          "date": "20260617",
+          "date": "20260526",
           "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260617",
-      "backtest_days": 17,
+      "backtest_end": "20260526",
+      "backtest_days": 1,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -731,75 +247,47 @@
         {
           "date": "20260526",
           "value": 30000
-        },
+        }
+      ],
+      "backtest_start": "20260526",
+      "backtest_end": "20260526",
+      "backtest_days": 1,
+      "composite_score": 20.0,
+      "grade": "D",
+      "profit_loss_ratio": 0,
+      "return_stability": 0,
+      "calmar_ratio": 0
+    },
+    {
+      "name": "量价齐升",
+      "category": "技术策略",
+      "version": "1.0.0",
+      "description": "放量突破：成交量放大2倍+价格突破",
+      "initial_capital": 30000,
+      "current_capital": 30000,
+      "total_value": 30000,
+      "total_return": 0.0,
+      "monthly_return": 0.0,
+      "sharpe_ratio": 0,
+      "max_drawdown": 0,
+      "win_rate": 0,
+      "realized_pnl": 0.0,
+      "realized_pnl_pct": 0.0,
+      "floating_pnl": 0.0,
+      "floating_pnl_pct": 0.0,
+      "total_pnl": 0.0,
+      "total_pnl_pct": 0.0,
+      "holdings": [],
+      "trades": [],
+      "equity_curve": [
         {
-          "date": "20260527",
-          "value": 30000
-        },
-        {
-          "date": "20260528",
-          "value": 30000
-        },
-        {
-          "date": "20260529",
-          "value": 30000
-        },
-        {
-          "date": "20260601",
-          "value": 30000
-        },
-        {
-          "date": "20260602",
-          "value": 30000
-        },
-        {
-          "date": "20260603",
-          "value": 30000
-        },
-        {
-          "date": "20260604",
-          "value": 30000
-        },
-        {
-          "date": "20260605",
-          "value": 30000
-        },
-        {
-          "date": "20260608",
-          "value": 30000
-        },
-        {
-          "date": "20260609",
-          "value": 30000
-        },
-        {
-          "date": "20260610",
-          "value": 30000
-        },
-        {
-          "date": "20260611",
-          "value": 30000
-        },
-        {
-          "date": "20260612",
-          "value": 30000
-        },
-        {
-          "date": "20260615",
-          "value": 30000
-        },
-        {
-          "date": "20260616",
-          "value": 30000
-        },
-        {
-          "date": "20260617",
+          "date": "20260526",
           "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260617",
-      "backtest_days": 17,
+      "backtest_end": "20260526",
+      "backtest_days": 1,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -831,75 +319,11 @@
         {
           "date": "20260526",
           "value": 30000
-        },
-        {
-          "date": "20260527",
-          "value": 30000
-        },
-        {
-          "date": "20260528",
-          "value": 30000
-        },
-        {
-          "date": "20260529",
-          "value": 30000
-        },
-        {
-          "date": "20260601",
-          "value": 30000
-        },
-        {
-          "date": "20260602",
-          "value": 30000
-        },
-        {
-          "date": "20260603",
-          "value": 30000
-        },
-        {
-          "date": "20260604",
-          "value": 30000
-        },
-        {
-          "date": "20260605",
-          "value": 30000
-        },
-        {
-          "date": "20260608",
-          "value": 30000
-        },
-        {
-          "date": "20260609",
-          "value": 30000
-        },
-        {
-          "date": "20260610",
-          "value": 30000
-        },
-        {
-          "date": "20260611",
-          "value": 30000
-        },
-        {
-          "date": "20260612",
-          "value": 30000
-        },
-        {
-          "date": "20260615",
-          "value": 30000
-        },
-        {
-          "date": "20260616",
-          "value": 30000
-        },
-        {
-          "date": "20260617",
-          "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260617",
-      "backtest_days": 17,
+      "backtest_end": "20260526",
+      "backtest_days": 1,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -931,75 +355,11 @@
         {
           "date": "20260526",
           "value": 30000
-        },
-        {
-          "date": "20260527",
-          "value": 30000
-        },
-        {
-          "date": "20260528",
-          "value": 30000
-        },
-        {
-          "date": "20260529",
-          "value": 30000
-        },
-        {
-          "date": "20260601",
-          "value": 30000
-        },
-        {
-          "date": "20260602",
-          "value": 30000
-        },
-        {
-          "date": "20260603",
-          "value": 30000
-        },
-        {
-          "date": "20260604",
-          "value": 30000
-        },
-        {
-          "date": "20260605",
-          "value": 30000
-        },
-        {
-          "date": "20260608",
-          "value": 30000
-        },
-        {
-          "date": "20260609",
-          "value": 30000
-        },
-        {
-          "date": "20260610",
-          "value": 30000
-        },
-        {
-          "date": "20260611",
-          "value": 30000
-        },
-        {
-          "date": "20260612",
-          "value": 30000
-        },
-        {
-          "date": "20260615",
-          "value": 30000
-        },
-        {
-          "date": "20260616",
-          "value": 30000
-        },
-        {
-          "date": "20260617",
-          "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260617",
-      "backtest_days": 17,
+      "backtest_end": "20260526",
+      "backtest_days": 1,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -1031,175 +391,11 @@
         {
           "date": "20260526",
           "value": 30000
-        },
-        {
-          "date": "20260527",
-          "value": 30000
-        },
-        {
-          "date": "20260528",
-          "value": 30000
-        },
-        {
-          "date": "20260529",
-          "value": 30000
-        },
-        {
-          "date": "20260601",
-          "value": 30000
-        },
-        {
-          "date": "20260602",
-          "value": 30000
-        },
-        {
-          "date": "20260603",
-          "value": 30000
-        },
-        {
-          "date": "20260604",
-          "value": 30000
-        },
-        {
-          "date": "20260605",
-          "value": 30000
-        },
-        {
-          "date": "20260608",
-          "value": 30000
-        },
-        {
-          "date": "20260609",
-          "value": 30000
-        },
-        {
-          "date": "20260610",
-          "value": 30000
-        },
-        {
-          "date": "20260611",
-          "value": 30000
-        },
-        {
-          "date": "20260612",
-          "value": 30000
-        },
-        {
-          "date": "20260615",
-          "value": 30000
-        },
-        {
-          "date": "20260616",
-          "value": 30000
-        },
-        {
-          "date": "20260617",
-          "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260617",
-      "backtest_days": 17,
-      "composite_score": 20.0,
-      "grade": "D",
-      "profit_loss_ratio": 0,
-      "return_stability": 0,
-      "calmar_ratio": 0
-    },
-    {
-      "name": "超跌反弹",
-      "category": "逆向策略",
-      "version": "1.0.0",
-      "description": "超跌反弹：跌幅>15%, RSI<35, 止损5%",
-      "initial_capital": 30000,
-      "current_capital": 30000,
-      "total_value": 30000,
-      "total_return": 0.0,
-      "monthly_return": 0.0,
-      "sharpe_ratio": 0,
-      "max_drawdown": 0,
-      "win_rate": 0,
-      "realized_pnl": 0.0,
-      "realized_pnl_pct": 0.0,
-      "floating_pnl": 0.0,
-      "floating_pnl_pct": 0.0,
-      "total_pnl": 0.0,
-      "total_pnl_pct": 0.0,
-      "holdings": [],
-      "trades": [],
-      "equity_curve": [
-        {
-          "date": "20260526",
-          "value": 30000
-        },
-        {
-          "date": "20260527",
-          "value": 30000
-        },
-        {
-          "date": "20260528",
-          "value": 30000
-        },
-        {
-          "date": "20260529",
-          "value": 30000
-        },
-        {
-          "date": "20260601",
-          "value": 30000
-        },
-        {
-          "date": "20260602",
-          "value": 30000
-        },
-        {
-          "date": "20260603",
-          "value": 30000
-        },
-        {
-          "date": "20260604",
-          "value": 30000
-        },
-        {
-          "date": "20260605",
-          "value": 30000
-        },
-        {
-          "date": "20260608",
-          "value": 30000
-        },
-        {
-          "date": "20260609",
-          "value": 30000
-        },
-        {
-          "date": "20260610",
-          "value": 30000
-        },
-        {
-          "date": "20260611",
-          "value": 30000
-        },
-        {
-          "date": "20260612",
-          "value": 30000
-        },
-        {
-          "date": "20260615",
-          "value": 30000
-        },
-        {
-          "date": "20260616",
-          "value": 30000
-        },
-        {
-          "date": "20260617",
-          "value": 30000
-        }
-      ],
-      "backtest_start": "20260526",
-      "backtest_end": "20260617",
-      "backtest_days": 17,
+      "backtest_end": "20260526",
+      "backtest_days": 1,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -1231,75 +427,47 @@
         {
           "date": "20260526",
           "value": 30000
-        },
+        }
+      ],
+      "backtest_start": "20260526",
+      "backtest_end": "20260526",
+      "backtest_days": 1,
+      "composite_score": 20.0,
+      "grade": "D",
+      "profit_loss_ratio": 0,
+      "return_stability": 0,
+      "calmar_ratio": 0
+    },
+    {
+      "name": "超跌反弹",
+      "category": "逆向策略",
+      "version": "1.0.0",
+      "description": "超跌反弹：跌幅>15%, RSI<35, 止损5%",
+      "initial_capital": 30000,
+      "current_capital": 30000,
+      "total_value": 30000,
+      "total_return": 0.0,
+      "monthly_return": 0.0,
+      "sharpe_ratio": 0,
+      "max_drawdown": 0,
+      "win_rate": 0,
+      "realized_pnl": 0.0,
+      "realized_pnl_pct": 0.0,
+      "floating_pnl": 0.0,
+      "floating_pnl_pct": 0.0,
+      "total_pnl": 0.0,
+      "total_pnl_pct": 0.0,
+      "holdings": [],
+      "trades": [],
+      "equity_curve": [
         {
-          "date": "20260527",
-          "value": 30000
-        },
-        {
-          "date": "20260528",
-          "value": 30000
-        },
-        {
-          "date": "20260529",
-          "value": 30000
-        },
-        {
-          "date": "20260601",
-          "value": 30000
-        },
-        {
-          "date": "20260602",
-          "value": 30000
-        },
-        {
-          "date": "20260603",
-          "value": 30000
-        },
-        {
-          "date": "20260604",
-          "value": 30000
-        },
-        {
-          "date": "20260605",
-          "value": 30000
-        },
-        {
-          "date": "20260608",
-          "value": 30000
-        },
-        {
-          "date": "20260609",
-          "value": 30000
-        },
-        {
-          "date": "20260610",
-          "value": 30000
-        },
-        {
-          "date": "20260611",
-          "value": 30000
-        },
-        {
-          "date": "20260612",
-          "value": 30000
-        },
-        {
-          "date": "20260615",
-          "value": 30000
-        },
-        {
-          "date": "20260616",
-          "value": 30000
-        },
-        {
-          "date": "20260617",
+          "date": "20260526",
           "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260617",
-      "backtest_days": 17,
+      "backtest_end": "20260526",
+      "backtest_days": 1,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -1331,175 +499,11 @@
         {
           "date": "20260526",
           "value": 30000
-        },
-        {
-          "date": "20260527",
-          "value": 30000
-        },
-        {
-          "date": "20260528",
-          "value": 30000
-        },
-        {
-          "date": "20260529",
-          "value": 30000
-        },
-        {
-          "date": "20260601",
-          "value": 30000
-        },
-        {
-          "date": "20260602",
-          "value": 30000
-        },
-        {
-          "date": "20260603",
-          "value": 30000
-        },
-        {
-          "date": "20260604",
-          "value": 30000
-        },
-        {
-          "date": "20260605",
-          "value": 30000
-        },
-        {
-          "date": "20260608",
-          "value": 30000
-        },
-        {
-          "date": "20260609",
-          "value": 30000
-        },
-        {
-          "date": "20260610",
-          "value": 30000
-        },
-        {
-          "date": "20260611",
-          "value": 30000
-        },
-        {
-          "date": "20260612",
-          "value": 30000
-        },
-        {
-          "date": "20260615",
-          "value": 30000
-        },
-        {
-          "date": "20260616",
-          "value": 30000
-        },
-        {
-          "date": "20260617",
-          "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260617",
-      "backtest_days": 17,
-      "composite_score": 20.0,
-      "grade": "D",
-      "profit_loss_ratio": 0,
-      "return_stability": 0,
-      "calmar_ratio": 0
-    },
-    {
-      "name": "短线动量",
-      "category": "技术面",
-      "version": "1.0.0",
-      "description": "短线动量：近5日涨幅前20%, 持有5天, 止损3%",
-      "initial_capital": 30000,
-      "current_capital": 30000,
-      "total_value": 30000,
-      "total_return": 0.0,
-      "monthly_return": 0.0,
-      "sharpe_ratio": 0,
-      "max_drawdown": 0,
-      "win_rate": 0,
-      "realized_pnl": 0.0,
-      "realized_pnl_pct": 0.0,
-      "floating_pnl": 0.0,
-      "floating_pnl_pct": 0.0,
-      "total_pnl": 0.0,
-      "total_pnl_pct": 0.0,
-      "holdings": [],
-      "trades": [],
-      "equity_curve": [
-        {
-          "date": "20260526",
-          "value": 30000
-        },
-        {
-          "date": "20260527",
-          "value": 30000
-        },
-        {
-          "date": "20260528",
-          "value": 30000
-        },
-        {
-          "date": "20260529",
-          "value": 30000
-        },
-        {
-          "date": "20260601",
-          "value": 30000
-        },
-        {
-          "date": "20260602",
-          "value": 30000
-        },
-        {
-          "date": "20260603",
-          "value": 30000
-        },
-        {
-          "date": "20260604",
-          "value": 30000
-        },
-        {
-          "date": "20260605",
-          "value": 30000
-        },
-        {
-          "date": "20260608",
-          "value": 30000
-        },
-        {
-          "date": "20260609",
-          "value": 30000
-        },
-        {
-          "date": "20260610",
-          "value": 30000
-        },
-        {
-          "date": "20260611",
-          "value": 30000
-        },
-        {
-          "date": "20260612",
-          "value": 30000
-        },
-        {
-          "date": "20260615",
-          "value": 30000
-        },
-        {
-          "date": "20260616",
-          "value": 30000
-        },
-        {
-          "date": "20260617",
-          "value": 30000
-        }
-      ],
-      "backtest_start": "20260526",
-      "backtest_end": "20260617",
-      "backtest_days": 17,
+      "backtest_end": "20260526",
+      "backtest_days": 1,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -1531,75 +535,11 @@
         {
           "date": "20260526",
           "value": 30000
-        },
-        {
-          "date": "20260527",
-          "value": 30000
-        },
-        {
-          "date": "20260528",
-          "value": 30000
-        },
-        {
-          "date": "20260529",
-          "value": 30000
-        },
-        {
-          "date": "20260601",
-          "value": 30000
-        },
-        {
-          "date": "20260602",
-          "value": 30000
-        },
-        {
-          "date": "20260603",
-          "value": 30000
-        },
-        {
-          "date": "20260604",
-          "value": 30000
-        },
-        {
-          "date": "20260605",
-          "value": 30000
-        },
-        {
-          "date": "20260608",
-          "value": 30000
-        },
-        {
-          "date": "20260609",
-          "value": 30000
-        },
-        {
-          "date": "20260610",
-          "value": 30000
-        },
-        {
-          "date": "20260611",
-          "value": 30000
-        },
-        {
-          "date": "20260612",
-          "value": 30000
-        },
-        {
-          "date": "20260615",
-          "value": 30000
-        },
-        {
-          "date": "20260616",
-          "value": 30000
-        },
-        {
-          "date": "20260617",
-          "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260617",
-      "backtest_days": 17,
+      "backtest_end": "20260526",
+      "backtest_days": 1,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -1607,10 +547,10 @@
       "calmar_ratio": 0
     },
     {
-      "name": "价值成长",
-      "category": "价值策略",
+      "name": "短线动量",
+      "category": "技术面",
       "version": "1.0.0",
-      "description": "价值成长：PE<20, 增速>15%, ROE>10%, 持有20天",
+      "description": "短线动量：近5日涨幅前20%, 持有5天, 止损3%",
       "initial_capital": 30000,
       "current_capital": 30000,
       "total_value": 30000,
@@ -1631,75 +571,11 @@
         {
           "date": "20260526",
           "value": 30000
-        },
-        {
-          "date": "20260527",
-          "value": 30000
-        },
-        {
-          "date": "20260528",
-          "value": 30000
-        },
-        {
-          "date": "20260529",
-          "value": 30000
-        },
-        {
-          "date": "20260601",
-          "value": 30000
-        },
-        {
-          "date": "20260602",
-          "value": 30000
-        },
-        {
-          "date": "20260603",
-          "value": 30000
-        },
-        {
-          "date": "20260604",
-          "value": 30000
-        },
-        {
-          "date": "20260605",
-          "value": 30000
-        },
-        {
-          "date": "20260608",
-          "value": 30000
-        },
-        {
-          "date": "20260609",
-          "value": 30000
-        },
-        {
-          "date": "20260610",
-          "value": 30000
-        },
-        {
-          "date": "20260611",
-          "value": 30000
-        },
-        {
-          "date": "20260612",
-          "value": 30000
-        },
-        {
-          "date": "20260615",
-          "value": 30000
-        },
-        {
-          "date": "20260616",
-          "value": 30000
-        },
-        {
-          "date": "20260617",
-          "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260617",
-      "backtest_days": 17,
+      "backtest_end": "20260526",
+      "backtest_days": 1,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -1731,75 +607,47 @@
         {
           "date": "20260526",
           "value": 30000
-        },
+        }
+      ],
+      "backtest_start": "20260526",
+      "backtest_end": "20260526",
+      "backtest_days": 1,
+      "composite_score": 20.0,
+      "grade": "D",
+      "profit_loss_ratio": 0,
+      "return_stability": 0,
+      "calmar_ratio": 0
+    },
+    {
+      "name": "价值成长",
+      "category": "价值策略",
+      "version": "1.0.0",
+      "description": "价值成长：PE<20, 增速>15%, ROE>10%, 持有20天",
+      "initial_capital": 30000,
+      "current_capital": 30000,
+      "total_value": 30000,
+      "total_return": 0.0,
+      "monthly_return": 0.0,
+      "sharpe_ratio": 0,
+      "max_drawdown": 0,
+      "win_rate": 0,
+      "realized_pnl": 0.0,
+      "realized_pnl_pct": 0.0,
+      "floating_pnl": 0.0,
+      "floating_pnl_pct": 0.0,
+      "total_pnl": 0.0,
+      "total_pnl_pct": 0.0,
+      "holdings": [],
+      "trades": [],
+      "equity_curve": [
         {
-          "date": "20260527",
-          "value": 30000
-        },
-        {
-          "date": "20260528",
-          "value": 30000
-        },
-        {
-          "date": "20260529",
-          "value": 30000
-        },
-        {
-          "date": "20260601",
-          "value": 30000
-        },
-        {
-          "date": "20260602",
-          "value": 30000
-        },
-        {
-          "date": "20260603",
-          "value": 30000
-        },
-        {
-          "date": "20260604",
-          "value": 30000
-        },
-        {
-          "date": "20260605",
-          "value": 30000
-        },
-        {
-          "date": "20260608",
-          "value": 30000
-        },
-        {
-          "date": "20260609",
-          "value": 30000
-        },
-        {
-          "date": "20260610",
-          "value": 30000
-        },
-        {
-          "date": "20260611",
-          "value": 30000
-        },
-        {
-          "date": "20260612",
-          "value": 30000
-        },
-        {
-          "date": "20260615",
-          "value": 30000
-        },
-        {
-          "date": "20260616",
-          "value": 30000
-        },
-        {
-          "date": "20260617",
+          "date": "20260526",
           "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260617",
-      "backtest_days": 17,
+      "backtest_end": "20260526",
+      "backtest_days": 1,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -1831,75 +679,11 @@
         {
           "date": "20260526",
           "value": 30000
-        },
-        {
-          "date": "20260527",
-          "value": 30000
-        },
-        {
-          "date": "20260528",
-          "value": 30000
-        },
-        {
-          "date": "20260529",
-          "value": 30000
-        },
-        {
-          "date": "20260601",
-          "value": 30000
-        },
-        {
-          "date": "20260602",
-          "value": 30000
-        },
-        {
-          "date": "20260603",
-          "value": 30000
-        },
-        {
-          "date": "20260604",
-          "value": 30000
-        },
-        {
-          "date": "20260605",
-          "value": 30000
-        },
-        {
-          "date": "20260608",
-          "value": 30000
-        },
-        {
-          "date": "20260609",
-          "value": 30000
-        },
-        {
-          "date": "20260610",
-          "value": 30000
-        },
-        {
-          "date": "20260611",
-          "value": 30000
-        },
-        {
-          "date": "20260612",
-          "value": 30000
-        },
-        {
-          "date": "20260615",
-          "value": 30000
-        },
-        {
-          "date": "20260616",
-          "value": 30000
-        },
-        {
-          "date": "20260617",
-          "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260617",
-      "backtest_days": 17,
+      "backtest_end": "20260526",
+      "backtest_days": 1,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -1931,175 +715,11 @@
         {
           "date": "20260526",
           "value": 30000
-        },
-        {
-          "date": "20260527",
-          "value": 30000
-        },
-        {
-          "date": "20260528",
-          "value": 30000
-        },
-        {
-          "date": "20260529",
-          "value": 30000
-        },
-        {
-          "date": "20260601",
-          "value": 30000
-        },
-        {
-          "date": "20260602",
-          "value": 30000
-        },
-        {
-          "date": "20260603",
-          "value": 30000
-        },
-        {
-          "date": "20260604",
-          "value": 30000
-        },
-        {
-          "date": "20260605",
-          "value": 30000
-        },
-        {
-          "date": "20260608",
-          "value": 30000
-        },
-        {
-          "date": "20260609",
-          "value": 30000
-        },
-        {
-          "date": "20260610",
-          "value": 30000
-        },
-        {
-          "date": "20260611",
-          "value": 30000
-        },
-        {
-          "date": "20260612",
-          "value": 30000
-        },
-        {
-          "date": "20260615",
-          "value": 30000
-        },
-        {
-          "date": "20260616",
-          "value": 30000
-        },
-        {
-          "date": "20260617",
-          "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260617",
-      "backtest_days": 17,
-      "composite_score": 20.0,
-      "grade": "D",
-      "profit_loss_ratio": 0,
-      "return_stability": 0,
-      "calmar_ratio": 0
-    },
-    {
-      "name": "低PB价值",
-      "category": "价值策略",
-      "version": "1.0.0",
-      "description": "低PB价值：PB<1.5, ROE>5%, 持有30天",
-      "initial_capital": 30000,
-      "current_capital": 30000,
-      "total_value": 30000,
-      "total_return": 0.0,
-      "monthly_return": 0.0,
-      "sharpe_ratio": 0,
-      "max_drawdown": 0,
-      "win_rate": 0,
-      "realized_pnl": 0.0,
-      "realized_pnl_pct": 0.0,
-      "floating_pnl": 0.0,
-      "floating_pnl_pct": 0.0,
-      "total_pnl": 0.0,
-      "total_pnl_pct": 0.0,
-      "holdings": [],
-      "trades": [],
-      "equity_curve": [
-        {
-          "date": "20260526",
-          "value": 30000
-        },
-        {
-          "date": "20260527",
-          "value": 30000
-        },
-        {
-          "date": "20260528",
-          "value": 30000
-        },
-        {
-          "date": "20260529",
-          "value": 30000
-        },
-        {
-          "date": "20260601",
-          "value": 30000
-        },
-        {
-          "date": "20260602",
-          "value": 30000
-        },
-        {
-          "date": "20260603",
-          "value": 30000
-        },
-        {
-          "date": "20260604",
-          "value": 30000
-        },
-        {
-          "date": "20260605",
-          "value": 30000
-        },
-        {
-          "date": "20260608",
-          "value": 30000
-        },
-        {
-          "date": "20260609",
-          "value": 30000
-        },
-        {
-          "date": "20260610",
-          "value": 30000
-        },
-        {
-          "date": "20260611",
-          "value": 30000
-        },
-        {
-          "date": "20260612",
-          "value": 30000
-        },
-        {
-          "date": "20260615",
-          "value": 30000
-        },
-        {
-          "date": "20260616",
-          "value": 30000
-        },
-        {
-          "date": "20260617",
-          "value": 30000
-        }
-      ],
-      "backtest_start": "20260526",
-      "backtest_end": "20260617",
-      "backtest_days": 17,
+      "backtest_end": "20260526",
+      "backtest_days": 1,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -2131,75 +751,47 @@
         {
           "date": "20260526",
           "value": 30000
-        },
+        }
+      ],
+      "backtest_start": "20260526",
+      "backtest_end": "20260526",
+      "backtest_days": 1,
+      "composite_score": 20.0,
+      "grade": "D",
+      "profit_loss_ratio": 0,
+      "return_stability": 0,
+      "calmar_ratio": 0
+    },
+    {
+      "name": "低PB价值",
+      "category": "价值策略",
+      "version": "1.0.0",
+      "description": "低PB价值：PB<1.5, ROE>5%, 持有30天",
+      "initial_capital": 30000,
+      "current_capital": 30000,
+      "total_value": 30000,
+      "total_return": 0.0,
+      "monthly_return": 0.0,
+      "sharpe_ratio": 0,
+      "max_drawdown": 0,
+      "win_rate": 0,
+      "realized_pnl": 0.0,
+      "realized_pnl_pct": 0.0,
+      "floating_pnl": 0.0,
+      "floating_pnl_pct": 0.0,
+      "total_pnl": 0.0,
+      "total_pnl_pct": 0.0,
+      "holdings": [],
+      "trades": [],
+      "equity_curve": [
         {
-          "date": "20260527",
-          "value": 30000
-        },
-        {
-          "date": "20260528",
-          "value": 30000
-        },
-        {
-          "date": "20260529",
-          "value": 30000
-        },
-        {
-          "date": "20260601",
-          "value": 30000
-        },
-        {
-          "date": "20260602",
-          "value": 30000
-        },
-        {
-          "date": "20260603",
-          "value": 30000
-        },
-        {
-          "date": "20260604",
-          "value": 30000
-        },
-        {
-          "date": "20260605",
-          "value": 30000
-        },
-        {
-          "date": "20260608",
-          "value": 30000
-        },
-        {
-          "date": "20260609",
-          "value": 30000
-        },
-        {
-          "date": "20260610",
-          "value": 30000
-        },
-        {
-          "date": "20260611",
-          "value": 30000
-        },
-        {
-          "date": "20260612",
-          "value": 30000
-        },
-        {
-          "date": "20260615",
-          "value": 30000
-        },
-        {
-          "date": "20260616",
-          "value": 30000
-        },
-        {
-          "date": "20260617",
+          "date": "20260526",
           "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260617",
-      "backtest_days": 17,
+      "backtest_end": "20260526",
+      "backtest_days": 1,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -2231,175 +823,11 @@
         {
           "date": "20260526",
           "value": 30000
-        },
-        {
-          "date": "20260527",
-          "value": 30000
-        },
-        {
-          "date": "20260528",
-          "value": 30000
-        },
-        {
-          "date": "20260529",
-          "value": 30000
-        },
-        {
-          "date": "20260601",
-          "value": 30000
-        },
-        {
-          "date": "20260602",
-          "value": 30000
-        },
-        {
-          "date": "20260603",
-          "value": 30000
-        },
-        {
-          "date": "20260604",
-          "value": 30000
-        },
-        {
-          "date": "20260605",
-          "value": 30000
-        },
-        {
-          "date": "20260608",
-          "value": 30000
-        },
-        {
-          "date": "20260609",
-          "value": 30000
-        },
-        {
-          "date": "20260610",
-          "value": 30000
-        },
-        {
-          "date": "20260611",
-          "value": 30000
-        },
-        {
-          "date": "20260612",
-          "value": 30000
-        },
-        {
-          "date": "20260615",
-          "value": 30000
-        },
-        {
-          "date": "20260616",
-          "value": 30000
-        },
-        {
-          "date": "20260617",
-          "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260617",
-      "backtest_days": 17,
-      "composite_score": 20.0,
-      "grade": "D",
-      "profit_loss_ratio": 0,
-      "return_stability": 0,
-      "calmar_ratio": 0
-    },
-    {
-      "name": "机构调研",
-      "category": "事件驱动",
-      "version": "1.0.0",
-      "description": "机构调研：近5日有调研，买入持有10天",
-      "initial_capital": 30000,
-      "current_capital": 30000,
-      "total_value": 30000,
-      "total_return": 0.0,
-      "monthly_return": 0.0,
-      "sharpe_ratio": 0,
-      "max_drawdown": 0,
-      "win_rate": 0,
-      "realized_pnl": 0.0,
-      "realized_pnl_pct": 0.0,
-      "floating_pnl": 0.0,
-      "floating_pnl_pct": 0.0,
-      "total_pnl": 0.0,
-      "total_pnl_pct": 0.0,
-      "holdings": [],
-      "trades": [],
-      "equity_curve": [
-        {
-          "date": "20260526",
-          "value": 30000
-        },
-        {
-          "date": "20260527",
-          "value": 30000
-        },
-        {
-          "date": "20260528",
-          "value": 30000
-        },
-        {
-          "date": "20260529",
-          "value": 30000
-        },
-        {
-          "date": "20260601",
-          "value": 30000
-        },
-        {
-          "date": "20260602",
-          "value": 30000
-        },
-        {
-          "date": "20260603",
-          "value": 30000
-        },
-        {
-          "date": "20260604",
-          "value": 30000
-        },
-        {
-          "date": "20260605",
-          "value": 30000
-        },
-        {
-          "date": "20260608",
-          "value": 30000
-        },
-        {
-          "date": "20260609",
-          "value": 30000
-        },
-        {
-          "date": "20260610",
-          "value": 30000
-        },
-        {
-          "date": "20260611",
-          "value": 30000
-        },
-        {
-          "date": "20260612",
-          "value": 30000
-        },
-        {
-          "date": "20260615",
-          "value": 30000
-        },
-        {
-          "date": "20260616",
-          "value": 30000
-        },
-        {
-          "date": "20260617",
-          "value": 30000
-        }
-      ],
-      "backtest_start": "20260526",
-      "backtest_end": "20260617",
-      "backtest_days": 17,
+      "backtest_end": "20260526",
+      "backtest_days": 1,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -2431,75 +859,11 @@
         {
           "date": "20260526",
           "value": 30000
-        },
-        {
-          "date": "20260527",
-          "value": 30000
-        },
-        {
-          "date": "20260528",
-          "value": 30000
-        },
-        {
-          "date": "20260529",
-          "value": 30000
-        },
-        {
-          "date": "20260601",
-          "value": 30000
-        },
-        {
-          "date": "20260602",
-          "value": 30000
-        },
-        {
-          "date": "20260603",
-          "value": 30000
-        },
-        {
-          "date": "20260604",
-          "value": 30000
-        },
-        {
-          "date": "20260605",
-          "value": 30000
-        },
-        {
-          "date": "20260608",
-          "value": 30000
-        },
-        {
-          "date": "20260609",
-          "value": 30000
-        },
-        {
-          "date": "20260610",
-          "value": 30000
-        },
-        {
-          "date": "20260611",
-          "value": 30000
-        },
-        {
-          "date": "20260612",
-          "value": 30000
-        },
-        {
-          "date": "20260615",
-          "value": 30000
-        },
-        {
-          "date": "20260616",
-          "value": 30000
-        },
-        {
-          "date": "20260617",
-          "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260617",
-      "backtest_days": 17,
+      "backtest_end": "20260526",
+      "backtest_days": 1,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -2531,75 +895,11 @@
         {
           "date": "20260526",
           "value": 30000
-        },
-        {
-          "date": "20260527",
-          "value": 30000
-        },
-        {
-          "date": "20260528",
-          "value": 30000
-        },
-        {
-          "date": "20260529",
-          "value": 30000
-        },
-        {
-          "date": "20260601",
-          "value": 30000
-        },
-        {
-          "date": "20260602",
-          "value": 30000
-        },
-        {
-          "date": "20260603",
-          "value": 30000
-        },
-        {
-          "date": "20260604",
-          "value": 30000
-        },
-        {
-          "date": "20260605",
-          "value": 30000
-        },
-        {
-          "date": "20260608",
-          "value": 30000
-        },
-        {
-          "date": "20260609",
-          "value": 30000
-        },
-        {
-          "date": "20260610",
-          "value": 30000
-        },
-        {
-          "date": "20260611",
-          "value": 30000
-        },
-        {
-          "date": "20260612",
-          "value": 30000
-        },
-        {
-          "date": "20260615",
-          "value": 30000
-        },
-        {
-          "date": "20260616",
-          "value": 30000
-        },
-        {
-          "date": "20260617",
-          "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260617",
-      "backtest_days": 17,
+      "backtest_end": "20260526",
+      "backtest_days": 1,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -2607,10 +907,10 @@
       "calmar_ratio": 0
     },
     {
-      "name": "主力资金",
-      "category": "资金流向",
+      "name": "机构调研",
+      "category": "事件驱动",
       "version": "1.0.0",
-      "description": "追踪主力资金净流入，持有5-10天",
+      "description": "机构调研：近5日有调研，买入持有10天",
       "initial_capital": 30000,
       "current_capital": 30000,
       "total_value": 30000,
@@ -2631,75 +931,11 @@
         {
           "date": "20260526",
           "value": 30000
-        },
-        {
-          "date": "20260527",
-          "value": 30000
-        },
-        {
-          "date": "20260528",
-          "value": 30000
-        },
-        {
-          "date": "20260529",
-          "value": 30000
-        },
-        {
-          "date": "20260601",
-          "value": 30000
-        },
-        {
-          "date": "20260602",
-          "value": 30000
-        },
-        {
-          "date": "20260603",
-          "value": 30000
-        },
-        {
-          "date": "20260604",
-          "value": 30000
-        },
-        {
-          "date": "20260605",
-          "value": 30000
-        },
-        {
-          "date": "20260608",
-          "value": 30000
-        },
-        {
-          "date": "20260609",
-          "value": 30000
-        },
-        {
-          "date": "20260610",
-          "value": 30000
-        },
-        {
-          "date": "20260611",
-          "value": 30000
-        },
-        {
-          "date": "20260612",
-          "value": 30000
-        },
-        {
-          "date": "20260615",
-          "value": 30000
-        },
-        {
-          "date": "20260616",
-          "value": 30000
-        },
-        {
-          "date": "20260617",
-          "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260617",
-      "backtest_days": 17,
+      "backtest_end": "20260526",
+      "backtest_days": 1,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -2731,75 +967,47 @@
         {
           "date": "20260526",
           "value": 30000
-        },
+        }
+      ],
+      "backtest_start": "20260526",
+      "backtest_end": "20260526",
+      "backtest_days": 1,
+      "composite_score": 20.0,
+      "grade": "D",
+      "profit_loss_ratio": 0,
+      "return_stability": 0,
+      "calmar_ratio": 0
+    },
+    {
+      "name": "主力资金",
+      "category": "资金流向",
+      "version": "1.0.0",
+      "description": "追踪主力资金净流入，持有5-10天",
+      "initial_capital": 30000,
+      "current_capital": 30000,
+      "total_value": 30000,
+      "total_return": 0.0,
+      "monthly_return": 0.0,
+      "sharpe_ratio": 0,
+      "max_drawdown": 0,
+      "win_rate": 0,
+      "realized_pnl": 0.0,
+      "realized_pnl_pct": 0.0,
+      "floating_pnl": 0.0,
+      "floating_pnl_pct": 0.0,
+      "total_pnl": 0.0,
+      "total_pnl_pct": 0.0,
+      "holdings": [],
+      "trades": [],
+      "equity_curve": [
         {
-          "date": "20260527",
-          "value": 30000
-        },
-        {
-          "date": "20260528",
-          "value": 30000
-        },
-        {
-          "date": "20260529",
-          "value": 30000
-        },
-        {
-          "date": "20260601",
-          "value": 30000
-        },
-        {
-          "date": "20260602",
-          "value": 30000
-        },
-        {
-          "date": "20260603",
-          "value": 30000
-        },
-        {
-          "date": "20260604",
-          "value": 30000
-        },
-        {
-          "date": "20260605",
-          "value": 30000
-        },
-        {
-          "date": "20260608",
-          "value": 30000
-        },
-        {
-          "date": "20260609",
-          "value": 30000
-        },
-        {
-          "date": "20260610",
-          "value": 30000
-        },
-        {
-          "date": "20260611",
-          "value": 30000
-        },
-        {
-          "date": "20260612",
-          "value": 30000
-        },
-        {
-          "date": "20260615",
-          "value": 30000
-        },
-        {
-          "date": "20260616",
-          "value": 30000
-        },
-        {
-          "date": "20260617",
+          "date": "20260526",
           "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260617",
-      "backtest_days": 17,
+      "backtest_end": "20260526",
+      "backtest_days": 1,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -2831,75 +1039,11 @@
         {
           "date": "20260526",
           "value": 30000
-        },
-        {
-          "date": "20260527",
-          "value": 30000
-        },
-        {
-          "date": "20260528",
-          "value": 30000
-        },
-        {
-          "date": "20260529",
-          "value": 30000
-        },
-        {
-          "date": "20260601",
-          "value": 30000
-        },
-        {
-          "date": "20260602",
-          "value": 30000
-        },
-        {
-          "date": "20260603",
-          "value": 30000
-        },
-        {
-          "date": "20260604",
-          "value": 30000
-        },
-        {
-          "date": "20260605",
-          "value": 30000
-        },
-        {
-          "date": "20260608",
-          "value": 30000
-        },
-        {
-          "date": "20260609",
-          "value": 30000
-        },
-        {
-          "date": "20260610",
-          "value": 30000
-        },
-        {
-          "date": "20260611",
-          "value": 30000
-        },
-        {
-          "date": "20260612",
-          "value": 30000
-        },
-        {
-          "date": "20260615",
-          "value": 30000
-        },
-        {
-          "date": "20260616",
-          "value": 30000
-        },
-        {
-          "date": "20260617",
-          "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260617",
-      "backtest_days": 17,
+      "backtest_end": "20260526",
+      "backtest_days": 1,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -2931,375 +1075,11 @@
         {
           "date": "20260526",
           "value": 30000
-        },
-        {
-          "date": "20260527",
-          "value": 30000
-        },
-        {
-          "date": "20260528",
-          "value": 30000
-        },
-        {
-          "date": "20260529",
-          "value": 30000
-        },
-        {
-          "date": "20260601",
-          "value": 30000
-        },
-        {
-          "date": "20260602",
-          "value": 30000
-        },
-        {
-          "date": "20260603",
-          "value": 30000
-        },
-        {
-          "date": "20260604",
-          "value": 30000
-        },
-        {
-          "date": "20260605",
-          "value": 30000
-        },
-        {
-          "date": "20260608",
-          "value": 30000
-        },
-        {
-          "date": "20260609",
-          "value": 30000
-        },
-        {
-          "date": "20260610",
-          "value": 30000
-        },
-        {
-          "date": "20260611",
-          "value": 30000
-        },
-        {
-          "date": "20260612",
-          "value": 30000
-        },
-        {
-          "date": "20260615",
-          "value": 30000
-        },
-        {
-          "date": "20260616",
-          "value": 30000
-        },
-        {
-          "date": "20260617",
-          "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260617",
-      "backtest_days": 17,
-      "composite_score": 20.0,
-      "grade": "D",
-      "profit_loss_ratio": 0,
-      "return_stability": 0,
-      "calmar_ratio": 0
-    },
-    {
-      "name": "质量因子选股",
-      "category": "质量因子",
-      "version": "1.0.0",
-      "description": "质量因子选股：F-Score≥3, PE<40, 持有30天",
-      "initial_capital": 30000,
-      "current_capital": 30000,
-      "total_value": 30000,
-      "total_return": 0.0,
-      "monthly_return": 0.0,
-      "sharpe_ratio": 0,
-      "max_drawdown": 0,
-      "win_rate": 0,
-      "realized_pnl": 0.0,
-      "realized_pnl_pct": 0.0,
-      "floating_pnl": 0.0,
-      "floating_pnl_pct": 0.0,
-      "total_pnl": 0.0,
-      "total_pnl_pct": 0.0,
-      "holdings": [],
-      "trades": [],
-      "equity_curve": [
-        {
-          "date": "20260526",
-          "value": 30000
-        },
-        {
-          "date": "20260527",
-          "value": 30000
-        },
-        {
-          "date": "20260528",
-          "value": 30000
-        },
-        {
-          "date": "20260529",
-          "value": 30000
-        },
-        {
-          "date": "20260601",
-          "value": 30000
-        },
-        {
-          "date": "20260602",
-          "value": 30000
-        },
-        {
-          "date": "20260603",
-          "value": 30000
-        },
-        {
-          "date": "20260604",
-          "value": 30000
-        },
-        {
-          "date": "20260605",
-          "value": 30000
-        },
-        {
-          "date": "20260608",
-          "value": 30000
-        },
-        {
-          "date": "20260609",
-          "value": 30000
-        },
-        {
-          "date": "20260610",
-          "value": 30000
-        },
-        {
-          "date": "20260611",
-          "value": 30000
-        },
-        {
-          "date": "20260612",
-          "value": 30000
-        },
-        {
-          "date": "20260615",
-          "value": 30000
-        },
-        {
-          "date": "20260616",
-          "value": 30000
-        },
-        {
-          "date": "20260617",
-          "value": 30000
-        }
-      ],
-      "backtest_start": "20260526",
-      "backtest_end": "20260617",
-      "backtest_days": 17,
-      "composite_score": 20.0,
-      "grade": "D",
-      "profit_loss_ratio": 0,
-      "return_stability": 0,
-      "calmar_ratio": 0
-    },
-    {
-      "name": "GARP成长",
-      "category": "价值成长",
-      "version": "1.0.0",
-      "description": "GARP成长：PEG<1.0, 营收>5%, 净利>5%, ROE>8%",
-      "initial_capital": 30000,
-      "current_capital": 30000,
-      "total_value": 30000,
-      "total_return": 0.0,
-      "monthly_return": 0.0,
-      "sharpe_ratio": 0,
-      "max_drawdown": 0,
-      "win_rate": 0,
-      "realized_pnl": 0.0,
-      "realized_pnl_pct": 0.0,
-      "floating_pnl": 0.0,
-      "floating_pnl_pct": 0.0,
-      "total_pnl": 0.0,
-      "total_pnl_pct": 0.0,
-      "holdings": [],
-      "trades": [],
-      "equity_curve": [
-        {
-          "date": "20260526",
-          "value": 30000
-        },
-        {
-          "date": "20260527",
-          "value": 30000
-        },
-        {
-          "date": "20260528",
-          "value": 30000
-        },
-        {
-          "date": "20260529",
-          "value": 30000
-        },
-        {
-          "date": "20260601",
-          "value": 30000
-        },
-        {
-          "date": "20260602",
-          "value": 30000
-        },
-        {
-          "date": "20260603",
-          "value": 30000
-        },
-        {
-          "date": "20260604",
-          "value": 30000
-        },
-        {
-          "date": "20260605",
-          "value": 30000
-        },
-        {
-          "date": "20260608",
-          "value": 30000
-        },
-        {
-          "date": "20260609",
-          "value": 30000
-        },
-        {
-          "date": "20260610",
-          "value": 30000
-        },
-        {
-          "date": "20260611",
-          "value": 30000
-        },
-        {
-          "date": "20260612",
-          "value": 30000
-        },
-        {
-          "date": "20260615",
-          "value": 30000
-        },
-        {
-          "date": "20260616",
-          "value": 30000
-        },
-        {
-          "date": "20260617",
-          "value": 30000
-        }
-      ],
-      "backtest_start": "20260526",
-      "backtest_end": "20260617",
-      "backtest_days": 17,
-      "composite_score": 20.0,
-      "grade": "D",
-      "profit_loss_ratio": 0,
-      "return_stability": 0,
-      "calmar_ratio": 0
-    },
-    {
-      "name": "高成长股",
-      "category": "成长因子",
-      "version": "1.0.0",
-      "description": "高成长股：营收>30%, 净利>30%, ROE>10%",
-      "initial_capital": 30000,
-      "current_capital": 30000,
-      "total_value": 30000,
-      "total_return": 0.0,
-      "monthly_return": 0.0,
-      "sharpe_ratio": 0,
-      "max_drawdown": 0,
-      "win_rate": 0,
-      "realized_pnl": 0.0,
-      "realized_pnl_pct": 0.0,
-      "floating_pnl": 0.0,
-      "floating_pnl_pct": 0.0,
-      "total_pnl": 0.0,
-      "total_pnl_pct": 0.0,
-      "holdings": [],
-      "trades": [],
-      "equity_curve": [
-        {
-          "date": "20260526",
-          "value": 30000
-        },
-        {
-          "date": "20260527",
-          "value": 30000
-        },
-        {
-          "date": "20260528",
-          "value": 30000
-        },
-        {
-          "date": "20260529",
-          "value": 30000
-        },
-        {
-          "date": "20260601",
-          "value": 30000
-        },
-        {
-          "date": "20260602",
-          "value": 30000
-        },
-        {
-          "date": "20260603",
-          "value": 30000
-        },
-        {
-          "date": "20260604",
-          "value": 30000
-        },
-        {
-          "date": "20260605",
-          "value": 30000
-        },
-        {
-          "date": "20260608",
-          "value": 30000
-        },
-        {
-          "date": "20260609",
-          "value": 30000
-        },
-        {
-          "date": "20260610",
-          "value": 30000
-        },
-        {
-          "date": "20260611",
-          "value": 30000
-        },
-        {
-          "date": "20260612",
-          "value": 30000
-        },
-        {
-          "date": "20260615",
-          "value": 30000
-        },
-        {
-          "date": "20260616",
-          "value": 30000
-        },
-        {
-          "date": "20260617",
-          "value": 30000
-        }
-      ],
-      "backtest_start": "20260526",
-      "backtest_end": "20260617",
-      "backtest_days": 17,
+      "backtest_end": "20260526",
+      "backtest_days": 1,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -3331,75 +1111,119 @@
         {
           "date": "20260526",
           "value": 30000
-        },
+        }
+      ],
+      "backtest_start": "20260526",
+      "backtest_end": "20260526",
+      "backtest_days": 1,
+      "composite_score": 20.0,
+      "grade": "D",
+      "profit_loss_ratio": 0,
+      "return_stability": 0,
+      "calmar_ratio": 0
+    },
+    {
+      "name": "质量因子选股",
+      "category": "质量因子",
+      "version": "1.0.0",
+      "description": "质量因子选股：F-Score≥3, PE<40, 持有30天",
+      "initial_capital": 30000,
+      "current_capital": 30000,
+      "total_value": 30000,
+      "total_return": 0.0,
+      "monthly_return": 0.0,
+      "sharpe_ratio": 0,
+      "max_drawdown": 0,
+      "win_rate": 0,
+      "realized_pnl": 0.0,
+      "realized_pnl_pct": 0.0,
+      "floating_pnl": 0.0,
+      "floating_pnl_pct": 0.0,
+      "total_pnl": 0.0,
+      "total_pnl_pct": 0.0,
+      "holdings": [],
+      "trades": [],
+      "equity_curve": [
         {
-          "date": "20260527",
-          "value": 30000
-        },
-        {
-          "date": "20260528",
-          "value": 30000
-        },
-        {
-          "date": "20260529",
-          "value": 30000
-        },
-        {
-          "date": "20260601",
-          "value": 30000
-        },
-        {
-          "date": "20260602",
-          "value": 30000
-        },
-        {
-          "date": "20260603",
-          "value": 30000
-        },
-        {
-          "date": "20260604",
-          "value": 30000
-        },
-        {
-          "date": "20260605",
-          "value": 30000
-        },
-        {
-          "date": "20260608",
-          "value": 30000
-        },
-        {
-          "date": "20260609",
-          "value": 30000
-        },
-        {
-          "date": "20260610",
-          "value": 30000
-        },
-        {
-          "date": "20260611",
-          "value": 30000
-        },
-        {
-          "date": "20260612",
-          "value": 30000
-        },
-        {
-          "date": "20260615",
-          "value": 30000
-        },
-        {
-          "date": "20260616",
-          "value": 30000
-        },
-        {
-          "date": "20260617",
+          "date": "20260526",
           "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260617",
-      "backtest_days": 17,
+      "backtest_end": "20260526",
+      "backtest_days": 1,
+      "composite_score": 20.0,
+      "grade": "D",
+      "profit_loss_ratio": 0,
+      "return_stability": 0,
+      "calmar_ratio": 0
+    },
+    {
+      "name": "GARP成长",
+      "category": "价值成长",
+      "version": "1.0.0",
+      "description": "GARP成长：PEG<1.0, 营收>5%, 净利>5%, ROE>8%",
+      "initial_capital": 30000,
+      "current_capital": 30000,
+      "total_value": 30000,
+      "total_return": 0.0,
+      "monthly_return": 0.0,
+      "sharpe_ratio": 0,
+      "max_drawdown": 0,
+      "win_rate": 0,
+      "realized_pnl": 0.0,
+      "realized_pnl_pct": 0.0,
+      "floating_pnl": 0.0,
+      "floating_pnl_pct": 0.0,
+      "total_pnl": 0.0,
+      "total_pnl_pct": 0.0,
+      "holdings": [],
+      "trades": [],
+      "equity_curve": [
+        {
+          "date": "20260526",
+          "value": 30000
+        }
+      ],
+      "backtest_start": "20260526",
+      "backtest_end": "20260526",
+      "backtest_days": 1,
+      "composite_score": 20.0,
+      "grade": "D",
+      "profit_loss_ratio": 0,
+      "return_stability": 0,
+      "calmar_ratio": 0
+    },
+    {
+      "name": "高成长股",
+      "category": "成长因子",
+      "version": "1.0.0",
+      "description": "高成长股：营收>30%, 净利>30%, ROE>10%",
+      "initial_capital": 30000,
+      "current_capital": 30000,
+      "total_value": 30000,
+      "total_return": 0.0,
+      "monthly_return": 0.0,
+      "sharpe_ratio": 0,
+      "max_drawdown": 0,
+      "win_rate": 0,
+      "realized_pnl": 0.0,
+      "realized_pnl_pct": 0.0,
+      "floating_pnl": 0.0,
+      "floating_pnl_pct": 0.0,
+      "total_pnl": 0.0,
+      "total_pnl_pct": 0.0,
+      "holdings": [],
+      "trades": [],
+      "equity_curve": [
+        {
+          "date": "20260526",
+          "value": 30000
+        }
+      ],
+      "backtest_start": "20260526",
+      "backtest_end": "20260526",
+      "backtest_days": 1,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -3431,75 +1255,11 @@
         {
           "date": "20260526",
           "value": 30000
-        },
-        {
-          "date": "20260527",
-          "value": 30000
-        },
-        {
-          "date": "20260528",
-          "value": 30000
-        },
-        {
-          "date": "20260529",
-          "value": 30000
-        },
-        {
-          "date": "20260601",
-          "value": 30000
-        },
-        {
-          "date": "20260602",
-          "value": 30000
-        },
-        {
-          "date": "20260603",
-          "value": 30000
-        },
-        {
-          "date": "20260604",
-          "value": 30000
-        },
-        {
-          "date": "20260605",
-          "value": 30000
-        },
-        {
-          "date": "20260608",
-          "value": 30000
-        },
-        {
-          "date": "20260609",
-          "value": 30000
-        },
-        {
-          "date": "20260610",
-          "value": 30000
-        },
-        {
-          "date": "20260611",
-          "value": 30000
-        },
-        {
-          "date": "20260612",
-          "value": 30000
-        },
-        {
-          "date": "20260615",
-          "value": 30000
-        },
-        {
-          "date": "20260616",
-          "value": 30000
-        },
-        {
-          "date": "20260617",
-          "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260617",
-      "backtest_days": 17,
+      "backtest_end": "20260526",
+      "backtest_days": 1,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -3531,75 +1291,11 @@
         {
           "date": "20260526",
           "value": 30000
-        },
-        {
-          "date": "20260527",
-          "value": 30000
-        },
-        {
-          "date": "20260528",
-          "value": 30000
-        },
-        {
-          "date": "20260529",
-          "value": 30000
-        },
-        {
-          "date": "20260601",
-          "value": 30000
-        },
-        {
-          "date": "20260602",
-          "value": 30000
-        },
-        {
-          "date": "20260603",
-          "value": 30000
-        },
-        {
-          "date": "20260604",
-          "value": 30000
-        },
-        {
-          "date": "20260605",
-          "value": 30000
-        },
-        {
-          "date": "20260608",
-          "value": 30000
-        },
-        {
-          "date": "20260609",
-          "value": 30000
-        },
-        {
-          "date": "20260610",
-          "value": 30000
-        },
-        {
-          "date": "20260611",
-          "value": 30000
-        },
-        {
-          "date": "20260612",
-          "value": 30000
-        },
-        {
-          "date": "20260615",
-          "value": 30000
-        },
-        {
-          "date": "20260616",
-          "value": 30000
-        },
-        {
-          "date": "20260617",
-          "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260617",
-      "backtest_days": 17,
+      "backtest_end": "20260526",
+      "backtest_days": 1,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -3631,275 +1327,11 @@
         {
           "date": "20260526",
           "value": 30000
-        },
-        {
-          "date": "20260527",
-          "value": 30000
-        },
-        {
-          "date": "20260528",
-          "value": 30000
-        },
-        {
-          "date": "20260529",
-          "value": 30000
-        },
-        {
-          "date": "20260601",
-          "value": 30000
-        },
-        {
-          "date": "20260602",
-          "value": 30000
-        },
-        {
-          "date": "20260603",
-          "value": 30000
-        },
-        {
-          "date": "20260604",
-          "value": 30000
-        },
-        {
-          "date": "20260605",
-          "value": 30000
-        },
-        {
-          "date": "20260608",
-          "value": 30000
-        },
-        {
-          "date": "20260609",
-          "value": 30000
-        },
-        {
-          "date": "20260610",
-          "value": 30000
-        },
-        {
-          "date": "20260611",
-          "value": 30000
-        },
-        {
-          "date": "20260612",
-          "value": 30000
-        },
-        {
-          "date": "20260615",
-          "value": 30000
-        },
-        {
-          "date": "20260616",
-          "value": 30000
-        },
-        {
-          "date": "20260617",
-          "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260617",
-      "backtest_days": 17,
-      "composite_score": 20.0,
-      "grade": "D",
-      "profit_loss_ratio": 0,
-      "return_stability": 0,
-      "calmar_ratio": 0
-    },
-    {
-      "name": "龙虎榜跟风",
-      "category": "资金面",
-      "version": "1.0.0",
-      "description": "龙虎榜跟风：净买入>500万, 持有5天",
-      "initial_capital": 30000,
-      "current_capital": 30000,
-      "total_value": 30000,
-      "total_return": 0.0,
-      "monthly_return": 0.0,
-      "sharpe_ratio": 0,
-      "max_drawdown": 0,
-      "win_rate": 0,
-      "realized_pnl": 0.0,
-      "realized_pnl_pct": 0.0,
-      "floating_pnl": 0.0,
-      "floating_pnl_pct": 0.0,
-      "total_pnl": 0.0,
-      "total_pnl_pct": 0.0,
-      "holdings": [],
-      "trades": [],
-      "equity_curve": [
-        {
-          "date": "20260526",
-          "value": 30000
-        },
-        {
-          "date": "20260527",
-          "value": 30000
-        },
-        {
-          "date": "20260528",
-          "value": 30000
-        },
-        {
-          "date": "20260529",
-          "value": 30000
-        },
-        {
-          "date": "20260601",
-          "value": 30000
-        },
-        {
-          "date": "20260602",
-          "value": 30000
-        },
-        {
-          "date": "20260603",
-          "value": 30000
-        },
-        {
-          "date": "20260604",
-          "value": 30000
-        },
-        {
-          "date": "20260605",
-          "value": 30000
-        },
-        {
-          "date": "20260608",
-          "value": 30000
-        },
-        {
-          "date": "20260609",
-          "value": 30000
-        },
-        {
-          "date": "20260610",
-          "value": 30000
-        },
-        {
-          "date": "20260611",
-          "value": 30000
-        },
-        {
-          "date": "20260612",
-          "value": 30000
-        },
-        {
-          "date": "20260615",
-          "value": 30000
-        },
-        {
-          "date": "20260616",
-          "value": 30000
-        },
-        {
-          "date": "20260617",
-          "value": 30000
-        }
-      ],
-      "backtest_start": "20260526",
-      "backtest_end": "20260617",
-      "backtest_days": 17,
-      "composite_score": 20.0,
-      "grade": "D",
-      "profit_loss_ratio": 0,
-      "return_stability": 0,
-      "calmar_ratio": 0
-    },
-    {
-      "name": "打板接力",
-      "category": "短线事件",
-      "version": "1.0.0",
-      "description": "打板接力：连板≥2, 持有3天, 止损-5%",
-      "initial_capital": 30000,
-      "current_capital": 30000,
-      "total_value": 30000,
-      "total_return": 0.0,
-      "monthly_return": 0.0,
-      "sharpe_ratio": 0,
-      "max_drawdown": 0,
-      "win_rate": 0,
-      "realized_pnl": 0.0,
-      "realized_pnl_pct": 0.0,
-      "floating_pnl": 0.0,
-      "floating_pnl_pct": 0.0,
-      "total_pnl": 0.0,
-      "total_pnl_pct": 0.0,
-      "holdings": [],
-      "trades": [],
-      "equity_curve": [
-        {
-          "date": "20260526",
-          "value": 30000
-        },
-        {
-          "date": "20260527",
-          "value": 30000
-        },
-        {
-          "date": "20260528",
-          "value": 30000
-        },
-        {
-          "date": "20260529",
-          "value": 30000
-        },
-        {
-          "date": "20260601",
-          "value": 30000
-        },
-        {
-          "date": "20260602",
-          "value": 30000
-        },
-        {
-          "date": "20260603",
-          "value": 30000
-        },
-        {
-          "date": "20260604",
-          "value": 30000
-        },
-        {
-          "date": "20260605",
-          "value": 30000
-        },
-        {
-          "date": "20260608",
-          "value": 30000
-        },
-        {
-          "date": "20260609",
-          "value": 30000
-        },
-        {
-          "date": "20260610",
-          "value": 30000
-        },
-        {
-          "date": "20260611",
-          "value": 30000
-        },
-        {
-          "date": "20260612",
-          "value": 30000
-        },
-        {
-          "date": "20260615",
-          "value": 30000
-        },
-        {
-          "date": "20260616",
-          "value": 30000
-        },
-        {
-          "date": "20260617",
-          "value": 30000
-        }
-      ],
-      "backtest_start": "20260526",
-      "backtest_end": "20260617",
-      "backtest_days": 17,
+      "backtest_end": "20260526",
+      "backtest_days": 1,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -3931,75 +1363,83 @@
         {
           "date": "20260526",
           "value": 30000
-        },
+        }
+      ],
+      "backtest_start": "20260526",
+      "backtest_end": "20260526",
+      "backtest_days": 1,
+      "composite_score": 20.0,
+      "grade": "D",
+      "profit_loss_ratio": 0,
+      "return_stability": 0,
+      "calmar_ratio": 0
+    },
+    {
+      "name": "龙虎榜跟风",
+      "category": "资金面",
+      "version": "1.0.0",
+      "description": "龙虎榜跟风：净买入>500万, 持有5天",
+      "initial_capital": 30000,
+      "current_capital": 30000,
+      "total_value": 30000,
+      "total_return": 0.0,
+      "monthly_return": 0.0,
+      "sharpe_ratio": 0,
+      "max_drawdown": 0,
+      "win_rate": 0,
+      "realized_pnl": 0.0,
+      "realized_pnl_pct": 0.0,
+      "floating_pnl": 0.0,
+      "floating_pnl_pct": 0.0,
+      "total_pnl": 0.0,
+      "total_pnl_pct": 0.0,
+      "holdings": [],
+      "trades": [],
+      "equity_curve": [
         {
-          "date": "20260527",
-          "value": 30000
-        },
-        {
-          "date": "20260528",
-          "value": 30000
-        },
-        {
-          "date": "20260529",
-          "value": 30000
-        },
-        {
-          "date": "20260601",
-          "value": 30000
-        },
-        {
-          "date": "20260602",
-          "value": 30000
-        },
-        {
-          "date": "20260603",
-          "value": 30000
-        },
-        {
-          "date": "20260604",
-          "value": 30000
-        },
-        {
-          "date": "20260605",
-          "value": 30000
-        },
-        {
-          "date": "20260608",
-          "value": 30000
-        },
-        {
-          "date": "20260609",
-          "value": 30000
-        },
-        {
-          "date": "20260610",
-          "value": 30000
-        },
-        {
-          "date": "20260611",
-          "value": 30000
-        },
-        {
-          "date": "20260612",
-          "value": 30000
-        },
-        {
-          "date": "20260615",
-          "value": 30000
-        },
-        {
-          "date": "20260616",
-          "value": 30000
-        },
-        {
-          "date": "20260617",
+          "date": "20260526",
           "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260617",
-      "backtest_days": 17,
+      "backtest_end": "20260526",
+      "backtest_days": 1,
+      "composite_score": 20.0,
+      "grade": "D",
+      "profit_loss_ratio": 0,
+      "return_stability": 0,
+      "calmar_ratio": 0
+    },
+    {
+      "name": "打板接力",
+      "category": "短线事件",
+      "version": "1.0.0",
+      "description": "打板接力：连板≥2, 持有3天, 止损-5%",
+      "initial_capital": 30000,
+      "current_capital": 30000,
+      "total_value": 30000,
+      "total_return": 0.0,
+      "monthly_return": 0.0,
+      "sharpe_ratio": 0,
+      "max_drawdown": 0,
+      "win_rate": 0,
+      "realized_pnl": 0.0,
+      "realized_pnl_pct": 0.0,
+      "floating_pnl": 0.0,
+      "floating_pnl_pct": 0.0,
+      "total_pnl": 0.0,
+      "total_pnl_pct": 0.0,
+      "holdings": [],
+      "trades": [],
+      "equity_curve": [
+        {
+          "date": "20260526",
+          "value": 30000
+        }
+      ],
+      "backtest_start": "20260526",
+      "backtest_end": "20260526",
+      "backtest_days": 1,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -4031,75 +1471,11 @@
         {
           "date": "20260526",
           "value": 30000
-        },
-        {
-          "date": "20260527",
-          "value": 30000
-        },
-        {
-          "date": "20260528",
-          "value": 30000
-        },
-        {
-          "date": "20260529",
-          "value": 30000
-        },
-        {
-          "date": "20260601",
-          "value": 30000
-        },
-        {
-          "date": "20260602",
-          "value": 30000
-        },
-        {
-          "date": "20260603",
-          "value": 30000
-        },
-        {
-          "date": "20260604",
-          "value": 30000
-        },
-        {
-          "date": "20260605",
-          "value": 30000
-        },
-        {
-          "date": "20260608",
-          "value": 30000
-        },
-        {
-          "date": "20260609",
-          "value": 30000
-        },
-        {
-          "date": "20260610",
-          "value": 30000
-        },
-        {
-          "date": "20260611",
-          "value": 30000
-        },
-        {
-          "date": "20260612",
-          "value": 30000
-        },
-        {
-          "date": "20260615",
-          "value": 30000
-        },
-        {
-          "date": "20260616",
-          "value": 30000
-        },
-        {
-          "date": "20260617",
-          "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260617",
-      "backtest_days": 17,
+      "backtest_end": "20260526",
+      "backtest_days": 1,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -4131,75 +1507,11 @@
         {
           "date": "20260526",
           "value": 30000
-        },
-        {
-          "date": "20260527",
-          "value": 30000
-        },
-        {
-          "date": "20260528",
-          "value": 30000
-        },
-        {
-          "date": "20260529",
-          "value": 30000
-        },
-        {
-          "date": "20260601",
-          "value": 30000
-        },
-        {
-          "date": "20260602",
-          "value": 30000
-        },
-        {
-          "date": "20260603",
-          "value": 30000
-        },
-        {
-          "date": "20260604",
-          "value": 30000
-        },
-        {
-          "date": "20260605",
-          "value": 30000
-        },
-        {
-          "date": "20260608",
-          "value": 30000
-        },
-        {
-          "date": "20260609",
-          "value": 30000
-        },
-        {
-          "date": "20260610",
-          "value": 30000
-        },
-        {
-          "date": "20260611",
-          "value": 30000
-        },
-        {
-          "date": "20260612",
-          "value": 30000
-        },
-        {
-          "date": "20260615",
-          "value": 30000
-        },
-        {
-          "date": "20260616",
-          "value": 30000
-        },
-        {
-          "date": "20260617",
-          "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260617",
-      "backtest_days": 17,
+      "backtest_end": "20260526",
+      "backtest_days": 1,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -4231,75 +1543,11 @@
         {
           "date": "20260526",
           "value": 30000
-        },
-        {
-          "date": "20260527",
-          "value": 30000
-        },
-        {
-          "date": "20260528",
-          "value": 30000
-        },
-        {
-          "date": "20260529",
-          "value": 30000
-        },
-        {
-          "date": "20260601",
-          "value": 30000
-        },
-        {
-          "date": "20260602",
-          "value": 30000
-        },
-        {
-          "date": "20260603",
-          "value": 30000
-        },
-        {
-          "date": "20260604",
-          "value": 30000
-        },
-        {
-          "date": "20260605",
-          "value": 30000
-        },
-        {
-          "date": "20260608",
-          "value": 30000
-        },
-        {
-          "date": "20260609",
-          "value": 30000
-        },
-        {
-          "date": "20260610",
-          "value": 30000
-        },
-        {
-          "date": "20260611",
-          "value": 30000
-        },
-        {
-          "date": "20260612",
-          "value": 30000
-        },
-        {
-          "date": "20260615",
-          "value": 30000
-        },
-        {
-          "date": "20260616",
-          "value": 30000
-        },
-        {
-          "date": "20260617",
-          "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260617",
-      "backtest_days": 17,
+      "backtest_end": "20260526",
+      "backtest_days": 1,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -4331,75 +1579,11 @@
         {
           "date": "20260526",
           "value": 30000
-        },
-        {
-          "date": "20260527",
-          "value": 30000
-        },
-        {
-          "date": "20260528",
-          "value": 30000
-        },
-        {
-          "date": "20260529",
-          "value": 30000
-        },
-        {
-          "date": "20260601",
-          "value": 30000
-        },
-        {
-          "date": "20260602",
-          "value": 30000
-        },
-        {
-          "date": "20260603",
-          "value": 30000
-        },
-        {
-          "date": "20260604",
-          "value": 30000
-        },
-        {
-          "date": "20260605",
-          "value": 30000
-        },
-        {
-          "date": "20260608",
-          "value": 30000
-        },
-        {
-          "date": "20260609",
-          "value": 30000
-        },
-        {
-          "date": "20260610",
-          "value": 30000
-        },
-        {
-          "date": "20260611",
-          "value": 30000
-        },
-        {
-          "date": "20260612",
-          "value": 30000
-        },
-        {
-          "date": "20260615",
-          "value": 30000
-        },
-        {
-          "date": "20260616",
-          "value": 30000
-        },
-        {
-          "date": "20260617",
-          "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260617",
-      "backtest_days": 17,
+      "backtest_end": "20260526",
+      "backtest_days": 1,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -4431,75 +1615,11 @@
         {
           "date": "20260526",
           "value": 30000
-        },
-        {
-          "date": "20260527",
-          "value": 30000
-        },
-        {
-          "date": "20260528",
-          "value": 30000
-        },
-        {
-          "date": "20260529",
-          "value": 30000
-        },
-        {
-          "date": "20260601",
-          "value": 30000
-        },
-        {
-          "date": "20260602",
-          "value": 30000
-        },
-        {
-          "date": "20260603",
-          "value": 30000
-        },
-        {
-          "date": "20260604",
-          "value": 30000
-        },
-        {
-          "date": "20260605",
-          "value": 30000
-        },
-        {
-          "date": "20260608",
-          "value": 30000
-        },
-        {
-          "date": "20260609",
-          "value": 30000
-        },
-        {
-          "date": "20260610",
-          "value": 30000
-        },
-        {
-          "date": "20260611",
-          "value": 30000
-        },
-        {
-          "date": "20260612",
-          "value": 30000
-        },
-        {
-          "date": "20260615",
-          "value": 30000
-        },
-        {
-          "date": "20260616",
-          "value": 30000
-        },
-        {
-          "date": "20260617",
-          "value": 30000
         }
       ],
       "backtest_start": "20260526",
-      "backtest_end": "20260617",
-      "backtest_days": 17,
+      "backtest_end": "20260526",
+      "backtest_days": 1,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,

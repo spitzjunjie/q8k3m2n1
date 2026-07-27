@@ -47,8 +47,8 @@ NEW_STRATEGIES = {
     'AI供应链瓶颈', 'SEPA成长股', '协整配对交易', 'Hurst择时动量'
 }
 
-# 基准日期：第一批策略开始回测的日期（5月26日）
-BENCHMARK_START_DATE = datetime(2026, 5, 26)
+# 基准日期：当前日期（回测从当前日期往前推算N个交易日）
+BENCHMARK_START_DATE = datetime.now()
 
 
 def run_strategy_on_date(strategy, helper, timing, date):

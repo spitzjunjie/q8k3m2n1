@@ -132,24 +132,34 @@ def run_strategy_on_date(strategy, helper, timing, date):
         return None
 
 
-def run_historical_backtest(strategy_names=None, days=None, max_workers=2):
+def run_historical_backtest(strategy_names=None, days=None, start_date=None, end_date=None, max_workers=2):
     """历史回测主函数
 
     Args:
         strategy_names: 指定策略名列表，None=全部
-        days: 回测交易日天数，None=自动计算（从基准日期2026-05-26到运行当天）
+        days: 回测交易日天数，None=自动计算
+        start_date: 回测开始日期（YYYYMMDD格式），优先于days
+        end_date: 回测结束日期（YYYYMMDD格式），默认今天
         max_workers: 并行线程数（减少避免频率限制）
 
     Returns:
         dict: 回测结果，包含每个策略的最终状态
     """
     # 【修复】当传入 days 参数时，动态计算 BENCHMARK_START_DATE
-    # 这样可以正确回测最近 N 个交易日，而不是从固定日期开始
     global BENCHMARK_START_DATE
-    if days is not None and days > 0:
+    if days is not None and days > 0 and start_date is None:
         calculated_start = calculate_benchmark_start_date(days)
         print(f"[日期计算] days={days} → BENCHMARK_START_DATE 设为 {calculated_start.strftime('%Y-%m-%d')}")
         BENCHMARK_START_DATE = calculated_start
+    elif start_date is not None:
+        # 优先使用传入的 start_date
+        try:
+            start_dt = datetime.strptime(str(start_date), '%Y%m%d')
+            BENCHMARK_START_DATE = start_dt
+            print(f"[日期计算] 使用指定 start_date={start_date}")
+        except:
+            print(f"[警告] start_date 格式错误: {start_date}，使用今天")
+            BENCHMARK_START_DATE = datetime.now()
 
     # 根据数据源选择Helper类
     if DATA_SOURCE == 'tushare':
@@ -161,24 +171,28 @@ def run_historical_backtest(strategy_names=None, days=None, max_workers=2):
 
     # 自动计算回测天数（交易日数）
     helper = HelperClass(cache_dir="data/cache")
-    
-    # 计算从基准日期到运行当天有多少个交易日
+
+    # 标准化 end_date（默认今天）
+    end_date_str = str(end_date) if end_date else datetime.now().strftime('%Y%m%d')
+    benchmark_str = BENCHMARK_START_DATE.strftime('%Y%m%d')
+
+    # 获取足够多的交易日
     if hasattr(helper, 'get_trade_dates'):
         temp_dates = helper.get_trade_dates(days=1000)
     else:
         temp_dates = helper.get_trading_dates(n=1000)
+
     # 统一日期格式（移除连字符）
-    benchmark_str = BENCHMARK_START_DATE.strftime('%Y%m%d')
-    today_str = datetime.now().strftime('%Y%m%d')
     temp_dates_norm = [d.replace('-', '') for d in temp_dates]
-    # 【修复】计算基准日期到今天之间有多少个已过去的交易日（用 <= today 而不是 >= today）
-    actual_days = len([d for d in temp_dates_norm if d >= benchmark_str and d <= today_str])
+
+    # 计算实际可用的交易日范围
+    actual_days = len([d for d in temp_dates_norm if d >= benchmark_str and d <= end_date_str])
 
     if days is None or days > actual_days:
-        days = actual_days  # 使用实际的交易日数
-        print(f"自动调整回测天数: {days}个交易日（从{benchmark_str}到{today_str}）")
+        days = actual_days
+        print(f"自动调整回测天数: {days}个交易日（从{benchmark_str}到{end_date_str}）")
     else:
-        print(f"回测天数: {days}个交易日（从{benchmark_str}到{today_str}）")
+        print(f"回测天数: {days}个交易日（从{benchmark_str}到{end_date_str}）")
 
     print("=" * 60)
     print("历史回测引擎")
@@ -200,6 +214,20 @@ def run_historical_backtest(strategy_names=None, days=None, max_workers=2):
     if not trading_dates:
         print("获取交易日失败，无法回测")
         return None
+
+    # 【新增】用 start_date 和 end_date 过滤交易日
+    start_str = str(start_date) if start_date else None
+    if start_str or end_date_str:
+        filtered = []
+        for d in trading_dates:
+            d_norm = d.replace('-', '')
+            if start_str and d_norm < start_str:
+                continue
+            if d_norm > end_date_str:
+                continue
+            filtered.append(d)
+        trading_dates = filtered
+        print(f"日期过滤后: {trading_dates[0]} ~ {trading_dates[-1]}（共{len(trading_dates)}天）")
 
     print(f"回测区间: {trading_dates[0]} ~ {trading_dates[-1]}")
 
@@ -548,7 +576,9 @@ def run_historical_backtest(strategy_names=None, days=None, max_workers=2):
 if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser(description='历史回测引擎')
-    parser.add_argument('--days', type=int, default=None, help='回测天数（默认None=从基准日期2026-05-26自动计算，禁止指定固定天数）')
+    parser.add_argument('--days', type=int, default=None, help='回测天数（默认None=自动计算）')
+    parser.add_argument('--start-date', type=str, default=None, help='回测开始日期（YYYYMMDD格式，如20260710）')
+    parser.add_argument('--end-date', type=str, default=None, help='回测结束日期（YYYYMMDD格式，如20260726）')
     parser.add_argument('--strategies', type=str, default=None, help='指定策略名（逗号分隔），默认全部')
     parser.add_argument('--workers', type=int, default=2, help='并行线程数（默认2，避免频率限制）')
     parser.add_argument('--source', type=str, default='tushare', choices=['tushare', 'akshare'], help='数据源（默认tushare）')
@@ -561,4 +591,10 @@ if __name__ == "__main__":
     if args.strategies:
         strategy_names = [s.strip() for s in args.strategies.split(',')]
 
-    run_historical_backtest(strategy_names=strategy_names, days=args.days, max_workers=args.workers)
+    run_historical_backtest(
+        strategy_names=strategy_names,
+        days=args.days,
+        start_date=args.start_date,
+        end_date=args.end_date,
+        max_workers=args.workers
+    )

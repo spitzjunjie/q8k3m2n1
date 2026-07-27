@@ -10,9 +10,17 @@ on:
   workflow_dispatch:
     inputs:
       days:
-        description: '回测天数'
+        description: '回测天数（与start_date/end_date互斥）'
         required: false
-        default: '14'
+        default: ''
+      start_date:
+        description: '回测开始日期（YYYYMMDD，如20260710）'
+        required: false
+        default: ''
+      end_date:
+        description: '回测结束日期（YYYYMMDD，如20260726）'
+        required: false
+        default: ''
       strategies:
         description: '策略名 (逗号分隔，默认全部)'
         required: false
@@ -63,7 +71,13 @@ jobs:
       - name: 运行历史回测
         run: |
           echo "开始历史回测..."
-          python backtest_history.py --source ${{ inputs.source || 'tushare' }} --days ${{ inputs.days || '14' }} ${{ inputs.strategies && format('--strategies {0}', inputs.strategies) || '' }}
+          ARGS="--source ${{ inputs.source || 'tushare' }}"
+          [ -n "${{ inputs.days }}" ] && ARGS="$ARGS --days ${{ inputs.days }}"
+          [ -n "${{ inputs.start_date }}" ] && ARGS="$ARGS --start-date ${{ inputs.start_date }}"
+          [ -n "${{ inputs.end_date }}" ] && ARGS="$ARGS --end-date ${{ inputs.end_date }}"
+          [ -n "${{ inputs.strategies }}" ] && ARGS="$ARGS --strategies '${{ inputs.strategies }}'"
+          echo "命令: python backtest_history.py $ARGS"
+          python backtest_history.py $ARGS
         env:
           TUSHARE_TOKEN: ${{ secrets.TUSHARE_TOKEN }}
 

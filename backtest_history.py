@@ -203,11 +203,19 @@ def run_historical_backtest(strategy_names=None, days=None, start_date=None, end
 
     timing = TimingEngine()
 
-    # 获取交易日列表（兼容AKShare和Tushare）
+    # 【修复】获取交易日列表
+    # 当指定 start_date 时，先取足够多的日期（1000个），再用 start/end_date 过滤
+    # 否则用 days 参数限制
     if hasattr(helper, 'get_trade_dates'):
-        trading_dates = helper.get_trade_dates(days=days)
+        if start_date is not None:
+            trading_dates = helper.get_trade_dates(days=1000)  # 取足够多
+        else:
+            trading_dates = helper.get_trade_dates(days=days)
     elif hasattr(helper, 'get_trading_dates'):
-        trading_dates = helper.get_trading_dates(n=days)
+        if start_date is not None:
+            trading_dates = helper.get_trading_dates(n=1000)
+        else:
+            trading_dates = helper.get_trading_dates(n=days)
     else:
         print("获取交易日失败，无法回测")
         return None
@@ -215,7 +223,7 @@ def run_historical_backtest(strategy_names=None, days=None, start_date=None, end
         print("获取交易日失败，无法回测")
         return None
 
-    # 【新增】用 start_date 和 end_date 过滤交易日
+    # 【修复】用 start_date 和 end_date 过滤交易日
     start_str = str(start_date) if start_date else None
     if start_str or end_date_str:
         filtered = []

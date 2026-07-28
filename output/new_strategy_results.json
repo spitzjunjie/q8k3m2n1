@@ -1,9 +1,9 @@
 {
-  "update_time": "2026-07-28 04:22:13",
+  "update_time": "2026-07-28 12:10:23",
   "backtest_type": "historical",
-  "backtest_start": "20260714",
+  "backtest_start": "20260710",
   "backtest_end": "20260724",
-  "backtest_days": 9,
+  "backtest_days": 11,
   "strategy_count": 45,
   "strategies": [
     {
@@ -16,7 +16,7 @@
       "total_value": 30032.0,
       "total_return": 0.0010666666666666667,
       "monthly_return": 0.0010666666666666667,
-      "sharpe_ratio": 0.32381879049189827,
+      "sharpe_ratio": 0.29372682857189514,
       "max_drawdown": 0.0176,
       "win_rate": 0.5,
       "realized_pnl": -210.0,
@@ -133,6 +133,14 @@
       ],
       "equity_curve": [
         {
+          "date": "20260710",
+          "value": 30000
+        },
+        {
+          "date": "20260713",
+          "value": 30000
+        },
+        {
           "date": "20260714",
           "value": 30000
         },
@@ -169,9 +177,9 @@
           "value": 30032.0
         }
       ],
-      "backtest_start": "20260714",
+      "backtest_start": "20260710",
       "backtest_end": "20260724",
-      "backtest_days": 9,
+      "backtest_days": 11,
       "composite_score": 66.0,
       "grade": "A",
       "profit_loss_ratio": 0,
@@ -200,6 +208,14 @@
       "holdings": [],
       "trades": [],
       "equity_curve": [
+        {
+          "date": "20260710",
+          "value": 30000
+        },
+        {
+          "date": "20260713",
+          "value": 30000
+        },
         {
           "date": "20260714",
           "value": 30000
@@ -237,14 +253,14 @@
           "value": 30000
         }
       ],
-      "backtest_start": "20260714",
+      "backtest_start": "20260710",
       "backtest_end": "20260724",
-      "backtest_days": 9,
-      "composite_score": 65.1,
-      "grade": "A",
-      "profit_loss_ratio": 11.757812500000007,
+      "backtest_days": 11,
+      "composite_score": 60.8,
+      "grade": "B",
+      "profit_loss_ratio": 116.33333333333333,
       "return_stability": 0,
-      "calmar_ratio": 2.967737030411449
+      "calmar_ratio": 1.4102222222222223
     },
     {
       "name": "MACD金叉",
@@ -256,7 +272,7 @@
       "total_value": 29921.0,
       "total_return": -0.0026333333333333334,
       "monthly_return": -0.0026333333333333334,
-      "sharpe_ratio": -0.5073035824884852,
+      "sharpe_ratio": -0.4601288540277648,
       "max_drawdown": 0.014842361613901138,
       "win_rate": 0.5,
       "realized_pnl": -65.0,
@@ -329,6 +345,14 @@
       ],
       "equity_curve": [
         {
+          "date": "20260710",
+          "value": 30000
+        },
+        {
+          "date": "20260713",
+          "value": 30000
+        },
+        {
           "date": "20260714",
           "value": 30000
         },
@@ -365,14 +389,14 @@
           "value": 29935.0
         }
       ],
-      "backtest_start": "20260714",
+      "backtest_start": "20260710",
       "backtest_end": "20260724",
-      "backtest_days": 9,
-      "composite_score": 63.6,
+      "backtest_days": 11,
+      "composite_score": 59.6,
       "grade": "B",
-      "profit_loss_ratio": 1.2219679633867278,
+      "profit_loss_ratio": 5.389473684210526,
       "return_stability": 0,
-      "calmar_ratio": 2.8082631578947366
+      "calmar_ratio": 0
     },
     {
       "name": "RSI超卖反转",
@@ -384,7 +408,7 @@
       "total_value": 29863.0,
       "total_return": -0.004566666666666667,
       "monthly_return": -0.004566666666666667,
-      "sharpe_ratio": -0.41413620250834504,
+      "sharpe_ratio": -0.37563983489071334,
       "max_drawdown": 0.015289514352415086,
       "win_rate": 0.6,
       "realized_pnl": -52.0,
@@ -516,6 +540,14 @@
       ],
       "equity_curve": [
         {
+          "date": "20260710",
+          "value": 30000
+        },
+        {
+          "date": "20260713",
+          "value": 30000
+        },
+        {
           "date": "20260714",
           "value": 30000
         },
@@ -552,14 +584,14 @@
           "value": 29948.0
         }
       ],
-      "backtest_start": "20260714",
+      "backtest_start": "20260710",
       "backtest_end": "20260724",
-      "backtest_days": 9,
-      "composite_score": 60.8,
+      "backtest_days": 11,
+      "composite_score": 58.9,
       "grade": "B",
-      "profit_loss_ratio": 116.33333333333333,
+      "profit_loss_ratio": 23.516129032258064,
       "return_stability": 0,
-      "calmar_ratio": 1.4102222222222223
+      "calmar_ratio": 5.519671171171171
     },
     {
       "name": "行业动量",
@@ -567,186 +599,179 @@
       "version": "1.0.0",
       "description": "追强势行业：选取近20日涨幅最大的行业中的龙头股",
       "initial_capital": 30000,
-      "current_capital": 12264.0,
-      "total_value": 29265.0,
-      "total_return": -0.0245,
-      "monthly_return": -0.0245,
-      "sharpe_ratio": -7.152407787067878,
-      "max_drawdown": 0.0245,
-      "win_rate": 0.125,
-      "realized_pnl": -665.0,
-      "realized_pnl_pct": -2.22,
-      "floating_pnl": -70.0,
-      "floating_pnl_pct": -0.23,
-      "total_pnl": -735.0,
-      "total_pnl_pct": -2.45,
+      "current_capital": 10908.0,
+      "total_value": 29270.0,
+      "total_return": -0.024333333333333332,
+      "monthly_return": -0.024333333333333332,
+      "sharpe_ratio": -5.970652371858129,
+      "max_drawdown": 0.024333333333333332,
+      "win_rate": 0.42857142857142855,
+      "realized_pnl": -603.0,
+      "realized_pnl_pct": -2.01,
+      "floating_pnl": -127.0,
+      "floating_pnl_pct": -0.42,
+      "total_pnl": -730.0,
+      "total_pnl_pct": -2.43,
       "holdings": [
         {
-          "symbol": "000538",
-          "name": "000538",
-          "buy_price": 51.7,
+          "symbol": "000858",
+          "name": "000858",
+          "buy_price": 74.84,
           "quantity": 100,
           "buy_date": "20260723",
-          "cost": 5170.0,
-          "stock_reason": "行业动量：医药强势",
+          "cost": 7484.0,
+          "stock_reason": "行业动量：消费强势",
           "timing_reason": "skip timing",
           "hold_days": 2,
-          "current_price": 51.0,
-          "profit": -70.00000000000028,
-          "profit_pct": -1.3539651837524231
+          "current_price": 73.57,
+          "profit": -127.00000000000102,
+          "profit_pct": -1.696953500801724
         },
         {
-          "symbol": "600196",
-          "name": "600196",
-          "buy_price": 22.67,
-          "quantity": 300,
+          "symbol": "000568",
+          "name": "000568",
+          "buy_price": 83.01,
+          "quantity": 100,
           "buy_date": "20260724",
-          "cost": 6801.000000000001,
-          "stock_reason": "行业动量：医药强势",
+          "cost": 8301.0,
+          "stock_reason": "行业动量：消费强势",
           "timing_reason": "skip timing",
           "hold_days": 1,
-          "current_price": 22.67,
+          "current_price": 83.01,
           "profit": 0.0,
           "profit_pct": 0.0
         },
         {
-          "symbol": "002007",
-          "name": "002007",
-          "buy_price": 12.75,
-          "quantity": 400,
+          "symbol": "600887",
+          "name": "600887",
+          "buy_price": 27.04,
+          "quantity": 100,
           "buy_date": "20260724",
-          "cost": 5100.0,
-          "stock_reason": "行业动量：医药强势",
+          "cost": 2704.0,
+          "stock_reason": "行业动量：消费强势",
           "timing_reason": "skip timing",
           "hold_days": 1,
-          "current_price": 12.75,
+          "current_price": 27.04,
           "profit": 0.0,
           "profit_pct": 0.0
         }
       ],
       "trades": [
         {
-          "symbol": "000538",
-          "name": "000538",
+          "symbol": "000858",
+          "name": "000858",
           "buy_date": "20260720",
-          "buy_price": 52.04,
+          "buy_price": 76.24,
           "sell_date": "20260721",
-          "sell_price": 51.2,
+          "sell_price": 74.38,
           "quantity": 100,
-          "profit": -84.0,
-          "profit_pct": -1.6141429669485012,
+          "profit": -185.9999999999991,
+          "profit_pct": -2.4396642182581205,
           "hold_days": 1,
-          "stock_reason": "行业动量：医药强势",
-          "timing_reason": "skip timing",
-          "sell_reason": "MACD红柱缩短; KDJ高位死叉; 跌破MA5"
-        },
-        {
-          "symbol": "002007",
-          "name": "002007",
-          "buy_date": "20260720",
-          "buy_price": 13.33,
-          "sell_date": "20260721",
-          "sell_price": 13.2,
-          "quantity": 400,
-          "profit": -52.0,
-          "profit_pct": -0.9752438109527383,
-          "hold_days": 1,
-          "stock_reason": "行业动量：医药强势",
-          "timing_reason": "skip timing",
-          "sell_reason": "MACD红柱缩短; KDJ高位死叉; 跌破MA5"
-        },
-        {
-          "symbol": "600196",
-          "name": "600196",
-          "buy_date": "20260720",
-          "buy_price": 24.0,
-          "sell_date": "20260722",
-          "sell_price": 23.97,
-          "quantity": 300,
-          "profit": -9.0,
-          "profit_pct": -0.125,
-          "hold_days": 2,
-          "stock_reason": "行业动量：医药强势",
-          "timing_reason": "skip timing",
-          "sell_reason": "MACD红柱缩短"
-        },
-        {
-          "symbol": "002007",
-          "name": "002007",
-          "buy_date": "20260721",
-          "buy_price": 13.2,
-          "sell_date": "20260722",
-          "sell_price": 13.19,
-          "quantity": 400,
-          "profit": -4.0,
-          "profit_pct": -0.07575757575757576,
-          "hold_days": 1,
-          "stock_reason": "行业动量：医药强势",
-          "timing_reason": "skip timing",
-          "sell_reason": "MACD红柱缩短; KDJ高位死叉; 跌破MA5"
-        },
-        {
-          "symbol": "000538",
-          "name": "000538",
-          "buy_date": "20260721",
-          "buy_price": 51.2,
-          "sell_date": "20260723",
-          "sell_price": 51.7,
-          "quantity": 100,
-          "profit": 50.0,
-          "profit_pct": 0.9765625,
-          "hold_days": 2,
-          "stock_reason": "行业动量：医药强势",
-          "timing_reason": "skip timing",
-          "sell_reason": "MACD红柱缩短; KDJ高位死叉"
-        },
-        {
-          "symbol": "002007",
-          "name": "002007",
-          "buy_date": "20260722",
-          "buy_price": 13.19,
-          "sell_date": "20260723",
-          "sell_price": 13.1,
-          "quantity": 400,
-          "profit": -36.0,
-          "profit_pct": -0.6823351023502654,
-          "hold_days": 1,
-          "stock_reason": "行业动量：医药强势",
+          "stock_reason": "行业动量：消费强势",
           "timing_reason": "skip timing",
           "sell_reason": "MACD红柱缩短; 跌破MA5"
         },
         {
-          "symbol": "600196",
-          "name": "600196",
-          "buy_date": "20260722",
-          "buy_price": 23.97,
-          "sell_date": "20260724",
-          "sell_price": 22.67,
-          "quantity": 300,
-          "profit": -389.9999999999991,
-          "profit_pct": -5.423445974134323,
-          "hold_days": 2,
-          "stock_reason": "行业动量：医药强势",
+          "symbol": "600887",
+          "name": "600887",
+          "buy_date": "20260720",
+          "buy_price": 27.0,
+          "sell_date": "20260721",
+          "sell_price": 27.07,
+          "quantity": 100,
+          "profit": 7.0,
+          "profit_pct": 0.25925925925925924,
+          "hold_days": 1,
+          "stock_reason": "行业动量：消费强势",
           "timing_reason": "skip timing",
-          "sell_reason": "MACD红柱缩短; MACD死叉; 跌破MA5; 跌破MA20"
+          "sell_reason": "RSI超买(89.4)"
         },
         {
-          "symbol": "002007",
-          "name": "002007",
-          "buy_date": "20260723",
-          "buy_price": 13.1,
-          "sell_date": "20260724",
-          "sell_price": 12.75,
-          "quantity": 400,
-          "profit": -140.0,
-          "profit_pct": -2.6717557251908395,
+          "symbol": "000858",
+          "name": "000858",
+          "buy_date": "20260721",
+          "buy_price": 74.38,
+          "sell_date": "20260722",
+          "sell_price": 74.75,
+          "quantity": 100,
+          "profit": 37.0,
+          "profit_pct": 0.4974455498789997,
           "hold_days": 1,
-          "stock_reason": "行业动量：医药强势",
+          "stock_reason": "行业动量：消费强势",
           "timing_reason": "skip timing",
-          "sell_reason": "MACD红柱缩短; 跌破MA5; 跌破MA20"
+          "sell_reason": "MACD红柱缩短"
+        },
+        {
+          "symbol": "000568",
+          "name": "000568",
+          "buy_date": "20260720",
+          "buy_price": 87.68,
+          "sell_date": "20260723",
+          "sell_price": 85.13,
+          "quantity": 100,
+          "profit": -255.0,
+          "profit_pct": -2.9083029197080292,
+          "hold_days": 3,
+          "stock_reason": "行业动量：消费强势",
+          "timing_reason": "skip timing",
+          "sell_reason": "MACD红柱缩短; 跌破MA5"
+        },
+        {
+          "symbol": "000858",
+          "name": "000858",
+          "buy_date": "20260722",
+          "buy_price": 74.75,
+          "sell_date": "20260723",
+          "sell_price": 74.84,
+          "quantity": 100,
+          "profit": 9.0,
+          "profit_pct": 0.12040133779264214,
+          "hold_days": 1,
+          "stock_reason": "行业动量：消费强势",
+          "timing_reason": "skip timing",
+          "sell_reason": "MACD红柱缩短"
+        },
+        {
+          "symbol": "600887",
+          "name": "600887",
+          "buy_date": "20260721",
+          "buy_price": 27.07,
+          "sell_date": "20260724",
+          "sell_price": 27.04,
+          "quantity": 100,
+          "profit": -3.0,
+          "profit_pct": -0.11082379017362395,
+          "hold_days": 3,
+          "stock_reason": "行业动量：消费强势",
+          "timing_reason": "skip timing",
+          "sell_reason": "MACD红柱缩短; KDJ高位死叉; 跌破MA5"
+        },
+        {
+          "symbol": "000568",
+          "name": "000568",
+          "buy_date": "20260723",
+          "buy_price": 85.13,
+          "sell_date": "20260724",
+          "sell_price": 83.01,
+          "quantity": 100,
+          "profit": -212.0,
+          "profit_pct": -2.4903089392693527,
+          "hold_days": 1,
+          "stock_reason": "行业动量：消费强势",
+          "timing_reason": "skip timing",
+          "sell_reason": "MACD红柱缩短; KDJ高位死叉; 跌破MA5"
         }
       ],
       "equity_curve": [
+        {
+          "date": "20260710",
+          "value": 30000
+        },
+        {
+          "date": "20260713",
+          "value": 30000
+        },
         {
           "date": "20260714",
           "value": 30000
@@ -769,29 +794,239 @@
         },
         {
           "date": "20260721",
-          "value": 29771.0
+          "value": 29575.0
         },
         {
           "date": "20260722",
-          "value": 29906.0
+          "value": 29801.0
         },
         {
           "date": "20260723",
-          "value": 29787.0
+          "value": 29628.0
         },
         {
           "date": "20260724",
-          "value": 29265.0
+          "value": 29270.0
         }
       ],
-      "backtest_start": "20260714",
+      "backtest_start": "20260710",
       "backtest_end": "20260724",
-      "backtest_days": 9,
-      "composite_score": 58.9,
+      "backtest_days": 11,
+      "composite_score": 58.3,
       "grade": "B",
-      "profit_loss_ratio": 23.516129032258064,
+      "profit_loss_ratio": 3.0376344086021505,
       "return_stability": 0,
-      "calmar_ratio": 5.519671171171171
+      "calmar_ratio": 3.044232275132275
+    },
+    {
+      "name": "南向资金",
+      "category": "资金流策略",
+      "version": "1.0.0",
+      "description": "南向资金（港资）持续买入的A股",
+      "initial_capital": 30000,
+      "current_capital": 13162.0,
+      "total_value": 29841.0,
+      "total_return": -0.0053,
+      "monthly_return": -0.0053,
+      "sharpe_ratio": -1.8530509482759394,
+      "max_drawdown": 0.0104,
+      "win_rate": 0.3333333333333333,
+      "realized_pnl": -208.0,
+      "realized_pnl_pct": -0.69,
+      "floating_pnl": 49.0,
+      "floating_pnl_pct": 0.16,
+      "total_pnl": -159.0,
+      "total_pnl_pct": -0.53,
+      "holdings": [
+        {
+          "symbol": "600036",
+          "name": "招商银行",
+          "buy_price": 38.71,
+          "quantity": 100,
+          "buy_date": "20260722",
+          "cost": 3871.0,
+          "stock_reason": "南向资金重仓，趋势向上",
+          "timing_reason": "skip timing",
+          "hold_days": 3,
+          "current_price": 39.2,
+          "profit": 49.0000000000002,
+          "profit_pct": 1.2658227848101318
+        },
+        {
+          "symbol": "000858",
+          "name": "五粮液",
+          "buy_price": 73.57,
+          "quantity": 100,
+          "buy_date": "20260724",
+          "cost": 7356.999999999999,
+          "stock_reason": "南向资金重仓，趋势向上",
+          "timing_reason": "skip timing",
+          "hold_days": 1,
+          "current_price": 73.57,
+          "profit": 0.0,
+          "profit_pct": 0.0
+        },
+        {
+          "symbol": "601318",
+          "name": "中国平安",
+          "buy_price": 54.02,
+          "quantity": 100,
+          "buy_date": "20260724",
+          "cost": 5402.0,
+          "stock_reason": "南向资金重仓，趋势向上",
+          "timing_reason": "skip timing",
+          "hold_days": 1,
+          "current_price": 54.02,
+          "profit": 0.0,
+          "profit_pct": 0.0
+        }
+      ],
+      "trades": [
+        {
+          "symbol": "000858",
+          "name": "五粮液",
+          "buy_date": "20260720",
+          "buy_price": 76.24,
+          "sell_date": "20260721",
+          "sell_price": 74.38,
+          "quantity": 100,
+          "profit": -185.9999999999991,
+          "profit_pct": -2.4396642182581205,
+          "hold_days": 1,
+          "stock_reason": "南向资金重仓，趋势向上",
+          "timing_reason": "skip timing",
+          "sell_reason": "MACD红柱缩短; 跌破MA5"
+        },
+        {
+          "symbol": "600036",
+          "name": "招商银行",
+          "buy_date": "20260720",
+          "buy_price": 38.91,
+          "sell_date": "20260722",
+          "sell_price": 38.71,
+          "quantity": 100,
+          "profit": -19.999999999999545,
+          "profit_pct": -0.5140066820868555,
+          "hold_days": 2,
+          "stock_reason": "南向资金重仓，趋势向上",
+          "timing_reason": "skip timing",
+          "sell_reason": "KDJ高位死叉"
+        },
+        {
+          "symbol": "000858",
+          "name": "五粮液",
+          "buy_date": "20260721",
+          "buy_price": 74.38,
+          "sell_date": "20260722",
+          "sell_price": 74.75,
+          "quantity": 100,
+          "profit": 37.0,
+          "profit_pct": 0.4974455498789997,
+          "hold_days": 1,
+          "stock_reason": "南向资金重仓，趋势向上",
+          "timing_reason": "skip timing",
+          "sell_reason": "MACD红柱缩短"
+        },
+        {
+          "symbol": "601318",
+          "name": "中国平安",
+          "buy_date": "20260720",
+          "buy_price": 53.23,
+          "sell_date": "20260723",
+          "sell_price": 54.3,
+          "quantity": 100,
+          "profit": 107.0,
+          "profit_pct": 2.0101446552695847,
+          "hold_days": 3,
+          "stock_reason": "南向资金重仓，趋势向上",
+          "timing_reason": "skip timing",
+          "sell_reason": "RSI超买(81.8)"
+        },
+        {
+          "symbol": "000858",
+          "name": "五粮液",
+          "buy_date": "20260722",
+          "buy_price": 74.75,
+          "sell_date": "20260724",
+          "sell_price": 73.57,
+          "quantity": 100,
+          "profit": -118.00000000000091,
+          "profit_pct": -1.5785953177257648,
+          "hold_days": 2,
+          "stock_reason": "南向资金重仓，趋势向上",
+          "timing_reason": "skip timing",
+          "sell_reason": "MACD红柱缩短; 跌破MA5; 跌破MA20"
+        },
+        {
+          "symbol": "601318",
+          "name": "中国平安",
+          "buy_date": "20260723",
+          "buy_price": 54.3,
+          "sell_date": "20260724",
+          "sell_price": 54.02,
+          "quantity": 100,
+          "profit": -28.0,
+          "profit_pct": -0.5156537753222836,
+          "hold_days": 1,
+          "stock_reason": "南向资金重仓，趋势向上",
+          "timing_reason": "skip timing",
+          "sell_reason": "MACD红柱缩短"
+        }
+      ],
+      "equity_curve": [
+        {
+          "date": "20260710",
+          "value": 30000
+        },
+        {
+          "date": "20260713",
+          "value": 30000
+        },
+        {
+          "date": "20260714",
+          "value": 30000
+        },
+        {
+          "date": "20260715",
+          "value": 30000
+        },
+        {
+          "date": "20260716",
+          "value": 30000
+        },
+        {
+          "date": "20260717",
+          "value": 30000
+        },
+        {
+          "date": "20260720",
+          "value": 30000.0
+        },
+        {
+          "date": "20260721",
+          "value": 29688.0
+        },
+        {
+          "date": "20260722",
+          "value": 29903.0
+        },
+        {
+          "date": "20260723",
+          "value": 29967.0
+        },
+        {
+          "date": "20260724",
+          "value": 29841.0
+        }
+      ],
+      "backtest_start": "20260710",
+      "backtest_end": "20260724",
+      "backtest_days": 11,
+      "composite_score": 52.4,
+      "grade": "B",
+      "profit_loss_ratio": 1.2205882352941178,
+      "return_stability": 0,
+      "calmar_ratio": 1.021592857142857
     },
     {
       "name": "量价齐升",
@@ -816,6 +1051,14 @@
       "trades": [],
       "equity_curve": [
         {
+          "date": "20260710",
+          "value": 30000
+        },
+        {
+          "date": "20260713",
+          "value": 30000
+        },
+        {
           "date": "20260714",
           "value": 30000
         },
@@ -852,216 +1095,14 @@
           "value": 30000
         }
       ],
-      "backtest_start": "20260714",
+      "backtest_start": "20260710",
       "backtest_end": "20260724",
-      "backtest_days": 9,
-      "composite_score": 58.3,
+      "backtest_days": 11,
+      "composite_score": 51.1,
       "grade": "B",
-      "profit_loss_ratio": 3.0376344086021505,
+      "profit_loss_ratio": 0.7577319587628866,
       "return_stability": 0,
-      "calmar_ratio": 3.044232275132275
-    },
-    {
-      "name": "南向资金",
-      "category": "资金流策略",
-      "version": "1.0.0",
-      "description": "南向资金（港资）持续买入的A股",
-      "initial_capital": 30000,
-      "current_capital": 12264.0,
-      "total_value": 30036.0,
-      "total_return": 0.0012,
-      "monthly_return": 0.0012,
-      "sharpe_ratio": 0.6081811707107101,
-      "max_drawdown": 0.007366666666666666,
-      "win_rate": 0.6666666666666666,
-      "realized_pnl": 14.0,
-      "realized_pnl_pct": 0.05,
-      "floating_pnl": 22.0,
-      "floating_pnl_pct": 0.07,
-      "total_pnl": 36.0,
-      "total_pnl_pct": 0.12,
-      "holdings": [
-        {
-          "symbol": "600036",
-          "name": "招商银行",
-          "buy_price": 38.71,
-          "quantity": 100,
-          "buy_date": "20260722",
-          "cost": 3871.0,
-          "stock_reason": "南向资金重仓，趋势向上",
-          "timing_reason": "skip timing",
-          "hold_days": 3,
-          "current_price": 39.2,
-          "profit": 49.0000000000002,
-          "profit_pct": 1.2658227848101318
-        },
-        {
-          "symbol": "000333",
-          "name": "美的集团",
-          "buy_price": 84.77,
-          "quantity": 100,
-          "buy_date": "20260723",
-          "cost": 8477.0,
-          "stock_reason": "南向资金重仓，趋势向上",
-          "timing_reason": "skip timing",
-          "hold_days": 2,
-          "current_price": 84.5,
-          "profit": -26.999999999999602,
-          "profit_pct": -0.3185089064527498
-        },
-        {
-          "symbol": "601318",
-          "name": "中国平安",
-          "buy_price": 54.02,
-          "quantity": 100,
-          "buy_date": "20260724",
-          "cost": 5402.0,
-          "stock_reason": "南向资金重仓，趋势向上",
-          "timing_reason": "skip timing",
-          "hold_days": 1,
-          "current_price": 54.02,
-          "profit": 0.0,
-          "profit_pct": 0.0
-        }
-      ],
-      "trades": [
-        {
-          "symbol": "600036",
-          "name": "招商银行",
-          "buy_date": "20260720",
-          "buy_price": 38.91,
-          "sell_date": "20260721",
-          "sell_price": 37.99,
-          "quantity": 200,
-          "profit": -183.9999999999991,
-          "profit_pct": -2.3644307375995774,
-          "hold_days": 1,
-          "stock_reason": "南向资金重仓，趋势向上",
-          "timing_reason": "skip timing",
-          "sell_reason": "MACD红柱缩短; KDJ高位死叉; 跌破MA5"
-        },
-        {
-          "symbol": "601318",
-          "name": "中国平安",
-          "buy_date": "20260720",
-          "buy_price": 53.23,
-          "sell_date": "20260722",
-          "sell_price": 53.95,
-          "quantity": 100,
-          "profit": 72.0,
-          "profit_pct": 1.3526207026113095,
-          "hold_days": 2,
-          "stock_reason": "南向资金重仓，趋势向上",
-          "timing_reason": "skip timing",
-          "sell_reason": "RSI超买(81.4)"
-        },
-        {
-          "symbol": "600036",
-          "name": "招商银行",
-          "buy_date": "20260721",
-          "buy_price": 37.99,
-          "sell_date": "20260722",
-          "sell_price": 38.71,
-          "quantity": 100,
-          "profit": 72.0,
-          "profit_pct": 1.8952355883127139,
-          "hold_days": 1,
-          "stock_reason": "南向资金重仓，趋势向上",
-          "timing_reason": "skip timing",
-          "sell_reason": "KDJ高位死叉"
-        },
-        {
-          "symbol": "000333",
-          "name": "美的集团",
-          "buy_date": "20260720",
-          "buy_price": 84.3,
-          "sell_date": "20260723",
-          "sell_price": 84.77,
-          "quantity": 100,
-          "profit": 47.0,
-          "profit_pct": 0.5575326215895611,
-          "hold_days": 3,
-          "stock_reason": "南向资金重仓，趋势向上",
-          "timing_reason": "skip timing",
-          "sell_reason": "MACD红柱缩短; RSI超买(80.2)"
-        },
-        {
-          "symbol": "601318",
-          "name": "中国平安",
-          "buy_date": "20260722",
-          "buy_price": 53.95,
-          "sell_date": "20260723",
-          "sell_price": 54.3,
-          "quantity": 100,
-          "profit": 35.0,
-          "profit_pct": 0.6487488415199258,
-          "hold_days": 1,
-          "stock_reason": "南向资金重仓，趋势向上",
-          "timing_reason": "skip timing",
-          "sell_reason": "RSI超买(81.8)"
-        },
-        {
-          "symbol": "601318",
-          "name": "中国平安",
-          "buy_date": "20260723",
-          "buy_price": 54.3,
-          "sell_date": "20260724",
-          "sell_price": 54.02,
-          "quantity": 100,
-          "profit": -28.0,
-          "profit_pct": -0.5156537753222836,
-          "hold_days": 1,
-          "stock_reason": "南向资金重仓，趋势向上",
-          "timing_reason": "skip timing",
-          "sell_reason": "MACD红柱缩短"
-        }
-      ],
-      "equity_curve": [
-        {
-          "date": "20260714",
-          "value": 30000
-        },
-        {
-          "date": "20260715",
-          "value": 30000
-        },
-        {
-          "date": "20260716",
-          "value": 30000
-        },
-        {
-          "date": "20260717",
-          "value": 30000
-        },
-        {
-          "date": "20260720",
-          "value": 30000.0
-        },
-        {
-          "date": "20260721",
-          "value": 29779.0
-        },
-        {
-          "date": "20260722",
-          "value": 30010.0
-        },
-        {
-          "date": "20260723",
-          "value": 30062.0
-        },
-        {
-          "date": "20260724",
-          "value": 30036.0
-        }
-      ],
-      "backtest_start": "20260714",
-      "backtest_end": "20260724",
-      "backtest_days": 9,
-      "composite_score": 58.3,
-      "grade": "B",
-      "profit_loss_ratio": 21.1875,
-      "return_stability": 0,
-      "calmar_ratio": 1.440695770609319
+      "calmar_ratio": 0.5767205925925927
     },
     {
       "name": "ETF二八轮动",
@@ -1086,6 +1127,14 @@
       "trades": [],
       "equity_curve": [
         {
+          "date": "20260710",
+          "value": 30000
+        },
+        {
+          "date": "20260713",
+          "value": 30000
+        },
+        {
           "date": "20260714",
           "value": 30000
         },
@@ -1122,14 +1171,14 @@
           "value": 30000
         }
       ],
-      "backtest_start": "20260714",
+      "backtest_start": "20260710",
       "backtest_end": "20260724",
-      "backtest_days": 9,
-      "composite_score": 57.3,
-      "grade": "B",
-      "profit_loss_ratio": 3.750000000000015,
+      "backtest_days": 11,
+      "composite_score": 46.8,
+      "grade": "C",
+      "profit_loss_ratio": 0.5047169811320776,
       "return_stability": 0,
-      "calmar_ratio": 8.790458757062147
+      "calmar_ratio": 0.6284403669724771
     },
     {
       "name": "财务基本面过滤小市值",
@@ -1141,7 +1190,7 @@
       "total_value": 30605.0,
       "total_return": 0.020166666666666666,
       "monthly_return": 0.020166666666666666,
-      "sharpe_ratio": 7.2464413070383245,
+      "sharpe_ratio": 6.422191570327071,
       "max_drawdown": 0.0036535992890293274,
       "win_rate": 0.5,
       "realized_pnl": 698.0,
@@ -1244,6 +1293,14 @@
       ],
       "equity_curve": [
         {
+          "date": "20260710",
+          "value": 30000
+        },
+        {
+          "date": "20260713",
+          "value": 30000
+        },
+        {
           "date": "20260714",
           "value": 30000
         },
@@ -1280,14 +1337,14 @@
           "value": 30605.0
         }
       ],
-      "backtest_start": "20260714",
+      "backtest_start": "20260710",
       "backtest_end": "20260724",
-      "backtest_days": 9,
-      "composite_score": 53.4,
-      "grade": "B",
-      "profit_loss_ratio": 0.7577319587628866,
+      "backtest_days": 11,
+      "composite_score": 45.2,
+      "grade": "C",
+      "profit_loss_ratio": 0.6796296296296296,
       "return_stability": 0,
-      "calmar_ratio": 0.5767205925925927
+      "calmar_ratio": 0.6184936353829558
     },
     {
       "name": "反过度自信",
@@ -1299,7 +1356,7 @@
       "total_value": 30379.0,
       "total_return": 0.012633333333333333,
       "monthly_return": 0.012633333333333333,
-      "sharpe_ratio": 4.799549802239178,
+      "sharpe_ratio": 4.308959281289569,
       "max_drawdown": 0.004149924247414532,
       "win_rate": 0.5,
       "realized_pnl": 379.0,
@@ -1388,6 +1445,14 @@
       ],
       "equity_curve": [
         {
+          "date": "20260710",
+          "value": 30000
+        },
+        {
+          "date": "20260713",
+          "value": 30000
+        },
+        {
           "date": "20260714",
           "value": 30000
         },
@@ -1424,14 +1489,14 @@
           "value": 30379.0
         }
       ],
-      "backtest_start": "20260714",
+      "backtest_start": "20260710",
       "backtest_end": "20260724",
-      "backtest_days": 9,
-      "composite_score": 48.9,
+      "backtest_days": 11,
+      "composite_score": 39.9,
       "grade": "C",
-      "profit_loss_ratio": 0.5047169811320776,
+      "profit_loss_ratio": 0.7009345794392553,
       "return_stability": 0,
-      "calmar_ratio": 0.6284403669724771
+      "calmar_ratio": 0.8181818181818183
     },
     {
       "name": "资金流事件",
@@ -1443,7 +1508,7 @@
       "total_value": 30060.0,
       "total_return": 0.002,
       "monthly_return": 0.002,
-      "sharpe_ratio": 0.7271559851648133,
+      "sharpe_ratio": 0.6594557913541542,
       "max_drawdown": 0.011833333333333333,
       "win_rate": 0.5,
       "realized_pnl": -38.0,
@@ -1590,6 +1655,14 @@
       ],
       "equity_curve": [
         {
+          "date": "20260710",
+          "value": 30000
+        },
+        {
+          "date": "20260713",
+          "value": 30000
+        },
+        {
           "date": "20260714",
           "value": 30000
         },
@@ -1626,14 +1699,14 @@
           "value": 30060.0
         }
       ],
-      "backtest_start": "20260714",
+      "backtest_start": "20260710",
       "backtest_end": "20260724",
-      "backtest_days": 9,
-      "composite_score": 46.6,
+      "backtest_days": 11,
+      "composite_score": 35.2,
       "grade": "C",
-      "profit_loss_ratio": 0.6796296296296296,
+      "profit_loss_ratio": 1.1753554502369685,
       "return_stability": 0,
-      "calmar_ratio": 0.6184936353829558
+      "calmar_ratio": 0.23436397515527949
     },
     {
       "name": "超跌反弹",
@@ -1645,7 +1718,7 @@
       "total_value": 30362.0,
       "total_return": 0.012066666666666667,
       "monthly_return": 0.012066666666666667,
-      "sharpe_ratio": 5.612486080160913,
+      "sharpe_ratio": 5.019960159204453,
       "max_drawdown": 0,
       "win_rate": 1.0,
       "realized_pnl": 362.0,
@@ -1673,6 +1746,14 @@
         }
       ],
       "equity_curve": [
+        {
+          "date": "20260710",
+          "value": 30000
+        },
+        {
+          "date": "20260713",
+          "value": 30000
+        },
         {
           "date": "20260714",
           "value": 30000
@@ -1710,14 +1791,14 @@
           "value": 30362.0
         }
       ],
-      "backtest_start": "20260714",
+      "backtest_start": "20260710",
       "backtest_end": "20260724",
-      "backtest_days": 9,
-      "composite_score": 44.0,
-      "grade": "C",
-      "profit_loss_ratio": 1.088028169014088,
+      "backtest_days": 11,
+      "composite_score": 33.5,
+      "grade": "D",
+      "profit_loss_ratio": 0.8248847926267281,
       "return_stability": 0,
-      "calmar_ratio": 0.5249999999999999
+      "calmar_ratio": 0.16901408450704225
     },
     {
       "name": "研报推荐",
@@ -1729,7 +1810,7 @@
       "total_value": 30006.0,
       "total_return": 0.0002,
       "monthly_return": 0.0002,
-      "sharpe_ratio": 0.20193775496042582,
+      "sharpe_ratio": 0.18317732550646737,
       "max_drawdown": 0.05591039234811063,
       "win_rate": 0.4,
       "realized_pnl": -43.0,
@@ -1861,6 +1942,14 @@
       ],
       "equity_curve": [
         {
+          "date": "20260710",
+          "value": 30000
+        },
+        {
+          "date": "20260713",
+          "value": 30000
+        },
+        {
           "date": "20260714",
           "value": 30000
         },
@@ -1897,14 +1986,14 @@
           "value": 30006.0
         }
       ],
-      "backtest_start": "20260714",
+      "backtest_start": "20260710",
       "backtest_end": "20260724",
-      "backtest_days": 9,
-      "composite_score": 41.5,
-      "grade": "C",
-      "profit_loss_ratio": 0.7009345794392553,
+      "backtest_days": 11,
+      "composite_score": 31.2,
+      "grade": "D",
+      "profit_loss_ratio": 0.8542183622828774,
       "return_stability": 0,
-      "calmar_ratio": 0.8181818181818183
+      "calmar_ratio": 0.08577710196779964
     },
     {
       "name": "短线动量",
@@ -1916,7 +2005,7 @@
       "total_value": 29686.0,
       "total_return": -0.010466666666666668,
       "monthly_return": -0.010466666666666668,
-      "sharpe_ratio": -7.59634253754236,
+      "sharpe_ratio": -6.7172080976615725,
       "max_drawdown": 0.010466666666666668,
       "win_rate": 0.42857142857142855,
       "realized_pnl": -363.0,
@@ -2064,6 +2153,14 @@
       ],
       "equity_curve": [
         {
+          "date": "20260710",
+          "value": 30000
+        },
+        {
+          "date": "20260713",
+          "value": 30000
+        },
+        {
           "date": "20260714",
           "value": 30000
         },
@@ -2100,14 +2197,14 @@
           "value": 29686.0
         }
       ],
-      "backtest_start": "20260714",
+      "backtest_start": "20260710",
       "backtest_end": "20260724",
-      "backtest_days": 9,
-      "composite_score": 36.0,
-      "grade": "C",
-      "profit_loss_ratio": 1.1753554502369685,
+      "backtest_days": 11,
+      "composite_score": 29.4,
+      "grade": "D",
+      "profit_loss_ratio": 0.3965517241379305,
       "return_stability": 0,
-      "calmar_ratio": 0.23436397515527949
+      "calmar_ratio": 0.06060606060606061
     },
     {
       "name": "低波动",
@@ -2115,33 +2212,33 @@
       "version": "1.0.0",
       "description": "低波动：20日波动率最低, 持有30天",
       "initial_capital": 30000,
-      "current_capital": 12785.0,
-      "total_value": 29980.0,
-      "total_return": -0.0006666666666666666,
-      "monthly_return": -0.0006666666666666666,
-      "sharpe_ratio": -0.2408790805137481,
-      "max_drawdown": 0.010666666666666666,
-      "win_rate": 0.3333333333333333,
-      "realized_pnl": -204.0,
-      "realized_pnl_pct": -0.68,
-      "floating_pnl": 184.0,
-      "floating_pnl_pct": 0.61,
-      "total_pnl": -20.0,
-      "total_pnl_pct": -0.07,
+      "current_capital": 13788.0,
+      "total_value": 29990.0,
+      "total_return": -0.0003333333333333333,
+      "monthly_return": -0.0003333333333333333,
+      "sharpe_ratio": -0.07424018125207929,
+      "max_drawdown": 0.011,
+      "win_rate": 0.2,
+      "realized_pnl": -243.0,
+      "realized_pnl_pct": -0.81,
+      "floating_pnl": 233.0,
+      "floating_pnl_pct": 0.78,
+      "total_pnl": -10.0,
+      "total_pnl_pct": -0.03,
       "holdings": [
         {
-          "symbol": "601398",
-          "name": "工商银行",
-          "buy_price": 7.6,
-          "quantity": 900,
-          "buy_date": "20260722",
-          "cost": 6840.0,
-          "stock_reason": "低波动：20日波动率1.46%, 趋势向上",
+          "symbol": "601328",
+          "name": "交通银行",
+          "buy_price": 6.81,
+          "quantity": 800,
+          "buy_date": "20260721",
+          "cost": 5448.0,
+          "stock_reason": "低波动：20日波动率1.44%, 趋势向上",
           "timing_reason": "skip timing",
-          "hold_days": 3,
-          "current_price": 7.75,
-          "profit": 135.0000000000003,
-          "profit_pct": 1.9736842105263206
+          "hold_days": 4,
+          "current_price": 7.04,
+          "profit": 184.00000000000034,
+          "profit_pct": 3.377386196769463
         },
         {
           "symbol": "600036",
@@ -2150,7 +2247,7 @@
           "quantity": 100,
           "buy_date": "20260722",
           "cost": 3871.0,
-          "stock_reason": "低波动：20日波动率1.47%, 趋势向上",
+          "stock_reason": "低波动：20日波动率1.32%, 趋势向上",
           "timing_reason": "skip timing",
           "hold_days": 3,
           "current_price": 39.2,
@@ -2161,10 +2258,10 @@
           "symbol": "600016",
           "name": "民生银行",
           "buy_price": 3.5,
-          "quantity": 1800,
+          "quantity": 1900,
           "buy_date": "20260724",
-          "cost": 6300.0,
-          "stock_reason": "低波动：20日波动率1.10%, 趋势向上",
+          "cost": 6650.0,
+          "stock_reason": "低波动：20日波动率0.93%, 趋势向上",
           "timing_reason": "skip timing",
           "hold_days": 1,
           "current_price": 3.5,
@@ -2184,52 +2281,37 @@
           "profit": -84.0,
           "profit_pct": -0.84985835694051,
           "hold_days": 1,
-          "stock_reason": "低波动：20日波动率1.10%, 趋势向上",
+          "stock_reason": "低波动：20日波动率0.93%, 趋势向上",
           "timing_reason": "skip timing",
           "sell_reason": "MACD红柱缩短"
+        },
+        {
+          "symbol": "601328",
+          "name": "交通银行",
+          "buy_date": "20260720",
+          "buy_price": 7.03,
+          "sell_date": "20260721",
+          "sell_price": 6.81,
+          "quantity": 700,
+          "profit": -154.0,
+          "profit_pct": -3.1294452347083923,
+          "hold_days": 1,
+          "stock_reason": "低波动：20日波动率1.44%, 趋势向上",
+          "timing_reason": "skip timing",
+          "sell_reason": "MACD红柱缩短; 跌破MA5"
         },
         {
           "symbol": "600036",
           "name": "招商银行",
           "buy_date": "20260720",
           "buy_price": 38.91,
-          "sell_date": "20260721",
-          "sell_price": 37.99,
-          "quantity": 100,
-          "profit": -91.99999999999955,
-          "profit_pct": -2.3644307375995774,
-          "hold_days": 1,
-          "stock_reason": "低波动：20日波动率1.47%, 趋势向上",
-          "timing_reason": "skip timing",
-          "sell_reason": "MACD红柱缩短; KDJ高位死叉; 跌破MA5"
-        },
-        {
-          "symbol": "601398",
-          "name": "工商银行",
-          "buy_date": "20260720",
-          "buy_price": 7.74,
-          "sell_date": "20260722",
-          "sell_price": 7.6,
-          "quantity": 800,
-          "profit": -112.0,
-          "profit_pct": -1.8087855297157622,
-          "hold_days": 2,
-          "stock_reason": "低波动：20日波动率1.46%, 趋势向上",
-          "timing_reason": "skip timing",
-          "sell_reason": "MACD红柱缩短; KDJ高位死叉"
-        },
-        {
-          "symbol": "600036",
-          "name": "招商银行",
-          "buy_date": "20260721",
-          "buy_price": 37.99,
           "sell_date": "20260722",
           "sell_price": 38.71,
           "quantity": 100,
-          "profit": 72.0,
-          "profit_pct": 1.8952355883127139,
-          "hold_days": 1,
-          "stock_reason": "低波动：20日波动率1.47%, 趋势向上",
+          "profit": -19.999999999999545,
+          "profit_pct": -0.5140066820868555,
+          "hold_days": 2,
+          "stock_reason": "低波动：20日波动率1.32%, 趋势向上",
           "timing_reason": "skip timing",
           "sell_reason": "KDJ高位死叉"
         },
@@ -2240,11 +2322,11 @@
           "buy_price": 3.5,
           "sell_date": "20260723",
           "sell_price": 3.53,
-          "quantity": 2200,
-          "profit": 66.0,
+          "quantity": 2400,
+          "profit": 72.0,
           "profit_pct": 0.8571428571428572,
           "hold_days": 2,
-          "stock_reason": "低波动：20日波动率1.10%, 趋势向上",
+          "stock_reason": "低波动：20日波动率0.93%, 趋势向上",
           "timing_reason": "skip timing",
           "sell_reason": "MACD红柱缩短"
         },
@@ -2255,16 +2337,24 @@
           "buy_price": 3.53,
           "sell_date": "20260724",
           "sell_price": 3.5,
-          "quantity": 1800,
-          "profit": -54.0,
+          "quantity": 1900,
+          "profit": -57.0,
           "profit_pct": -0.84985835694051,
           "hold_days": 1,
-          "stock_reason": "低波动：20日波动率1.10%, 趋势向上",
+          "stock_reason": "低波动：20日波动率0.93%, 趋势向上",
           "timing_reason": "skip timing",
           "sell_reason": "MACD红柱缩短; 跌破MA5"
         }
       ],
       "equity_curve": [
+        {
+          "date": "20260710",
+          "value": 30000
+        },
+        {
+          "date": "20260713",
+          "value": 30000
+        },
         {
           "date": "20260714",
           "value": 30000
@@ -2287,29 +2377,29 @@
         },
         {
           "date": "20260721",
-          "value": 29680.0
+          "value": 29670.0
         },
         {
           "date": "20260722",
-          "value": 29872.0
+          "value": 29950.0
         },
         {
           "date": "20260723",
-          "value": 29942.0
+          "value": 29946.0
         },
         {
           "date": "20260724",
-          "value": 29980.0
+          "value": 29990.0
         }
       ],
-      "backtest_start": "20260714",
+      "backtest_start": "20260710",
       "backtest_end": "20260724",
-      "backtest_days": 9,
-      "composite_score": 35.7,
-      "grade": "C",
-      "profit_loss_ratio": 0.5330188679245306,
+      "backtest_days": 11,
+      "composite_score": 28.0,
+      "grade": "D",
+      "profit_loss_ratio": 0.5847123719464146,
       "return_stability": 0,
-      "calmar_ratio": 0.16289592760180996
+      "calmar_ratio": -0.29867964157706095
     },
     {
       "name": "龙虎榜",
@@ -2317,34 +2407,20 @@
       "version": "1.0.0",
       "description": "龙虎榜：机构和游资同时买入, 持有3天, 止损5%",
       "initial_capital": 30000,
-      "current_capital": 16981.0,
-      "total_value": 30509.0,
-      "total_return": 0.016966666666666668,
-      "monthly_return": 0.016966666666666668,
-      "sharpe_ratio": 8.452902026991538,
-      "max_drawdown": 0.001930123004449097,
-      "win_rate": 0.4,
-      "realized_pnl": 339.0,
-      "realized_pnl_pct": 1.13,
-      "floating_pnl": 170.0,
-      "floating_pnl_pct": 0.57,
-      "total_pnl": 509.0,
-      "total_pnl_pct": 1.7,
+      "current_capital": 11394.0,
+      "total_value": 29905.0,
+      "total_return": -0.0031666666666666666,
+      "monthly_return": -0.0031666666666666666,
+      "sharpe_ratio": -2.040661694842616,
+      "max_drawdown": 0.0061,
+      "win_rate": 0.5,
+      "realized_pnl": -144.0,
+      "realized_pnl_pct": -0.48,
+      "floating_pnl": 49.0,
+      "floating_pnl_pct": 0.16,
+      "total_pnl": -95.0,
+      "total_pnl_pct": -0.32,
       "holdings": [
-        {
-          "symbol": "002415",
-          "name": "海康威视",
-          "buy_price": 34.28,
-          "quantity": 100,
-          "buy_date": "20260720",
-          "cost": 3428.0,
-          "stock_reason": "龙虎榜：趋势向上，活跃",
-          "timing_reason": "skip timing",
-          "hold_days": 5,
-          "current_price": 35.49,
-          "profit": 121.00000000000009,
-          "profit_pct": 3.5297549591598623
-        },
         {
           "symbol": "600036",
           "name": "招商银行",
@@ -2360,35 +2436,49 @@
           "profit_pct": 1.2658227848101318
         },
         {
-          "symbol": "002475",
-          "name": "立讯精密",
-          "buy_price": 60.59,
+          "symbol": "002594",
+          "name": "比亚迪",
+          "buy_price": 91.89,
           "quantity": 100,
           "buy_date": "20260724",
-          "cost": 6059.0,
+          "cost": 9189.0,
           "stock_reason": "龙虎榜：趋势向上，活跃",
           "timing_reason": "skip timing",
           "hold_days": 1,
-          "current_price": 60.59,
+          "current_price": 91.89,
+          "profit": 0.0,
+          "profit_pct": 0.0
+        },
+        {
+          "symbol": "601318",
+          "name": "中国平安",
+          "buy_price": 54.02,
+          "quantity": 100,
+          "buy_date": "20260724",
+          "cost": 5402.0,
+          "stock_reason": "龙虎榜：趋势向上，活跃",
+          "timing_reason": "skip timing",
+          "hold_days": 1,
+          "current_price": 54.02,
           "profit": 0.0,
           "profit_pct": 0.0
         }
       ],
       "trades": [
         {
-          "symbol": "002475",
-          "name": "立讯精密",
+          "symbol": "002594",
+          "name": "比亚迪",
           "buy_date": "20260720",
-          "buy_price": 56.8,
+          "buy_price": 93.92,
           "sell_date": "20260721",
-          "sell_price": 60.42,
+          "sell_price": 94.3,
           "quantity": 100,
-          "profit": 362.0,
-          "profit_pct": 6.373239436619718,
+          "profit": 38.0,
+          "profit_pct": 0.4045996592844974,
           "hold_days": 1,
           "stock_reason": "龙虎榜：趋势向上，活跃",
           "timing_reason": "skip timing",
-          "sell_reason": "跌破MA20"
+          "sell_reason": "MACD红柱缩短"
         },
         {
           "symbol": "600036",
@@ -2397,8 +2487,8 @@
           "buy_price": 38.91,
           "sell_date": "20260722",
           "sell_price": 38.71,
-          "quantity": 200,
-          "profit": -39.99999999999909,
+          "quantity": 100,
+          "profit": -19.999999999999545,
           "profit_pct": -0.5140066820868555,
           "hold_days": 2,
           "stock_reason": "龙虎榜：趋势向上，活跃",
@@ -2406,52 +2496,75 @@
           "sell_reason": "KDJ高位死叉"
         },
         {
-          "symbol": "002475",
-          "name": "立讯精密",
+          "symbol": "002594",
+          "name": "比亚迪",
           "buy_date": "20260721",
-          "buy_price": 60.42,
+          "buy_price": 94.3,
           "sell_date": "20260722",
-          "sell_price": 59.16,
+          "sell_price": 91.57,
           "quantity": 100,
-          "profit": -126.0,
-          "profit_pct": -2.0854021847070507,
+          "profit": -273.0,
+          "profit_pct": -2.895015906680806,
           "hold_days": 1,
           "stock_reason": "龙虎榜：趋势向上，活跃",
           "timing_reason": "skip timing",
-          "sell_reason": "跌破MA5; 跌破MA20"
+          "sell_reason": "MACD红柱缩短; KDJ高位死叉; 跌破MA5"
         },
         {
-          "symbol": "002475",
-          "name": "立讯精密",
-          "buy_date": "20260722",
-          "buy_price": 59.16,
+          "symbol": "601318",
+          "name": "中国平安",
+          "buy_date": "20260720",
+          "buy_price": 53.23,
           "sell_date": "20260723",
-          "sell_price": 61.19,
+          "sell_price": 54.3,
           "quantity": 100,
-          "profit": 203.0,
-          "profit_pct": 3.431372549019608,
-          "hold_days": 1,
+          "profit": 107.0,
+          "profit_pct": 2.0101446552695847,
+          "hold_days": 3,
           "stock_reason": "龙虎榜：趋势向上，活跃",
           "timing_reason": "skip timing",
-          "sell_reason": "跌破MA20"
+          "sell_reason": "RSI超买(81.8)"
         },
         {
-          "symbol": "002475",
-          "name": "立讯精密",
-          "buy_date": "20260723",
-          "buy_price": 61.19,
+          "symbol": "002594",
+          "name": "比亚迪",
+          "buy_date": "20260722",
+          "buy_price": 91.57,
           "sell_date": "20260724",
-          "sell_price": 60.59,
+          "sell_price": 91.89,
           "quantity": 100,
-          "profit": -60.0,
-          "profit_pct": -0.9805523778395162,
+          "profit": 32.0,
+          "profit_pct": 0.3494594299443049,
+          "hold_days": 2,
+          "stock_reason": "龙虎榜：趋势向上，活跃",
+          "timing_reason": "skip timing",
+          "sell_reason": "MACD红柱缩短; KDJ高位死叉; 跌破MA5"
+        },
+        {
+          "symbol": "601318",
+          "name": "中国平安",
+          "buy_date": "20260723",
+          "buy_price": 54.3,
+          "sell_date": "20260724",
+          "sell_price": 54.02,
+          "quantity": 100,
+          "profit": -28.0,
+          "profit_pct": -0.5156537753222836,
           "hold_days": 1,
           "stock_reason": "龙虎榜：趋势向上，活跃",
           "timing_reason": "skip timing",
-          "sell_reason": "跌破MA20"
+          "sell_reason": "MACD红柱缩短"
         }
       ],
       "equity_curve": [
+        {
+          "date": "20260710",
+          "value": 30000
+        },
+        {
+          "date": "20260713",
+          "value": 30000
+        },
         {
           "date": "20260714",
           "value": 30000
@@ -2474,29 +2587,29 @@
         },
         {
           "date": "20260721",
-          "value": 30261.0
+          "value": 29912.0
         },
         {
           "date": "20260722",
-          "value": 30331.0
+          "value": 29817.0
         },
         {
           "date": "20260723",
-          "value": 30568.0
+          "value": 29980.0
         },
         {
           "date": "20260724",
-          "value": 30509.0
+          "value": 29905.0
         }
       ],
-      "backtest_start": "20260714",
+      "backtest_start": "20260710",
       "backtest_end": "20260724",
-      "backtest_days": 9,
-      "composite_score": 34.1,
+      "backtest_days": 11,
+      "composite_score": 27.9,
       "grade": "D",
-      "profit_loss_ratio": 0.8248847926267281,
+      "profit_loss_ratio": 0.3648148148148152,
       "return_stability": 0,
-      "calmar_ratio": 0.16901408450704225
+      "calmar_ratio": -0.5096153846153847
     },
     {
       "name": "北向资金",
@@ -2504,106 +2617,77 @@
       "version": "1.0.0",
       "description": "北向资金：连续5日净买入, 持有5天",
       "initial_capital": 30000,
-      "current_capital": 11328.0,
-      "total_value": 30126.0,
-      "total_return": 0.0042,
-      "monthly_return": 0.0042,
-      "sharpe_ratio": 1.8134334417483962,
-      "max_drawdown": 0.008,
-      "win_rate": 0.4,
-      "realized_pnl": -78.0,
-      "realized_pnl_pct": -0.26,
-      "floating_pnl": 204.0,
-      "floating_pnl_pct": 0.68,
-      "total_pnl": 126.0,
-      "total_pnl_pct": 0.42,
+      "current_capital": 17407.0,
+      "total_value": 30267.0,
+      "total_return": 0.0089,
+      "monthly_return": 0.0089,
+      "sharpe_ratio": 2.4696996335801846,
+      "max_drawdown": 0.008711885500933417,
+      "win_rate": 0.5,
+      "realized_pnl": 15.0,
+      "realized_pnl_pct": 0.05,
+      "floating_pnl": 252.0,
+      "floating_pnl_pct": 0.84,
+      "total_pnl": 267.0,
+      "total_pnl_pct": 0.89,
       "holdings": [
         {
-          "symbol": "600036",
-          "name": "招商银行",
-          "buy_price": 37.99,
-          "quantity": 200,
-          "buy_date": "20260721",
-          "cost": 7598.0,
+          "symbol": "601012",
+          "name": "隆基绿能",
+          "buy_price": 12.0,
+          "quantity": 600,
+          "buy_date": "20260720",
+          "cost": 7200.0,
           "stock_reason": "北向资金：成交量较均量1.1倍",
           "timing_reason": "skip timing",
-          "hold_days": 4,
-          "current_price": 39.2,
-          "profit": 242.00000000000017,
-          "profit_pct": 3.185048697025535
+          "hold_days": 5,
+          "current_price": 12.42,
+          "profit": 251.99999999999994,
+          "profit_pct": 3.4999999999999996
         },
         {
           "symbol": "600887",
           "name": "伊利股份",
-          "buy_price": 27.23,
+          "buy_price": 27.04,
           "quantity": 200,
-          "buy_date": "20260723",
-          "cost": 5446.0,
-          "stock_reason": "北向资金：成交量较均量1.2倍",
-          "timing_reason": "skip timing",
-          "hold_days": 2,
-          "current_price": 27.04,
-          "profit": -38.000000000000256,
-          "profit_pct": -0.6977598237238387
-        },
-        {
-          "symbol": "000001",
-          "name": "平安银行",
-          "buy_price": 11.1,
-          "quantity": 500,
           "buy_date": "20260724",
-          "cost": 5550.0,
+          "cost": 5408.0,
           "stock_reason": "北向资金：成交量较均量1.1倍",
           "timing_reason": "skip timing",
           "hold_days": 1,
-          "current_price": 11.1,
+          "current_price": 27.04,
           "profit": 0.0,
           "profit_pct": 0.0
         }
       ],
       "trades": [
         {
-          "symbol": "600036",
-          "name": "招商银行",
-          "buy_date": "20260720",
-          "buy_price": 38.91,
-          "sell_date": "20260721",
-          "sell_price": 37.99,
-          "quantity": 200,
-          "profit": -183.9999999999991,
-          "profit_pct": -2.3644307375995774,
-          "hold_days": 1,
-          "stock_reason": "北向资金：成交量较均量1.1倍",
-          "timing_reason": "skip timing",
-          "sell_reason": "MACD红柱缩短; KDJ高位死叉; 跌破MA5"
-        },
-        {
-          "symbol": "000001",
-          "name": "平安银行",
-          "buy_date": "20260720",
-          "buy_price": 10.98,
-          "sell_date": "20260721",
-          "sell_price": 10.84,
-          "quantity": 500,
-          "profit": -70.0,
-          "profit_pct": -1.2750455373406193,
-          "hold_days": 1,
-          "stock_reason": "北向资金：成交量较均量1.1倍",
-          "timing_reason": "skip timing",
-          "sell_reason": "MACD红柱缩短; 放量滞涨; 跌破MA5"
-        },
-        {
           "symbol": "600887",
           "name": "伊利股份",
           "buy_date": "20260720",
           "buy_price": 27.0,
+          "sell_date": "20260721",
+          "sell_price": 27.07,
+          "quantity": 300,
+          "profit": 21.0,
+          "profit_pct": 0.25925925925925924,
+          "hold_days": 1,
+          "stock_reason": "北向资金：成交量较均量1.1倍",
+          "timing_reason": "skip timing",
+          "sell_reason": "RSI超买(89.4)"
+        },
+        {
+          "symbol": "600887",
+          "name": "伊利股份",
+          "buy_date": "20260721",
+          "buy_price": 27.07,
           "sell_date": "20260722",
           "sell_price": 27.38,
           "quantity": 200,
-          "profit": 76.0,
-          "profit_pct": 1.4074074074074074,
-          "hold_days": 2,
-          "stock_reason": "北向资金：成交量较均量1.2倍",
+          "profit": 62.0,
+          "profit_pct": 1.1451791651274472,
+          "hold_days": 1,
+          "stock_reason": "北向资金：成交量较均量1.1倍",
           "timing_reason": "skip timing",
           "sell_reason": "RSI超买(89.9)"
         },
@@ -2618,27 +2702,35 @@
           "profit": -30.0,
           "profit_pct": -0.547845142439737,
           "hold_days": 1,
-          "stock_reason": "北向资金：成交量较均量1.2倍",
+          "stock_reason": "北向资金：成交量较均量1.1倍",
           "timing_reason": "skip timing",
           "sell_reason": "MACD红柱缩短; RSI超买(85.8)"
         },
         {
-          "symbol": "000001",
-          "name": "平安银行",
-          "buy_date": "20260721",
-          "buy_price": 10.84,
+          "symbol": "600887",
+          "name": "伊利股份",
+          "buy_date": "20260723",
+          "buy_price": 27.23,
           "sell_date": "20260724",
-          "sell_price": 11.1,
-          "quantity": 500,
-          "profit": 130.0,
-          "profit_pct": 2.3985239852398523,
-          "hold_days": 3,
+          "sell_price": 27.04,
+          "quantity": 200,
+          "profit": -38.0,
+          "profit_pct": -0.6977598237238339,
+          "hold_days": 1,
           "stock_reason": "北向资金：成交量较均量1.1倍",
           "timing_reason": "skip timing",
-          "sell_reason": "MACD红柱缩短"
+          "sell_reason": "MACD红柱缩短; KDJ高位死叉; 跌破MA5"
         }
       ],
       "equity_curve": [
+        {
+          "date": "20260710",
+          "value": 30000
+        },
+        {
+          "date": "20260713",
+          "value": 30000
+        },
         {
           "date": "20260714",
           "value": 30000
@@ -2661,29 +2753,29 @@
         },
         {
           "date": "20260721",
-          "value": 29760.0
+          "value": 29979.0
         },
         {
           "date": "20260722",
-          "value": 30036.0
+          "value": 30425.0
         },
         {
           "date": "20260723",
-          "value": 30096.0
+          "value": 30533.0
         },
         {
           "date": "20260724",
-          "value": 30126.0
+          "value": 30267.0
         }
       ],
-      "backtest_start": "20260714",
+      "backtest_start": "20260710",
       "backtest_end": "20260724",
-      "backtest_days": 9,
-      "composite_score": 32.7,
+      "backtest_days": 11,
+      "composite_score": 27.1,
       "grade": "D",
-      "profit_loss_ratio": 1.1176470588235294,
+      "profit_loss_ratio": 0.5514018691588793,
       "return_stability": 0,
-      "calmar_ratio": 0.11809411764705884
+      "calmar_ratio": -0.5191256830601092
     },
     {
       "name": "价值成长",
@@ -2695,7 +2787,7 @@
       "total_value": 29870.0,
       "total_return": -0.004333333333333333,
       "monthly_return": -0.004333333333333333,
-      "sharpe_ratio": -1.289904621820076,
+      "sharpe_ratio": -1.1692095572871841,
       "max_drawdown": 0.013466666666666667,
       "win_rate": 0.5,
       "realized_pnl": -344.0,
@@ -2842,6 +2934,14 @@
       ],
       "equity_curve": [
         {
+          "date": "20260710",
+          "value": 30000
+        },
+        {
+          "date": "20260713",
+          "value": 30000
+        },
+        {
           "date": "20260714",
           "value": 30000
         },
@@ -2878,14 +2978,14 @@
           "value": 29870.0
         }
       ],
-      "backtest_start": "20260714",
+      "backtest_start": "20260710",
       "backtest_end": "20260724",
-      "backtest_days": 9,
-      "composite_score": 31.6,
+      "backtest_days": 11,
+      "composite_score": 26.9,
       "grade": "D",
-      "profit_loss_ratio": 0.8542183622828774,
+      "profit_loss_ratio": 0.14696485623003194,
       "return_stability": 0,
-      "calmar_ratio": 0.08577710196779964
+      "calmar_ratio": -1.0
     },
     {
       "name": "量价齐升",
@@ -2910,6 +3010,14 @@
       "trades": [],
       "equity_curve": [
         {
+          "date": "20260710",
+          "value": 30000
+        },
+        {
+          "date": "20260713",
+          "value": 30000
+        },
+        {
           "date": "20260714",
           "value": 30000
         },
@@ -2946,14 +3054,14 @@
           "value": 30000
         }
       ],
-      "backtest_start": "20260714",
+      "backtest_start": "20260710",
       "backtest_end": "20260724",
-      "backtest_days": 9,
-      "composite_score": 29.7,
+      "backtest_days": 11,
+      "composite_score": 26.6,
       "grade": "D",
-      "profit_loss_ratio": 0.3965517241379305,
+      "profit_loss_ratio": 0.2950819672131153,
       "return_stability": 0,
-      "calmar_ratio": 0.06060606060606061
+      "calmar_ratio": -0.3217821782178218
     },
     {
       "name": "涨停回调",
@@ -2961,19 +3069,19 @@
       "version": "1.0.0",
       "description": "涨停回调：回调5-15%, 止损8%",
       "initial_capital": 30000,
-      "current_capital": 15600.000000000002,
-      "total_value": 29973.0,
-      "total_return": -0.0009,
-      "monthly_return": -0.0009,
-      "sharpe_ratio": 0.09423632797395137,
-      "max_drawdown": 0.0514873417721519,
+      "current_capital": 11700.000000000002,
+      "total_value": 29953.0,
+      "total_return": -0.0015666666666666667,
+      "monthly_return": -0.0015666666666666667,
+      "sharpe_ratio": 0.037707501623079905,
+      "max_drawdown": 0.05277971032825248,
       "win_rate": 0.5,
-      "realized_pnl": -27.0,
-      "realized_pnl_pct": -0.09,
+      "realized_pnl": -47.0,
+      "realized_pnl_pct": -0.16,
       "floating_pnl": 0.0,
       "floating_pnl_pct": 0.0,
-      "total_pnl": -27.0,
-      "total_pnl_pct": -0.09,
+      "total_pnl": -47.0,
+      "total_pnl_pct": -0.16,
       "holdings": [
         {
           "symbol": "688981",
@@ -2982,15 +3090,59 @@
           "quantity": 100,
           "buy_date": "20260724",
           "cost": 14372.999999999998,
-          "stock_reason": "涨停回调：近期高点回调10.9%，关注买入机会",
+          "stock_reason": "涨停回调：近期高点回调14.8%，关注买入机会",
           "timing_reason": "skip timing",
           "hold_days": 1,
           "current_price": 143.73,
           "profit": 0.0,
           "profit_pct": 0.0
+        },
+        {
+          "symbol": "300059",
+          "name": "东方财富",
+          "buy_price": 19.4,
+          "quantity": 200,
+          "buy_date": "20260724",
+          "cost": 3879.9999999999995,
+          "stock_reason": "涨停回调：近期高点回调5.0%，关注买入机会",
+          "timing_reason": "skip timing",
+          "hold_days": 1,
+          "current_price": 19.4,
+          "profit": 0.0,
+          "profit_pct": 0.0
         }
       ],
       "trades": [
+        {
+          "symbol": "300059",
+          "name": "东方财富",
+          "buy_date": "20260720",
+          "buy_price": 20.18,
+          "sell_date": "20260721",
+          "sell_price": 20.29,
+          "quantity": 200,
+          "profit": 22.0,
+          "profit_pct": 0.5450941526263627,
+          "hold_days": 1,
+          "stock_reason": "涨停回调：近期高点回调5.0%，关注买入机会",
+          "timing_reason": "skip timing",
+          "sell_reason": "跌破MA20"
+        },
+        {
+          "symbol": "300059",
+          "name": "东方财富",
+          "buy_date": "20260721",
+          "buy_price": 20.29,
+          "sell_date": "20260722",
+          "sell_price": 20.08,
+          "quantity": 200,
+          "profit": -42.000000000000455,
+          "profit_pct": -1.034992607195674,
+          "hold_days": 1,
+          "stock_reason": "涨停回调：近期高点回调5.0%，关注买入机会",
+          "timing_reason": "skip timing",
+          "sell_reason": "跌破MA20"
+        },
         {
           "symbol": "688981",
           "name": "中芯国际",
@@ -3002,27 +3154,35 @@
           "profit": 109.0,
           "profit_pct": 0.7569444444444444,
           "hold_days": 3,
-          "stock_reason": "涨停回调：近期高点回调10.9%，关注买入机会",
+          "stock_reason": "涨停回调：近期高点回调14.8%，关注买入机会",
           "timing_reason": "skip timing",
           "sell_reason": "跌破MA5; 跌破MA20"
         },
         {
-          "symbol": "688981",
-          "name": "中芯国际",
-          "buy_date": "20260723",
-          "buy_price": 145.09,
+          "symbol": "300059",
+          "name": "东方财富",
+          "buy_date": "20260722",
+          "buy_price": 20.08,
           "sell_date": "20260724",
-          "sell_price": 143.73,
-          "quantity": 100,
-          "profit": -136.00000000000182,
-          "profit_pct": -0.9373492315114881,
-          "hold_days": 1,
-          "stock_reason": "涨停回调：近期高点回调10.9%，关注买入机会",
+          "sell_price": 19.4,
+          "quantity": 200,
+          "profit": -136.0,
+          "profit_pct": -3.386454183266933,
+          "hold_days": 2,
+          "stock_reason": "涨停回调：近期高点回调5.0%，关注买入机会",
           "timing_reason": "skip timing",
           "sell_reason": "跌破MA5; 跌破MA20"
         }
       ],
       "equity_curve": [
+        {
+          "date": "20260710",
+          "value": 30000
+        },
+        {
+          "date": "20260713",
+          "value": 30000
+        },
         {
           "date": "20260714",
           "value": 30000
@@ -3045,29 +3205,29 @@
         },
         {
           "date": "20260721",
-          "value": 31600.0
+          "value": 31622.0
         },
         {
           "date": "20260722",
-          "value": 31159.0
+          "value": 31139.0
         },
         {
           "date": "20260723",
-          "value": 30109.0
+          "value": 30129.0
         },
         {
           "date": "20260724",
-          "value": 29973.0
+          "value": 29953.0
         }
       ],
-      "backtest_start": "20260714",
+      "backtest_start": "20260710",
       "backtest_end": "20260724",
-      "backtest_days": 9,
-      "composite_score": 28.0,
+      "backtest_days": 11,
+      "composite_score": 26.6,
       "grade": "D",
-      "profit_loss_ratio": 0.5847123719464146,
+      "profit_loss_ratio": 0.2950819672131153,
       "return_stability": 0,
-      "calmar_ratio": -0.29867964157706095
+      "calmar_ratio": -0.3217821782178218
     },
     {
       "name": "低PB价值",
@@ -3079,7 +3239,7 @@
       "total_value": 29996.0,
       "total_return": -0.00013333333333333334,
       "monthly_return": -0.00013333333333333334,
-      "sharpe_ratio": 0.02869572282314895,
+      "sharpe_ratio": 0.0260303032898643,
       "max_drawdown": 0.019266666666666668,
       "win_rate": 0.4,
       "realized_pnl": -336.0,
@@ -3211,6 +3371,14 @@
       ],
       "equity_curve": [
         {
+          "date": "20260710",
+          "value": 30000
+        },
+        {
+          "date": "20260713",
+          "value": 30000
+        },
+        {
           "date": "20260714",
           "value": 30000
         },
@@ -3247,14 +3415,14 @@
           "value": 29996.0
         }
       ],
-      "backtest_start": "20260714",
+      "backtest_start": "20260710",
       "backtest_end": "20260724",
-      "backtest_days": 9,
-      "composite_score": 26.9,
+      "backtest_days": 11,
+      "composite_score": 26.5,
       "grade": "D",
-      "profit_loss_ratio": 0.14696485623003194,
+      "profit_loss_ratio": 0.6524064171122995,
       "return_stability": 0,
-      "calmar_ratio": -1.0
+      "calmar_ratio": -0.17742010347376203
     },
     {
       "name": "业绩暴增",
@@ -3266,7 +3434,7 @@
       "total_value": 29974.0,
       "total_return": -0.0008666666666666666,
       "monthly_return": -0.0008666666666666666,
-      "sharpe_ratio": 0.1250212250646521,
+      "sharpe_ratio": 0.1134077915749428,
       "max_drawdown": 0.05691721989742944,
       "win_rate": 0.4,
       "realized_pnl": -75.0,
@@ -3398,6 +3566,14 @@
       ],
       "equity_curve": [
         {
+          "date": "20260710",
+          "value": 30000
+        },
+        {
+          "date": "20260713",
+          "value": 30000
+        },
+        {
           "date": "20260714",
           "value": 30000
         },
@@ -3434,14 +3610,14 @@
           "value": 29974.0
         }
       ],
-      "backtest_start": "20260714",
+      "backtest_start": "20260710",
       "backtest_end": "20260724",
-      "backtest_days": 9,
-      "composite_score": 26.6,
+      "backtest_days": 11,
+      "composite_score": 25.7,
       "grade": "D",
-      "profit_loss_ratio": 0.2950819672131153,
+      "profit_loss_ratio": 0.3374485596707822,
       "return_stability": 0,
-      "calmar_ratio": -0.3217821782178218
+      "calmar_ratio": -1.0
     },
     {
       "name": "KDJ超卖金叉",
@@ -3453,7 +3629,7 @@
       "total_value": 30128.0,
       "total_return": 0.004266666666666667,
       "monthly_return": 0.004266666666666667,
-      "sharpe_ratio": 2.3518570598989457,
+      "sharpe_ratio": 2.1280726132666414,
       "max_drawdown": 0.007398152106007299,
       "win_rate": 0.6666666666666666,
       "realized_pnl": 150.0,
@@ -3600,6 +3776,14 @@
       ],
       "equity_curve": [
         {
+          "date": "20260710",
+          "value": 30000
+        },
+        {
+          "date": "20260713",
+          "value": 30000
+        },
+        {
           "date": "20260714",
           "value": 30000
         },
@@ -3636,216 +3820,14 @@
           "value": 30188.0
         }
       ],
-      "backtest_start": "20260714",
+      "backtest_start": "20260710",
       "backtest_end": "20260724",
-      "backtest_days": 9,
-      "composite_score": 26.6,
+      "backtest_days": 11,
+      "composite_score": 25.0,
       "grade": "D",
-      "profit_loss_ratio": 0.2950819672131153,
+      "profit_loss_ratio": 0.5769230769230769,
       "return_stability": 0,
-      "calmar_ratio": -0.3217821782178218
-    },
-    {
-      "name": "业绩预告超预期",
-      "category": "事件驱动",
-      "version": "1.0.0",
-      "description": "业绩预告：净利润增速>20%，持有10天",
-      "initial_capital": 30000,
-      "current_capital": 11762.0,
-      "total_value": 29799.0,
-      "total_return": -0.0067,
-      "monthly_return": -0.0067,
-      "sharpe_ratio": -2.204272561830435,
-      "max_drawdown": 0.013376154686620534,
-      "win_rate": 0.3333333333333333,
-      "realized_pnl": -221.0,
-      "realized_pnl_pct": -0.74,
-      "floating_pnl": 20.0,
-      "floating_pnl_pct": 0.07,
-      "total_pnl": -201.0,
-      "total_pnl_pct": -0.67,
-      "holdings": [
-        {
-          "symbol": "601012",
-          "name": "隆基绿能",
-          "buy_price": 11.93,
-          "quantity": 400,
-          "buy_date": "20260721",
-          "cost": 4772.0,
-          "stock_reason": "业绩预告：预期业绩超预期",
-          "timing_reason": "skip timing",
-          "hold_days": 4,
-          "current_price": 12.42,
-          "profit": 196.00000000000009,
-          "profit_pct": 4.107292539815592
-        },
-        {
-          "symbol": "300059",
-          "name": "东方财富",
-          "buy_price": 20.28,
-          "quantity": 200,
-          "buy_date": "20260723",
-          "cost": 4056.0,
-          "stock_reason": "业绩预告：预期业绩超预期",
-          "timing_reason": "skip timing",
-          "hold_days": 2,
-          "current_price": 19.4,
-          "profit": -176.0000000000005,
-          "profit_pct": -4.339250493096659
-        },
-        {
-          "symbol": "002594",
-          "name": "比亚迪",
-          "buy_price": 91.89,
-          "quantity": 100,
-          "buy_date": "20260724",
-          "cost": 9189.0,
-          "stock_reason": "业绩预告：预期业绩超预期",
-          "timing_reason": "skip timing",
-          "hold_days": 1,
-          "current_price": 91.89,
-          "profit": 0.0,
-          "profit_pct": 0.0
-        }
-      ],
-      "trades": [
-        {
-          "symbol": "002594",
-          "name": "比亚迪",
-          "buy_date": "20260720",
-          "buy_price": 93.92,
-          "sell_date": "20260721",
-          "sell_price": 94.3,
-          "quantity": 100,
-          "profit": 38.0,
-          "profit_pct": 0.4045996592844974,
-          "hold_days": 1,
-          "stock_reason": "业绩预告：预期业绩超预期",
-          "timing_reason": "skip timing",
-          "sell_reason": "MACD红柱缩短"
-        },
-        {
-          "symbol": "601012",
-          "name": "隆基绿能",
-          "buy_date": "20260720",
-          "buy_price": 12.0,
-          "sell_date": "20260721",
-          "sell_price": 11.93,
-          "quantity": 400,
-          "profit": -28.0,
-          "profit_pct": -0.5833333333333334,
-          "hold_days": 1,
-          "stock_reason": "业绩预告：预期业绩超预期",
-          "timing_reason": "skip timing",
-          "sell_reason": "跌破MA20"
-        },
-        {
-          "symbol": "300059",
-          "name": "东方财富",
-          "buy_date": "20260720",
-          "buy_price": 20.18,
-          "sell_date": "20260722",
-          "sell_price": 20.08,
-          "quantity": 300,
-          "profit": -30.00000000000091,
-          "profit_pct": -0.49554013875125386,
-          "hold_days": 2,
-          "stock_reason": "业绩预告：预期业绩超预期",
-          "timing_reason": "skip timing",
-          "sell_reason": "跌破MA20"
-        },
-        {
-          "symbol": "002594",
-          "name": "比亚迪",
-          "buy_date": "20260721",
-          "buy_price": 94.3,
-          "sell_date": "20260723",
-          "sell_price": 92.65,
-          "quantity": 100,
-          "profit": -165.0,
-          "profit_pct": -1.7497348886532342,
-          "hold_days": 2,
-          "stock_reason": "业绩预告：预期业绩超预期",
-          "timing_reason": "skip timing",
-          "sell_reason": "MACD红柱缩短; KDJ高位死叉; 跌破MA5"
-        },
-        {
-          "symbol": "300059",
-          "name": "东方财富",
-          "buy_date": "20260722",
-          "buy_price": 20.08,
-          "sell_date": "20260723",
-          "sell_price": 20.28,
-          "quantity": 200,
-          "profit": 40.000000000000455,
-          "profit_pct": 0.9960159362549915,
-          "hold_days": 1,
-          "stock_reason": "业绩预告：预期业绩超预期",
-          "timing_reason": "skip timing",
-          "sell_reason": "跌破MA20"
-        },
-        {
-          "symbol": "002594",
-          "name": "比亚迪",
-          "buy_date": "20260723",
-          "buy_price": 92.65,
-          "sell_date": "20260724",
-          "sell_price": 91.89,
-          "quantity": 100,
-          "profit": -76.0,
-          "profit_pct": -0.8202914193200217,
-          "hold_days": 1,
-          "stock_reason": "业绩预告：预期业绩超预期",
-          "timing_reason": "skip timing",
-          "sell_reason": "MACD红柱缩短; KDJ高位死叉; 跌破MA5"
-        }
-      ],
-      "equity_curve": [
-        {
-          "date": "20260714",
-          "value": 30000
-        },
-        {
-          "date": "20260715",
-          "value": 30000
-        },
-        {
-          "date": "20260716",
-          "value": 30000
-        },
-        {
-          "date": "20260717",
-          "value": 30000
-        },
-        {
-          "date": "20260720",
-          "value": 30000.0
-        },
-        {
-          "date": "20260721",
-          "value": 30043.0
-        },
-        {
-          "date": "20260722",
-          "value": 29963.0
-        },
-        {
-          "date": "20260723",
-          "value": 30203.0
-        },
-        {
-          "date": "20260724",
-          "value": 29799.0
-        }
-      ],
-      "backtest_start": "20260714",
-      "backtest_end": "20260724",
-      "backtest_days": 9,
-      "composite_score": 26.5,
-      "grade": "D",
-      "profit_loss_ratio": 0.6524064171122995,
-      "return_stability": 0,
-      "calmar_ratio": -0.17742010347376203
+      "calmar_ratio": -0.006920415224913495
     },
     {
       "name": "机构调研",
@@ -3857,7 +3839,7 @@
       "total_value": 30047.0,
       "total_return": 0.0015666666666666667,
       "monthly_return": 0.0015666666666666667,
-      "sharpe_ratio": 0.40919220463729244,
+      "sharpe_ratio": 0.3711560954295708,
       "max_drawdown": 0.01826439260275763,
       "win_rate": 0.5714285714285714,
       "realized_pnl": 56.0,
@@ -4019,6 +4001,14 @@
       ],
       "equity_curve": [
         {
+          "date": "20260710",
+          "value": 30000
+        },
+        {
+          "date": "20260713",
+          "value": 30000
+        },
+        {
           "date": "20260714",
           "value": 30000
         },
@@ -4055,12 +4045,222 @@
           "value": 30047.0
         }
       ],
-      "backtest_start": "20260714",
+      "backtest_start": "20260710",
       "backtest_end": "20260724",
-      "backtest_days": 9,
-      "composite_score": 25.7,
+      "backtest_days": 11,
+      "composite_score": 24.9,
       "grade": "D",
-      "profit_loss_ratio": 0.3374485596707822,
+      "profit_loss_ratio": 0.8014705882352834,
+      "return_stability": 0,
+      "calmar_ratio": -0.017480024585126
+    },
+    {
+      "name": "业绩预告超预期",
+      "category": "事件驱动",
+      "version": "1.0.0",
+      "description": "业绩预告：净利润增速>20%，持有10天",
+      "initial_capital": 30000,
+      "current_capital": 11762.0,
+      "total_value": 29799.0,
+      "total_return": -0.0067,
+      "monthly_return": -0.0067,
+      "sharpe_ratio": -1.9951365804809924,
+      "max_drawdown": 0.013376154686620534,
+      "win_rate": 0.3333333333333333,
+      "realized_pnl": -221.0,
+      "realized_pnl_pct": -0.74,
+      "floating_pnl": 20.0,
+      "floating_pnl_pct": 0.07,
+      "total_pnl": -201.0,
+      "total_pnl_pct": -0.67,
+      "holdings": [
+        {
+          "symbol": "601012",
+          "name": "隆基绿能",
+          "buy_price": 11.93,
+          "quantity": 400,
+          "buy_date": "20260721",
+          "cost": 4772.0,
+          "stock_reason": "业绩预告：预期业绩超预期",
+          "timing_reason": "skip timing",
+          "hold_days": 4,
+          "current_price": 12.42,
+          "profit": 196.00000000000009,
+          "profit_pct": 4.107292539815592
+        },
+        {
+          "symbol": "300059",
+          "name": "东方财富",
+          "buy_price": 20.28,
+          "quantity": 200,
+          "buy_date": "20260723",
+          "cost": 4056.0,
+          "stock_reason": "业绩预告：预期业绩超预期",
+          "timing_reason": "skip timing",
+          "hold_days": 2,
+          "current_price": 19.4,
+          "profit": -176.0000000000005,
+          "profit_pct": -4.339250493096659
+        },
+        {
+          "symbol": "002594",
+          "name": "比亚迪",
+          "buy_price": 91.89,
+          "quantity": 100,
+          "buy_date": "20260724",
+          "cost": 9189.0,
+          "stock_reason": "业绩预告：预期业绩超预期",
+          "timing_reason": "skip timing",
+          "hold_days": 1,
+          "current_price": 91.89,
+          "profit": 0.0,
+          "profit_pct": 0.0
+        }
+      ],
+      "trades": [
+        {
+          "symbol": "002594",
+          "name": "比亚迪",
+          "buy_date": "20260720",
+          "buy_price": 93.92,
+          "sell_date": "20260721",
+          "sell_price": 94.3,
+          "quantity": 100,
+          "profit": 38.0,
+          "profit_pct": 0.4045996592844974,
+          "hold_days": 1,
+          "stock_reason": "业绩预告：预期业绩超预期",
+          "timing_reason": "skip timing",
+          "sell_reason": "MACD红柱缩短"
+        },
+        {
+          "symbol": "601012",
+          "name": "隆基绿能",
+          "buy_date": "20260720",
+          "buy_price": 12.0,
+          "sell_date": "20260721",
+          "sell_price": 11.93,
+          "quantity": 400,
+          "profit": -28.0,
+          "profit_pct": -0.5833333333333334,
+          "hold_days": 1,
+          "stock_reason": "业绩预告：预期业绩超预期",
+          "timing_reason": "skip timing",
+          "sell_reason": "跌破MA20"
+        },
+        {
+          "symbol": "300059",
+          "name": "东方财富",
+          "buy_date": "20260720",
+          "buy_price": 20.18,
+          "sell_date": "20260722",
+          "sell_price": 20.08,
+          "quantity": 300,
+          "profit": -30.00000000000091,
+          "profit_pct": -0.49554013875125386,
+          "hold_days": 2,
+          "stock_reason": "业绩预告：预期业绩超预期",
+          "timing_reason": "skip timing",
+          "sell_reason": "跌破MA20"
+        },
+        {
+          "symbol": "002594",
+          "name": "比亚迪",
+          "buy_date": "20260721",
+          "buy_price": 94.3,
+          "sell_date": "20260723",
+          "sell_price": 92.65,
+          "quantity": 100,
+          "profit": -165.0,
+          "profit_pct": -1.7497348886532342,
+          "hold_days": 2,
+          "stock_reason": "业绩预告：预期业绩超预期",
+          "timing_reason": "skip timing",
+          "sell_reason": "MACD红柱缩短; KDJ高位死叉; 跌破MA5"
+        },
+        {
+          "symbol": "300059",
+          "name": "东方财富",
+          "buy_date": "20260722",
+          "buy_price": 20.08,
+          "sell_date": "20260723",
+          "sell_price": 20.28,
+          "quantity": 200,
+          "profit": 40.000000000000455,
+          "profit_pct": 0.9960159362549915,
+          "hold_days": 1,
+          "stock_reason": "业绩预告：预期业绩超预期",
+          "timing_reason": "skip timing",
+          "sell_reason": "跌破MA20"
+        },
+        {
+          "symbol": "002594",
+          "name": "比亚迪",
+          "buy_date": "20260723",
+          "buy_price": 92.65,
+          "sell_date": "20260724",
+          "sell_price": 91.89,
+          "quantity": 100,
+          "profit": -76.0,
+          "profit_pct": -0.8202914193200217,
+          "hold_days": 1,
+          "stock_reason": "业绩预告：预期业绩超预期",
+          "timing_reason": "skip timing",
+          "sell_reason": "MACD红柱缩短; KDJ高位死叉; 跌破MA5"
+        }
+      ],
+      "equity_curve": [
+        {
+          "date": "20260710",
+          "value": 30000
+        },
+        {
+          "date": "20260713",
+          "value": 30000
+        },
+        {
+          "date": "20260714",
+          "value": 30000
+        },
+        {
+          "date": "20260715",
+          "value": 30000
+        },
+        {
+          "date": "20260716",
+          "value": 30000
+        },
+        {
+          "date": "20260717",
+          "value": 30000
+        },
+        {
+          "date": "20260720",
+          "value": 30000.0
+        },
+        {
+          "date": "20260721",
+          "value": 30043.0
+        },
+        {
+          "date": "20260722",
+          "value": 29963.0
+        },
+        {
+          "date": "20260723",
+          "value": 30203.0
+        },
+        {
+          "date": "20260724",
+          "value": 29799.0
+        }
+      ],
+      "backtest_start": "20260710",
+      "backtest_end": "20260724",
+      "backtest_days": 11,
+      "composite_score": 24.8,
+      "grade": "D",
+      "profit_loss_ratio": 0.10772357723577251,
       "return_stability": 0,
       "calmar_ratio": -1.0
     },
@@ -4074,7 +4274,7 @@
       "total_value": 29870.0,
       "total_return": -0.004333333333333333,
       "monthly_return": -0.004333333333333333,
-      "sharpe_ratio": -1.289904621820076,
+      "sharpe_ratio": -1.1692095572871841,
       "max_drawdown": 0.013466666666666667,
       "win_rate": 0.5,
       "realized_pnl": -344.0,
@@ -4221,6 +4421,14 @@
       ],
       "equity_curve": [
         {
+          "date": "20260710",
+          "value": 30000
+        },
+        {
+          "date": "20260713",
+          "value": 30000
+        },
+        {
           "date": "20260714",
           "value": 30000
         },
@@ -4257,14 +4465,14 @@
           "value": 29870.0
         }
       ],
-      "backtest_start": "20260714",
+      "backtest_start": "20260710",
       "backtest_end": "20260724",
-      "backtest_days": 9,
-      "composite_score": 25.0,
+      "backtest_days": 11,
+      "composite_score": 24.4,
       "grade": "D",
-      "profit_loss_ratio": 0.8014705882352834,
+      "profit_loss_ratio": 0.7359550561797734,
       "return_stability": 0,
-      "calmar_ratio": -0.017480024585126
+      "calmar_ratio": -0.02968312362692231
     },
     {
       "name": "主力资金",
@@ -4289,6 +4497,14 @@
       "trades": [],
       "equity_curve": [
         {
+          "date": "20260710",
+          "value": 30000
+        },
+        {
+          "date": "20260713",
+          "value": 30000
+        },
+        {
           "date": "20260714",
           "value": 30000
         },
@@ -4325,14 +4541,14 @@
           "value": 30000
         }
       ],
-      "backtest_start": "20260714",
+      "backtest_start": "20260710",
       "backtest_end": "20260724",
-      "backtest_days": 9,
-      "composite_score": 25.0,
+      "backtest_days": 11,
+      "composite_score": 24.3,
       "grade": "D",
-      "profit_loss_ratio": 0.5769230769230769,
+      "profit_loss_ratio": 0.8181818181818192,
       "return_stability": 0,
-      "calmar_ratio": -0.006920415224913495
+      "calmar_ratio": -0.5096153846153847
     },
     {
       "name": "月线共振",
@@ -4340,141 +4556,104 @@
       "version": "1.0.0",
       "description": "月线+周线+日线三周期共振",
       "initial_capital": 30000,
-      "current_capital": 13326.0,
-      "total_value": 31550.0,
-      "total_return": 0.051666666666666666,
-      "monthly_return": 0.051666666666666666,
-      "sharpe_ratio": 5.5039739943140225,
-      "max_drawdown": 0.017409449064125324,
-      "win_rate": 0.8,
-      "realized_pnl": 1473.0,
-      "realized_pnl_pct": 4.91,
-      "floating_pnl": 77.0,
-      "floating_pnl_pct": 0.26,
-      "total_pnl": 1550.0,
-      "total_pnl_pct": 5.17,
+      "current_capital": 11004.0,
+      "total_value": 30766.0,
+      "total_return": 0.025533333333333335,
+      "monthly_return": 0.025533333333333335,
+      "sharpe_ratio": 9.637953895915183,
+      "max_drawdown": 0,
+      "win_rate": 0.5,
+      "realized_pnl": 417.0,
+      "realized_pnl_pct": 1.39,
+      "floating_pnl": 349.0,
+      "floating_pnl_pct": 1.16,
+      "total_pnl": 766.0,
+      "total_pnl_pct": 2.55,
       "holdings": [
+        {
+          "symbol": "601211.SH",
+          "name": "601211.SH",
+          "buy_price": 19.03,
+          "quantity": 500,
+          "buy_date": "20260720",
+          "cost": 9515.0,
+          "stock_reason": "月线共振：月MA5=19.03上穿月MA20=18.86",
+          "timing_reason": "skip timing",
+          "hold_days": 5,
+          "current_price": 19.22,
+          "profit": 94.99999999999886,
+          "profit_pct": 0.9984235417761309
+        },
+        {
+          "symbol": "600919.SH",
+          "name": "600919.SH",
+          "buy_price": 11.32,
+          "quantity": 400,
+          "buy_date": "20260721",
+          "cost": 4528.0,
+          "stock_reason": "月线共振：月MA5=11.51上穿月MA20=11.35",
+          "timing_reason": "skip timing",
+          "hold_days": 4,
+          "current_price": 11.57,
+          "profit": 100.0,
+          "profit_pct": 2.208480565371025
+        },
         {
           "symbol": "000338.SZ",
           "name": "000338.SZ",
           "buy_price": 26.85,
-          "quantity": 100,
+          "quantity": 200,
           "buy_date": "20260722",
-          "cost": 2685.0,
-          "stock_reason": "月线共振：月MA5=27.49上穿月MA20=27.25",
+          "cost": 5370.0,
+          "stock_reason": "月线共振：月MA5=27.42上穿月MA20=27.19",
           "timing_reason": "skip timing",
           "hold_days": 3,
           "current_price": 27.62,
-          "profit": 76.99999999999996,
+          "profit": 153.99999999999991,
           "profit_pct": 2.8677839851024194
-        },
-        {
-          "symbol": "603019.SH",
-          "name": "603019.SH",
-          "buy_price": 97.5,
-          "quantity": 100,
-          "buy_date": "20260724",
-          "cost": 9750.0,
-          "stock_reason": "月线共振：月MA5=98.42上穿月MA20=98.40",
-          "timing_reason": "skip timing",
-          "hold_days": 1,
-          "current_price": 97.5,
-          "profit": 0.0,
-          "profit_pct": 0.0
-        },
-        {
-          "symbol": "603993.SH",
-          "name": "603993.SH",
-          "buy_price": 19.04,
-          "quantity": 300,
-          "buy_date": "20260724",
-          "cost": 5712.0,
-          "stock_reason": "月线共振：月MA5=19.34上穿月MA20=18.18",
-          "timing_reason": "skip timing",
-          "hold_days": 1,
-          "current_price": 19.04,
-          "profit": 0.0,
-          "profit_pct": 0.0
         }
       ],
       "trades": [
+        {
+          "symbol": "600919.SH",
+          "name": "600919.SH",
+          "buy_date": "20260720",
+          "buy_price": 11.51,
+          "sell_date": "20260721",
+          "sell_price": 11.32,
+          "quantity": 500,
+          "profit": -95.0,
+          "profit_pct": -1.6507384882710685,
+          "hold_days": 1,
+          "stock_reason": "月线共振：月MA5=11.51上穿月MA20=11.35",
+          "timing_reason": "skip timing",
+          "sell_reason": "MACD红柱缩短; KDJ高位死叉; 跌破MA5"
+        },
         {
           "symbol": "000338.SZ",
           "name": "000338.SZ",
           "buy_date": "20260720",
           "buy_price": 24.29,
-          "sell_date": "20260721",
-          "sell_price": 26.55,
-          "quantity": 200,
-          "profit": 452.0,
-          "profit_pct": 9.304240428159737,
-          "hold_days": 1,
-          "stock_reason": "月线共振：月MA5=27.49上穿月MA20=27.25",
-          "timing_reason": "skip timing",
-          "sell_reason": "跌破MA20"
-        },
-        {
-          "symbol": "000338.SZ",
-          "name": "000338.SZ",
-          "buy_date": "20260721",
-          "buy_price": 26.55,
           "sell_date": "20260722",
           "sell_price": 26.85,
           "quantity": 200,
-          "profit": 60.0,
-          "profit_pct": 1.1299435028248588,
-          "hold_days": 1,
-          "stock_reason": "月线共振：月MA5=27.49上穿月MA20=27.25",
-          "timing_reason": "skip timing",
-          "sell_reason": "跌破MA20"
-        },
-        {
-          "symbol": "603019.SH",
-          "name": "603019.SH",
-          "buy_date": "20260720",
-          "buy_price": 91.04,
-          "sell_date": "20260723",
-          "sell_price": 97.82,
-          "quantity": 100,
-          "profit": 678.0,
-          "profit_pct": 7.447275922671354,
-          "hold_days": 3,
-          "stock_reason": "月线共振：月MA5=98.42上穿月MA20=98.40",
-          "timing_reason": "skip timing",
-          "sell_reason": "跌破MA20"
-        },
-        {
-          "symbol": "603993.SH",
-          "name": "603993.SH",
-          "buy_date": "20260720",
-          "buy_price": 17.99,
-          "sell_date": "20260724",
-          "sell_price": 19.04,
-          "quantity": 300,
-          "profit": 315.0000000000009,
-          "profit_pct": 5.8365758754864,
-          "hold_days": 4,
-          "stock_reason": "月线共振：月MA5=19.34上穿月MA20=18.18",
-          "timing_reason": "skip timing",
-          "sell_reason": "MACD红柱缩短; 跌破MA5"
-        },
-        {
-          "symbol": "603019.SH",
-          "name": "603019.SH",
-          "buy_date": "20260723",
-          "buy_price": 97.82,
-          "sell_date": "20260724",
-          "sell_price": 97.5,
-          "quantity": 100,
-          "profit": -32.0,
-          "profit_pct": -0.32713146595788184,
-          "hold_days": 1,
-          "stock_reason": "月线共振：月MA5=98.42上穿月MA20=98.40",
+          "profit": 512.0,
+          "profit_pct": 10.53931659118979,
+          "hold_days": 2,
+          "stock_reason": "月线共振：月MA5=27.42上穿月MA20=27.19",
           "timing_reason": "skip timing",
           "sell_reason": "跌破MA20"
         }
       ],
       "equity_curve": [
+        {
+          "date": "20260710",
+          "value": 30000
+        },
+        {
+          "date": "20260713",
+          "value": 30000
+        },
         {
           "date": "20260714",
           "value": 30000
@@ -4497,29 +4676,29 @@
         },
         {
           "date": "20260721",
-          "value": 31343.0
+          "value": 30252.0
         },
         {
           "date": "20260722",
-          "value": 32109.0
+          "value": 30404.0
         },
         {
           "date": "20260723",
-          "value": 31916.0
+          "value": 30743.0
         },
         {
           "date": "20260724",
-          "value": 31550.0
+          "value": 30766.0
         }
       ],
-      "backtest_start": "20260714",
+      "backtest_start": "20260710",
       "backtest_end": "20260724",
-      "backtest_days": 9,
-      "composite_score": 25.0,
+      "backtest_days": 11,
+      "composite_score": 24.1,
       "grade": "D",
-      "profit_loss_ratio": 0.8014705882352834,
+      "profit_loss_ratio": 1.2120535714285738,
       "return_stability": 0,
-      "calmar_ratio": -0.017480024585126
+      "calmar_ratio": 0.0035771525042205964
     },
     {
       "name": "财报季",
@@ -4527,68 +4706,30 @@
       "version": "1.0.0",
       "description": "业绩超预期策略，净利润+营收双增长",
       "initial_capital": 30000,
-      "current_capital": 20896.0,
-      "total_value": 30646.0,
-      "total_return": 0.021533333333333335,
-      "monthly_return": 0.021533333333333335,
-      "sharpe_ratio": 3.9195090233013135,
-      "max_drawdown": 0.014946481951721257,
-      "win_rate": 0.5,
-      "realized_pnl": 646.0,
-      "realized_pnl_pct": 2.15,
+      "current_capital": 30000,
+      "total_value": 30000,
+      "total_return": 0.0,
+      "monthly_return": 0.0,
+      "sharpe_ratio": 0,
+      "max_drawdown": 0,
+      "win_rate": 0,
+      "realized_pnl": 0.0,
+      "realized_pnl_pct": 0.0,
       "floating_pnl": 0.0,
       "floating_pnl_pct": 0.0,
-      "total_pnl": 646.0,
-      "total_pnl_pct": 2.15,
-      "holdings": [
+      "total_pnl": 0.0,
+      "total_pnl_pct": 0.0,
+      "holdings": [],
+      "trades": [],
+      "equity_curve": [
         {
-          "symbol": "603019.SH",
-          "name": "603019.SH",
-          "buy_price": 97.5,
-          "quantity": 100,
-          "buy_date": "20260724",
-          "cost": 9750.0,
-          "stock_reason": "财报季：30日涨幅=13.2%, 60日涨幅=13.3%",
-          "timing_reason": "skip timing",
-          "hold_days": 1,
-          "current_price": 97.5,
-          "profit": 0.0,
-          "profit_pct": 0.0
-        }
-      ],
-      "trades": [
-        {
-          "symbol": "603019.SH",
-          "name": "603019.SH",
-          "buy_date": "20260720",
-          "buy_price": 91.04,
-          "sell_date": "20260723",
-          "sell_price": 97.82,
-          "quantity": 100,
-          "profit": 678.0,
-          "profit_pct": 7.447275922671354,
-          "hold_days": 3,
-          "stock_reason": "财报季：30日涨幅=13.2%, 60日涨幅=13.3%",
-          "timing_reason": "skip timing",
-          "sell_reason": "跌破MA20"
+          "date": "20260710",
+          "value": 30000
         },
         {
-          "symbol": "603019.SH",
-          "name": "603019.SH",
-          "buy_date": "20260723",
-          "buy_price": 97.82,
-          "sell_date": "20260724",
-          "sell_price": 97.5,
-          "quantity": 100,
-          "profit": -32.0,
-          "profit_pct": -0.32713146595788184,
-          "hold_days": 1,
-          "stock_reason": "财报季：30日涨幅=13.2%, 60日涨幅=13.3%",
-          "timing_reason": "skip timing",
-          "sell_reason": "跌破MA20"
-        }
-      ],
-      "equity_curve": [
+          "date": "20260713",
+          "value": 30000
+        },
         {
           "date": "20260714",
           "value": 30000
@@ -4607,33 +4748,33 @@
         },
         {
           "date": "20260720",
-          "value": 30000.0
+          "value": 30000
         },
         {
           "date": "20260721",
-          "value": 30684.0
+          "value": 30000
         },
         {
           "date": "20260722",
-          "value": 31111.0
+          "value": 30000
         },
         {
           "date": "20260723",
-          "value": 30678.0
+          "value": 30000
         },
         {
           "date": "20260724",
-          "value": 30646.0
+          "value": 30000
         }
       ],
-      "backtest_start": "20260714",
+      "backtest_start": "20260710",
       "backtest_end": "20260724",
-      "backtest_days": 9,
-      "composite_score": 24.3,
+      "backtest_days": 11,
+      "composite_score": 24.1,
       "grade": "D",
-      "profit_loss_ratio": 1.2120535714285738,
+      "profit_loss_ratio": 0.521739130434784,
       "return_stability": 0,
-      "calmar_ratio": 0.0035771525042205964
+      "calmar_ratio": -0.5008913366336634
     },
     {
       "name": "北向择时",
@@ -4641,98 +4782,30 @@
       "version": "1.0.0",
       "description": "北向资金加减仓择时，RSI未超买，持有5天",
       "initial_capital": 30000,
-      "current_capital": 21900.0,
-      "total_value": 30012.0,
-      "total_return": 0.0004,
-      "monthly_return": 0.0004,
-      "sharpe_ratio": 0.5371415864548101,
-      "max_drawdown": 0.0033871289101414623,
-      "win_rate": 0.5,
-      "realized_pnl": 12.0,
-      "realized_pnl_pct": 0.04,
+      "current_capital": 30000,
+      "total_value": 30000,
+      "total_return": 0.0,
+      "monthly_return": 0.0,
+      "sharpe_ratio": 0,
+      "max_drawdown": 0,
+      "win_rate": 0,
+      "realized_pnl": 0.0,
+      "realized_pnl_pct": 0.0,
       "floating_pnl": 0.0,
       "floating_pnl_pct": 0.0,
-      "total_pnl": 12.0,
-      "total_pnl_pct": 0.04,
-      "holdings": [
-        {
-          "symbol": "600887.SH",
-          "name": "600887.SH",
-          "buy_price": 27.04,
-          "quantity": 300,
-          "buy_date": "20260724",
-          "cost": 8112.0,
-          "stock_reason": "北向择时：RSI=61.3, 量比=1.2倍",
-          "timing_reason": "skip timing",
-          "hold_days": 1,
-          "current_price": 27.04,
-          "profit": 0.0,
-          "profit_pct": 0.0
-        }
-      ],
-      "trades": [
-        {
-          "symbol": "600887.SH",
-          "name": "600887.SH",
-          "buy_date": "20260720",
-          "buy_price": 27.0,
-          "sell_date": "20260721",
-          "sell_price": 27.07,
-          "quantity": 300,
-          "profit": 21.0,
-          "profit_pct": 0.25925925925925924,
-          "hold_days": 1,
-          "stock_reason": "北向择时：RSI=61.3, 量比=1.2倍",
-          "timing_reason": "skip timing",
-          "sell_reason": "RSI超买(89.4)"
-        },
-        {
-          "symbol": "600887.SH",
-          "name": "600887.SH",
-          "buy_date": "20260721",
-          "buy_price": 27.07,
-          "sell_date": "20260722",
-          "sell_price": 27.38,
-          "quantity": 300,
-          "profit": 93.0,
-          "profit_pct": 1.1451791651274472,
-          "hold_days": 1,
-          "stock_reason": "北向择时：RSI=61.3, 量比=1.2倍",
-          "timing_reason": "skip timing",
-          "sell_reason": "RSI超买(89.9)"
-        },
-        {
-          "symbol": "600887.SH",
-          "name": "600887.SH",
-          "buy_date": "20260722",
-          "buy_price": 27.38,
-          "sell_date": "20260723",
-          "sell_price": 27.23,
-          "quantity": 300,
-          "profit": -45.0,
-          "profit_pct": -0.547845142439737,
-          "hold_days": 1,
-          "stock_reason": "北向择时：RSI=61.3, 量比=1.2倍",
-          "timing_reason": "skip timing",
-          "sell_reason": "MACD红柱缩短; RSI超买(85.8)"
-        },
-        {
-          "symbol": "600887.SH",
-          "name": "600887.SH",
-          "buy_date": "20260723",
-          "buy_price": 27.23,
-          "sell_date": "20260724",
-          "sell_price": 27.04,
-          "quantity": 300,
-          "profit": -57.0,
-          "profit_pct": -0.6977598237238339,
-          "hold_days": 1,
-          "stock_reason": "北向择时：RSI=61.3, 量比=1.2倍",
-          "timing_reason": "skip timing",
-          "sell_reason": "MACD红柱缩短; KDJ高位死叉; 跌破MA5"
-        }
-      ],
+      "total_pnl": 0.0,
+      "total_pnl_pct": 0.0,
+      "holdings": [],
+      "trades": [],
       "equity_curve": [
+        {
+          "date": "20260710",
+          "value": 30000
+        },
+        {
+          "date": "20260713",
+          "value": 30000
+        },
         {
           "date": "20260714",
           "value": 30000
@@ -4751,33 +4824,33 @@
         },
         {
           "date": "20260720",
-          "value": 30000.0
+          "value": 30000
         },
         {
           "date": "20260721",
-          "value": 30021.0
+          "value": 30000
         },
         {
           "date": "20260722",
-          "value": 30114.0
+          "value": 30000
         },
         {
           "date": "20260723",
-          "value": 30069.0
+          "value": 30000
         },
         {
           "date": "20260724",
-          "value": 30012.0
+          "value": 30000
         }
       ],
-      "backtest_start": "20260714",
+      "backtest_start": "20260710",
       "backtest_end": "20260724",
-      "backtest_days": 9,
-      "composite_score": 24.3,
+      "backtest_days": 11,
+      "composite_score": 23.3,
       "grade": "D",
-      "profit_loss_ratio": 0.8070175438596502,
+      "profit_loss_ratio": 1.0605468750000018,
       "return_stability": 0,
-      "calmar_ratio": -0.0625
+      "calmar_ratio": -0.015226791966095448
     },
     {
       "name": "护城河选股",
@@ -4802,6 +4875,14 @@
       "trades": [],
       "equity_curve": [
         {
+          "date": "20260710",
+          "value": 30000
+        },
+        {
+          "date": "20260713",
+          "value": 30000
+        },
+        {
           "date": "20260714",
           "value": 30000
         },
@@ -4838,14 +4919,14 @@
           "value": 30000
         }
       ],
-      "backtest_start": "20260714",
+      "backtest_start": "20260710",
       "backtest_end": "20260724",
-      "backtest_days": 9,
-      "composite_score": 24.1,
+      "backtest_days": 11,
+      "composite_score": 22.3,
       "grade": "D",
-      "profit_loss_ratio": 0.521739130434784,
+      "profit_loss_ratio": 0.9142857142857156,
       "return_stability": 0,
-      "calmar_ratio": -0.5008913366336634
+      "calmar_ratio": -0.030303030303030304
     },
     {
       "name": "质量因子选股",
@@ -4857,7 +4938,7 @@
       "total_value": 30668.0,
       "total_return": 0.022266666666666667,
       "monthly_return": 0.022266666666666667,
-      "sharpe_ratio": 4.197264878483813,
+      "sharpe_ratio": 3.77734104243576,
       "max_drawdown": 0.015789473684210527,
       "win_rate": 0.6666666666666666,
       "realized_pnl": 695.0,
@@ -4874,7 +4955,7 @@
           "quantity": 100,
           "buy_date": "20260723",
           "cost": 8477.0,
-          "stock_reason": "F-Score=5分, ROE=556.5%, PE=14.6",
+          "stock_reason": "F-Score=5分, ROE=556.5%, PE=14.8",
           "timing_reason": "skip timing",
           "hold_days": 2,
           "current_price": 84.5,
@@ -4908,7 +4989,7 @@
           "profit": 50.0,
           "profit_pct": 0.5931198102016607,
           "hold_days": 2,
-          "stock_reason": "F-Score=5分, ROE=556.5%, PE=14.6",
+          "stock_reason": "F-Score=5分, ROE=556.5%, PE=14.8",
           "timing_reason": "skip timing",
           "sell_reason": "RSI超买(82.0)"
         },
@@ -4923,7 +5004,7 @@
           "profit": -3.0,
           "profit_pct": -0.03537735849056604,
           "hold_days": 1,
-          "stock_reason": "F-Score=5分, ROE=556.5%, PE=14.6",
+          "stock_reason": "F-Score=5分, ROE=556.5%, PE=14.8",
           "timing_reason": "skip timing",
           "sell_reason": "MACD红柱缩短; RSI超买(80.2)"
         },
@@ -4944,6 +5025,14 @@
         }
       ],
       "equity_curve": [
+        {
+          "date": "20260710",
+          "value": 30000
+        },
+        {
+          "date": "20260713",
+          "value": 30000
+        },
         {
           "date": "20260714",
           "value": 30000
@@ -4981,14 +5070,14 @@
           "value": 30668.0
         }
       ],
-      "backtest_start": "20260714",
+      "backtest_start": "20260710",
       "backtest_end": "20260724",
-      "backtest_days": 9,
-      "composite_score": 23.5,
+      "backtest_days": 11,
+      "composite_score": 20.0,
       "grade": "D",
-      "profit_loss_ratio": 1.0605468750000018,
+      "profit_loss_ratio": 0,
       "return_stability": 0,
-      "calmar_ratio": -0.015226791966095448
+      "calmar_ratio": 0
     },
     {
       "name": "GARP成长",
@@ -5012,6 +5101,14 @@
       "holdings": [],
       "trades": [],
       "equity_curve": [
+        {
+          "date": "20260710",
+          "value": 30000
+        },
+        {
+          "date": "20260713",
+          "value": 30000
+        },
         {
           "date": "20260714",
           "value": 30000
@@ -5049,14 +5146,14 @@
           "value": 30000
         }
       ],
-      "backtest_start": "20260714",
+      "backtest_start": "20260710",
       "backtest_end": "20260724",
-      "backtest_days": 9,
-      "composite_score": 20.2,
+      "backtest_days": 11,
+      "composite_score": 20.0,
       "grade": "D",
-      "profit_loss_ratio": 0.48951048951049014,
+      "profit_loss_ratio": 0,
       "return_stability": 0,
-      "calmar_ratio": -1.0
+      "calmar_ratio": 0
     },
     {
       "name": "高成长股",
@@ -5068,7 +5165,7 @@
       "total_value": 30188.0,
       "total_return": 0.006266666666666667,
       "monthly_return": 0.006266666666666667,
-      "sharpe_ratio": 1.5528972281608844,
+      "sharpe_ratio": 1.4071179094213395,
       "max_drawdown": 0.01013214414532577,
       "win_rate": 0.75,
       "realized_pnl": 187.0,
@@ -5185,6 +5282,14 @@
       ],
       "equity_curve": [
         {
+          "date": "20260710",
+          "value": 30000
+        },
+        {
+          "date": "20260713",
+          "value": 30000
+        },
+        {
           "date": "20260714",
           "value": 30000
         },
@@ -5221,9 +5326,9 @@
           "value": 30188.0
         }
       ],
-      "backtest_start": "20260714",
+      "backtest_start": "20260710",
       "backtest_end": "20260724",
-      "backtest_days": 9,
+      "backtest_days": 11,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -5253,6 +5358,14 @@
       "trades": [],
       "equity_curve": [
         {
+          "date": "20260710",
+          "value": 30000
+        },
+        {
+          "date": "20260713",
+          "value": 30000
+        },
+        {
           "date": "20260714",
           "value": 30000
         },
@@ -5289,9 +5402,9 @@
           "value": 30000
         }
       ],
-      "backtest_start": "20260714",
+      "backtest_start": "20260710",
       "backtest_end": "20260724",
-      "backtest_days": 9,
+      "backtest_days": 11,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -5321,6 +5434,14 @@
       "trades": [],
       "equity_curve": [
         {
+          "date": "20260710",
+          "value": 30000
+        },
+        {
+          "date": "20260713",
+          "value": 30000
+        },
+        {
           "date": "20260714",
           "value": 30000
         },
@@ -5357,9 +5478,9 @@
           "value": 30000
         }
       ],
-      "backtest_start": "20260714",
+      "backtest_start": "20260710",
       "backtest_end": "20260724",
-      "backtest_days": 9,
+      "backtest_days": 11,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -5376,7 +5497,7 @@
       "total_value": 30137.0,
       "total_return": 0.004566666666666667,
       "monthly_return": 0.004566666666666667,
-      "sharpe_ratio": 2.1459639957531254,
+      "sharpe_ratio": 1.9425826889642117,
       "max_drawdown": 0.007266666666666667,
       "win_rate": 0.5,
       "realized_pnl": -105.0,
@@ -5393,7 +5514,7 @@
           "quantity": 200,
           "buy_date": "20260721",
           "cost": 7598.0,
-          "stock_reason": "回购信号：PE=6.5, PB=0.87, ROE=296.3%, 得分=7.16",
+          "stock_reason": "回购信号：PE=6.6, PB=0.88, ROE=296.3%, 得分=7.15",
           "timing_reason": "skip timing",
           "hold_days": 4,
           "current_price": 39.2,
@@ -5407,7 +5528,7 @@
           "quantity": 100,
           "buy_date": "20260724",
           "cost": 5402.0,
-          "stock_reason": "回购信号：PE=7.2, PB=0.95, ROE=247.9%, 得分=6.12",
+          "stock_reason": "回购信号：PE=7.3, PB=0.96, ROE=247.9%, 得分=6.11",
           "timing_reason": "skip timing",
           "hold_days": 1,
           "current_price": 54.02,
@@ -5427,7 +5548,7 @@
           "profit": -183.9999999999991,
           "profit_pct": -2.3644307375995774,
           "hold_days": 1,
-          "stock_reason": "回购信号：PE=6.5, PB=0.87, ROE=296.3%, 得分=7.16",
+          "stock_reason": "回购信号：PE=6.6, PB=0.88, ROE=296.3%, 得分=7.15",
           "timing_reason": "skip timing",
           "sell_reason": "MACD红柱缩短; KDJ高位死叉; 跌破MA5"
         },
@@ -5442,7 +5563,7 @@
           "profit": 72.0,
           "profit_pct": 1.3526207026113095,
           "hold_days": 2,
-          "stock_reason": "回购信号：PE=7.2, PB=0.95, ROE=247.9%, 得分=6.12",
+          "stock_reason": "回购信号：PE=7.3, PB=0.96, ROE=247.9%, 得分=6.11",
           "timing_reason": "skip timing",
           "sell_reason": "RSI超买(81.4)"
         },
@@ -5457,7 +5578,7 @@
           "profit": 35.0,
           "profit_pct": 0.6487488415199258,
           "hold_days": 1,
-          "stock_reason": "回购信号：PE=7.2, PB=0.95, ROE=247.9%, 得分=6.12",
+          "stock_reason": "回购信号：PE=7.3, PB=0.96, ROE=247.9%, 得分=6.11",
           "timing_reason": "skip timing",
           "sell_reason": "RSI超买(81.8)"
         },
@@ -5472,12 +5593,20 @@
           "profit": -28.0,
           "profit_pct": -0.5156537753222836,
           "hold_days": 1,
-          "stock_reason": "回购信号：PE=7.2, PB=0.95, ROE=247.9%, 得分=6.12",
+          "stock_reason": "回购信号：PE=7.3, PB=0.96, ROE=247.9%, 得分=6.11",
           "timing_reason": "skip timing",
           "sell_reason": "MACD红柱缩短"
         }
       ],
       "equity_curve": [
+        {
+          "date": "20260710",
+          "value": 30000
+        },
+        {
+          "date": "20260713",
+          "value": 30000
+        },
         {
           "date": "20260714",
           "value": 30000
@@ -5515,9 +5644,9 @@
           "value": 30137.0
         }
       ],
-      "backtest_start": "20260714",
+      "backtest_start": "20260710",
       "backtest_end": "20260724",
-      "backtest_days": 9,
+      "backtest_days": 11,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -5546,6 +5675,14 @@
       "holdings": [],
       "trades": [],
       "equity_curve": [
+        {
+          "date": "20260710",
+          "value": 30000
+        },
+        {
+          "date": "20260713",
+          "value": 30000
+        },
         {
           "date": "20260714",
           "value": 30000
@@ -5583,9 +5720,234 @@
           "value": 30000
         }
       ],
-      "backtest_start": "20260714",
+      "backtest_start": "20260710",
       "backtest_end": "20260724",
-      "backtest_days": 9,
+      "backtest_days": 11,
+      "composite_score": 20.0,
+      "grade": "D",
+      "profit_loss_ratio": 0,
+      "return_stability": 0,
+      "calmar_ratio": 0
+    },
+    {
+      "name": "打板接力",
+      "category": "短线事件",
+      "version": "1.0.0",
+      "description": "打板接力：连板≥2, 持有3天, 止损-5%",
+      "initial_capital": 30000,
+      "current_capital": 13162.0,
+      "total_value": 29841.0,
+      "total_return": -0.0053,
+      "monthly_return": -0.0053,
+      "sharpe_ratio": -1.8530509482759394,
+      "max_drawdown": 0.0104,
+      "win_rate": 0.5714285714285714,
+      "realized_pnl": -208.0,
+      "realized_pnl_pct": -0.69,
+      "floating_pnl": 49.0,
+      "floating_pnl_pct": 0.16,
+      "total_pnl": -159.0,
+      "total_pnl_pct": -0.53,
+      "holdings": [
+        {
+          "symbol": "600036",
+          "name": "招商银行",
+          "buy_price": 38.71,
+          "quantity": 100,
+          "buy_date": "20260722",
+          "cost": 3871.0,
+          "stock_reason": "强势股：近5日涨幅2.3%",
+          "timing_reason": "skip timing",
+          "hold_days": 3,
+          "current_price": 39.2,
+          "profit": 49.0000000000002,
+          "profit_pct": 1.2658227848101318
+        },
+        {
+          "symbol": "000858",
+          "name": "五粮液",
+          "buy_price": 73.57,
+          "quantity": 100,
+          "buy_date": "20260724",
+          "cost": 7356.999999999999,
+          "stock_reason": "强势股：近5日涨幅0.1%",
+          "timing_reason": "skip timing",
+          "hold_days": 1,
+          "current_price": 73.57,
+          "profit": 0.0,
+          "profit_pct": 0.0
+        },
+        {
+          "symbol": "601318",
+          "name": "中国平安",
+          "buy_price": 54.02,
+          "quantity": 100,
+          "buy_date": "20260724",
+          "cost": 5402.0,
+          "stock_reason": "强势股：近5日涨幅0.5%",
+          "timing_reason": "skip timing",
+          "hold_days": 1,
+          "current_price": 54.02,
+          "profit": 0.0,
+          "profit_pct": 0.0
+        }
+      ],
+      "trades": [
+        {
+          "symbol": "000858",
+          "name": "五粮液",
+          "buy_date": "20260720",
+          "buy_price": 76.24,
+          "sell_date": "20260721",
+          "sell_price": 74.38,
+          "quantity": 100,
+          "profit": -185.9999999999991,
+          "profit_pct": -2.4396642182581205,
+          "hold_days": 1,
+          "stock_reason": "强势股：近5日涨幅0.1%",
+          "timing_reason": "skip timing",
+          "sell_reason": "MACD红柱缩短; 跌破MA5"
+        },
+        {
+          "symbol": "600036",
+          "name": "招商银行",
+          "buy_date": "20260720",
+          "buy_price": 38.91,
+          "sell_date": "20260721",
+          "sell_price": 37.99,
+          "quantity": 100,
+          "profit": -91.99999999999955,
+          "profit_pct": -2.3644307375995774,
+          "hold_days": 1,
+          "stock_reason": "强势股：近5日涨幅2.3%",
+          "timing_reason": "skip timing",
+          "sell_reason": "MACD红柱缩短; KDJ高位死叉; 跌破MA5"
+        },
+        {
+          "symbol": "601318",
+          "name": "中国平安",
+          "buy_date": "20260720",
+          "buy_price": 53.23,
+          "sell_date": "20260722",
+          "sell_price": 53.95,
+          "quantity": 100,
+          "profit": 72.0,
+          "profit_pct": 1.3526207026113095,
+          "hold_days": 2,
+          "stock_reason": "强势股：近5日涨幅0.5%",
+          "timing_reason": "skip timing",
+          "sell_reason": "RSI超买(81.4)"
+        },
+        {
+          "symbol": "600036",
+          "name": "招商银行",
+          "buy_date": "20260721",
+          "buy_price": 37.99,
+          "sell_date": "20260722",
+          "sell_price": 38.71,
+          "quantity": 100,
+          "profit": 72.0,
+          "profit_pct": 1.8952355883127139,
+          "hold_days": 1,
+          "stock_reason": "强势股：近5日涨幅2.3%",
+          "timing_reason": "skip timing",
+          "sell_reason": "KDJ高位死叉"
+        },
+        {
+          "symbol": "000858",
+          "name": "五粮液",
+          "buy_date": "20260721",
+          "buy_price": 74.38,
+          "sell_date": "20260723",
+          "sell_price": 74.84,
+          "quantity": 100,
+          "profit": 46.0,
+          "profit_pct": 0.6184458187684861,
+          "hold_days": 2,
+          "stock_reason": "强势股：近5日涨幅0.1%",
+          "timing_reason": "skip timing",
+          "sell_reason": "MACD红柱缩短"
+        },
+        {
+          "symbol": "601318",
+          "name": "中国平安",
+          "buy_date": "20260722",
+          "buy_price": 53.95,
+          "sell_date": "20260724",
+          "sell_price": 54.02,
+          "quantity": 100,
+          "profit": 7.0,
+          "profit_pct": 0.12974976830398519,
+          "hold_days": 2,
+          "stock_reason": "强势股：近5日涨幅0.5%",
+          "timing_reason": "skip timing",
+          "sell_reason": "MACD红柱缩短"
+        },
+        {
+          "symbol": "000858",
+          "name": "五粮液",
+          "buy_date": "20260723",
+          "buy_price": 74.84,
+          "sell_date": "20260724",
+          "sell_price": 73.57,
+          "quantity": 100,
+          "profit": -127.00000000000091,
+          "profit_pct": -1.6969535008017222,
+          "hold_days": 1,
+          "stock_reason": "强势股：近5日涨幅0.1%",
+          "timing_reason": "skip timing",
+          "sell_reason": "MACD红柱缩短; 跌破MA5; 跌破MA20"
+        }
+      ],
+      "equity_curve": [
+        {
+          "date": "20260710",
+          "value": 30000
+        },
+        {
+          "date": "20260713",
+          "value": 30000
+        },
+        {
+          "date": "20260714",
+          "value": 30000
+        },
+        {
+          "date": "20260715",
+          "value": 30000
+        },
+        {
+          "date": "20260716",
+          "value": 30000
+        },
+        {
+          "date": "20260717",
+          "value": 30000
+        },
+        {
+          "date": "20260720",
+          "value": 30000.0
+        },
+        {
+          "date": "20260721",
+          "value": 29688.0
+        },
+        {
+          "date": "20260722",
+          "value": 29903.0
+        },
+        {
+          "date": "20260723",
+          "value": 29967.0
+        },
+        {
+          "date": "20260724",
+          "value": 29841.0
+        }
+      ],
+      "backtest_start": "20260710",
+      "backtest_end": "20260724",
+      "backtest_days": 11,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -5602,7 +5964,7 @@
       "total_value": 30111.0,
       "total_return": 0.0037,
       "monthly_return": 0.0037,
-      "sharpe_ratio": 0.9260924699338356,
+      "sharpe_ratio": 0.8397455653486444,
       "max_drawdown": 0.015787409295940382,
       "win_rate": 0.5,
       "realized_pnl": 111.0,
@@ -5619,7 +5981,7 @@
           "quantity": 2400,
           "buy_date": "20260724",
           "cost": 9984.0,
-          "stock_reason": "解禁逆向：跌幅=-9.2%, PB=1.60, ROE=150.0%, 反弹得分=9.82",
+          "stock_reason": "解禁逆向：跌幅=-9.2%, PB=1.58, ROE=150.0%, 反弹得分=9.84",
           "timing_reason": "skip timing",
           "hold_days": 1,
           "current_price": 4.16,
@@ -5639,7 +6001,7 @@
           "profit": 560.0,
           "profit_pct": 5.913410770855332,
           "hold_days": 1,
-          "stock_reason": "解禁逆向：跌幅=-6.9%, PB=1.48, ROE=220.9%, 反弹得分=13.25",
+          "stock_reason": "解禁逆向：跌幅=-6.9%, PB=1.48, ROE=220.9%, 反弹得分=13.26",
           "timing_reason": "skip timing",
           "sell_reason": "跌破MA20"
         },
@@ -5654,7 +6016,7 @@
           "profit": -149.9999999999991,
           "profit_pct": -2.27790432801821,
           "hold_days": 2,
-          "stock_reason": "解禁逆向：跌幅=-7.0%, PB=1.60, ROE=150.0%, 反弹得分=9.60",
+          "stock_reason": "解禁逆向：跌幅=-7.0%, PB=1.58, ROE=150.0%, 反弹得分=9.62",
           "timing_reason": "skip timing",
           "sell_reason": "跌破MA5; 跌破MA20"
         },
@@ -5669,7 +6031,7 @@
           "profit": 184.0,
           "profit_pct": 1.8648018648018647,
           "hold_days": 1,
-          "stock_reason": "解禁逆向：跌幅=-7.1%, PB=1.60, ROE=150.0%, 反弹得分=9.61",
+          "stock_reason": "解禁逆向：跌幅=-7.1%, PB=1.58, ROE=150.0%, 反弹得分=9.63",
           "timing_reason": "skip timing",
           "sell_reason": "跌破MA20"
         },
@@ -5684,12 +6046,20 @@
           "profit": -483.0,
           "profit_pct": -4.805491990846682,
           "hold_days": 1,
-          "stock_reason": "解禁逆向：跌幅=-6.6%, PB=1.60, ROE=150.0%, 反弹得分=9.56",
+          "stock_reason": "解禁逆向：跌幅=-6.6%, PB=1.58, ROE=150.0%, 反弹得分=9.58",
           "timing_reason": "skip timing",
           "sell_reason": "MACD红柱缩短; 跌破MA5; 跌破MA20"
         }
       ],
       "equity_curve": [
+        {
+          "date": "20260710",
+          "value": 30000
+        },
+        {
+          "date": "20260713",
+          "value": 30000
+        },
         {
           "date": "20260714",
           "value": 30000
@@ -5727,153 +6097,9 @@
           "value": 30111.0
         }
       ],
-      "backtest_start": "20260714",
+      "backtest_start": "20260710",
       "backtest_end": "20260724",
-      "backtest_days": 9,
-      "composite_score": 20.0,
-      "grade": "D",
-      "profit_loss_ratio": 0,
-      "return_stability": 0,
-      "calmar_ratio": 0
-    },
-    {
-      "name": "打板接力",
-      "category": "短线事件",
-      "version": "1.0.0",
-      "description": "打板接力：连板≥2, 持有3天, 止损-5%",
-      "initial_capital": 30000,
-      "current_capital": 19823.0,
-      "total_value": 31165.0,
-      "total_return": 0.03883333333333333,
-      "monthly_return": 0.03883333333333333,
-      "sharpe_ratio": 6.166393830235729,
-      "max_drawdown": 0.013828238719068414,
-      "win_rate": 0.75,
-      "realized_pnl": 1165.0,
-      "realized_pnl_pct": 3.88,
-      "floating_pnl": 0.0,
-      "floating_pnl_pct": 0.0,
-      "total_pnl": 1165.0,
-      "total_pnl_pct": 3.88,
-      "holdings": [
-        {
-          "symbol": "300274",
-          "name": "阳光电源",
-          "buy_price": 113.42,
-          "quantity": 100,
-          "buy_date": "20260724",
-          "cost": 11342.0,
-          "stock_reason": "打板接力：近期涨停",
-          "timing_reason": "skip timing",
-          "hold_days": 1,
-          "current_price": 113.42,
-          "profit": 0.0,
-          "profit_pct": 0.0
-        }
-      ],
-      "trades": [
-        {
-          "symbol": "300274",
-          "name": "阳光电源",
-          "buy_date": "20260720",
-          "buy_price": 101.77,
-          "sell_date": "20260721",
-          "sell_price": 104.08,
-          "quantity": 100,
-          "profit": 231.0,
-          "profit_pct": 2.269824113196423,
-          "hold_days": 1,
-          "stock_reason": "打板接力：近期涨停",
-          "timing_reason": "skip timing",
-          "sell_reason": "跌破MA5; 跌破MA20"
-        },
-        {
-          "symbol": "300274",
-          "name": "阳光电源",
-          "buy_date": "20260721",
-          "buy_price": 104.08,
-          "sell_date": "20260722",
-          "sell_price": 109.95,
-          "quantity": 100,
-          "profit": 587.0,
-          "profit_pct": 5.63989239046887,
-          "hold_days": 1,
-          "stock_reason": "打板接力：近期涨停",
-          "timing_reason": "skip timing",
-          "sell_reason": "跌破MA20"
-        },
-        {
-          "symbol": "300274",
-          "name": "阳光电源",
-          "buy_date": "20260722",
-          "buy_price": 109.95,
-          "sell_date": "20260723",
-          "sell_price": 117.79,
-          "quantity": 100,
-          "profit": 784.0,
-          "profit_pct": 7.1305138699408825,
-          "hold_days": 1,
-          "stock_reason": "打板接力：近期涨停",
-          "timing_reason": "skip timing",
-          "sell_reason": "跌破MA20"
-        },
-        {
-          "symbol": "300274",
-          "name": "阳光电源",
-          "buy_date": "20260723",
-          "buy_price": 117.79,
-          "sell_date": "20260724",
-          "sell_price": 113.42,
-          "quantity": 100,
-          "profit": -437.0,
-          "profit_pct": -3.7099923592834703,
-          "hold_days": 1,
-          "stock_reason": "打板接力：近期涨停",
-          "timing_reason": "skip timing",
-          "sell_reason": "跌破MA20"
-        }
-      ],
-      "equity_curve": [
-        {
-          "date": "20260714",
-          "value": 30000
-        },
-        {
-          "date": "20260715",
-          "value": 30000
-        },
-        {
-          "date": "20260716",
-          "value": 30000
-        },
-        {
-          "date": "20260717",
-          "value": 30000
-        },
-        {
-          "date": "20260720",
-          "value": 30000.0
-        },
-        {
-          "date": "20260721",
-          "value": 30231.0
-        },
-        {
-          "date": "20260722",
-          "value": 30818.0
-        },
-        {
-          "date": "20260723",
-          "value": 31602.0
-        },
-        {
-          "date": "20260724",
-          "value": 31165.0
-        }
-      ],
-      "backtest_start": "20260714",
-      "backtest_end": "20260724",
-      "backtest_days": 9,
+      "backtest_days": 11,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -5903,6 +6129,14 @@
       "trades": [],
       "equity_curve": [
         {
+          "date": "20260710",
+          "value": 30000
+        },
+        {
+          "date": "20260713",
+          "value": 30000
+        },
+        {
           "date": "20260714",
           "value": 30000
         },
@@ -5939,9 +6173,9 @@
           "value": 30000
         }
       ],
-      "backtest_start": "20260714",
+      "backtest_start": "20260710",
       "backtest_end": "20260724",
-      "backtest_days": 9,
+      "backtest_days": 11,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -5971,6 +6205,14 @@
       "trades": [],
       "equity_curve": [
         {
+          "date": "20260710",
+          "value": 30000
+        },
+        {
+          "date": "20260713",
+          "value": 30000
+        },
+        {
           "date": "20260714",
           "value": 30000
         },
@@ -6007,9 +6249,9 @@
           "value": 30000
         }
       ],
-      "backtest_start": "20260714",
+      "backtest_start": "20260710",
       "backtest_end": "20260724",
-      "backtest_days": 9,
+      "backtest_days": 11,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -6026,7 +6268,7 @@
       "total_value": 29733.0,
       "total_return": -0.0089,
       "monthly_return": -0.0089,
-      "sharpe_ratio": -6.735735533049312,
+      "sharpe_ratio": -5.988115517690256,
       "max_drawdown": 0.0089,
       "win_rate": 0.5,
       "realized_pnl": -267.0,
@@ -6129,6 +6371,14 @@
       ],
       "equity_curve": [
         {
+          "date": "20260710",
+          "value": 30000
+        },
+        {
+          "date": "20260713",
+          "value": 30000
+        },
+        {
           "date": "20260714",
           "value": 30000
         },
@@ -6165,9 +6415,9 @@
           "value": 29733.0
         }
       ],
-      "backtest_start": "20260714",
+      "backtest_start": "20260710",
       "backtest_end": "20260724",
-      "backtest_days": 9,
+      "backtest_days": 11,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -6184,7 +6434,7 @@
       "total_value": 30153.0,
       "total_return": 0.0051,
       "monthly_return": 0.0051,
-      "sharpe_ratio": 1.7780282104990839,
+      "sharpe_ratio": 1.610568115467253,
       "max_drawdown": 0.006233333333333333,
       "win_rate": 0.25,
       "realized_pnl": -164.0,
@@ -6301,6 +6551,14 @@
       ],
       "equity_curve": [
         {
+          "date": "20260710",
+          "value": 30000
+        },
+        {
+          "date": "20260713",
+          "value": 30000
+        },
+        {
           "date": "20260714",
           "value": 30000
         },
@@ -6337,9 +6595,9 @@
           "value": 30153.0
         }
       ],
-      "backtest_start": "20260714",
+      "backtest_start": "20260710",
       "backtest_end": "20260724",
-      "backtest_days": 9,
+      "backtest_days": 11,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,
@@ -6356,7 +6614,7 @@
       "total_value": 29973.0,
       "total_return": -0.0009,
       "monthly_return": -0.0009,
-      "sharpe_ratio": 0.09423632797395137,
+      "sharpe_ratio": 0.08548281742293655,
       "max_drawdown": 0.0514873417721519,
       "win_rate": 0.5,
       "realized_pnl": -27.0,
@@ -6415,6 +6673,14 @@
       ],
       "equity_curve": [
         {
+          "date": "20260710",
+          "value": 30000
+        },
+        {
+          "date": "20260713",
+          "value": 30000
+        },
+        {
           "date": "20260714",
           "value": 30000
         },
@@ -6451,9 +6717,9 @@
           "value": 29973.0
         }
       ],
-      "backtest_start": "20260714",
+      "backtest_start": "20260710",
       "backtest_end": "20260724",
-      "backtest_days": 9,
+      "backtest_days": 11,
       "composite_score": 20.0,
       "grade": "D",
       "profit_loss_ratio": 0,

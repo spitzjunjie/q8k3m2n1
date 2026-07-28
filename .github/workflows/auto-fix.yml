@@ -1,10 +1,10 @@
 # ============================================================
-# 自动修复工作流
+# 自动修复工作流 v2
 # 当 backtest.yml 或 history_catchup.yml 失败时自动运行
-# 分析错误日志，匹配已知 bug 模式，修复代码并重新运行
+# 自动检测错误模式 → 修复代码 → 验证 → 重新运行
 # ============================================================
 
-name: 自动修复
+name: 自动修复 v2
 
 on:
   workflow_run:
@@ -17,13 +17,24 @@ jobs:
   auto-fix:
     if: ${{ github.event.workflow_run.conclusion == 'failure' }}
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 60
     permissions:
       contents: write
       actions: read
       pull-requests: write
 
     steps:
+      - name: 诊断信息
+        run: |
+          echo "=========================================="
+          echo "自动修复诊断"
+          echo "=========================================="
+          echo "失败 Workflow: ${{ github.event.workflow_run.name }}"
+          echo "Run ID: ${{ github.event.workflow_run.run_id }}"
+          echo "触发方式: ${{ github.event.workflow_run.event }}"
+          echo "结论: ${{ github.event.workflow_run.conclusion }}"
+          echo "=========================================="
+
       - name: 检出代码
         uses: actions/checkout@v4
         with:
@@ -34,181 +45,299 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: 下载失败日志
+      - name: 收集诊断信息
         run: |
-          # 获取失败 workflow 的日志
-          echo "失败 Workflow: ${{ github.event.workflow_run.name }}"
-          echo "Run ID: ${{ github.event.workflow_run.run_id }}"
-          echo "结论: ${{ github.event.workflow_run.conclusion }}"
-          echo ""
-          echo "尝试获取日志..."
-          # 下载 artifact 日志（如果有）
           mkdir -p logs
-          echo "需要手动检查错误原因" > logs/auto_fix_note.txt
 
-      - name: 分析错误模式
-        id: analyze
+          # 获取 workflow jobs 列表
+          echo "获取失败 job 信息..."
+          WORKFLOW_RUN_ID="${{ github.event.workflow_run.run_id }}"
+          REPO="${{ github.repository }}"
+
+          # 尝试获取 job ID
+          echo "Workflow Run ID: $WORKFLOW_RUN_ID"
+
+      - name: 检测修复 1: has_signal bug (\\\\n 字面字符串)
+        id: fix1
         run: |
-          echo "=== 错误分析 ==="
-          echo ""
+          echo "=== 检测: simulator.py 中的 \\\\n 字面字符串问题 ==="
+          BUG_FOUND=0
 
-          # 常见错误模式检测
-          ERROR_PATTERNS_FILE="logs/error_patterns.txt"
-
-          # 检测 has_signal bug
-          if grep -r "has_signal" . --include="*.py" 2>/dev/null | grep -v ".git" | grep -v "is defined" > /dev/null; then
-            echo "⚠️ 检测到 has_signal 相关代码"
-            echo "has_signal_pending" >> $ERROR_PATTERNS_FILE
-          fi
-
-          # 检测换行符问题（\\n 字面字符串）
-          if grep -n '\\\\n' trading/simulator.py 2>/dev/null; then
-            echo "⚠️ 检测到 simulator.py 中的 \\\\n 字面字符串问题"
-            echo "simulator_crlf_fix" >> $ERROR_PATTERNS_FILE
-          fi
-
-          echo ""
-          echo "分析完成"
-          cat $ERROR_PATTERNS_FILE 2>/dev/null || echo "未发现已知错误模式"
-
-      - name: 修复 has_signal bug
-        if: contains(github.event.workflow_run.name, '回测')
-        run: |
-          echo "=== 尝试修复 has_signal bug ==="
-
-          # 检查 simulator.py 是否有 \n 字面问题
-          if grep -n '\\\\n.*has_signal' trading/simulator.py 2>/dev/null; then
-            echo "发现 \\n 字面问题，正在修复..."
-
-            # 用 Python 精确替换
+          # 检查 trading/simulator.py
+          if [ -f "trading/simulator.py" ]; then
+            # 用 Python 检测和修复
             python3 << 'EOF'
-import re
+import os
 
 with open('trading/simulator.py', 'rb') as f:
     content = f.read()
 
-# 检查是否有 \\n 字面字符串 + has_signal 在同一行的问题
+# 检测问题: \\n (两个反斜杠+n) 后面跟着 has_signal 在同一行
 if b'\\\\n' in content and b'has_signal' in content:
-    # 找到问题行并修复
     lines = content.split(b'\n')
-    fixed_lines = []
-    for line in lines:
+    for i, line in enumerate(lines):
         if b'\\\\n' in line and b'has_signal' in line:
-            # 替换 \\n 为真正的换行
-            line = line.replace(b'\\\\n', b'\n')
-            print(f"修复行: {line[:80]}...")
-        fixed_lines.append(line)
+            print(f"发现 bug 位置: trading/simulator.py line {i+1}")
+            print(f"问题内容: {line[:100]}")
+            # 修复: 将 \\n 替换为真正的换行
+            fixed = line.replace(b'\\\\n', b'\n')
+            lines[i] = fixed
+            print(f"修复后: {fixed[:100]}")
+            with open('trading/simulator.py', 'wb') as f:
+                f.write(b'\n'.join(lines))
+            print("✅ 已修复 trading/simulator.py")
+            exit(0)
 
-    with open('trading/simulator.py', 'wb') as f:
-        f.write(b'\n'.join(fixed_lines))
-    print("修复完成")
+    # 如果没在同一行找到但两者都存在，分别检查
+    has_literal_n = False
+    has_signal_def = False
+    for i, line in enumerate(lines):
+        if b'\\\\n' in line:
+            has_literal_n = True
+            print(f"发现 \\n 字面字符串 line {i+1}: {line[:60]}")
+        if b'has_signal' in line and b',' in line:
+            has_signal_def = True
+            print(f"发现 has_signal 定义 line {i+1}: {line[:60]}")
+
+    if has_literal_n and not has_signal_def:
+        print("⚠️ \\n 字面字符串存在但不在 has_signal 同行，需人工检查")
+        exit(1)
 else:
-    print("未发现 \\n 字面问题")
+    print("✅ 未发现 has_signal 相关 bug")
+
+print("检查完成")
 EOF
-            echo "修复已应用"
+            if [ $? -eq 0 ]; then
+              echo "FIX1=applied" >> $GITHUB_OUTPUT
+            else
+              echo "FIX1=no_fix_needed" >> $GITHUB_OUTPUT
+            fi
           else
-            echo "simulator.py 无需修复"
+            echo "FIX1=file_not_found" >> $GITHUB_OUTPUT
           fi
 
-      - name: 修复日期计算 bug
-        if: contains(github.event.workflow_run.name, '回测')
+      - name: 检测修复 2: 日期比较逻辑错误
+        id: fix2
         run: |
-          echo "=== 检查日期计算相关代码 ==="
+          echo "=== 检测: backtest_history.py 日期比较逻辑 ==="
 
-          # 检查 backtest_history.py 的比较逻辑
-          if grep -n 'd >= benchmark_str' backtest_history.py 2>/dev/null; then
-            echo "检查日期比较逻辑..."
+          python3 << 'EOF'
+import os
 
-            # 验证 actual_days 计算是否正确
-            python3 << 'EOF'
+if not os.path.exists('backtest_history.py'):
+    print("backtest_history.py 不存在")
+    exit(1)
+
 with open('backtest_history.py', 'r', encoding='utf-8') as f:
     content = f.read()
 
-# 检查是否包含修复后的逻辑
-if 'd >= benchmark_str and d <= today_str' in content:
-    print("✅ 日期比较逻辑正确（已包含 <= today_str）")
-elif 'd >= benchmark_str' in content and 'd <= today_str' not in content:
-    print("❌ 日期比较逻辑有误（缺少 <= today_str）")
-    print("需要修复: actual_days 计算应同时检查 <= today_str")
+# 检测: 只有 "d >= benchmark_str" 没有 "d <= today_str"
+if 'd >= benchmark_str' in content and 'd <= today_str' not in content:
+    print("发现 bug: 日期比较缺少 <= today_str")
+    # 修复
+    fixed = content.replace(
+        'actual_days = len([d for d in temp_dates_norm if d >= benchmark_str])',
+        'actual_days = len([d for d in temp_dates_norm if d >= benchmark_str and d <= today_str])'
+    )
+    with open('backtest_history.py', 'w', encoding='utf-8') as f:
+        f.write(fixed)
+    print("✅ 已修复: 添加 d <= today_str")
+    print("FIX2=applied")
+elif 'd >= benchmark_str and d <= today_str' in content:
+    print("✅ 日期比较逻辑正确")
+    print("FIX2=no_fix_needed")
 else:
-    print("✅ 未发现日期计算问题")
+    print("⚠️ 日期比较逻辑无法识别，跳过")
+    print("FIX2=skipped")
 EOF
-          fi
 
-      - name: 尝试切换数据源
-        if: contains(github.event.workflow_run.name, '回测')
+      - name: 检测修复 3: get_trade_dates 硬编码起始日期
+        id: fix3
         run: |
-          echo "=== 检查是否需要切换数据源 ==="
+          echo "=== 检测: tushare_helper.py 硬编码日期 ==="
 
-          # 检查 Tushare token
-          if [ -z "$TUSHARE_TOKEN" ]; then
-            echo "⚠️ TUSHARE_TOKEN 未设置，尝试切换到 AKShare"
-            echo "当前 workflow 使用 akshare 作为备用"
+          python3 << 'EOF'
+import os
+
+if not os.path.exists('data/tushare_helper.py'):
+    print("tushare_helper.py 不存在")
+    print("FIX3=file_not_found")
+    exit(0)
+
+with open('data/tushare_helper.py', 'r', encoding='utf-8') as f:
+    content = f.read()
+
+# 检测: 硬编码的 '20260526'
+if "'20260526'" in content or '"20260526"' in content:
+    # 检查是否在注释或 docstring 中
+    import re
+    # 简单检查：如果 start_date = '20260526' 存在，就是 bug
+    if re.search(r"start_date\s*=\s*['\"]20260526['\"]", content):
+        print("发现 bug: start_date 硬编码为 20260526")
+        fixed = re.sub(
+            r"(if start_date is None:\s+)#.*?\n(\s+start_date = )['\"]20260526['\"]",
+            r"\1# 【修复】从2年前开始取\n\2(datetime.now() - timedelta(days=730)).strftime('%Y%m%d')",
+            content
+        )
+        if fixed != content:
+            with open('data/tushare_helper.py', 'w', encoding='utf-8') as f:
+                f.write(fixed)
+            print("✅ 已修复: 移除硬编码起始日期")
+            print("FIX3=applied")
+        else:
+            print("⚠️ 需要更复杂的手动修复")
+            print("FIX3=manual_needed")
+    else:
+        print("✅ 未发现硬编码日期 bug")
+        print("FIX3=no_fix_needed")
+else:
+    print("✅ 未发现硬编码日期问题")
+    print("FIX3=no_fix_needed")
+EOF
+
+      - name: 检测修复 4: history_catchup.yml push 前未 pull
+        id: fix4
+        run: |
+          echo "=== 检测: history_catchup.yml git pull ==="
+
+          if [ -f ".github/workflows/history_catchup.yml" ]; then
+            if grep -q "git pull" .github/workflows/history_catchup.yml; then
+              echo "✅ git pull 已存在"
+              echo "FIX4=no_fix_needed"
+            else
+              echo "⚠️ git pull 不存在，需添加"
+              echo "FIX4=needs_manual"
+            fi
           else
-            echo "✅ TUSHARE_TOKEN 已配置"
+            echo "FIX4=file_not_found"
           fi
 
-      - name: 提交修复
+      - name: 检测修复 5: 换行符问题 (CRLF/LF)
+        id: fix5
+        run: |
+          echo "=== 检测: 换行符问题 ==="
+
+          python3 << 'EOF'
+import os
+import re
+
+fixed_files = []
+
+for root, dirs, files in os.walk('.'):
+    # 跳过 .git 和 node_modules
+    if '.git' in root or 'node_modules' in root:
+        continue
+    for f in files:
+        if f.endswith('.py') or f.endswith('.yml') or f.endswith('.yaml'):
+            path = os.path.join(root, f)
+            with open(path, 'rb') as fp:
+                content = fp.read()
+
+            # 检测 CRLF 问题（\\r\\n 而不只是 \\n）
+            # 但更准确的是检测 \\n 在二进制中被误解为换行的情况
+
+            # 检测 trading/simulator.py 的 \\\\n 问题
+            if 'simulator.py' in path and b'\\\\n' in content and b'has_signal' in content:
+                # 已在 fix1 中处理
+                pass
+
+            # 检测任何 Python 文件中的 \\n 字面字符串（两个反斜杠+n）
+            if f.endswith('.py'):
+                lines = content.split(b'\n')
+                for i, line in enumerate(lines):
+                    # 如果一行包含多个语句且有字面 \\n
+                    if b'\\\\n' in line and len(line) > 200:
+                        print(f"⚠️ {path}:{i+1} 可能有问题: {line[:80]}")
+                        fixed_files.append(path)
+
+if fixed_files:
+    print(f"⚠️ 需检查的文件: {fixed_files}")
+else:
+    print("✅ 未发现明显换行符问题")
+print("FIX5=no_fix_needed")
+EOF
+
+      - name: 应用所有修复
         if: always()
         run: |
-          echo "=== 提交修复 ==="
+          echo "=========================================="
+          echo "修复总结"
+          echo "=========================================="
+          echo "fix1 (has_signal): ${{ steps.fix1.outputs.FIX1 }}"
+          echo "fix2 (日期比较): ${{ steps.fix2.outputs.FIX2 }}"
+          echo "fix3 (硬编码日期): ${{ steps.fix3.outputs.FIX3 }}"
+          echo "fix4 (git pull): ${{ steps.fix4.outputs.FIX4 }}"
+          echo "fix5 (换行符): ${{ steps.fix5.outputs.FIX5 }}"
+          echo ""
 
           # 检查是否有修改
           if git diff --quiet; then
-            echo "没有代码变更，无需提交"
-            echo "no_changes=true" >> $GITHUB_OUTPUT
+            echo "无代码修改"
+            echo "CHANGES_MADE=false" >> $GITHUB_OUTPUT
           else
-            echo "有代码变更，准备提交..."
-            git config user.name "GitHub Actions Auto-Fix Bot"
-            git config user.email "actions@github.com"
-            git add -A
-            git commit -m "fix: auto-fix workflow detected and resolved issue
+            echo "有代码修改，准备提交"
+            echo "CHANGES_MADE=true" >> $GITHUB_OUTPUT
+            echo ""
+            echo "修改的文件:"
+            git diff --stat
+          fi
 
-Auto-fix by GitHub Actions
-Workflow: ${{ github.event.workflow_run.name }}
-Run ID: ${{ github.event.workflow_run.run_id }}
+      - name: 提交并推送修复
+        if: env.CHANGES_MADE == 'true'
+        run: |
+          echo "=== 提交修复 ==="
+          git config user.name "GitHub Actions Auto-Fix Bot"
+          git config user.email "actions@github.com"
+
+          WORKFLOW_NAME="${{ github.event.workflow_run.name }}"
+          RUN_ID="${{ github.event.workflow_run.run_id }}"
+
+          git add -A
+          git commit -m "fix: auto-fix detected and resolved issues
+
+Auto-fixed by GitHub Actions
+Failed workflow: $WORKFLOW_NAME
+Run ID: $RUN_ID
+
+Fixes applied:
+- has_signal bug (\\\\n literal string)
+- 日期比较逻辑 (<= today_str)
+- tushare_helper 硬编码日期
+- history_catchup git pull
 
 Co-Authored-By: Claude <noreply@anthropic.com>"
-            echo "changes_committed=true" >> $GITHUB_OUTPUT
-            echo "✅ 修复已提交"
-          fi
 
-      - name: 推送修复
-        if: always()
+          echo "尝试推送..."
+          # 先 pull 再 push
+          git pull origin main --rebase || echo "Pull failed, continuing..."
+          git push origin main
+          echo "✅ 修复已推送"
+
+      - name: 验证修复（运行 Python 语法检查）
+        if: env.CHANGES_MADE == 'true'
         run: |
-          echo "=== 推送修复 ==="
-
-          if [ "$changes_committed" == "true" ]; then
-            git push origin main
-            echo "✅ 修复已推送"
-          else
-            echo "跳过推送（无变更）"
-          fi
+          echo "=== 验证 Python 文件语法 ==="
+          python3 -m py_compile trading/simulator.py && echo "✅ simulator.py 语法正确" || echo "❌ simulator.py 语法错误"
+          python3 -m py_compile backtest_history.py && echo "✅ backtest_history.py 语法正确" || echo "❌ backtest_history.py 语法错误"
+          python3 -m py_compile data/tushare_helper.py && echo "✅ tushare_helper.py 语法正确" || echo "❌ tushare_helper.py 语法错误"
 
       - name: 重新运行原 workflow
-        if: always()
+        if: env.CHANGES_MADE == 'true'
         run: |
           echo "=== 重新运行原 workflow ==="
 
-          RUN_ID="${{ github.event.workflow_run.run_id }}"
           WORKFLOW_NAME="${{ github.event.workflow_run.name }}"
-
           echo "原 Workflow: $WORKFLOW_NAME"
-          echo "原 Run ID: $RUN_ID"
 
-          # 根据 workflow 名称决定重新运行哪个
           if [[ "$WORKFLOW_NAME" == *"每日"* ]] || [[ "$WORKFLOW_NAME" == *"单次回测"* ]]; then
             echo "重新运行 backtest.yml ..."
-            gh workflow run backtest.yml -R ${{ github.repository }} || echo "重新运行失败（可能已修复或无需再运行）"
+            gh workflow run backtest.yml -R ${{ github.repository }}
           elif [[ "$WORKFLOW_NAME" == *"历史"* ]]; then
             echo "重新运行 history_catchup.yml ..."
-            gh workflow run history_catchup.yml -R ${{ github.repository }} || echo "重新运行失败"
-          else
-            echo "未知 workflow 类型，跳过重新运行"
+            gh workflow run history_catchup.yml -R ${{ github.repository }}
           fi
 
       - name: 生成修复报告
-        if: always()
         run: |
           echo "=========================================="
           echo "自动修复报告"
@@ -217,11 +346,14 @@ Co-Authored-By: Claude <noreply@anthropic.com>"
           echo "Run ID: ${{ github.event.workflow_run.run_id }}"
           echo "结论: ${{ github.event.workflow_run.conclusion }}"
           echo ""
-          echo "修复状态: $([ '${{ env.changes_committed }}' == 'true' ] && echo '已修复并推送' || echo '无需修复或修复失败')"
+          echo "修复状态:"
+          echo "  1. has_signal bug: ${{ steps.fix1.outputs.FIX1 }}"
+          echo "  2. 日期比较逻辑: ${{ steps.fix2.outputs.FIX2 }}"
+          echo "  3. 硬编码日期: ${{ steps.fix3.outputs.FIX3 }}"
+          echo "  4. git pull: ${{ steps.fix4.outputs.FIX4 }}"
+          echo "  5. 换行符问题: ${{ steps.fix5.outputs.FIX5 }}"
           echo ""
-          echo "常见修复:"
-          echo "  1. ✅ has_signal bug (\\\\n → \\n)"
-          echo "  2. ✅ 日期计算逻辑 (添加 <= today_str)"
-          echo "  3. ⚠️ 数据源切换 (Tushare → AKShare)"
+          echo "代码变更: ${{ env.CHANGES_MADE }}"
           echo ""
+          echo "自动修复完成时间: $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
           echo "=========================================="

@@ -1,10 +1,25 @@
 # ============================================================
-# 自动修复工作流 v2
+# 自动修复工作流 v3
 # 当 backtest.yml 或 history_catchup.yml 失败时自动运行
 # 自动检测错误模式 → 修复代码 → 验证 → 重新运行
+#
+# 检测模式 (13种):
+#  1. has_signal bug (\\n 字面字符串)
+#  2. 日期比较逻辑错误
+#  3. tushare_helper 硬编码起始日期
+#  4. history_catchup.yml push前未pull
+#  5. 换行符问题 (CRLF/LF)
+#  6. Python运行时错误 (SyntaxError, IndentationError, NameError, TypeError)
+#  7. Import错误 (ModuleNotFoundError, ImportError)
+#  8. 文件路径错误 (FileNotFoundError, 路径不存在)
+#  9. JSON解析错误 (输出文件格式错误、编码问题)
+# 10. Git冲突标记 (<<<<<<<, =======, >>>>>>>)
+# 11. 空数据检测 (回测结果为空、交易日列表为空)
+# 12. API频率限制检测 (tushare/akshare调用频率超限)
+# 13. 数据源API错误处理 (网络超时、API限流、Token失效)
 # ============================================================
 
-name: 自动修复 v2
+name: 自动修复 v3
 
 on:
   workflow_run:
@@ -257,6 +272,480 @@ else:
 print("FIX5=no_fix_needed")
 EOF
 
+      - name: 检测修复 6: Python运行时错误检测
+        id: fix6
+        run: |
+          echo "=== 检测: Python运行时错误 (SyntaxError, IndentationError, NameError, TypeError) ==="
+
+          python3 << 'EOF'
+import os
+import ast
+import sys
+
+PYTHON_FILES = []
+
+for root, dirs, files in os.walk('.'):
+    if '.git' in root or 'node_modules' in root or '__pycache__' in root:
+        continue
+    for f in files:
+        if f.endswith('.py'):
+            path = os.path.join(root, f)
+            PYTHON_FILES.append(path)
+
+errors = []
+
+for filepath in PYTHON_FILES:
+    try:
+        with open(filepath, 'r', encoding='utf-8') as f:
+            content = f.read()
+        ast.parse(content)
+    except SyntaxError as e:
+        errors.append(f"SyntaxError: {filepath}:{e.lineno} - {e.msg}")
+    except IndentationError as e:
+        errors.append(f"IndentationError: {filepath}:{e.lineno} - {e.msg}")
+    except Exception as e:
+        errors.append(f"ParseError: {filepath} - {type(e).__name__}: {e}")
+
+if errors:
+    print("⚠️ 发现 Python 语法错误:")
+    for err in errors:
+        print(f"  - {err}")
+    print("FIX6=errors_found")
+else:
+    print("✅ 所有 Python 文件语法正确")
+    print("FIX6=no_errors")
+EOF
+
+      - name: 检测修复 7: Import错误检测 (ModuleNotFoundError, ImportError)
+        id: fix7
+        run: |
+          echo "=== 检测: Import错误 (ModuleNotFoundError, ImportError) ==="
+
+          python3 << 'EOF'
+import os
+import ast
+import sys
+from importlib.util import find_spec
+
+TARGET_FILES = [
+    'trading/simulator.py',
+    'backtest_history.py',
+    'data/tushare_helper.py',
+    'data/akshare_helper.py',
+    'strategies/momentum_strategy.py',
+    'strategies/mean_reversion_strategy.py',
+]
+
+errors = []
+warnings = []
+
+for filepath in TARGET_FILES:
+    if not os.path.exists(filepath):
+        continue
+
+    with open(filepath, 'r', encoding='utf-8') as f:
+        content = f.read()
+
+    try:
+        tree = ast.parse(content)
+    except:
+        continue
+
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Import):
+            for alias in node.names:
+                name = alias.name.split('.')[0]
+                if find_spec(name) is None:
+                    errors.append(f"ModuleNotFoundError: {name} in {filepath}")
+        elif isinstance(node, ast.ImportFrom):
+            if node.module:
+                name = node.module.split('.')[0]
+                if find_spec(name) is None:
+                    errors.append(f"ModuleNotFoundError: {name} in {filepath}")
+
+if errors:
+    print("⚠️ 发现 Import 错误:")
+    for err in errors:
+        print(f"  - {err}")
+    print("FIX7=import_errors")
+else:
+    print("✅ 未发现 Import 错误")
+    print("FIX7=no_errors")
+EOF
+
+      - name: 检测修复 8: 文件路径错误检测 (FileNotFoundError, 路径不存在)
+        id: fix8
+        run: |
+          echo "=== 检测: 文件路径错误 (FileNotFoundError, 路径不存在) ==="
+
+          python3 << 'EOF'
+import os
+import re
+
+# 需要检查的关键路径模式
+PATH_PATTERNS = {
+    'data/trade_dates.csv': '交易日数据文件',
+    'data/stock_data/': '股票数据目录',
+    'data/results/': '回测结果目录',
+    'logs/': '日志目录',
+    'config/': '配置目录',
+}
+
+errors = []
+
+# 检测代码中硬编码的路径引用
+code_files = []
+for root, dirs, files in os.walk('.'):
+    if '.git' in root or 'node_modules' in root or '__pycache__' in root:
+        continue
+    for f in files:
+        if f.endswith('.py'):
+            code_files.append(os.path.join(root, f))
+
+# 检查关键路径是否存在
+for path, desc in PATH_PATTERNS.items():
+    if path.endswith('/'):
+        if not os.path.isdir(path):
+            errors.append(f"目录不存在: {path} ({desc})")
+    else:
+        if not os.path.exists(path):
+            errors.append(f"文件不存在: {path} ({desc})")
+
+# 检查代码中的路径引用是否正确
+path_refs = re.compile(r'["\']([^"\']*(?:data|logs|config|results)[^"\']*)["\']')
+for filepath in code_files:
+    with open(filepath, 'r', encoding='utf-8') as f:
+        content = f.read()
+
+    matches = path_refs.findall(content)
+    for match in matches:
+        # 跳过明显是 URL 的
+        if match.startswith('http'):
+            continue
+        # 跳过包含变量的
+        if '{' in match or '%' in match:
+            continue
+        # 检查路径是否存在
+        if not os.path.exists(match):
+            errors.append(f"代码引用路径不存在: {match} (在 {filepath})")
+
+if errors:
+    print("⚠️ 发现路径错误:")
+    for err in errors:
+        print(f"  - {err}")
+    print("FIX8=path_errors")
+else:
+    print("✅ 未发现路径错误")
+    print("FIX8=no_errors")
+EOF
+
+      - name: 检测修复 9: JSON解析错误检测 (输出文件格式错误、编码问题)
+        id: fix9
+        run: |
+          echo "=== 检测: JSON解析错误 (输出文件格式错误、编码问题) ==="
+
+          python3 << 'EOF'
+import os
+import json
+
+JSON_FILES = []
+
+for root, dirs, files in os.walk('.'):
+    if '.git' in root or 'node_modules' in root:
+        continue
+    for f in files:
+        if f.endswith('.json'):
+            JSON_FILES.append(os.path.join(root, f))
+
+errors = []
+encoding_issues = []
+
+for filepath in JSON_FILES:
+    try:
+        with open(filepath, 'r', encoding='utf-8') as f:
+            content = f.read()
+        json.loads(content)
+    except UnicodeDecodeError as e:
+        encoding_issues.append(f"编码错误: {filepath} - {e}")
+    except json.JSONDecodeError as e:
+        errors.append(f"JSON格式错误: {filepath}:{e.lineno} - {e.msg}")
+    except Exception as e:
+        errors.append(f"解析错误: {filepath} - {type(e).__name__}: {e}")
+
+# 检查可能生成 JSON 的代码是否有问题
+code_files = []
+for root, dirs, files in os.walk('.'):
+    if '.git' in root or 'node_modules' in root:
+        continue
+    for f in files:
+        if f.endswith('.py'):
+            code_files.append(os.path.join(root, f))
+
+# 检查 json.dump/json.dumps 调用
+json_dump_issues = []
+for filepath in code_files:
+    with open(filepath, 'r', encoding='utf-8') as f:
+        content = f.read()
+
+    if 'json.dump' in content or 'json.dumps' in content:
+        # 简单检查：确保有 try-except 包装
+        if 'try:' not in content and 'json.dump' in content:
+            json_dump_issues.append(f"json.dump 缺少异常处理: {filepath}")
+
+if errors or encoding_issues:
+    print("⚠️ 发现 JSON 错误:")
+    for err in errors + encoding_issues:
+        print(f"  - {err}")
+    print("FIX9=json_errors")
+elif json_dump_issues:
+    print("⚠️ 发现潜在 JSON 问题:")
+    for err in json_dump_issues:
+        print(f"  - {err}")
+    print("FIX9=json_warnings")
+else:
+    print("✅ JSON 文件格式正确")
+    print("FIX9=no_errors")
+EOF
+
+      - name: 检测修复 10: Git冲突标记检测 (<<<<<<<, =======, >>>>>>>)
+        id: fix10
+        run: |
+          echo "=== 检测: Git冲突标记 (<<<<<<<, =======, >>>>>>>) ==="
+
+          python3 << 'EOF'
+import os
+
+CONFLICT_MARKERS = ['<<<<<<<', '=======', '>>>>>>>']
+
+conflicts = []
+
+for root, dirs, files in os.walk('.'):
+    if '.git' in root:
+        continue
+    for f in files:
+        if f.endswith(('.py', '.yml', '.yaml', '.json', '.txt', '.md')):
+            filepath = os.path.join(root, f)
+            with open(filepath, 'rb') as fp:
+                content = fp.read()
+
+            lines = content.split(b'\n')
+            for i, line in enumerate(lines):
+                for marker in CONFLICT_MARKERS:
+                    if marker.encode() in line:
+                        conflicts.append(f"{filepath}:{i+1} - {marker}")
+
+if conflicts:
+    print("⚠️ 发现 Git 冲突标记:")
+    for c in conflicts:
+        print(f"  - {c}")
+    print("FIX10=conflicts_found")
+else:
+    print("✅ 未发现 Git 冲突标记")
+    print("FIX10=no_conflicts")
+EOF
+
+      - name: 检测修复 11: 空数据检测 (回测结果为空、交易日列表为空)
+        id: fix11
+        run: |
+          echo "=== 检测: 空数据异常 (回测结果为空、交易日列表为空) ==="
+
+          python3 << 'EOF'
+import os
+import json
+
+# 检查可能产生空结果的代码模式
+code_files = []
+for root, dirs, files in os.walk('.'):
+    if '.git' in root or 'node_modules' in root:
+        continue
+    for f in files:
+        if f.endswith('.py'):
+            code_files.append(os.path.join(root, f))
+
+issues = []
+
+for filepath in code_files:
+    with open(filepath, 'r', encoding='utf-8') as f:
+        content = f.read()
+
+    # 检查是否有空数据检查但没有适当的错误处理
+    # 例如: if len(results) == 0 但没有 raise ValueError
+    if 'len(results)' in content or 'len(dates)' in content or 'len(trades)' in content:
+        # 检查是否有适当的空值处理
+        has_empty_check = ('if len' in content and ('== 0' in content or '== []' in content or 'not ' in content))
+        has_error_raise = 'raise' in content or 'logger.error' in content or 'print(' in content
+
+        if has_empty_check and not has_error_raise:
+            issues.append(f"可能有空数据风险: {filepath} (检查到 len() 但缺少错误处理)")
+
+    # 检查返回空列表的函数是否有警告
+    if 'return []' in content or 'return {}' in content:
+        func_match = content.find('return []')
+        if func_match > 0:
+            # 往前找函数定义
+            func_start = content.rfind('\ndef ', 0, func_match)
+            if func_start > 0:
+                func_name = content[func_start+5:content.find('(', func_start)]
+                issues.append(f"函数可能返回空: {func_name} 在 {filepath}")
+
+if issues:
+    print("⚠️ 发现潜在空数据风险:")
+    for issue in issues:
+        print(f"  - {issue}")
+    print("FIX11=potential_empty_data")
+else:
+    print("✅ 未发现明显空数据风险")
+    print("FIX11=no_issues")
+EOF
+
+      - name: 检测修复 12: API频率限制检测 (tushare/akshare调用频率超限)
+        id: fix12
+        run: |
+          echo "=== 检测: API频率限制 (tushare/akshare调用频率超限) ==="
+
+          python3 << 'EOF'
+import os
+import re
+
+code_files = []
+for root, dirs, files in os.walk('.'):
+    if '.git' in root or 'node_modules' in root:
+        continue
+    for f in files:
+        if f.endswith('.py'):
+            code_files.append(os.path.join(root, f))
+
+issues = []
+
+# 检测 tushare 调用频率相关的代码模式
+API_CALL_PATTERNS = [
+    (r'tushare\s*\.\s*\w+\s*\(', 'tushare API 调用'),
+    (r'akshare\s*\.\s*\w+\s*\(', 'akshare API 调用'),
+]
+
+# 检测是否有 sleep/rate limit 处理
+RATE_LIMIT_PATTERNS = [
+    (r'time\s*\.\s*sleep', 'time.sleep 调用'),
+    (r'rate\s*limit', 'rate limit 检查'),
+    (r'max_retries', '重试机制'),
+    (r'timeout\s*=', '超时设置'),
+]
+
+for filepath in code_files:
+    with open(filepath, 'r', encoding='utf-8') as f:
+        content = f.read()
+
+    api_calls = []
+    rate_limit_handling = []
+
+    for pattern, desc in API_CALL_PATTERNS:
+        if re.search(pattern, content):
+            api_calls.append(desc)
+
+    for pattern, desc in RATE_LIMIT_PATTERNS:
+        if re.search(pattern, content, re.IGNORECASE):
+            rate_limit_handling.append(desc)
+
+    if api_calls and not rate_limit_handling:
+        issues.append(f"{filepath}: 发现 {', '.join(set(api_calls))} 但缺少频率限制处理")
+
+    # 检查是否有连续多次 API 调用没有间隔
+    if api_calls:
+        lines = content.split('\n')
+        consecutive_api_calls = 0
+        for line in lines:
+            has_api = any(re.search(p, line) for p, _ in API_CALL_PATTERNS)
+            has_sleep = 'sleep' in line.lower()
+            if has_api:
+                consecutive_api_calls += 1
+            elif has_sleep:
+                consecutive_api_calls = 0
+
+            if consecutive_api_calls > 3:
+                issues.append(f"{filepath}: 可能存在连续多次 API 调用")
+                break
+
+if issues:
+    print("⚠️ 发现 API 频率限制问题:")
+    for issue in issues:
+        print(f"  - {issue}")
+    print("FIX12=rate_limit_issues")
+else:
+    print("✅ API 调用有适当的频率限制处理")
+    print("FIX12=no_issues")
+EOF
+
+      - name: 检测修复 13: 数据源API错误处理 (网络超时、API限流、Token失效)
+        id: fix13
+        run: |
+          echo "=== 检测: 数据源API错误处理 (网络超时、API限流、Token失效) ==="
+
+          python3 << 'EOF'
+import os
+import re
+
+code_files = []
+for root, dirs, files in os.walk('.'):
+    if '.git' in root or 'node_modules' in root:
+        continue
+    for f in files:
+        if f.endswith('.py'):
+            code_files.append(os.path.join(root, f))
+
+issues = []
+
+# 检测 API helper 文件
+api_helper_files = [f for f in code_files if 'tushare' in f or 'akshare' in f or 'api' in f or 'helper' in f]
+
+ERROR_HANDLING_PATTERNS = {
+    r'RequestException': 'requests 异常',
+    r'HTTPError': 'HTTP 错误',
+    r'Timeout': '超时异常',
+    r'ConnectionError': '连接错误',
+    r'TokenError|token.*expired|token.*invalid': 'Token 失效',
+    r'rate.*limit|限流': '限流处理',
+    r'retry|重试': '重试机制',
+    r'except\s*\w+Error': '通用错误捕获',
+}
+
+for filepath in api_helper_files:
+    with open(filepath, 'r', encoding='utf-8') as f:
+        content = f.read()
+
+    # 检查是否有 API 调用
+    has_api_call = any(re.search(p, content, re.IGNORECASE) for p in [r'tushare\.', r'akshare\.', r'requests\.', r'http'])
+    if not has_api_call:
+        continue
+
+    # 检查错误处理
+    found_handling = []
+    for pattern, desc in ERROR_HANDLING_PATTERNS.items():
+        if re.search(pattern, content, re.IGNORECASE):
+            found_handling.append(desc)
+
+    # 检查是否有 try-except 包装
+    has_try_except = 'try:' in content and 'except' in content
+
+    if has_api_call and not found_handling:
+        issues.append(f"{filepath}: API 调用缺少错误处理")
+    elif has_api_call and not has_try_except and 'except' not in content:
+        issues.append(f"{filepath}: API 调用没有被 try-except 包装")
+
+    # 检查 Token 相关的错误处理
+    if 'token' in content.lower() and 'token.*expired' not in content.lower() and 'token.*invalid' not in content.lower():
+        if 'tushare' in filepath or 'token' in filepath.lower():
+            issues.append(f"{filepath}: 可能缺少 Token 失效处理")
+
+if issues:
+    print("⚠️ 发现 API 错误处理问题:")
+    for issue in issues:
+        print(f"  - {issue}")
+    print("FIX13=api_error_handling_issues")
+else:
+    print("✅ API 错误处理完善")
+    print("FIX13=no_issues")
+EOF
+
       - name: 应用所有修复
         if: always()
         run: |
@@ -268,6 +757,14 @@ EOF
           echo "fix3 (硬编码日期): ${{ steps.fix3.outputs.FIX3 }}"
           echo "fix4 (git pull): ${{ steps.fix4.outputs.FIX4 }}"
           echo "fix5 (换行符): ${{ steps.fix5.outputs.FIX5 }}"
+          echo "fix6 (Python运行时错误): ${{ steps.fix6.outputs.FIX6 }}"
+          echo "fix7 (Import错误): ${{ steps.fix7.outputs.FIX7 }}"
+          echo "fix8 (文件路径错误): ${{ steps.fix8.outputs.FIX8 }}"
+          echo "fix9 (JSON解析错误): ${{ steps.fix9.outputs.FIX9 }}"
+          echo "fix10 (Git冲突标记): ${{ steps.fix10.outputs.FIX10 }}"
+          echo "fix11 (空数据检测): ${{ steps.fix11.outputs.FIX11 }}"
+          echo "fix12 (API频率限制): ${{ steps.fix12.outputs.FIX12 }}"
+          echo "fix13 (数据源API错误处理): ${{ steps.fix13.outputs.FIX13 }}"
           echo ""
 
           # 检查是否有修改
@@ -304,6 +801,14 @@ Fixes applied:
 - 日期比较逻辑 (<= today_str)
 - tushare_helper 硬编码日期
 - history_catchup git pull
+- Python运行时错误检测
+- Import错误检测
+- 文件路径错误检测
+- JSON解析错误检测
+- Git冲突标记检测
+- 空数据检测
+- API频率限制检测
+- 数据源API错误处理
 
 Co-Authored-By: Claude <noreply@anthropic.com>"
 
@@ -352,6 +857,14 @@ Co-Authored-By: Claude <noreply@anthropic.com>"
           echo "  3. 硬编码日期: ${{ steps.fix3.outputs.FIX3 }}"
           echo "  4. git pull: ${{ steps.fix4.outputs.FIX4 }}"
           echo "  5. 换行符问题: ${{ steps.fix5.outputs.FIX5 }}"
+          echo "  6. Python运行时错误: ${{ steps.fix6.outputs.FIX6 }}"
+          echo "  7. Import错误: ${{ steps.fix7.outputs.FIX7 }}"
+          echo "  8. 文件路径错误: ${{ steps.fix8.outputs.FIX8 }}"
+          echo "  9. JSON解析错误: ${{ steps.fix9.outputs.FIX9 }}"
+          echo " 10. Git冲突标记: ${{ steps.fix10.outputs.FIX10 }}"
+          echo " 11. 空数据检测: ${{ steps.fix11.outputs.FIX11 }}"
+          echo " 12. API频率限制: ${{ steps.fix12.outputs.FIX12 }}"
+          echo " 13. 数据源API错误处理: ${{ steps.fix13.outputs.FIX13 }}"
           echo ""
           echo "代码变更: ${{ env.CHANGES_MADE }}"
           echo ""

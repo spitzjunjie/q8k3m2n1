@@ -12,17 +12,19 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 import pandas as pd
 
 # 数据源选择
-DATA_SOURCE = 'tushare'  # 可选: 'tushare' 或 'akshare'
+DATA_SOURCE = 'tushare'  # 可选: 'tushare' 或 'akshare' 或 'baostock'
 
 # 【新增】备用数据源映射
 DATA_SOURCE_SWITCH = {
     'tushare': 'akshare',
-    'akshare': 'tushare'
+    'akshare': 'tushare',
+    'baostock': 'akshare'
 }
 
-# 【新增】导入两个Helper
+# 【新增】导入三个Helper
 from data.tushare_helper import TushareHelper
 from data.akshare_helper import AKShareHelper
+from data.baostock_helper import BaostockHelper
 
 from timing.timing import TimingEngine
 from trading.simulator import TradingSimulator
@@ -165,6 +167,9 @@ def run_historical_backtest(strategy_names=None, days=None, start_date=None, end
     if DATA_SOURCE == 'tushare':
         from data.tushare_helper import TushareHelper
         HelperClass = TushareHelper
+    elif DATA_SOURCE == 'baostock':
+        from data.baostock_helper import BaostockHelper
+        HelperClass = BaostockHelper
     else:
         from data.akshare_helper import AKShareHelper
         HelperClass = AKShareHelper
@@ -307,6 +312,8 @@ def run_historical_backtest(strategy_names=None, days=None, start_date=None, end
                 new_source = DATA_SOURCE_SWITCH.get(DATA_SOURCE, 'tushare')
                 if new_source == 'tushare':
                     new_helper = TushareHelper(cache_dir="data/cache")
+                elif new_source == 'baostock':
+                    new_helper = BaostockHelper(cache_dir="data/cache")
                 else:
                     new_helper = AKShareHelper(cache_dir="data/cache")
                 # 重置策略状态
@@ -330,6 +337,8 @@ def run_historical_backtest(strategy_names=None, days=None, start_date=None, end
                 print(f"[切换] 自动切换数据源重试: {DATA_SOURCE} -> {new_source}")
                 if new_source == 'tushare':
                     new_helper = TushareHelper(cache_dir="data/cache")
+                elif new_source == 'baostock':
+                    new_helper = BaostockHelper(cache_dir="data/cache")
                 else:
                     new_helper = AKShareHelper(cache_dir="data/cache")
                 # 重置策略状态
@@ -340,7 +349,7 @@ def run_historical_backtest(strategy_names=None, days=None, start_date=None, end
                 strategy.realized_pnl = 0.0
                 strategy.realized_pnl_pct = 0.0
                 return run_single_strategy(strategy, new_helper, source_switched=True)
-        
+
         # 【新增】检查交易价格是否异常（买卖价相同）
         if len(strategy.trades) > 0 and not source_switched:
             suspicious_trades = [t for t in strategy.trades if t.get('profit', 0) == 0 and t.get('buy_price') == t.get('sell_price')]
@@ -350,6 +359,8 @@ def run_historical_backtest(strategy_names=None, days=None, start_date=None, end
                 print(f"[切换] 自动切换数据源重试: {DATA_SOURCE} -> {new_source}")
                 if new_source == 'tushare':
                     new_helper = TushareHelper(cache_dir="data/cache")
+                elif new_source == 'baostock':
+                    new_helper = BaostockHelper(cache_dir="data/cache")
                 else:
                     new_helper = AKShareHelper(cache_dir="data/cache")
                 # 重置策略状态
@@ -589,7 +600,7 @@ if __name__ == "__main__":
     parser.add_argument('--end-date', type=str, default=None, help='回测结束日期（YYYYMMDD格式，如20260726）')
     parser.add_argument('--strategies', type=str, default=None, help='指定策略名（逗号分隔），默认全部')
     parser.add_argument('--workers', type=int, default=2, help='并行线程数（默认2，避免频率限制）')
-    parser.add_argument('--source', type=str, default='tushare', choices=['tushare', 'akshare'], help='数据源（默认tushare）')
+    parser.add_argument('--source', type=str, default='tushare', choices=['tushare', 'akshare', 'baostock'], help='数据源（默认tushare）')
     args = parser.parse_args()
 
     # 设置数据源

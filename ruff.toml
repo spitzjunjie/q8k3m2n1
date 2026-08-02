@@ -1,0 +1,40 @@
+# ruff 配置 —— 先把最致命的几类打开，别一上来全开导致几千条报错
+#
+# 现状（在你的仓库上实测）：
+#   E722  bare-except              166 处   ← except: 什么都吞
+#   F841  unused-variable           67 处
+#   B007  unused-loop-variable      16 处
+#   E999  invalid-syntax             2 处   ← 文件根本无法导入
+#   F821  undefined-name             2 处   ← backtest_3_strategies.py 里 ak 未定义
+#   F811  redefined-while-unused     1 处
+#
+# 建议节奏：先让 E9/F821/F811 这三类为 0（它们是真 bug），
+# 再逐步收 E722。
+
+target-version = "py310"
+line-length = 120
+exclude = [
+    ".git", "__pycache__", ".venv", "venv", "node_modules", "site",
+    "output", "data/cache",
+]
+
+[lint]
+select = [
+    "E9",    # 语法错误 —— 必须为 0
+    "F63",   # 比较操作用错
+    "F7",    # 语句错误
+    "F82",   # 未定义名
+    "F811",  # 重复定义
+    "F401",  # 未使用的 import
+    "E722",  # bare except
+    "B",     # flake8-bugbear
+]
+ignore = [
+    "B008",
+    "E741",
+]
+
+[lint.per-file-ignores]
+# 一次性脚本不强求
+"strategies/fix_*.py" = ["ALL"]
+"test_*.py" = ["E722", "F401"]

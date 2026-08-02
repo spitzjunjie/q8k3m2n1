@@ -1,0 +1,35 @@
+# =====================================================================
+# 换行符统一
+# =====================================================================
+# 你本机 git 的 core.autocrlf 没设置，仓库里 88 个文件全部显示为
+# "已修改"，但 git diff --ignore-all-space 显示实际内容零差异 ——
+# 全是 CRLF/LF 的噪音。
+#
+# 后果：
+#   1. git status 永远是脏的，真正的改动被淹没
+#   2. 每次提交都产生巨大的假 diff，code review 没法做
+#   3. auto-fix.yml 里 git add -A 会把这些噪音全部提交上去
+#
+# 配上这个文件 + 执行一次规范化即可根治：
+#     git config core.autocrlf input
+#     git add --renormalize .
+#     git commit -m "chore: 统一换行符为 LF"
+# =====================================================================
+
+* text=auto eol=lf
+
+*.py    text eol=lf
+*.yml   text eol=lf
+*.yaml  text eol=lf
+*.json  text eol=lf
+*.md    text eol=lf
+*.html  text eol=lf
+*.sh    text eol=lf
+
+*.ps1   text eol=crlf
+*.bat   text eol=crlf
+
+*.png   binary
+*.jpg   binary
+*.db    binary
+*.pyc   binary

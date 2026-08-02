@@ -322,7 +322,7 @@ if __name__ == "__main__":
     print("=" * 60)
     
     # 测试连接
-    client = GroqClient(api_key="***REMOVED***")
+    client = GroqClient(api_key=os.environ.get('GROQ_API_KEY', ''))
     
     if client.client:
         print("\n[1] 测试基本连接...")

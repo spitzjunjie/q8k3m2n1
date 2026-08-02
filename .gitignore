@@ -1,38 +1,88 @@
-# Python缓存
+# =====================================================================
+# .gitignore —— multi_strategy_trading（公开仓库）
+# =====================================================================
+# 【原来的问题】
+#   .gitignore 里明明写了 config/tushare_config.py，但它还是被提交了。
+#   原因：**.gitignore 对已经被 git 追踪的文件无效**。
+#   文件先被 git add 过，之后再加进 .gitignore 也没用。
+#
+#   必须显式解除追踪：
+#       git rm --cached config/tushare_config.py
+#       git rm --cached config/joinquant_config.py
+#       git rm --cached push_feishu.py
+#   然后再 commit。
+#
+#   自查命令（列出"既被追踪、又在 ignore 里"的文件）：
+#       git ls-files -i -c --exclude-standard
+# =====================================================================
+
+
+# ---------- Python ----------
 __pycache__/
-*.pyc
-*.pyo
+*.py[cod]
 *.egg-info/
 .eggs/
 dist/
 build/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
 
-# 缓存目录
-data/cache/
+# ---------- 虚拟环境 ----------
+.venv/
+venv/
+env/
 
-# API配置文件（包含敏感Token）
+# ---------- 密钥与配置（★ 最重要的一段）----------
+.env
+.env.*
+!.env.example
+load_env.ps1
+load_env.sh
+
 config/tushare_config.py
+config/joinquant_config.py
 config/feishu_config.py
+config/*_config.py
+!config/*_config.py.example
 
-# Token文件
 data/.tushare_token
 data/.feishu_token
+*.pem
+*.key
+*_token.txt
+credentials.json
+secrets.json
 
-# 回测输出（包含收益数据）
-output/backtest_history.json
-output/strategy_data.json
-output/backtest_30day.log
-output/backtest_30day.err
+# ---------- 数据缓存 ----------
+data/cache/
+data/local/*.db
+data/local/*.parquet
+*.db-journal
 
-# 本地配置文件
-.env
-.env.local
+# ---------- 日志 ----------
+logs/
+*.log
+*.err
 
-# IDE配置
+# ---------- 回测产物 ----------
+# 注意：output/strategy_data.json 和 output/backtest_history.json
+# 目前是"被追踪的"，因为 GitHub Pages 要读它们。
+# 这是可以的，但要清楚：它们会随每次 CI 提交进历史，仓库会越来越大。
+# 更好的做法是走 Pages artifact 而不是提交进仓库（见 deploy.yml 注释）。
+output/backups/
+output/*.log
+output/*.err
+output/pipeline_report_*.json
+output/*_backup_*.json
+
+# ---------- IDE / 系统 ----------
 .idea/
 .vscode/
 *.swp
 *.swo
-
-# macOS
 .DS_Store
+Thumbs.db
+
+# ---------- 构建产物 ----------
+site/

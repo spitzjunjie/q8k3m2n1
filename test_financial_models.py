@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 """测试 HuggingFace 上可用的金融模型"""
 
+import os
 import sys
 sys.path.insert(0, 'c:/Users/xrs08/Desktop/腾讯openclaw/stock_intelligence/multi_strategy_trading')
 
 from huggingface_hub import InferenceClient
 
-token = '***REMOVED***'
+token = os.environ.get('HF_TOKEN', '')
 
 print('=' * 60)
 print('测试 HuggingFace 金融模型')

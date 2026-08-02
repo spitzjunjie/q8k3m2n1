@@ -1,8 +1,43 @@
 name: Deploy to GitHub Pages
 
+# =====================================================================
+# 【改了什么 / 为什么】
+#
+# 原来的写法：
+#     - uses: actions/upload-pages-artifact@v3
+#       with:
+#         path: '.'
+#         exclude: >-
+#           .git .github __pycache__ *.py data/cache logs *.log venv .venv
+#
+# 两个问题：
+#
+# 1) upload-pages-artifact 根本没有 exclude 这个输入参数
+#    （它只支持 name / path / retention-days）。
+#    未知参数在 Actions 里只会打一条 warning，不会报错，
+#    所以这个 exclude 一直是**静默失效**的。
+#    结果：整个仓库根目录都被发布到了公开网站上，
+#    包括所有 .py 源码、config/、data/、output/、logs/。
+#
+# 2) 就算 exclude 生效，"发布整个仓库再排除几个目录"也是错的思路。
+#    新加的任何文件都会默认被发布出去 —— 下次你新建一个
+#    config/xxx_config.py，它会自动上线。
+#
+# 现在改成：显式构建一个 site/ 目录，只把要展示的东西放进去。
+# 白名单，不是黑名单。
+# =====================================================================
+
 on:
   push:
     branches: [main]
+    paths:
+      - 'index.html'
+      - 'detail.html'
+      - 'evaluation.html'
+      - 'stress_test_report.html'
+      - 'output/strategy_data.json'
+      - 'output/backtest_history.json'
+      - '.github/workflows/deploy.yml'
   workflow_dispatch:
 
 permissions:
@@ -15,33 +50,65 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  build:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: 构建 site/ 目录（白名单）
+        run: |
+          set -euo pipefail
+          rm -rf site && mkdir -p site/output
+
+          # --- 页面 ---
+          for f in index.html detail.html evaluation.html stress_test_report.html; do
+            [ -f "$f" ] && cp "$f" site/ || echo "跳过缺失的 $f"
+          done
+
+          # --- 数据（只发布展示需要的那两个 JSON）---
+          for f in output/strategy_data.json output/backtest_history.json; do
+            [ -f "$f" ] && cp "$f" site/output/ || echo "跳过缺失的 $f"
+          done
+
+          # --- 禁止 Jekyll 处理（否则下划线开头的目录会被吞掉）---
+          touch site/.nojekyll
+
+          echo "site/ 内容："
+          find site -type f | sort
+
+      - name: 发布前安全兜底（发现密钥直接失败）
+        run: |
+          set -euo pipefail
+          PATTERN='hf_[A-Za-z0-9]{30,}|gsk_[A-Za-z0-9]{40,}|ghp_[A-Za-z0-9]{30,}|sk-[A-Za-z0-9]{32,}|cli_[a-z0-9]{16,}|[0-9a-f]{56}'
+          if grep -rEIl "$PATTERN" site/ ; then
+            echo "::error::site/ 里检测到疑似密钥，已阻止发布"
+            exit 1
+          fi
+          # 双保险：确认没有任何 .py 混进去
+          if find site -name '*.py' | grep -q . ; then
+            echo "::error::site/ 里有 .py 文件，不应发布源码"
+            exit 1
+          fi
+          echo "安全检查通过"
+
       - name: Setup Pages
-        uses: actions/configure-pages@v4
+        uses: actions/configure-pages@v5
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: '.'
-          exclude: >-
-            .git
-            .github
-            __pycache__
-            *.py
-            data/cache
-            logs
-            *.log
-            venv
-            .venv
+          path: site
 
+  deploy:
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4

@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 """快速测试 HuggingFace Token"""
 
+import os
 import sys
 sys.path.insert(0, 'c:/Users/xrs08/Desktop/腾讯openclaw/stock_intelligence/multi_strategy_trading')
 
 from huggingface_hub import HfApi
 
-token = '***REMOVED***'
+token = os.environ.get('HF_TOKEN', '')
 
 print('=' * 60)
 print('测试 HuggingFace Token')

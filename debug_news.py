@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """调试新闻数据"""
 
+import os
 import sys
 sys.path.insert(0, 'c:/Users/xrs08/Desktop/腾讯openclaw/stock_intelligence/multi_strategy_trading')
 
@@ -25,7 +26,7 @@ except Exception as e:
 
 # 2. 测试 FinBERT 对中文新闻的效果
 print('\n[2] 测试 FinBERT 对中文新闻的效果...')
-client = HuggingFaceClient(api_token='***REMOVED***')
+client = HuggingFaceClient(api_token=os.environ.get('HF_TOKEN', ''))
 
 # 中文测试
 chinese_news = [

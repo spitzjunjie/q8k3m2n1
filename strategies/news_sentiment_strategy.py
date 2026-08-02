@@ -9,6 +9,7 @@
     results = strategy.detect_events(helper)
 """
 
+import os
 import pandas as pd
 import numpy as np
 import akshare as ak
@@ -54,7 +55,7 @@ class NewsSentimentStrategy(EventStrategy):
         if self._client is None:
             try:
                 from strategy_discovery.hf_client import HuggingFaceClient
-                self._client = HuggingFaceClient(api_token='***REMOVED***')
+                self._client = HuggingFaceClient(api_token=os.environ.get('HF_TOKEN', ''))
             except Exception as e:
                 print(f"初始化 HuggingFace 客户端失败: {e}")
                 self._client = None

@@ -7,7 +7,7 @@ import os
 
 # Tushare Pro Token
 # 从环境变量或配置文件读取Token
-TUSHARE_TOKEN = os.environ.get('TUSHARE_TOKEN', '44799aad987e211ace5167429454506a8d01f6e730024bb00fa78cf7')
+TUSHARE_TOKEN = os.environ.get('TUSHARE_TOKEN', '')
 
 def get_tushare_pro():
     """获取Tushare Pro接口实例"""

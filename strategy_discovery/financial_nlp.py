@@ -21,9 +21,9 @@ from datetime import datetime, timedelta
 from typing import Optional, List, Dict, Any
 
 # HuggingFace Token
-HF_TOKEN = '***REMOVED***'
+HF_TOKEN = os.environ.get('HF_TOKEN', '')
 # Groq API Key
-GROQ_API_KEY = '***REMOVED***'
+GROQ_API_KEY = os.environ.get('GROQ_API_KEY', '')
 
 
 # ==================== 辅助函数 ====================

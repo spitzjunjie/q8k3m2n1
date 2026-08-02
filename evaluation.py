@@ -21,20 +21,44 @@ class StrategyEvaluator:
         Returns:
             dict: 包含核心指标、派生指标、综合评分和等级
         """
+        # 用 core.metrics 统一算一套指标（口径一致，可跨策略比较）
+        from core.metrics import compute
+
+        trades_for_metrics = strategy_result.get('all_trades') or strategy_result.get('trades', [])
+        trade_returns = [t.get('profit_pct') for t in trades_for_metrics
+                        if isinstance(t, dict) and isinstance(t.get('profit_pct'), (int, float))]
+
+        n_strategies = strategy_result.get('_n_strategies_tested', 1)
+
+        perf = compute(
+            strategy_result.get('equity_curve', []),
+            trade_returns_pct=trade_returns,
+            n_strategies_tested=n_strategies,
+            initial_capital=strategy_result.get('initial_capital', 30000),
+        )
+
         metrics = {
             'name': strategy_result.get('name', 'Unknown'),
             'category': strategy_result.get('category', ''),
             'version': strategy_result.get('version', '1.0.0'),
-            # 核心指标
-            'total_return': strategy_result.get('total_return', 0),
-            'sharpe_ratio': strategy_result.get('sharpe_ratio', 0),
-            'max_drawdown': strategy_result.get('max_drawdown', 0),
-            'win_rate': strategy_result.get('win_rate', 0),
-            # 派生指标
-            'calmar_ratio': self._calmar(strategy_result),
-            'profit_loss_ratio': self._profit_loss_ratio(strategy_result),
+            # 核心指标（来自统一口径 core.metrics）
+            'total_return': perf.total_return,
+            'annual_return': perf.annual_return,
+            'sharpe_ratio': perf.sharpe,
+            'sortino_ratio': perf.sortino,
+            'max_drawdown': perf.max_drawdown,
+            'calmar_ratio': perf.calmar,
+            'win_rate': perf.win_rate,  # 0-1
+            'profit_loss_ratio': perf.profit_factor,
             'return_stability': self._return_stability(strategy_result),
-            'trade_count': len(strategy_result.get('trades', [])),
+            'trade_count': perf.n_trades,
+            # 统计检验
+            'avg_trade_pct': perf.avg_trade_pct,
+            't_stat': perf.t_stat,
+            'p_value': perf.p_value,
+            'p_value_adjusted': perf.p_value_adjusted,
+            'deflated_sharpe': perf.deflated_sharpe,
+            'is_significant': perf.is_significant,
             # 综合评分
             'composite_score': 0,
             'grade': 'D',
@@ -44,12 +68,22 @@ class StrategyEvaluator:
         return metrics
 
     def _calmar(self, r):
-        """卡玛比率 = 年化收益 / 最大回撤"""
-        ret = r.get('total_return', 0)
+        """卡玛比率 = 年化收益 / 最大回撤（修正：用年化收益而非累计收益）"""
+        import math
         dd = r.get('max_drawdown', 0)
-        if dd <= 0:
+        if dd <= 0 or dd > 1:
             return 0
-        return ret / dd
+        # 优先用已算好的年化，否则用累计收益近似年化
+        annual_ret = r.get('annual_return')
+        if annual_ret is None:
+            total_ret = r.get('total_return', 0)
+            days = r.get('backtest_days', 30)
+            if days > 0 and total_ret > -1:
+                years = days / 252
+                annual_ret = (1 + total_ret) ** (1 / years) - 1 if years > 0 else 0.0
+            else:
+                annual_ret = total_ret
+        return annual_ret / dd
 
     def _profit_loss_ratio(self, r):
         """盈亏比 = 平均盈利 / 平均亏损"""
@@ -70,8 +104,21 @@ class StrategyEvaluator:
         if len(curve) < 5:
             return 0
         try:
-            x = np.arange(len(curve))
-            y = np.array(curve, dtype=float)
+            # 从权益曲线提取数值（兼容 dict list 和 float list）
+            values = []
+            for item in curve:
+                if isinstance(item, dict):
+                    v = item.get('value', 0)
+                elif isinstance(item, (int, float)):
+                    v = item
+                else:
+                    continue
+                if v is not None:
+                    values.append(float(v))
+            if len(values) < 5:
+                return 0
+            x = np.arange(len(values))
+            y = np.array(values, dtype=float)
             coeffs = np.polyfit(x, y, 1)
             y_pred = np.polyval(coeffs, x)
             ss_res = np.sum((y - y_pred) ** 2)
@@ -95,8 +142,11 @@ class StrategyEvaluator:
         score += min(max(m['total_return'] * 100, 0), 30) / 30 * 25
         # 回撤0-30%映射20-0（回撤越小分越高）
         score += (1 - min(m['max_drawdown'], 0.3) / 0.3) * 20
-        # 胜率0-1映射0-15
-        score += m['win_rate'] * 15
+        # 胜率0-1映射0-15（兼容 0-100 的旧数据：>1 说明是百分比格式）
+        wr = m['win_rate']
+        if wr > 1:
+            wr = wr / 100.0  # fast_backtest 返回 0-100 格式
+        score += wr * 15
         # 稳定性0-1映射0-10
         score += m['return_stability'] * 10
         return round(score, 1)
@@ -122,6 +172,9 @@ class StrategyEvaluator:
         Returns:
             list: 评估结果列表，按综合分降序排序
         """
+        n = len(strategy_results)
+        for r in strategy_results:
+            r['_n_strategies_tested'] = n  # 用于多重检验校正
         evaluations = [self.evaluate(r) for r in strategy_results]
         evaluations.sort(key=lambda x: x['composite_score'], reverse=True)
         return evaluations

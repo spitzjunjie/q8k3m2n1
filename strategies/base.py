@@ -7,22 +7,26 @@
 from abc import ABC, abstractmethod
 from datetime import datetime
 import pandas as pd
+from core.costs import DEFAULT_COSTS
 
 
 class BaseStrategy(ABC):
     """策略基类"""
     
-    def __init__(self, name, category, initial_capital=30000):
+    def __init__(self, name, category, initial_capital=30000, costs=None):
         self.name = name
         self.category = category
         self.version = "1.0.0"  # 策略版本号（参数调优后+1）
         self.initial_capital = initial_capital  # 初始资金3万
         self.current_capital = initial_capital  # 当前资金
         self.holdings = []  # 当前持仓
-        self.trades = []  # 历史交易记录
+        self.trades = []  # 历史交易记录（截断版，用于展示）
+        self.all_trades = []  # 完整交易记录（不截断，用于统计检验）
         self.equity_curve = []  # 权益曲线
         self.realized_pnl = 0.0  # 累计已实现收益
         self.realized_pnl_pct = 0.0  # 已实现收益率
+        self.costs = costs if costs is not None else DEFAULT_COSTS  # 交易成本模型
+        self.total_fees = 0.0  # 累计手续费（用于归因分析）
         
     @abstractmethod
     def select_stocks(self, helper, date=None):
@@ -43,9 +47,16 @@ class BaseStrategy(ABC):
     def add_holding(self, symbol, name, price, quantity, reason, timing_reason, buy_date=None):
         """添加持仓
         buy_date: 买入日期，None=今天（用于历史回测）
+        → price 为参考价（如收盘价），实际成交价含滑点，总成本含手续费
         """
-        cost = price * quantity
+        # 含滑点的真实成交价
+        fill = self.costs.fill_price_buy(price)
+        gross = fill * quantity
+        fee = self.costs.buy_cost(fill, quantity)
+        cost = gross + fee
+
         self.current_capital -= cost
+        self.total_fees += fee
 
         # 历史回测时buy_date从参数传入，非历史回测用当天日期
         if buy_date is None:
@@ -54,11 +65,13 @@ class BaseStrategy(ABC):
         holding = {
             'symbol': symbol,
             'name': name,
-            'buy_price': price,
+            'buy_price': fill,          # 记录含滑点的成交价（原始参考价=price）
+            'ref_price': price,         # 保留原始参考价，用于事后核算
             'quantity': quantity,
             'buy_date': buy_date,
-            'cost': cost,
-            'stock_reason': reason,  # 选股逻辑
+            'cost': cost,               # 含费用的总成本，profit 用这个算才对
+            'entry_fee': fee,           # 买入手续费
+            'stock_reason': reason,     # 选股逻辑
             'timing_reason': timing_reason,  # 择时逻辑
             'hold_days': 0
         }
@@ -68,15 +81,22 @@ class BaseStrategy(ABC):
     def remove_holding(self, symbol, sell_price, sell_reason, sell_date=None):
         """卖出持仓
         sell_date: 卖出日期，None=今天（用于历史回测）
+        → sell_price 为参考价（如收盘价），实际成交价含滑点，收入扣手续费
         """
         for i, h in enumerate(self.holdings):
             if h['symbol'] == symbol:
                 holding = self.holdings.pop(i)
-                revenue = sell_price * holding['quantity']
+
+                # 含滑点的真实成交价
+                fill = self.costs.fill_price_sell(sell_price)
+                gross = fill * holding['quantity']
+                fee = self.costs.sell_cost(fill, holding['quantity'])
+                revenue = gross - fee
                 profit = revenue - holding['cost']
                 profit_pct = profit / holding['cost'] * 100
 
                 self.current_capital += revenue
+                self.total_fees += fee
                 # 累计已实现收益
                 self.realized_pnl += profit
                 self.realized_pnl_pct = self.realized_pnl / self.initial_capital * 100
@@ -91,16 +111,20 @@ class BaseStrategy(ABC):
                     'buy_date': holding['buy_date'],
                     'buy_price': holding['buy_price'],
                     'sell_date': sell_date,
-                    'sell_price': sell_price,
+                    'sell_price': fill,
+                    'ref_sell_price': sell_price,
                     'quantity': holding['quantity'],
                     'profit': profit,
                     'profit_pct': profit_pct,
                     'hold_days': holding['hold_days'],
                     'stock_reason': holding['stock_reason'],
                     'timing_reason': holding['timing_reason'],
-                    'sell_reason': sell_reason
+                    'sell_reason': sell_reason,
+                    'entry_fee': holding.get('entry_fee', 0),
+                    'exit_fee': fee,
                 }
                 self.trades.append(trade)
+                self.all_trades.append(trade)
                 return trade
         return None
     
@@ -182,25 +206,14 @@ class BaseStrategy(ABC):
         return max_dd
     
     def get_sharpe_ratio(self):
-        """计算夏普比率（简化版）"""
+        """计算夏普比率（统一口径：ddof=1，扣无风险利率 1.5%）"""
         if len(self.equity_curve) < 2:
             return 0
-        # 从字典列表中提取数值
-        values = []
-        for item in self.equity_curve:
-            if isinstance(item, dict):
-                val = item.get('value', 0)
-            else:
-                val = item
-            if val is not None and isinstance(val, (int, float)):
-                values.append(val)
-        
-        if len(values) < 2:
-            return 0
-        returns = pd.Series(values).pct_change().dropna()
-        if len(returns) == 0 or returns.std() == 0:
-            return 0
-        return (returns.mean() / returns.std()) * (252 ** 0.5)
+        from core.metrics import compute, RISK_FREE_ANNUAL
+
+        perf = compute(self.equity_curve, initial_capital=self.initial_capital,
+                       periods_per_year=252, risk_free_annual=RISK_FREE_ANNUAL)
+        return perf.sharpe
     
     def to_dict(self, prices=None):
         """转换为字典格式（用于JSON输出）"""
@@ -232,7 +245,9 @@ class BaseStrategy(ABC):
             'total_pnl': round(total_pnl, 2),
             'total_pnl_pct': round(total_pnl_pct, 2),
             'holdings': self.holdings,
-            'trades': self.trades[-10:],  # 最近10笔交易
+            'total_fees': round(self.total_fees, 2),
+            'trades': self.trades[-10:],  # 最近10笔（看板展示用）
+            'all_trades': self.all_trades,  # 完整记录（统计检验用，不截断）
             'equity_curve': self.equity_curve[-30:]  # 最近30天曲线
         }
 

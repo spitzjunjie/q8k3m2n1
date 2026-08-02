@@ -10,6 +10,9 @@ import time
 from datetime import datetime, timedelta
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import pandas as pd
+import numpy as np
+from core.trading_calendar import get_trading_dates
+from core.costs import DEFAULT_COSTS
 
 BENCHMARK_START = datetime(2026, 5, 26)
 INITIAL_CAPITAL = 30000
@@ -18,7 +21,8 @@ MAX_HOLDINGS = 3
 # === 风控参数 ===
 STOP_LOSS = -5      # 止损线：亏损超过5%自动卖出
 TAKE_PROFIT = 10    # 止盈线：盈利超过10%自动卖出
-MAX_HOLD_DAYS = 10  # 最大持仓天数
+MAX_HOLD_DAYS = 10  # 最大持仓天数（交易日）
+MIN_HOLD_DAYS = 1   # T+1: 至少持有1个交易日才能卖
 
 
 # === 信号函数 ===
@@ -636,15 +640,9 @@ STRATEGIES = {
 }
 
 
-def get_trading_dates(n=40):
-    dates = []
-    current = BENCHMARK_START
-    end = datetime.now()
-    while len(dates) < n and current <= end:
-        if current.weekday() < 5:
-            dates.append(current.strftime('%Y%m%d'))
-        current += timedelta(days=1)
-    return dates
+def _get_trading_dates(n=40):
+    """获取真实交易日列表（来自 core/trading_calendar.py）"""
+    return get_trading_dates(BENCHMARK_START, n=n)
 
 
 def run_backtest(strategy_name, config, helper, trading_dates):
@@ -655,6 +653,8 @@ def run_backtest(strategy_name, config, helper, trading_dates):
     equity_curve = []
     capital = INITIAL_CAPITAL
     buy_date_idx = {}
+    costs = DEFAULT_COSTS
+    total_fees = 0.0
 
     for i, date in enumerate(trading_dates):
         prices = {}
@@ -672,34 +672,49 @@ def run_backtest(strategy_name, config, helper, trading_dates):
             if sp:
                 pnl = (sp - h['price']) / h['price'] * 100
                 idx = buy_date_idx.get(h['symbol'], 0)
-                hold_days = i - idx
 
-                # 止盈止损条件
+                # 计算交易日持仓天数
+                held_trading_days = 0
+                try:
+                    held_trading_days = len([d for d in trading_dates[idx:i] if d])
+                except:
+                    held_trading_days = i - idx
+
+                # 止盈止损条件（去掉重复的 idx <= i-5，让 MAX_HOLD_DAYS 真正生效）
                 should_sell = (
                     pnl <= STOP_LOSS or                    # 止损：亏损超过5%
                     pnl >= TAKE_PROFIT or                  # 止盈：盈利超过10%
-                    hold_days >= MAX_HOLD_DAYS or          # 持仓超时
-                    idx <= i - 5                           # 持有5天后到期
+                    held_trading_days >= MAX_HOLD_DAYS     # 持仓超时（交易日）
                 )
 
                 if should_sell:
-                    # 记录卖出原因
+                    # 记录卖出原因（优先级：止损 > 止盈 > 到期）
                     if pnl <= STOP_LOSS:
                         reason = f"止损({pnl:.1f}%)"
                     elif pnl >= TAKE_PROFIT:
                         reason = f"止盈({pnl:.1f}%)"
-                    elif hold_days >= MAX_HOLD_DAYS:
-                        reason = f"到期({hold_days}天)"
+                    elif held_trading_days >= MAX_HOLD_DAYS:
+                        reason = f"到期({held_trading_days}天)"
                     else:
-                        reason = h['reason']
+                        reason = f"卖出({pnl:.1f}%)"
+
+                    # 含滑点的成交价 + 手续费
+                    fill = costs.fill_price_sell(sp)
+                    fee = costs.sell_cost(fill, h['qty'])
+                    revenue = fill * h['qty'] - fee
+                    total_fees += fee
 
                     trades.append({
                         'buy_date': h['date'], 'sell_date': date,
                         'symbol': h['symbol'], 'name': h['name'],
-                        'buy_price': h['price'], 'sell_price': sp,
-                        'profit': pnl, 'reason': reason
+                        'buy_price': h['price'], 'sell_price': fill,
+                        'ref_sell_price': sp,
+                        'profit': pnl, 'reason': reason,
+                        'hold_days': held_trading_days,
+                        'entry_fee': h.get('entry_fee', 0),
+                        'exit_fee': fee,
                     })
-                    capital += h['qty'] * sp
+                    capital += revenue
                     holdings.remove(h)
                     buy_date_idx.pop(h['symbol'], None)
 
@@ -720,28 +735,28 @@ def run_backtest(strategy_name, config, helper, trading_dates):
                             except:
                                 price = None
                         if price and price > 0:
+                            # 用含滑点的成交价计算真实成本
+                            fill = costs.fill_price_buy(price)
                             available = capital / max(MAX_HOLDINGS - len(holdings), 1)
-                            qty = int(available / price / 100) * 100
+                            qty = int(available / fill / 100) * 100
                             if qty >= 100:
+                                fee = costs.buy_cost(fill, qty)
+                                true_cost = fill * qty + fee
                                 candidates.append({
-                                    'symbol': sym, 'name': sym, 'price': price,
-                                    'qty': qty, 'reason': reason, 'date': date
+                                    'symbol': sym, 'name': sym, 'price': fill,
+                                    'ref_price': price,
+                                    'qty': qty, 'reason': reason, 'date': date,
+                                    'true_cost': true_cost, 'entry_fee': fee,
                                 })
                 except:
                     pass
 
             for c in candidates[:MAX_HOLDINGS - len(holdings)]:
-                cost = c['qty'] * c['price']
-                if cost <= capital * 0.5:
-                    trades.append({
-                        'buy_date': c['date'], 'symbol': c['symbol'],
-                        'name': c['name'], 'buy_price': c['price'],
-                        'quantity': c['qty'], 'reason': c['reason'],
-                        'buy_date_idx': i
-                    })
+                if c['true_cost'] <= capital * 0.5:
+                    capital -= c['true_cost']
+                    total_fees += c['entry_fee']
                     holdings.append(c)
                     buy_date_idx[c['symbol']] = i
-                    capital -= cost
 
         val = capital + sum(prices.get(h['symbol'], h['price']) * h['qty'] for h in holdings)
         equity_curve.append({'date': date, 'value': val})
@@ -785,9 +800,11 @@ def run_backtest(strategy_name, config, helper, trading_dates):
         'sharpe_ratio': sharpe_ratio,
         'max_drawdown': max_drawdown,
         'trades': [t for t in trades if 'sell_price' in t],
+        'all_trades': [t for t in trades if 'sell_price' in t],  # 完整记录（与 trades 同源，不做截断）
         'holdings': holdings,
         'equity_curve': equity_curve,
         'win_rate': win_rate,
+        'total_fees': round(total_fees, 2),
         'backtest_start': trading_dates[0],
         'backtest_end': trading_dates[-1],
         'backtest_days': len(trading_dates),
@@ -803,7 +820,7 @@ def main():
     print("=" * 60)
 
     helper = AKShareHelper(cache_dir="data/cache")
-    trading_dates = get_trading_dates(40)
+    trading_dates = _get_trading_dates(40)
 
     print(f"回测区间: {trading_dates[0]} ~ {trading_dates[-1]}")
     print(f"策略数: {len(STRATEGIES)}")

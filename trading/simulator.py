@@ -5,6 +5,7 @@
 """
 
 from datetime import datetime
+from core.execution import check_buy, check_sell
 
 
 class TradingSimulator:
@@ -129,9 +130,14 @@ class TradingSimulator:
         if df is None or df.empty or len(df) < 20:
             return None, "K线数据不足"
 
+        # 涨跌停 / 停牌执行约束
+        chk = check_buy(df, symbol, name, ref_col="close", target_date=date)
+        if not chk.can_trade:
+            return None, chk.reason
+        price = chk.fill_price if chk.fill_price else price
+
         df = self.timing.add_indicators(df)
-        # FIXED: Skip timing check for now
-        has_signal, timing_reason = True, "skip timing"
+        has_signal, timing_reason = self.timing.check_buy_signals(df)
 
         if not has_signal:
             return None, "无买入择时信号"
@@ -179,6 +185,13 @@ class TradingSimulator:
                 df = helper.get_history_kline(symbol, days=60, end_date=date)
 
                 if df is not None and not df.empty and len(df) >= 2:
+                    # 涨跌停卖出约束：跌停卖不掉，止损失效
+                    chk = check_sell(df, symbol, holding.get('name', ''), ref_col="close", target_date=date)
+                    if not chk.can_trade:
+                        # 卖不掉就得继续持有，记录被阻塞的天数
+                        holding['blocked_sell_days'] = holding.get('blocked_sell_days', 0) + 1
+                        return False, chk.reason
+
                     df = self.timing.add_indicators(df)
                     should_sell, sell_reason = self.timing.check_sell_signals(df, position_price)
                     if should_sell:

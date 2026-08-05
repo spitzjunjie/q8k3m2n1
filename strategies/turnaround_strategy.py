@@ -80,24 +80,24 @@ class TurnaroundStrategy(BaseStrategy):
                 recovery_score = 0
 
                 # 1. 毛利率恢复（加分）
-                gross_margin = fin.get('gross_margin', 0) if fin else 0
-                if gross_margin > 20:
+                gross_margin_pct = (fin.get('gross_margin', 0) if fin else 0) * 100
+                if gross_margin_pct > 20:
                     recovery_score += 1
-                elif gross_margin > 10:
+                elif gross_margin_pct > 10:
                     recovery_score += 0.5
 
                 # 2. 净利率恢复（加分）
-                net_margin = fin.get('net_margin', 0) if fin else 0
-                if net_margin > 10:
+                net_margin_pct = (fin.get('net_margin', 0) if fin else 0) * 100
+                if net_margin_pct > 10:
                     recovery_score += 1
-                elif net_margin > 5:
+                elif net_margin_pct > 5:
                     recovery_score += 0.5
 
                 # 3. ROE恢复（加分）
-                roe = fin.get('roe', 0) if fin else 0
-                if roe > 15:
+                roe_pct = (fin.get('roe', 0) if fin else 0) * 100
+                if roe_pct > 15:
                     recovery_score += 1
-                elif roe > self.min_roe:
+                elif roe_pct > self.min_roe:
                     recovery_score += 0.5
 
                 # 4. 营收增速（加分）
@@ -130,10 +130,10 @@ class TurnaroundStrategy(BaseStrategy):
                         recovery_score += 1
 
                 # 7. 负债率下降（加分）
-                debt_ratio = fin.get('debt_ratio', 100) if fin else 100
-                if debt_ratio < 50:
+                debt_ratio_pct = (fin.get('debt_ratio', 1.0) if fin else 1.0) * 100
+                if debt_ratio_pct < 50:
                     recovery_score += 1
-                elif debt_ratio < 70:
+                elif debt_ratio_pct < 70:
                     recovery_score += 0.5
 
                 # 8. 低PB（加分）
@@ -151,7 +151,7 @@ class TurnaroundStrategy(BaseStrategy):
                     recovery_score += 0.5
 
                 # 筛选条件
-                if recovery_score >= self.min_recovery_score and pb <= self.max_pb and roe >= self.min_roe:
+                if recovery_score >= self.min_recovery_score and pb <= self.max_pb and roe_pct >= self.min_roe:
                     # K线确认：超跌
                     kline = helper.get_history_kline(symbol, days=60, end_date=date)
                     if kline is None or kline.empty or len(kline) < 30:
@@ -166,7 +166,7 @@ class TurnaroundStrategy(BaseStrategy):
                         results.append({
                             'symbol': symbol,
                             'name': symbol,
-                            'reason': f"困境反转：恢复评分{recovery_score}/9, PB={pb:.1f}, ROE={roe:.1f}%"
+                            'reason': f"困境反转：恢复评分{recovery_score}/9, PB={pb:.1f}, ROE={roe_pct:.1f}%"
                         })
 
                 if len(results) >= self.top_n:
@@ -187,9 +187,10 @@ class TurnaroundStrategy(BaseStrategy):
 
                     pb = val.get('pb', 10) or 10
                     roe = fin.get('roe', 0) or 0
+                    roe_pct = roe * 100
 
                     # 低PB超跌
-                    if pb < 2 and roe > 5:
+                    if pb < 2 and roe_pct > 5:
                         ma60 = kline['close'].iloc[-60:].mean() if len(kline) >= 60 else kline['close'].mean()
                         current_price = kline['close'].iloc[-1]
 

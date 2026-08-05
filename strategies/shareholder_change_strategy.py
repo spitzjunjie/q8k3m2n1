@@ -85,6 +85,7 @@ class ShareholderChangeStrategy(BaseStrategy):
                 if institution_ratio >= self.min_institution_ratio or north_added:
                     # 财务确认
                     roe = fin.get('roe', 0) if fin else 0
+                    roe_pct = roe * 100
                     pb = 10
                     try:
                         val = helper.get_valuation_data(symbol)
@@ -93,7 +94,7 @@ class ShareholderChangeStrategy(BaseStrategy):
                         pass
 
                     # 低PB高ROE
-                    if pb < 4 and roe > 8:
+                    if pb < 4 and roe_pct > 8:
                         # K线确认
                         kline = helper.get_history_kline(symbol, days=30, end_date=date)
                         if kline is None or kline.empty or len(kline) < 20:
@@ -107,7 +108,7 @@ class ShareholderChangeStrategy(BaseStrategy):
                             results.append({
                                 'symbol': symbol,
                                 'name': symbol,
-                                'reason': f"股东户数变化：机构持股{institution_ratio:.1f}%, ROE={roe:.1f}%, PB={pb:.1f}%"
+                                'reason': f"股东户数变化：机构持股{institution_ratio:.1f}%, ROE={roe_pct:.1f}%, PB={pb:.1f}"
                             })
 
                 if len(results) >= self.top_n:
@@ -131,8 +132,9 @@ class ShareholderChangeStrategy(BaseStrategy):
                     # 北向持股比例较高
                     if hold_ratio > 0.01:  # 1%以上
                         roe = fin.get('roe', 0) or 0
+                        roe_pct = roe * 100
 
-                        if roe > 10:
+                        if roe_pct > 10:
                             val = helper.get_valuation_data(symbol)
                             pb = val.get('pb', 10) if val else 10
 
@@ -140,7 +142,7 @@ class ShareholderChangeStrategy(BaseStrategy):
                                 results.append({
                                     'symbol': symbol,
                                     'name': symbol,
-                                    'reason': f"股东备选：北向持股{hold_ratio*100:.2f}%, ROE={roe:.1f}%"
+                                    'reason': f"股东备选：北向持股{hold_ratio*100:.2f}%, ROE={roe_pct:.1f}%"
                                 })
 
                     if len(results) >= self.top_n:

@@ -191,6 +191,7 @@ class MultiFactorStrategy(FactorStrategy):
                 kline = helper.get_history_kline(sym, days=90)
 
                 roe = fin.get('roe', 0)
+                roe_pct = roe * 100
                 pe = val.get('pe_ttm', 100)
                 north_ratio = north.get('hold_ratio', 0)
 
@@ -201,7 +202,7 @@ class MultiFactorStrategy(FactorStrategy):
 
                 # 综合得分（归一化）
                 score = 0
-                score += min(roe / 20, 1) * 25  # ROE贡献25分
+                score += min(roe_pct / 20, 1) * 25  # ROE贡献25分
                 score += min(20 / max(pe, 1), 1) * 25  # 低PE贡献25分
                 score += min(ret_60d / 20, 1) * 25  # 动量贡献25分
                 score += min(north_ratio / 5, 1) * 25  # 北向贡献25分

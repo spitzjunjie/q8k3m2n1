@@ -16,10 +16,11 @@ class MoatStrategy(BaseStrategy):
     """护城河选股策略"""
 
     def __init__(self,
-                 min_roe=8,         # ROE均值下限%（放宽到8%）
+                 min_roe=6,         # 单季ROE下限%（年化约24%，保留高质量门槛）
                  min_gross_margin=30,  # 毛利率下限%
                  max_debt_ratio=50,    # 资产负债率上限%
-                 max_pe=40,            # PE上限（放宽到40）
+                 max_pe=60,            # PE上限（消费白马常年在30-50）
+                 max_drawdown_60d=15,  # 60日最大回撤允许值%
                  holding_days=30,
                  top_n=5):
         super().__init__("护城河选股", "质量因子")
@@ -27,6 +28,7 @@ class MoatStrategy(BaseStrategy):
         self.min_gross_margin = min_gross_margin
         self.max_debt_ratio = max_debt_ratio
         self.max_pe = max_pe
+        self.max_drawdown_60d = max_drawdown_60d
         self.holding_days = holding_days
         self.top_n = top_n
         # 缓存股票池，避免33天回测每天重复获取
@@ -56,16 +58,16 @@ class MoatStrategy(BaseStrategy):
         # 1. 获取股票池（带缓存）
         pool = self._get_pool(helper, date)
 
-        # 2. K线初步筛选：60日均线上方（趋势向上）
+        # 2. K线初步筛选：60日累计跌幅不超阈值（保留趋势保护，弱市也可进财务筛选）
         candidates = []
         for symbol in pool:
             try:
                 kline = helper.get_history_kline(symbol, days=70, end_date=date)
-                if kline.empty or len(kline) < 60:
+                if kline.empty or len(kline) < 61:
                     continue
-                ma60 = kline['close'].rolling(60).mean().iloc[-1]
-                current = kline['close'].iloc[-1]
-                if current > ma60:
+                closes = kline['close'].astype(float)
+                ret_60d = (closes.iloc[-1] / closes.iloc[-61] - 1) * 100
+                if ret_60d > -self.max_drawdown_60d:
                     candidates.append(symbol)
                 if len(candidates) >= 15:
                     break

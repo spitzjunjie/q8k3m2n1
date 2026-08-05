@@ -57,6 +57,9 @@ class SentimentIcePointStrategy(BaseStrategy):
             stock_list = helper.get_stock_list()
             if stock_list is None or len(stock_list) == 0:
                 return results
+
+            if not isinstance(stock_list, pd.DataFrame):
+                stock_list = pd.DataFrame(stock_list)
             
             # 3. 筛选超跌股票（取样，减少计算量）
             sample_size = min(500, len(stock_list))
@@ -138,9 +141,7 @@ class SentimentIcePointStrategy(BaseStrategy):
         """
         try:
             # 获取涨跌停数据
-            limit_up_df = helper.wrap_akshare(
-                helper.get_limit_list, date=None
-            )
+            limit_up_df = helper.get_limit_up_list(date=None)
             
             if limit_up_df is not None and len(limit_up_df) > 0:
                 limit_up_count = len(limit_up_df)

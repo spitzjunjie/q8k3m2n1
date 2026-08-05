@@ -79,12 +79,13 @@ class LockupExpiryArbitrageStrategy(BaseStrategy):
                             # 财务确认
                             fin = helper.get_financial_indicator(symbol)
                             roe = fin.get('roe', 0) if fin else 0
+                            roe_pct = roe * 100
 
-                            if roe > 8:  # 优质公司
+                            if roe_pct > 8:  # 优质公司
                                 results.append({
                                     'symbol': symbol,
                                     'name': symbol,
-                                    'reason': f"限售解禁博弈：区间跌幅{drop_pct:.1f}%, PB={pb:.1f}, ROE={roe:.1f}%"
+                                    'reason': f"限售解禁博弈：区间跌幅{drop_pct:.1f}%, PB={pb:.1f}, ROE={roe_pct:.1f}%"
                                 })
 
                 if len(results) >= self.top_n:

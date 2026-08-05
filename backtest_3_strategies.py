@@ -6,6 +6,7 @@ import json
 import os
 from datetime import datetime, timedelta
 import pandas as pd
+import akshare as ak
 
 # 策略列表
 TARGET_STRATEGIES = ['量价齐升', 'ETF二八轮动', '财务基本面过滤小市值']

@@ -70,7 +70,7 @@ class NewsSentimentStrategy(EventStrategy):
         
         # 获取今日财经新闻
         try:
-            news_df = ak.stock_news_em()
+            news_df = helper.get_stock_news()
         except Exception as e:
             print(f"获取新闻失败: {e}")
             return results
@@ -213,7 +213,7 @@ class HotNewsTrackingStrategy(EventStrategy):
         results = []
         
         try:
-            news_df = ak.stock_news_em()
+            news_df = helper.get_stock_news()
         except Exception as e:
             print(f"获取新闻失败: {e}")
             return results

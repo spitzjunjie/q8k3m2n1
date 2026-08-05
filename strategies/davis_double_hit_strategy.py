@@ -20,9 +20,9 @@ class DavisDoubleHitStrategy(BaseStrategy):
     """戴维斯双击策略"""
 
     def __init__(self,
-                 min_profit_growth=20,    # 最低净利润增速%
-                 max_pe=25,              # 最高PE
-                 min_roe=10,             # 最低ROE%
+                 min_profit_growth=15,    # 最低净利润增速%（原20，当前市场达标股为0）
+                 max_pe=35,              # 最高PE（原25，消费/科技白马常在30-40）
+                 min_roe=8,              # 最低ROE%（原10，单季口径）
                  holding_days=30,        # 持有天数
                  top_n=5):
         super().__init__("戴维斯双击", "成长因子")
@@ -91,9 +91,10 @@ class DavisDoubleHitStrategy(BaseStrategy):
                 # 获取PE和ROE
                 pe = val.get('pe_ttm', 100) if val else 100
                 roe = fin.get('roe', 0) if fin else 0
+                roe_pct = roe * 100  # helper 返回小数，策略阈值按百分数
 
                 # 筛选条件：增速+低PE+高ROE
-                if profit_growth >= self.min_profit_growth and pe <= self.max_pe and roe >= self.min_roe:
+                if profit_growth >= self.min_profit_growth and pe <= self.max_pe and roe_pct >= self.min_roe:
                     # K线确认：趋势向上
                     kline = helper.get_history_kline(symbol, days=30, end_date=date)
                     if kline is None or kline.empty or len(kline) < 20:
@@ -106,7 +107,7 @@ class DavisDoubleHitStrategy(BaseStrategy):
                         results.append({
                             'symbol': symbol,
                             'name': symbol,
-                            'reason': f"戴维斯双击：增速{profit_growth:.1f}%, PE={pe:.1f}, ROE={roe:.1f}%"
+                            'reason': f"戴维斯双击：增速{profit_growth:.1f}%, PE={pe:.1f}, ROE={roe_pct:.1f}%"
                         })
 
                 if len(results) >= self.top_n:
@@ -126,14 +127,15 @@ class DavisDoubleHitStrategy(BaseStrategy):
                         continue
 
                     roe = fin.get('roe', 0) or 0
+                    roe_pct = roe * 100
                     pb = val.get('pb', 10) or 10
 
                     # 低PB+高ROE
-                    if pb < 3 and roe > 15:
+                    if pb < 3 and roe_pct > 15:
                         results.append({
                             'symbol': symbol,
                             'name': symbol,
-                            'reason': f"戴维斯双击备选：PB={pb:.1f}, ROE={roe:.1f}%"
+                            'reason': f"戴维斯双击备选：PB={pb:.1f}, ROE={roe_pct:.1f}%"
                         })
 
                     if len(results) >= self.top_n:

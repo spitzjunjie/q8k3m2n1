@@ -69,7 +69,8 @@ def generate_report(backtest_result, output_path='reports/'):
         md += f"| {i} | {e['name']} | {e['category']} | {e['version']} | "
         md += f"**{e['composite_score']}** | {grade_emoji[e['grade']]} {e['grade']} | "
         md += f"{e['total_return']*100:+.2f}% | {e['sharpe_ratio']:.2f} | "
-        md += f"{e['max_drawdown']*100:.1f}% | {e['win_rate']*100:.0f}% | "
+        wr_display = e['win_rate'] * 100 if e['win_rate'] <= 1 else e['win_rate']
+        md += f"{e['max_drawdown']*100:.1f}% | {wr_display:.0f}% | "
         md += f"{e['profit_loss_ratio']:.2f} | {e['return_stability']:.2f} |\n"
     md += "\n"
 
@@ -81,7 +82,8 @@ def generate_report(backtest_result, output_path='reports/'):
         md += f"- **收益率**：{e['total_return']*100:+.2f}%\n"
         md += f"- **夏普比率**：{e['sharpe_ratio']:.2f}\n"
         md += f"- **最大回撤**：{e['max_drawdown']*100:.1f}%\n"
-        md += f"- **胜率**：{e['win_rate']*100:.0f}%\n"
+        wr_display = e['win_rate'] * 100 if e['win_rate'] <= 1 else e['win_rate']
+        md += f"- **胜率**：{wr_display:.0f}%\n"
         md += f"- **盈亏比**：{e['profit_loss_ratio']:.2f}\n"
         md += f"- **收益稳定性**：{e['return_stability']:.2f}\n"
         md += f"- **交易次数**：{e['trade_count']}\n\n"

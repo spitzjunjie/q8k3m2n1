@@ -257,6 +257,28 @@ class VolumeBreakoutStrategy(BaseStrategy):
 
     def __init__(self):
         super().__init__("量价齐升", "技术策略")
+        self._pool_cache = None
+
+    def _get_pool(self, helper, date=None):
+        """获取股票池：优先沪深300前50（真实数据），失败时退回硬编码兜底池"""
+        if self._pool_cache is not None:
+            return self._pool_cache
+        try:
+            stocks = helper.get_stock_pool("hs300", sorted_by_market_value=True)
+            if stocks:
+                self._pool_cache = [{'symbol': s, 'name': s} for s in stocks[:50]]
+                return self._pool_cache
+        except Exception:
+            pass
+        self._pool_cache = [
+            {'symbol': '300750', 'name': '宁德时代'},
+            {'symbol': '688981', 'name': '中芯国际'},
+            {'symbol': '002475', 'name': '立讯精密'},
+            {'symbol': '300033', 'name': '同花顺'},
+            {'symbol': '300059', 'name': '东方财富'},
+            {'symbol': '600519', 'name': '贵州茅台'},
+        ]
+        return self._pool_cache
 
     def get_description(self):
         return "放量突破：成交量放大2倍+价格突破"
@@ -265,17 +287,7 @@ class VolumeBreakoutStrategy(BaseStrategy):
         """选择量价齐升的股票"""
         results = []
 
-        # 模拟热门股池
-        breakout_stocks = [
-            {'symbol': '300750', 'name': '宁德时代'},
-            {'symbol': '688981', 'name': '中芯国际'},
-            {'symbol': '002475', 'name': '立讯精密'},
-            {'symbol': '300033', 'name': '同花顺'},
-            {'symbol': '300059', 'name': '东方财富'},
-            {'symbol': '600519', 'name': '贵州茅台'},
-        ]
-
-        for stock in breakout_stocks:
+        for stock in self._get_pool(helper, date):
             try:
                 kline = helper.get_history_kline(stock['symbol'], days=30)
                 if kline.empty or len(kline) < 20:
@@ -292,9 +304,16 @@ class VolumeBreakoutStrategy(BaseStrategy):
                 # 放量 + 突破
                 if vol_today > vol_ma20 * 2 and price_today > ma20:
                     vol_ratio = vol_today / vol_ma20
+                    name = stock['name']
+                    try:
+                        quote = helper.get_realtime_quote(stock['symbol'])
+                        if quote and quote.get('名称'):
+                            name = quote.get('名称')
+                    except Exception:
+                        pass
                     results.append({
                         'symbol': stock['symbol'],
-                        'name': stock['name'],
+                        'name': name,
                         'reason': f"量价齐升：放量{vol_ratio:.1f}倍，突破MA20"
                     })
             except:

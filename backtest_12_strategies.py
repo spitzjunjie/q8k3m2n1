@@ -153,7 +153,10 @@ def run_strategy_backtest(strategy_name, helper, timing, dates):
     print(f"\n  结果:")
     print(f"    - 总收益率: {total_return*100:.2f}%")
     print(f"    - 交易次数: {trades_count}")
-    print(f"    - 胜率: {result.get('win_rate', 0)*100:.1f}%")
+    wr = result.get('win_rate', 0) or 0
+    if wr > 1:
+        wr = wr / 100.0
+    print(f"    - 胜率: {wr*100:.1f}%")
     print(f"    - 夏普比率: {result.get('sharpe_ratio', 0):.2f}")
     print(f"    - 最大回撤: {result.get('max_drawdown', 0)*100:.2f}%")
     
@@ -282,7 +285,10 @@ def main():
         name = r.get('name', 'Unknown')
         ret = (r.get('total_return', 0) or 0) * 100
         trades = len(r.get('trades', []))
-        win_rate = (r.get('win_rate', 0) or 0) * 100
+        wr = (r.get('win_rate', 0) or 0)
+        if wr > 1:
+            wr = wr / 100.0
+        win_rate = wr * 100
         sharpe = r.get('sharpe_ratio', 0) or 0
         max_dd = (r.get('max_drawdown', 0) or 0) * 100
         marker = "✅" if trades > 0 and ret != 0 else "❌"

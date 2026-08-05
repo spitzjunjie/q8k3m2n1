@@ -81,7 +81,7 @@ class CycleTimingStrategy(BaseStrategy):
                         continue
 
                 # 3. PB估值筛选
-                val = helper.get_valuation(symbol)
+                val = helper.get_valuation_data(symbol)
                 if not val:
                     continue
                 pb = val.get('pb', 0)

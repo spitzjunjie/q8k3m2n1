@@ -1,0 +1,262 @@
+{
+  "analysis_date": "2026-07-28 12:10:23",
+  "total_strategies": 62,
+  "zero_trade": 39,
+  "active_strategies": 23,
+  "high_correlation_pairs": 12,
+  "clusters_before_merge": 14,
+  "selected_strategies": [
+    {
+      "group": "group_0",
+      "name": "趋势动量",
+      "sharpe": 2.4273101883584323,
+      "total_return": 0.07343333333333334,
+      "group_size": 4
+    },
+    {
+      "group": "group_1",
+      "name": "多周期共振",
+      "sharpe": 4.997405393125126,
+      "total_return": 0.26293333333333335,
+      "group_size": 3
+    },
+    {
+      "group": "group_2",
+      "name": "均线多头排列",
+      "sharpe": 3.7561937053606704,
+      "total_return": 0.16466666666666666,
+      "group_size": 2
+    },
+    {
+      "group": "group_3",
+      "name": "PSR低估值",
+      "sharpe": -1.193724499510105,
+      "total_return": -0.029833333333333333,
+      "group_size": 2
+    },
+    {
+      "group": "group_4",
+      "name": "北向重仓",
+      "sharpe": -1.0071955770681928,
+      "total_return": -0.05433333333333333,
+      "group_size": 2
+    },
+    {
+      "group": "group_5",
+      "name": "低PB",
+      "sharpe": -2.481932376112246,
+      "total_return": -0.0687,
+      "group_size": 2
+    },
+    {
+      "group": "group_6",
+      "name": "高管增持",
+      "sharpe": 3.6085486986426556,
+      "total_return": 0.16696666666666668,
+      "group_size": 1
+    },
+    {
+      "group": "group_7",
+      "name": "国产替代",
+      "sharpe": 3.5842855514583833,
+      "total_return": 0.0824,
+      "group_size": 1
+    },
+    {
+      "group": "group_8",
+      "name": "AI供应链紫苏叶",
+      "sharpe": 2.115653586404628,
+      "total_return": 0.0706,
+      "group_size": 1
+    },
+    {
+      "group": "group_9",
+      "name": "首板回调",
+      "sharpe": 1.0755578605072782,
+      "total_return": 0.017333333333333333,
+      "group_size": 1
+    },
+    {
+      "group": "group_10",
+      "name": "营收增长",
+      "sharpe": -0.057274871270305824,
+      "total_return": -0.0117,
+      "group_size": 1
+    },
+    {
+      "group": "group_11",
+      "name": "净利润增速",
+      "sharpe": -0.4978521358904793,
+      "total_return": -0.0272,
+      "group_size": 1
+    },
+    {
+      "group": "group_12",
+      "name": "低PE",
+      "sharpe": -3.725198637757988,
+      "total_return": -0.1054,
+      "group_size": 1
+    },
+    {
+      "group": "group_13",
+      "name": "ETF二八轮动",
+      "sharpe": 0,
+      "total_return": 0,
+      "group_size": 1
+    }
+  ],
+  "all_groups": {
+    "group_0": {
+      "size": 4,
+      "selected": "趋势动量",
+      "members": [
+        "趋势动量",
+        "ST摘帽潜伏",
+        "业绩超预期",
+        "北向资金跟投"
+      ]
+    },
+    "group_1": {
+      "size": 3,
+      "selected": "多周期共振",
+      "members": [
+        "多周期共振",
+        "多因子综合",
+        "现金流质量"
+      ]
+    },
+    "group_2": {
+      "size": 2,
+      "selected": "均线多头排列",
+      "members": [
+        "均线多头排列",
+        "量价突破"
+      ]
+    },
+    "group_3": {
+      "size": 2,
+      "selected": "PSR低估值",
+      "members": [
+        "PSR低估值",
+        "低负债率"
+      ]
+    },
+    "group_4": {
+      "size": 2,
+      "selected": "北向重仓",
+      "members": [
+        "北向重仓",
+        "机构持仓"
+      ]
+    },
+    "group_5": {
+      "size": 2,
+      "selected": "低PB",
+      "members": [
+        "低PB",
+        "低估值修复"
+      ]
+    },
+    "group_6": {
+      "size": 1,
+      "selected": "高管增持",
+      "members": [
+        "高管增持"
+      ]
+    },
+    "group_7": {
+      "size": 1,
+      "selected": "国产替代",
+      "members": [
+        "国产替代"
+      ]
+    },
+    "group_8": {
+      "size": 1,
+      "selected": "AI供应链紫苏叶",
+      "members": [
+        "AI供应链紫苏叶"
+      ]
+    },
+    "group_9": {
+      "size": 1,
+      "selected": "首板回调",
+      "members": [
+        "首板回调"
+      ]
+    },
+    "group_10": {
+      "size": 1,
+      "selected": "营收增长",
+      "members": [
+        "营收增长"
+      ]
+    },
+    "group_11": {
+      "size": 1,
+      "selected": "净利润增速",
+      "members": [
+        "净利润增速"
+      ]
+    },
+    "group_12": {
+      "size": 1,
+      "selected": "低PE",
+      "members": [
+        "低PE"
+      ]
+    },
+    "group_13": {
+      "size": 1,
+      "selected": "ETF二八轮动",
+      "members": [
+        "ETF二八轮动"
+      ]
+    },
+    "zero_trade": {
+      "size": 39,
+      "selected": null,
+      "members": [
+        "行业动量",
+        "MACD金叉",
+        "涨停回调",
+        "价值成长",
+        "低波动",
+        "ROE选股",
+        "高ROIC",
+        "红利低波",
+        "动量反转",
+        "分析师上调",
+        "KDJ超卖金叉",
+        "动量突破",
+        "高股息",
+        "低PB价值",
+        "RSI超卖反转",
+        "南向资金",
+        "北向资金",
+        "龙虎榜",
+        "研报推荐",
+        "资金流事件",
+        "业绩暴增",
+        "短线动量",
+        "反过度自信",
+        "超跌反弹",
+        "月线共振",
+        "北向择时",
+        "财报季",
+        "解禁逆向",
+        "高成长股",
+        "财务基本面过滤小市值",
+        "业绩预告超预期",
+        "机构调研",
+        "北向持仓变化",
+        "质量因子选股",
+        "回购信号",
+        "打板接力",
+        "协整配对交易",
+        "Hurst择时动量",
+        "SEPA成长股"
+      ]
+    }
+  }
+}

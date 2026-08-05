@@ -33,14 +33,14 @@ class NorthboundChangeStrategy(BaseStrategy):
     def get_description(self):
         return f"北向持仓：近{self.lookback_days}日增持>{self.min_increase_ratio}%，持有{self.holding_days}天"
 
-    def _get_change_data(self):
+    def _get_change_data(self, helper):
         """获取北向持股变化数据"""
         if self._change_cache is not None:
             return self._change_cache
 
         try:
             # 获取北向持股变化数据
-            df = ak.stock_hsgt_hold_stock_em()
+            df = helper.wrap_akshare(ak.stock_hsgt_hold_stock_em)
             if df is not None and not df.empty:
                 # 转换日期格式
                 date_col = None
@@ -67,7 +67,7 @@ class NorthboundChangeStrategy(BaseStrategy):
         results = []
 
         try:
-            df = self._get_change_data()
+            df = self._get_change_data(helper)
             if df.empty:
                 return self._fallback_selection()
 

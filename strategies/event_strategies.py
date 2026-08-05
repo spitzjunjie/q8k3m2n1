@@ -107,7 +107,8 @@ class STRemoveStrategy(EventStrategyBase):
                 # 条件：过去亏损但近期净利润增速转正
                 profit_growth = growth.get('profit_growth', 0)
                 roe = fin.get('roe', 0)
-                if profit_growth > 50 and -5 < roe < 5:
+                roe_pct = roe * 100
+                if profit_growth > 50 and -5 < roe_pct < 5:
                     results.append({
                         'symbol': sym, 'name': sym,
                         'reason': f"困境反转，净利润增速={profit_growth:.1f}%"

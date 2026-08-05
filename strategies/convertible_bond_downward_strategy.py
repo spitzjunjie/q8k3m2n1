@@ -78,12 +78,13 @@ class ConvertibleBondDownwardStrategy(BaseStrategy):
                     fin = helper.get_financial_indicator(symbol)
                     if fin:
                         roe = fin.get('roe', 0)
+                        roe_pct = roe * 100
                         # ROE>5%的公司更可能下修
-                        if roe > 5:
+                        if roe_pct > 5:
                             results.append({
                                 'symbol': symbol,
                                 'name': symbol,
-                                'reason': f"可转债下修博弈：距高点{downward_space:.1f}%, ROE={roe:.1f}%, 超跌"
+                                'reason': f"可转债下修博弈：距高点{downward_space:.1f}%, ROE={roe_pct:.1f}%, 超跌"
                             })
 
                 if len(results) >= self.top_n:

@@ -19,11 +19,13 @@ class PiotroskiStrategy(BaseStrategy):
     def __init__(self,
                  min_score=3,       # F-Score下限（降低到3分）
                  max_pe=40,         # PE上限（放宽到40）
+                 max_drawdown_20d=10,  # 20日累计跌幅允许值%
                  holding_days=30,
                  top_n=5):
         super().__init__("质量因子选股", "质量因子")
         self.min_score = min_score
         self.max_pe = max_pe
+        self.max_drawdown_20d = max_drawdown_20d
         self.holding_days = holding_days
         self.top_n = top_n
         self._pool_cache = None
@@ -94,17 +96,18 @@ class PiotroskiStrategy(BaseStrategy):
         # 1. 获取股票池
         pool = self._get_pool(helper, date)
 
-        # 2. K线初步筛选：20日均线上方
+        # 2. K线初步筛选：20日累计跌幅不超阈值（保留趋势保护，弱市也可进财务筛选）
         candidates = []
         for symbol in pool:
             try:
                 kline = helper.get_history_kline(symbol, days=30, end_date=date)
-                if kline.empty or len(kline) < 20:
+                if kline.empty or len(kline) < 21:
                     continue
-                ma20 = kline['close'].rolling(20).mean().iloc[-1]
-                if kline['close'].iloc[-1] > ma20:
+                closes = kline['close'].astype(float)
+                ret_20d = (closes.iloc[-1] / closes.iloc[-21] - 1) * 100
+                if ret_20d > -self.max_drawdown_20d:
                     candidates.append(symbol)
-                if len(candidates) >= 8:
+                if len(candidates) >= 15:
                     break
             except Exception:
                 continue

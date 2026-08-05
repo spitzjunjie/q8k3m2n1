@@ -32,7 +32,7 @@ sys.path.insert(0, str(ROOT))
 # --------------------------------------------------------------
 
 def _all_py_files():
-    skip = {".git", "__pycache__", ".venv", "venv", "node_modules", "site"}
+    skip = {".git", "__pycache__", ".venv", "venv", "node_modules", "site", "_archive"}
     for p in ROOT.rglob("*.py"):
         if not any(s in p.parts for s in skip):
             yield p

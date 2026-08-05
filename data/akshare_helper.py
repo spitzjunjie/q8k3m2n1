@@ -24,6 +24,10 @@ class AKShareHelper:
         self._last_request_time = 0  # 上次请求时间
         self._min_request_interval = 0.3  # 最小请求间隔(秒)
         self._max_retries = 5  # 最大重试次数
+        self._spot_em_snapshot = None  # 东财全市场快照缓存
+        self._spot_sina_snapshot = None  # 新浪全市场快照缓存
+        self._stock_news_cache = None  # 新闻缓存
+        self._consecutive_network_failures = 0  # 连续网络失败计数
         self._base_wait_time = 2  # 基础等待时间(秒)
 
     def _rate_limit(self):
@@ -44,31 +48,38 @@ class AKShareHelper:
         self._last_request_time = time.time()
 
     def _retry_request(self, func, *args, **kwargs):
-        """带重试的请求，自动处理网络错误"""
+        """带重试的请求，自动处理网络错误。连续网络失败 >= 3 次后进入快速熔断模式。"""
+        FAST_FAIL_THRESHOLD = 3
+
+        max_retries = 1 if self._consecutive_network_failures >= FAST_FAIL_THRESHOLD else self._max_retries
         last_error = None
-        
-        for attempt in range(self._max_retries):
+
+        for attempt in range(max_retries):
             try:
                 self._rate_limit()
-                return func(*args, **kwargs)
+                result = func(*args, **kwargs)
+                self._consecutive_network_failures = 0
+                return result
             except Exception as e:
                 last_error = e
                 error_str = str(e)
-                
-                # 判断是否是网络错误
+
                 is_network_error = any(x in error_str for x in [
                     'RemoteDisconnected', 'Connection aborted', 'ConnectionReset',
                     'ConnectionRefused', 'timed out', 'ReadTimeout',
                     'SSLError', 'EOF', 'getaddrinfo'
                 ])
-                
-                if is_network_error and attempt < self._max_retries - 1:
-                    wait_time = self._base_wait_time * (attempt + 1) + random.uniform(0, 2)
-                    print(f"  网络错误，{wait_time:.1f}秒后重试 ({attempt + 1}/{self._max_retries}): {e}")
-                    time.sleep(wait_time)
+
+                if is_network_error:
+                    self._consecutive_network_failures += 1
+                    if attempt < max_retries - 1:
+                        wait_time = self._base_wait_time * (attempt + 1) + random.uniform(0, 2)
+                        print(f"  网络错误，{wait_time:.1f}秒后重试 ({attempt + 1}/{max_retries}): {e}")
+                        time.sleep(wait_time)
                 else:
+                    self._consecutive_network_failures = 0
                     break
-        
+
         raise last_error
 
     def wrap_akshare(self, func, *args, **kwargs):
@@ -83,6 +94,69 @@ class AKShareHelper:
                 with open(cache_file, 'r', encoding='utf-8') as f:
                     return json.load(f)
         return None
+
+
+    def _get_spot_em_snapshot(self):
+        """全市场实时行情快照（东财），同一实例/同一天内只抓一次。"""
+        if self._spot_em_snapshot is not None:
+            return self._spot_em_snapshot
+
+        cache_key = "spot_em_snapshot"
+        cached = self._get_cache(cache_key, days=1)
+        if cached is not None:
+            self._spot_em_snapshot = pd.DataFrame(cached)
+            return self._spot_em_snapshot
+
+        # 连续网络失败后进入快速熔断，避免每个策略都白等 3 次重试
+        max_retries = 1 if self._consecutive_network_failures >= 3 else 3
+        for attempt in range(max_retries):
+            try:
+                df = ak.stock_zh_a_spot_em()
+                if df is not None and not df.empty:
+                    self._set_cache(cache_key, df.to_dict('records'))
+                    self._spot_em_snapshot = df
+                    self._consecutive_network_failures = 0
+                    return df
+                break
+            except Exception as e:
+                error_str = str(e)
+                is_connection_error = any(x in error_str for x in [
+                    'RemoteDisconnected', 'Connection aborted', 'ConnectionReset',
+                    'ConnectionRefused', 'timed out', 'ReadTimeout'
+                ])
+                if is_connection_error and attempt < max_retries - 1:
+                    wait_time = (attempt + 1) * 2
+                    print(f"东财实时行情连接失败，{wait_time}秒后重试 ({attempt + 1}/{max_retries})")
+                    time.sleep(wait_time)
+                    continue
+                else:
+                    self._consecutive_network_failures += 1
+                    print(f"东财实时行情获取失败: {e}")
+                    break
+        self._spot_em_snapshot = pd.DataFrame()
+        return pd.DataFrame()
+
+    def _get_spot_sina_snapshot(self):
+        """新浪全市场实时行情快照，同一实例/同一天内只抓一次。"""
+        if self._spot_sina_snapshot is not None:
+            return self._spot_sina_snapshot
+
+        cache_key = "spot_sina_snapshot"
+        cached = self._get_cache(cache_key, days=1)
+        if cached is not None:
+            self._spot_sina_snapshot = pd.DataFrame(cached)
+            return self._spot_sina_snapshot
+
+        try:
+            spot_df = ak.stock_zh_a_spot()
+            if spot_df is not None and not spot_df.empty:
+                self._set_cache(cache_key, spot_df.to_dict('records'))
+                self._spot_sina_snapshot = spot_df
+                return spot_df
+        except Exception as e:
+            print(f"新浪实时行情获取失败: {e}")
+        self._spot_sina_snapshot = pd.DataFrame()
+        return self._spot_sina_snapshot
 
     def _set_cache(self, key, data):
         cache_file = os.path.join(self.cache_dir, f"{key}.json")
@@ -109,19 +183,22 @@ class AKShareHelper:
         """获取单只股票实时行情（多备用接口）"""
         # 方案1: 东方财富
         try:
-            df = self.wrap_akshare(ak.stock_zh_a_spot_em)
-            stock = df[df['代码'] == symbol]
+            df = self._get_spot_em_snapshot()
+            if df is not None and not df.empty:
+                stock = df[df['代码'] == symbol]
             if not stock.empty:
                 return stock.iloc[0].to_dict()
         except Exception as e:
             pass
 
-        # 方案2: 新浪
+        # 方案2: 新浪快照（共享）
         try:
-            prefix = 'sh' if symbol.startswith('6') else 'sz'
-            df = self.wrap_akshare(ak.stock_zh_a_spot, symbol=prefix + symbol)
+            df = self._get_spot_sina_snapshot()
             if df is not None and not df.empty:
-                return df.iloc[0].to_dict()
+                sina_symbol = f"sz{symbol}" if not symbol.startswith('6') else f"sh{symbol}"
+                stock = df[df['代码'] == sina_symbol]
+                if not stock.empty:
+                    return stock.iloc[0].to_dict()
         except Exception as e:
             pass
 
@@ -278,7 +355,27 @@ class AKShareHelper:
         actual_end = end_date or datetime.now().strftime("%Y%m%d")
         actual_start = (datetime.strptime(actual_end, "%Y%m%d") - timedelta(days=days*2)).strftime("%Y%m%d")
         
-        # 方案1: 东方财富ETF接口
+        # 方案1: 新浪ETF专用接口（稳定、免东财代理，沪深ETF均支持）
+        try:
+            etf_symbol = self._to_etf_sina_symbol(symbol)
+            if etf_symbol:
+                df = self._retry_request(ak.fund_etf_hist_sina, symbol=etf_symbol)
+                if df is not None and not df.empty:
+                    if 'date' not in df.columns:
+                        for col in df.columns:
+                            if 'date' in col.lower():
+                                df = df.rename(columns={col: 'date'})
+                                break
+                    df['date'] = pd.to_datetime(df['date']).dt.strftime('%Y%m%d')
+                    if end_date:
+                        df = df[df['date'] <= end_date.replace('-', '')]
+                    df = df.tail(days)
+                    self._set_cache(cache_key, df.to_dict('records'))
+                    return df
+        except Exception as e:
+            print(f"新浪ETF接口失败 {symbol}: {e}")
+
+        # 方案2: 东方财富ETF接口（降级）
         try:
             df = self._retry_request(ak.fund_etf_hist_em, symbol=symbol, period=period,
                                      start_date=actual_start, end_date=actual_end)
@@ -300,8 +397,8 @@ class AKShareHelper:
                 return df
         except Exception as e:
             print(f"东财ETF接口失败 {symbol}: {e}")
-        
-        # 方案2: 降级用股票K线（ETF也是股票代码）
+
+        # 方案3: 降级用股票K线（ETF也是股票代码）
         try:
             df = self._retry_request(ak.stock_zh_a_daily, symbol=f"sh{symbol}",
                                      start_date=actual_start, end_date=actual_end, adjust="qfq")
@@ -312,8 +409,17 @@ class AKShareHelper:
                 return df
         except Exception as e:
             print(f"ETF备用接口也失败 {symbol}: {e}")
-        
+
         return pd.DataFrame()
+
+    def _to_etf_sina_symbol(self, symbol):
+        """6 位 ETF 代码转新浪符号：510300 -> sh510300，159915 -> sz159915。"""
+        symbol = str(symbol)
+        if symbol.startswith('5'):
+            return f"sh{symbol}"
+        if symbol.startswith('1'):
+            return f"sz{symbol}"
+        return ""
 
     def get_history_kline(self, symbol, period="daily", days=60, end_date=None):
         """获取历史K线（前复权）
@@ -330,6 +436,29 @@ class AKShareHelper:
             return pd.DataFrame(cache)
         actual_end = end_date or datetime.now().strftime("%Y%m%d")
         actual_start = (datetime.strptime(actual_end, "%Y%m%d") - timedelta(days=days*2)).strftime("%Y%m%d")
+
+        # 方案0: ETF 代码直接走新浪 ETF 接口（stock_zh_a_daily 不覆盖 ETF）
+        etf_symbol = self._to_etf_sina_symbol(symbol)
+        if etf_symbol:
+            try:
+                df = self._retry_request(ak.fund_etf_hist_sina, symbol=etf_symbol)
+                if df is not None and not df.empty:
+                    if 'date' not in df.columns:
+                        for col in df.columns:
+                            if 'date' in col.lower():
+                                df = df.rename(columns={col: 'date'})
+                                break
+                    df['date'] = pd.to_datetime(df['date']).dt.strftime('%Y%m%d')
+                    if end_date:
+                        df = df[df['date'] <= end_date.replace('-', '')]
+                    df = df.tail(days)
+                    keep_cols = ['date', 'open', 'high', 'low', 'close', 'volume', 'amount']
+                    existing_cols = [c for c in keep_cols if c in df.columns]
+                    df = df[existing_cols]
+                    self._set_cache(cache_key, df.to_dict('records'))
+                    return df
+            except Exception as e:
+                print(f"新浪ETF K线失败 {symbol}: {e}")
 
         # 方案1: 新浪源 stock_zh_a_daily（稳定，需要sz/sh前缀）
         try:
@@ -372,7 +501,7 @@ class AKShareHelper:
                 return df
         except Exception as e:
             print(f"东方财富源K线失败 {symbol}: {e}")
-        
+
         return pd.DataFrame()
 
     def get_trading_dates(self, n=60, end_date=None):
@@ -469,21 +598,56 @@ class AKShareHelper:
 
     def get_financial_indicator(self, symbol):
         """获取财务指标：ROE、ROIC、资产负债率、现金流等
-        优先用 stock_financial_abstract_ths（新版可用），降级用东方财富接口
+        优先用新浪财务摘要（含 ROIC），降级用同花顺、东方财富接口
         """
         cache_key = f"fin_ind_{symbol}"
         cache = self._get_cache(cache_key, days=30)
         if cache:
             return cache
-        
+
         def safe_pct(v):
             """处理百分比字符串"""
             if isinstance(v, str) and '%' in v:
                 return self._safe_float(v.replace('%', ''), 0) / 100
             return self._safe_float(v, 0)
-        
+
+        def to_frac(v):
+            """把百分数（10.57 或 '10.57%'）转成小数 0.1057。"""
+            if v in (None, ''):
+                return 0
+            if isinstance(v, str) and '%' in v:
+                return self._safe_float(v.replace('%', ''), 0) / 100
+            return self._safe_float(v, 0) / 100
+
+        # 方案1: 新浪财务摘要（含 ROIC / 毛利率 / 资产负债率）
         try:
-            # 方案1: 同花顺财务摘要（稳定可用）
+            values = self._fetch_sina_financial_abstract(symbol)
+            if values:
+                roe = 0
+                for col in ['净资产收益率(ROE)', '净资产收益率_平均', '摊薄净资产收益率']:
+                    if values.get(col) not in (None, ''):
+                        roe = to_frac(values.get(col))
+                        break
+                roic_raw = values.get('投入资本回报率')
+                gross_raw = values.get('毛利率')
+                net_raw = values.get('销售净利率')
+                debt_raw = values.get('资产负债率')
+                current_raw = values.get('流动比率')
+                data = {
+                    'roe': roe,
+                    'roic': to_frac(roic_raw) if roic_raw not in (None, '') else 0,
+                    'debt_ratio': to_frac(debt_raw) if debt_raw not in (None, '') else 0,
+                    'current_ratio': self._safe_float(current_raw, 0) if current_raw not in (None, '') else 0,
+                    'gross_margin': to_frac(gross_raw) if gross_raw not in (None, '') else 0,
+                    'net_margin': to_frac(net_raw) if net_raw not in (None, '') else 0,
+                }
+                self._set_cache(cache_key, data)
+                return data
+        except Exception as e:
+            print(f"新浪财务摘要失败 {symbol}: {e}")
+
+        try:
+            # 方案2: 同花顺财务摘要（稳定可用，无 ROIC）
             # 数据按时间升序，最新数据在最后一行
             df = ak.stock_financial_abstract_ths(symbol=symbol, indicator="按报告期")
             if df is not None and not df.empty:
@@ -497,13 +661,27 @@ class AKShareHelper:
                     if col in latest and latest[col] is not None:
                         roe_value = safe_pct(latest.get(col, 0))
                         break
-                
+
+                roic_value = 0
+                roic_cols = ['投入资本回报率', '投入资本回报率(%)', 'ROIC(%)']
+                for col in roic_cols:
+                    if col in latest and latest[col] is not None:
+                        roic_value = safe_pct(latest.get(col, 0))
+                        break
+
+                gross_margin_value = 0
+                margin_cols = ['毛利率', '销售毛利率', '毛利率(%)']
+                for col in margin_cols:
+                    if col in latest and latest[col] is not None:
+                        gross_margin_value = safe_pct(latest.get(col, 0))
+                        break
+
                 data = {
                     'roe': roe_value,
-                    'roic': 0,  # ths数据不含ROIC
+                    'roic': roic_value,
                     'debt_ratio': safe_pct(latest.get('资产负债率', 0)),
                     'current_ratio': self._safe_float(latest.get('流动比率', 0)),
-                    'gross_margin': 0,  # ths数据不含毛利率
+                    'gross_margin': gross_margin_value,
                     'net_margin': safe_pct(latest.get('销售净利率', 0)),
                 }
                 self._set_cache(cache_key, data)
@@ -511,24 +689,72 @@ class AKShareHelper:
         except Exception as e:
             print(f"同花顺财务指标失败 {symbol}: {e}")
 
-        # 方案2: 东方财富财务分析指标（降级）
+        # 方案3: 东方财富财务分析指标（降级，需带市场后缀）
         try:
-            df = ak.stock_financial_analysis_indicator_em(symbol=symbol)
+            secu_code = self._to_secu_code(symbol)
+            if not secu_code:
+                return {}
+            df = ak.stock_financial_analysis_indicator_em(symbol=secu_code)
             if df is not None and not df.empty:
                 latest = df.iloc[0].to_dict()
                 data = {
-                    'roe': safe_pct(latest.get('净资产收益率(%)', 0)),
-                    'roic': safe_pct(latest.get('投入资本回报率(%)', 0)),
-                    'debt_ratio': safe_pct(latest.get('资产负债率(%)', 0)),
-                    'current_ratio': self._safe_float(latest.get('流动比率', 0)),
-                    'gross_margin': safe_pct(latest.get('销售毛利率(%)', 0)),
-                    'net_margin': safe_pct(latest.get('销售净利率(%)', 0)),
+                    'roe': to_frac(latest.get('ROE_DILUTED', 0)),
+                    'roic': 0,
+                    'debt_ratio': 0,
+                    'current_ratio': 0,
+                    'gross_margin': to_frac(latest.get('GROSS_PROFIT_RATIO', 0)),
+                    'net_margin': to_frac(latest.get('NET_PROFIT_RATIO', 0)),
                 }
                 self._set_cache(cache_key, data)
                 return data
         except Exception as e:
             print(f"东方财富财务指标失败 {symbol}: {e}")
         return {}
+
+    def _to_secu_code(self, symbol):
+        """6 位代码转东财 SECUCODE（600519 -> 600519.SH）。"""
+        symbol = str(symbol)
+        if len(symbol) != 6 or not symbol.isdigit():
+            return ""
+        if symbol.startswith(('60', '68', '9')):
+            return f"{symbol}.SH"
+        if symbol.startswith(('00', '30', '20')):
+            return f"{symbol}.SZ"
+        if symbol.startswith(('43', '83', '87', '92')):
+            return f"{symbol}.BJ"
+        return ""
+
+    def _fetch_sina_financial_abstract(self, symbol):
+        """自请求新浪财务摘要（支持沪深两市），返回最新报告期 {指标名: 值}。"""
+        import requests
+
+        symbol = str(symbol)
+        if symbol[0] in '69':
+            prefix = 'sh'
+        elif symbol[0] in '03':
+            prefix = 'sz'
+        else:
+            prefix = 'bj'
+        url = "https://quotes.sina.cn/cn/api/openapi.php/CompanyFinanceService.getFinanceReport2022"
+        params = {
+            "paperCode": prefix + symbol,
+            "source": "gjzb",
+            "type": "0",
+            "page": "1",
+            "num": "1000",
+        }
+        resp = requests.get(url, params=params, timeout=10)
+        resp.raise_for_status()
+        report_list = resp.json().get("result", {}).get("data", {}).get("report_list", {})
+        if not report_list:
+            return {}
+        latest_key = max(report_list.keys())
+        values = {}
+        for item in report_list[latest_key].get("data", []):
+            title = item.get("item_title")
+            if title:
+                values[title] = item.get("item_value")
+        return values
 
     def get_valuation_data(self, symbol):
         """获取估值数据：PE、PB、PS、股息率
@@ -560,81 +786,29 @@ class AKShareHelper:
         except Exception as e:
             print(f"[Tushare]估值获取失败 {symbol}: {e}，降级到akshare")
 
-        # 方案2: 东财实时行情（包含PE/PB/总市值）- 带重试
-        max_retries = 3
-        for attempt in range(max_retries):
-            try:
-                df = ak.stock_zh_a_spot_em()
-                if df is not None and not df.empty:
-                    stock = df[df['代码'] == symbol]
-                    if not stock.empty:
-                        row = stock.iloc[0]
-                        data = {
-                            'pe': self._safe_float(row.get('市盈率-动态', 0)),
-                            'pe_ttm': self._safe_float(row.get('市盈率-动态', 0)),
-                            'pb': self._safe_float(row.get('市净率', 0)),
-                            'ps': self._safe_float(row.get('市销率', 0)),
-                            'ps_ttm': self._safe_float(row.get('市销率TTM', 0)),
-                            'dv_ratio': self._safe_float(row.get('股息率', 0)),
-                            'dv_ttm': self._safe_float(row.get('股息率TTM', 0)),
-                            'total_mv': self._safe_float(row.get('总市值', 0)),
-                        }
-                        self._set_cache(cache_key, data)
-                        return data
-                break
-            except Exception as e:
-                error_str = str(e)
-                is_connection_error = any(x in error_str for x in [
-                    'RemoteDisconnected', 'Connection aborted', 'ConnectionReset',
-                    'ConnectionRefused', 'timed out', 'ReadTimeout'
-                ])
-                if is_connection_error and attempt < max_retries - 1:
-                    wait_time = (attempt + 1) * 2
-                    print(f"东财实时行情连接失败 {symbol}，{wait_time}秒后重试 ({attempt + 1}/{max_retries})")
-                    time.sleep(wait_time)
-                    continue
-                else:
-                    print(f"东财实时行情估值失败 {symbol}: {e}")
-                    break
-
-        # 方案3: 新浪实时行情
-        for attempt in range(max_retries):
-            try:
-                sina_symbol = f"sz{symbol}" if not symbol.startswith('6') else f"sh{symbol}"
-                spot_df = ak.stock_zh_a_spot()
-                if spot_df is not None and not spot_df.empty:
-                    stock_spot = spot_df[spot_df['代码'] == sina_symbol]
-                    if not stock_spot.empty:
-                        row = stock_spot.iloc[0]
-                        data = {
-                            'pe': self._safe_float(row.get('市盈率-动态', 0)),
-                            'pe_ttm': self._safe_float(row.get('市盈率-动态', 0)),
-                            'pb': self._safe_float(row.get('市净率', 0)),
-                            'ps': self._safe_float(row.get('市销率', 0)),
-                            'ps_ttm': self._safe_float(row.get('市销率TTM', 0)),
-                            'dv_ratio': self._safe_float(row.get('股息率', 0)),
-                            'dv_ttm': self._safe_float(row.get('股息率TTM', 0)),
-                            'total_mv': self._safe_float(row.get('总市值', 0)),
-                        }
-                        self._set_cache(cache_key, data)
-                        return data
-                break
-            except Exception as e:
-                error_str = str(e)
-                is_connection_error = any(x in error_str for x in [
-                    'RemoteDisconnected', 'Connection aborted', 'ConnectionReset',
-                    'ConnectionRefused', 'timed out', 'ReadTimeout'
-                ])
-                if is_connection_error and attempt < max_retries - 1:
-                    wait_time = (attempt + 1) * 2
-                    print(f"新浪实时行情连接失败 {symbol}，{wait_time}秒后重试 ({attempt + 1}/{max_retries})")
-                    time.sleep(wait_time)
-                    continue
-                else:
-                    print(f"新浪实时行情估值失败 {symbol}: {e}")
-                    break
-
-        # 方案4: 同花顺财务数据+历史K线
+        # 方案2: 东财快照（共享快照，本地过滤）
+        try:
+            df = self._get_spot_em_snapshot()
+            if df is not None and not df.empty:
+                stock = df[df['代码'] == symbol]
+                if not stock.empty:
+                    row = stock.iloc[0]
+                    data = {
+                        'pe': self._safe_float(row.get('市盈率-动态', 0)),
+                        'pe_ttm': self._safe_float(row.get('市盈率-动态', 0)),
+                        'pb': self._safe_float(row.get('市净率', 0)),
+                        'ps': self._safe_float(row.get('市销率', 0)),
+                        'ps_ttm': self._safe_float(row.get('市销率TTM', 0)),
+                        'dv_ratio': self._safe_float(row.get('股息率', 0)),
+                        'dv_ttm': self._safe_float(row.get('股息率TTM', 0)),
+                        'total_mv': self._safe_float(row.get('总市值', 0)),
+                    }
+                    self._set_cache(cache_key, data)
+                    return data
+        except Exception as e:
+            print(f"东财实时行情估值失败 {symbol}: {e}")
+        # 方案3: 同花顺财务数据 + 历史K线计算 PE/PB
+        # 注：新浪全市场快照不含市盈率/市净率列，不能作为估值来源。
         try:
             fin_df = ak.stock_financial_abstract_ths(symbol=symbol, indicator="按报告期")
             if fin_df is not None and not fin_df.empty:
@@ -660,6 +834,29 @@ class AKShareHelper:
                     return data
         except Exception as e:
             print(f"同花顺+历史K线估值计算失败 {symbol}: {e}")
+
+        # 方案4: 新浪快照（仅当包含市盈率列时兜底，不产生全 0 估值）
+        try:
+            df = self._get_spot_sina_snapshot()
+            if df is not None and not df.empty and '市盈率-动态' in df.columns:
+                sina_symbol = f"sz{symbol}" if not symbol.startswith('6') else f"sh{symbol}"
+                stock_spot = df[df['代码'] == sina_symbol]
+                if not stock_spot.empty:
+                    row = stock_spot.iloc[0]
+                    data = {
+                        'pe': self._safe_float(row.get('市盈率-动态', 0)),
+                        'pe_ttm': self._safe_float(row.get('市盈率-动态', 0)),
+                        'pb': self._safe_float(row.get('市净率', 0)),
+                        'ps': self._safe_float(row.get('市销率', 0)),
+                        'ps_ttm': self._safe_float(row.get('市销率TTM', 0)),
+                        'dv_ratio': self._safe_float(row.get('股息率', 0)),
+                        'dv_ttm': self._safe_float(row.get('股息率TTM', 0)),
+                        'total_mv': self._safe_float(row.get('总市值', 0)),
+                    }
+                    self._set_cache(cache_key, data)
+                    return data
+        except Exception as e:
+            print(f"新浪实时行情估值失败 {symbol}: {e}")
         return {}
 
     def get_growth_data(self, symbol):
@@ -887,32 +1084,131 @@ class AKShareHelper:
 
     # ==================== 事件数据 ====================
 
+    def get_stock_news(self):
+        """获取财经新闻，主接口失败时依次降级到财新数据通、财联社电报、富途快讯。
+
+        同实例内缓存结果，避免重复触发 stock_news_em 的 ArrowInvalid 解析错误。
+        """
+        if self._stock_news_cache is not None:
+            return self._stock_news_cache
+
+        # 1) 东方财富（列名天然匹配策略）
+        try:
+            df = self.wrap_akshare(ak.stock_news_em)
+            if df is not None and not df.empty:
+                self._stock_news_cache = df
+                return df
+        except Exception as e:
+            print(f"东方财富新闻获取失败，尝试备用接口: {e}")
+
+        # 2) 财新数据通
+        try:
+            df = self.wrap_akshare(ak.stock_news_main_cx)
+            if df is not None and not df.empty:
+                normalized = pd.DataFrame({
+                    "关键词": df.get("tag", pd.Series("", index=df.index)).fillna(""),
+                    "新闻标题": df.get("summary", pd.Series("", index=df.index)).fillna(""),
+                    "新闻内容": df.get("summary", pd.Series("", index=df.index)).fillna(""),
+                    "文章来源": "财新数据通",
+                    "发布时间": "",
+                    "新闻链接": df.get("url", pd.Series("", index=df.index)).fillna(""),
+                })
+                self._stock_news_cache = normalized
+                return normalized
+        except Exception as e:
+            print(f"财新数据通新闻获取失败，尝试备用接口: {e}")
+
+        # 3) 财联社电报（有界请求，避免 akshare 内部 10 次指数退避）
+        try:
+            df = self.wrap_akshare(self._fetch_cls_telegraph)
+            if df is not None and not df.empty:
+                normalized = pd.DataFrame({
+                    "关键词": pd.Series("", index=df.index),
+                    "新闻标题": df.get("标题", pd.Series("", index=df.index)).fillna(""),
+                    "新闻内容": df.get("内容", pd.Series("", index=df.index)).fillna(""),
+                    "文章来源": "财联社",
+                    "发布时间": df.get("发布时间", pd.Series("", index=df.index)).fillna("").astype(str),
+                    "新闻链接": pd.Series("", index=df.index),
+                })
+                self._stock_news_cache = normalized
+                return normalized
+        except Exception as e:
+            print(f"财联社电报新闻获取失败: {e}")
+
+        # 4) 富途快讯（标题/内容/发布时间/链接）
+        try:
+            df = self.wrap_akshare(ak.stock_info_global_futu)
+            if df is not None and not df.empty:
+                normalized = pd.DataFrame({
+                    "关键词": pd.Series("", index=df.index),
+                    "新闻标题": df.get("标题", pd.Series("", index=df.index)).fillna(""),
+                    "新闻内容": df.get("内容", pd.Series("", index=df.index)).fillna(""),
+                    "文章来源": "富途快讯",
+                    "发布时间": df.get("发布时间", pd.Series("", index=df.index)).fillna("").astype(str),
+                    "新闻链接": df.get("链接", pd.Series("", index=df.index)).fillna(""),
+                })
+                self._stock_news_cache = normalized
+                return normalized
+        except Exception as e:
+            print(f"富途快讯新闻获取失败: {e}")
+
+        self._stock_news_cache = pd.DataFrame()
+        return pd.DataFrame()
+
+    def _fetch_cls_telegraph(self):
+        """有界请求财联社电报（10s 超时，避免 akshare 内部无限退避拖慢兜底）。"""
+        import requests
+
+        url = "https://www.cls.cn/nodeapi/telegraphList"
+        headers = {
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+            "referer": "https://www.cls.cn/telegraph",
+        }
+        resp = requests.get(url, headers=headers, timeout=10)
+        resp.raise_for_status()
+        data = resp.json().get("data", {}).get("roll_data", [])
+        rows = []
+        for item in data:
+            ctime = item.get("ctime", 0)
+            rows.append({
+                "标题": str(item.get("title", "")),
+                "内容": str(item.get("content", "")),
+                "发布时间": (
+                    datetime.fromtimestamp(ctime).strftime("%Y-%m-%d %H:%M:%S")
+                    if ctime else ""
+                ),
+            })
+        return pd.DataFrame(rows)
+
     def get_limit_up_list(self, date=None):
-        """获取涨停板股票列表"""
+        """获取涨停板股票列表，主接口失败时尝试强势股池兜底。
+
+        统一走 wrap_akshare，便于体检插桩观测与网络快速熔断。
+        """
         if date is None:
             date = datetime.now().strftime("%Y%m%d")
         cache_key = f"limitup_{date}"
         cache = self._get_cache(cache_key, days=1)
         if cache:
             return pd.DataFrame(cache)
-        
+
         # 尝试多个涨跌停接口
         funcs_to_try = [
-            ('ak.stock_zt_pool_em', lambda: ak.stock_zt_pool_em(date=date)),
-            ('ak.stock_zt_pool_cw', lambda: ak.stock_zt_pool_cw(date=date)),
+            ('ak.stock_zt_pool_em', lambda: self.wrap_akshare(ak.stock_zt_pool_em, date=date)),
+            ('ak.stock_zt_pool_strong_em', lambda: self.wrap_akshare(ak.stock_zt_pool_strong_em, date=date)),
         ]
-        
+
         for func_name, func in funcs_to_try:
             try:
                 df = func()
                 if df is not None and not df.empty:
                     self._set_cache(cache_key, df.to_dict('records'))
                     return df
-            except (AttributeError, Exception) as e:
+            except Exception as e:
                 print(f"{func_name} 获取涨停板失败: {e}")
                 continue
-        
-        print(f"获取涨停板失败: 所有接口均不可用")
+
+        print("获取涨停板失败: 所有接口均不可用")
         return pd.DataFrame()
 
     def get_dragon_tiger_list(self, date=None):

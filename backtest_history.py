@@ -582,7 +582,10 @@ def run_historical_backtest(strategy_names=None, days=None, start_date=None, end
         value = r.get('total_value', 0)
         sharpe = r.get('sharpe_ratio', 0)
         dd = r.get('max_drawdown', 0) * 100
-        win_rate = r.get('win_rate', 0) * 100
+        wr = r.get('win_rate', 0)
+        if wr > 1:
+            wr = wr / 100.0  # 已是百分比，归一化到 0-1
+        win_rate = wr * 100
         print(f"{i:2}. {name:<20} 收益:{ret:>+7.2f}%  夏普:{sharpe:>5.2f}  回撤:{dd:>5.1f}%  胜率:{win_rate:>5.1f}%  权益:¥{value:,.0f}")
 
     print(f"\n结果已保存到: {temp_file}")

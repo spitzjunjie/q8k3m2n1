@@ -35,14 +35,14 @@ class EarningsPreviewStrategy(BaseStrategy):
     def get_description(self):
         return f"业绩预告：净利润增速>{self.min_profit_growth}%，持有{self.holding_days}天"
 
-    def _get_preview_data(self):
+    def _get_preview_data(self, helper):
         """获取业绩预告数据"""
         if self._preview_cache is not None:
             return self._preview_cache
 
         try:
             # 获取业绩预告数据
-            df = ak.stock_report_disclosure()
+            df = helper.wrap_akshare(ak.stock_report_disclosure)
             if df is not None and not df.empty:
                 # 转换日期格式
                 date_col = None
@@ -86,7 +86,7 @@ class EarningsPreviewStrategy(BaseStrategy):
         results = []
 
         try:
-            df = self._get_preview_data()
+            df = self._get_preview_data(helper)
             if df.empty:
                 return self._fallback_selection()
 

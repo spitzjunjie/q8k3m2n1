@@ -201,10 +201,12 @@ class StrategyLoopEngine:
         if self.iterations:
             last_eval = self.iterations[-1].evaluation
             if last_eval:
+                wr = last_eval.get('win_rate', 0) or 0
+                wr_display = wr * 100 if wr <= 1 else wr
                 observations.append(
                     f"上次: 夏普={last_eval.get('sharpe_ratio', 0):.2f}, "
                     f"收益={last_eval.get('total_return', 0)*100:.1f}%, "
-                    f"胜率={last_eval.get('win_rate', 0)*100:.0f}%"
+                    f"胜率={wr_display:.0f}%"
                 )
         
         return ", ".join(observations)

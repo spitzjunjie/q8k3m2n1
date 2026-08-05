@@ -266,7 +266,7 @@ class MultiPeriodBacktest:
                     f"{metrics['total_return']*100:>9.2f}% "
                     f"{metrics['sharpe_ratio']:>8.2f} "
                     f"{metrics['max_drawdown']*100:>9.2f}% "
-                    f"{metrics['win_rate']*100:>7.2f}% "
+                    f"{(metrics['win_rate'] * 100 if metrics['win_rate'] <= 1 else metrics['win_rate']):>7.2f}% "
                     f"{metrics['volatility']*100:>9.2f}%"
                 )
             

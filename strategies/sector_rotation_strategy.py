@@ -81,6 +81,9 @@ class SectorRotationStrategy(BaseStrategy):
         
         self._industry_cache = None
         self._hs300_data = None
+        self._industry_history_cache = {}
+        self._max_consecutive_history_failures = 3
+        self._industry_history_degraded = False  # 失败快照：接口不可用时跳过剩余行业
         
     def detect_events(self, helper, date=None):
         """
@@ -91,15 +94,20 @@ class SectorRotationStrategy(BaseStrategy):
         events = []
         
         # 获取行业列表
-        industry_list = self._get_industry_list()
+        industry_list = self._get_industry_list(helper)
         if not industry_list:
             industry_list = list(self.industry_etfs.keys())
         
         # 获取沪深300基准
-        hs300_df = self._get_hs300_data(days=30)
+        hs300_df = self._get_hs300_data(helper, days=30)
         
         # 遍历行业找轮动信号
+        consecutive_history_failures = 0
         for industry in industry_list[:50]:
+            if self._industry_history_degraded:
+                print("行业历史接口已熔断，跳过剩余行业")
+                break
+
             if isinstance(industry, dict):
                 industry_name = industry.get('板块名称', industry.get('行业', ''))
             else:
@@ -109,7 +117,15 @@ class SectorRotationStrategy(BaseStrategy):
                 continue
             
             try:
-                industry_df = self._get_industry_historical(industry_name)
+                industry_df = self._get_industry_historical(helper, industry_name)
+                if industry_df is None or industry_df.empty:
+                    consecutive_history_failures += 1
+                    if consecutive_history_failures >= self._max_consecutive_history_failures:
+                        self._industry_history_degraded = True
+                        print("行业历史数据连续失败，停止本轮逐行业请求")
+                        break
+                    continue
+                consecutive_history_failures = 0
                 
                 # 计算关键指标
                 rs = self._calculate_rs_strength(industry_df, hs300_df)
@@ -139,13 +155,13 @@ class SectorRotationStrategy(BaseStrategy):
                 f"RS>{self.rs_threshold}, 资金流入>{self.fund_flow_threshold}%, "
                 f"{'月度' if self.rebalance_monthly else '每周'}调仓")
     
-    def _get_industry_list(self):
+    def _get_industry_list(self, helper):
         """获取行业板块列表"""
         if self._industry_cache is not None:
             return self._industry_cache
         
         try:
-            df = ak.stock_board_industry_name_em()
+            df = helper.wrap_akshare(ak.stock_board_industry_name_em)
             if df is not None and not df.empty:
                 self._industry_cache = df.to_dict('records')
                 return self._industry_cache
@@ -154,25 +170,43 @@ class SectorRotationStrategy(BaseStrategy):
         
         return []
     
-    def _get_industry_historical(self, industry_name):
+    def _get_industry_historical(self, helper, industry_name):
+        if industry_name in self._industry_history_cache:
+            return self._industry_history_cache[industry_name]
+
         """获取行业历史表现"""
+        if self._industry_history_degraded:
+            return pd.DataFrame()
+
         try:
-            df = ak.stock_board_industry_hist_em(symbol=industry_name, 
-                                                  start_date=(datetime.now() - timedelta(days=60)).strftime("%Y%m%d"),
-                                                  end_date=datetime.now().strftime("%Y%m%d"))
+            df = helper.wrap_akshare(
+                ak.stock_board_industry_hist_em,
+                symbol=industry_name,
+                start_date=(datetime.now() - timedelta(days=60)).strftime("%Y%m%d"),
+                end_date=datetime.now().strftime("%Y%m%d"),
+            )
             if df is not None and not df.empty:
+                self._industry_history_cache[industry_name] = df
                 return df
         except Exception as e:
             print(f"获取行业历史失败 {industry_name}: {e}")
-        return pd.DataFrame()
+            self._mark_history_degraded(helper)
+        empty = pd.DataFrame()
+        self._industry_history_cache[industry_name] = empty
+        return empty
+
+    def _mark_history_degraded(self, helper):
+        """helper 已进入快速熔断模式时，缓存"行业历史接口不可用"状态。"""
+        if getattr(helper, "_consecutive_network_failures", 0) >= 3:
+            self._industry_history_degraded = True
     
-    def _get_hs300_data(self, days=30):
+    def _get_hs300_data(self, helper, days=30):
         """获取沪深300指数数据"""
         if self._hs300_data is not None and len(self._hs300_data) >= days:
             return self._hs300_data
         
         try:
-            df = ak.stock_zh_index_daily(symbol='sh000300')
+            df = helper.wrap_akshare(ak.stock_zh_index_daily, symbol='sh000300')
             if df is not None and not df.empty:
                 df = df.tail(days)
                 self._hs300_data = df
@@ -237,10 +271,15 @@ class SectorRotationStrategy(BaseStrategy):
             print(f"获取行业资金流向失败 {industry_name}: {e}")
         return 0, 0
     
-    def _get_sector_stocks(self, industry_name, top_n=3):
+    def _get_sector_stocks(self, helper, industry_name, top_n=3):
         """获取行业中成交额最大的龙头股"""
+        if self._industry_history_degraded:
+            return []
+
         try:
-            df = ak.stock_board_industry_cons_em(symbol=industry_name)
+            df = helper.wrap_akshare(
+                ak.stock_board_industry_cons_em, symbol=industry_name
+            )
             if df is not None and not df.empty:
                 # 按成交额排序
                 if '成交额' in df.columns:
@@ -324,18 +363,23 @@ class SectorRotationStrategy(BaseStrategy):
         results = []
         
         # 1. 获取行业列表
-        industry_list = self._get_industry_list()
+        industry_list = self._get_industry_list(helper)
         if not industry_list:
             print("获取行业列表为空，使用ETF映射")
             industry_list = list(self.industry_etfs.keys())
         
         # 2. 获取沪深300基准数据
-        hs300_df = self._get_hs300_data(days=30)
+        hs300_df = self._get_hs300_data(helper, days=30)
         
         # 3. 对每个行业进行三维度打分
         industry_scores = []
         
+        consecutive_history_failures = 0
         for industry in industry_list[:50]:  # 限制处理数量
+            if self._industry_history_degraded:
+                print("行业历史接口已熔断，跳过剩余行业")
+                break
+
             if isinstance(industry, dict):
                 industry_name = industry.get('板块名称', industry.get('行业', ''))
             else:
@@ -346,7 +390,15 @@ class SectorRotationStrategy(BaseStrategy):
             
             try:
                 # 获取行业历史数据
-                industry_df = self._get_industry_historical(industry_name)
+                industry_df = self._get_industry_historical(helper, industry_name)
+                if industry_df is None or industry_df.empty:
+                    consecutive_history_failures += 1
+                    if consecutive_history_failures >= self._max_consecutive_history_failures:
+                        self._industry_history_degraded = True
+                        print("行业历史数据连续失败，停止本轮逐行业请求")
+                        break
+                    continue
+                consecutive_history_failures = 0
                 
                 # 计算三维度得分
                 policy_score = self._calculate_policy_score(industry_name)
@@ -391,7 +443,9 @@ class SectorRotationStrategy(BaseStrategy):
         # 6. 在强势行业中选取龙头股
         for ind in top_industries:
             industry_name = ind['industry']
-            stocks = self._get_sector_stocks(industry_name, top_n=self.top_n_stocks)
+            stocks = self._get_sector_stocks(
+                helper, industry_name, top_n=self.top_n_stocks
+            )
             
             for stock in stocks:
                 # 检查是否已持仓

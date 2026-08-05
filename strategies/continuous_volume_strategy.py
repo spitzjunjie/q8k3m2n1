@@ -28,16 +28,9 @@ class ContinuousVolumeStrategy(BaseStrategy):
         self.max_return = max_return
         self.holding_days = holding_days
         self.top_n = top_n
-        
-    def get_description(self):
-        return f"量价齐升：量比>{self.vol_ratio}, 涨幅{self.min_return}-{self.max_return}%, 持有{self.holding_days}天"
-
-    def select_stocks(self, helper, date=None):
-        """选股：量价齐升"""
-        results = []
-        
-        # 模拟热门股票池
-        breakout_stocks = [
+        self._pool_cache = None
+        # 兜底池：helper 不可用时的降级方案，不再作为唯一股票池
+        self._fallback_pool = [
             {'symbol': '688981', 'name': '中芯国际'},
             {'symbol': '688012', 'name': '中微公司'},
             {'symbol': '688256', 'name': '寒武纪'},
@@ -48,7 +41,28 @@ class ContinuousVolumeStrategy(BaseStrategy):
             {'symbol': '600519', 'name': '贵州茅台'},
         ]
         
-        for stock in breakout_stocks:
+    def get_description(self):
+        return f"量价齐升：量比>{self.vol_ratio}, 涨幅{self.min_return}-{self.max_return}%, 持有{self.holding_days}天"
+
+    def _get_pool(self, helper, date=None):
+        """获取股票池：优先沪深300前50（真实数据），失败时退回硬编码兜底池"""
+        if self._pool_cache is not None:
+            return self._pool_cache
+        try:
+            stocks = helper.get_stock_pool("hs300", sorted_by_market_value=True)
+            if stocks:
+                self._pool_cache = [{'symbol': s, 'name': s} for s in stocks[:50]]
+                return self._pool_cache
+        except Exception:
+            pass
+        self._pool_cache = list(self._fallback_pool)
+        return self._pool_cache
+
+    def select_stocks(self, helper, date=None):
+        """选股：量价齐升"""
+        results = []
+
+        for stock in self._get_pool(helper, date):
             try:
                 kline = helper.get_history_kline(stock['symbol'], days=30)
                 if kline.empty or len(kline) < 10:
@@ -64,9 +78,16 @@ class ContinuousVolumeStrategy(BaseStrategy):
                 
                 # 条件：放量 + 涨幅适中
                 if vol_ratio > self.vol_ratio and self.min_return < ret < self.max_return:
+                    name = stock['name']
+                    try:
+                        quote = helper.get_realtime_quote(stock['symbol'])
+                        if quote and quote.get('名称'):
+                            name = quote.get('名称')
+                    except Exception:
+                        pass
                     results.append({
                         'symbol': stock['symbol'],
-                        'name': stock['name'],
+                        'name': name,
                         'reason': f"量价齐升：量比{round(vol_ratio, 1)}倍, 涨幅{ret:.1f}%"
                     })
                 

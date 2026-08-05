@@ -26,7 +26,9 @@ for s in strategies:
     total_return = s['total_return'] * 100  # 转为百分比
     sharpe_ratio = s['sharpe_ratio']
     max_drawdown = s['max_drawdown'] * 100  # 转为百分比
-    win_rate = s['win_rate'] * 100  # 转为百分比
+    win_rate = s['win_rate']
+    if win_rate > 1:
+        win_rate = win_rate / 100.0  # 已是百分比，归一化到 0-1
     trade_count = len(s.get('trades', []))
 
     # 平均每笔收益 (使用已实现盈亏/交易次数)

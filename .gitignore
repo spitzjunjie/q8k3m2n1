@@ -25,6 +25,9 @@ __pycache__/
 dist/
 build/
 .pytest_cache/
+.pytest_tmp_*/
+output/pytest_tmp*/
+output/_etf_test_cache/
 .ruff_cache/
 .mypy_cache/
 

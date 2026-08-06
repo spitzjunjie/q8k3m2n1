@@ -87,6 +87,50 @@ class TushareHelper:
             print(f"[Tushare]获取股票列表失败: {e}")
         return []
 
+    def get_market_stocks(self):
+        """获取全市场A股快照（对齐 AKShare get_market_stocks 的 dict 列表格式）
+
+        返回 [{'symbol','name','change_pct','pb',...}, ...]
+        质量因子选股Pro 等策略依赖 change_pct / pb 字段做全市场筛选。
+        """
+        try:
+            stocks = self.get_stock_list()
+            if not stocks:
+                return []
+
+            by_code = {str(s.get('symbol', '')).split('.')[0]: s for s in stocks}
+            out = []
+
+            # 当日全市场估值/行情（daily_basic 一次返回全市场）
+            pb_map, chg_map = {}, {}
+            try:
+                self._rate_limit('daily_basic')
+                trade_date = datetime.now().strftime('%Y%m%d')
+                df = self.pro.daily_basic(trade_date=trade_date,
+                                          fields='ts_code,pb,pe_ttm,turnover_rate')
+                if df is not None and not df.empty:
+                    for _, r in df.iterrows():
+                        pb_map[r['ts_code'].split('.')[0]] = r.get('pb', 0) or 0
+                self._rate_limit('daily')
+                d2 = self.pro.daily(trade_date=trade_date, fields='ts_code,pct_chg')
+                if d2 is not None and not d2.empty:
+                    for _, r in d2.iterrows():
+                        chg_map[r['ts_code'].split('.')[0]] = r.get('pct_chg', 0) or 0
+            except Exception as e:
+                print(f"[Tushare]获取全市场行情失败(降级返回基础列表): {e}")
+
+            for code, s in by_code.items():
+                out.append({
+                    'symbol': code,
+                    'name': s.get('name', code),
+                    'change_pct': chg_map.get(code, 0),
+                    'pb': pb_map.get(code, 0),
+                })
+            return out
+        except Exception as e:
+            print(f"[Tushare]获取全市场股票失败: {e}")
+            return []
+
     # ==================== 股票池 ====================
 
     def get_stock_pool(self, pool_type='hs300', sorted_by_market_value=False):
@@ -115,12 +159,35 @@ class TushareHelper:
             for _, row in df.iterrows():
                 code = row.get('con_code')
                 if code:
-                    stocks.append(str(code).strip())
+                    # 统一为 6 位裸代码（与 AKShare 一致），避免下游把
+                    # "600519.SH" 当 symbol 传给各接口导致格式不兼容
+                    code = str(code).strip().split('.')[0]
+                    stocks.append(code)
 
             return stocks
         except Exception as e:
             print(f"[Tushare]获取股票池失败: {e}")
             return []
+
+    def get_new_stocks(self, days=400):
+        """获取次新股列表（pro.new_share，失败返回空让策略走静态池兜底）"""
+        cache_key = f"new_stocks_{days}"
+        cache = self._get_cache(cache_key, days=3)
+        if cache:
+            return cache
+        try:
+            start = (datetime.now() - timedelta(days=days)).strftime('%Y%m%d')
+            end = datetime.now().strftime('%Y%m%d')
+            self._rate_limit('new_share')
+            df = self.pro.new_share(start_date=start, end_date=end)
+            if df is not None and not df.empty and 'ts_code' in df.columns:
+                codes = [str(c).split('.')[0] for c in df['ts_code'].tolist()]
+                self._set_cache(cache_key, codes)
+                print(f"[Tushare]次新股列表获取成功: {len(codes)} 只")
+                return codes
+        except Exception as e:
+            print(f"[Tushare]获取次新股列表失败: {e}")
+        return []
 
     # ==================== K线数据 ====================
 
@@ -379,6 +446,36 @@ class TushareHelper:
             print(f"[Tushare]获取龙虎榜失败: {e}")
             return pd.DataFrame()
 
+    def get_dragon_tiger_list(self, date=None):
+        """获取龙虎榜列表（对齐 AKShare get_dragon_tiger_list 的列格式）
+
+        返回 DataFrame，列：代码 / 名称 / 净买入额（万元）
+        龙虎榜跟风策略按这些列名解析。
+        """
+        try:
+            kwargs = {}
+            if date:
+                d = str(date).replace('-', '')[:8]
+                kwargs['trade_date'] = d
+            else:
+                kwargs['start_date'] = (datetime.now() - timedelta(days=5)).strftime('%Y%m%d')
+                kwargs['end_date'] = datetime.now().strftime('%Y%m%d')
+
+            self._rate_limit('top_list')
+            df = self.pro.top_list(**kwargs)
+            if df is None or df.empty:
+                return pd.DataFrame()
+
+            out = pd.DataFrame({
+                '代码': df['ts_code'].str.split('.').str[0],
+                '名称': df['name'],
+                '净买入额': df.get('net_amount', 0.0),
+            })
+            return out
+        except Exception as e:
+            print(f"[Tushare]获取龙虎榜列表失败: {e}")
+            return pd.DataFrame()
+
     # ==================== 估值数据 ====================
 
     def get_valuation(self, symbol):
@@ -459,3 +556,13 @@ class TushareHelper:
             return df if df is not None else pd.DataFrame()
         except:
             return pd.DataFrame()
+
+    def wrap_akshare(self, func, *args, **kwargs):
+        """AKShare 函数包装（兼容占位）
+
+        Tushare 主源无法执行 akshare 的抓取函数（如东财板块接口）。
+        返回空 DataFrame，让依赖它的策略走 except/降级路径，
+        而不是 AttributeError 直接崩掉整个策略。
+        """
+        print(f"[Tushare]wrap_akshare 不可用（{getattr(func, '__name__', 'ak')}），返回空数据")
+        return pd.DataFrame()

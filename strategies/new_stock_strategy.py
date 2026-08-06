@@ -30,15 +30,24 @@ class NewStockStrategy(BaseStrategy):
         self.top_n = top_n
         self._pool_cache = None
 
-        # 次新股池（上市1年内，用固定池避免K线长度判断不稳定）
+        # 次新股静态池（2026-08 更新，动态获取失败时的兜底）。
+        # 运行时会优先用 helper.get_new_stocks() 动态获取，避免池子随时间过期。
         self.new_stock_pool = [
-            # 2024-2025年上市（按时间排序，越新越活跃）
-            '301601', '301606', '301608', '301610', '301612',
-            '301618', '301626', '301628', '301636', '301638',
-            '301656', '688558', '688575', '688601', '688621',
-            '301566', '301585', '301586', '301601', '301271',
-            '301296', '301308', '301323', '301326', '301339',
-            '301368', '301369', '301376', '301378', '301386',
+            # 2025-2026年上市（新浪次新股源，沪深主板/创业板/科创板）
+            '601026', '601112', '603092', '603175', '603248', '603284',
+            '603293', '603334', '603352', '603370', '603376', '603402',
+            '603406', '603407', '603418', '603435', '603459',
+            '688635', '688712', '688727', '688759', '688765', '688781',
+            '688783', '688785', '688790', '688795', '688796', '688797',
+            '688802', '688805', '688806', '688807', '688808', '688809',
+            '688811', '688813', '688816', '688818', '688820', '688825',
+            '001220', '001232', '001233', '001237', '001248', '001257',
+            '001280', '001285', '001312', '001325', '001365', '001369',
+            '001386', '001393', '001396', '001399',
+            '301449', '301491', '301513', '301531', '301563', '301575',
+            '301583', '301584', '301599', '301632', '301638', '301656',
+            '301666', '301667', '301668', '301669', '301677', '301680',
+            '301682', '301683', '301687', '301696',
         ]
 
     def get_description(self):
@@ -48,33 +57,33 @@ class NewStockStrategy(BaseStrategy):
         """获取股票池（带缓存，次新股范围）"""
         if self._pool_cache is None:
             try:
-                # 获取全市场股票，筛选次新股
-                pool = helper.get_stock_pool("hs300", sorted_by_market_value=True)
-                # 扩大范围以包含次新股
-                if len(pool) < 80:
-                    pool = helper.get_stock_pool("all", sorted_by_market_value=True)[:100]
+                # 优先动态获取次新股列表（避免固定池过期）
+                pool = helper.get_new_stocks()
+                if not pool:
+                    pool = helper.get_stock_pool("hs300", sorted_by_market_value=True)
                 self._pool_cache = pool
             except Exception:
-                self._pool_cache = [
-                    '301601', '301602', '301603', '301605', '301606',
-                    '301610', '301611', '301612', '301615', '301618',
-                    '601318', '601698', '601699', '601700', '601701',
-                ]
+                self._pool_cache = self.new_stock_pool
         return self._pool_cache
 
     def select_stocks(self, helper, date=None):
         """选股：次新股+放量+趋势"""
         results = []
 
-        # 1. 获取股票池（优先用固定次新股池，K线判断作为补充）
+        # 1. 获取股票池（优先动态次新股池，K线判断作为补充）
         try:
-            pool = helper.get_stock_pool("hs300", sorted_by_market_value=True)
-            # 混合：先用固定次新股池的20只，再用沪深300前20只
-            mixed_pool = self.new_stock_pool[:20]
-            for s in pool[:20]:
-                if s not in mixed_pool:
-                    mixed_pool.append(s)
-            pool = mixed_pool
+            new_pool = helper.get_new_stocks()
+            if not new_pool:
+                new_pool = self.new_stock_pool
+            # 混合：次新股优先，沪深300补充
+            pool = new_pool[:30]
+            try:
+                hs = helper.get_stock_pool("hs300", sorted_by_market_value=True)
+                for s in hs[:20]:
+                    if s not in pool:
+                        pool.append(s)
+            except Exception:
+                pass
         except Exception:
             pool = self.new_stock_pool[:20]
 

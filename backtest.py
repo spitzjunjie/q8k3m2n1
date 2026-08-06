@@ -106,8 +106,7 @@ from strategies.technical_strategies import (
 )
 from strategies.advanced_strategies import (
     IndustryMomentumStrategy, SouthboundFlowStrategy, OversoldReboundStrategy,
-    ValueLowPBStrategy, EarningsSurpriseStrategy as AdvEarningsSurprise,
-    VolumeBreakoutStrategy as AdvVolumeBreakout
+    ValueLowPBStrategy, EarningsSurpriseStrategy as AdvEarningsSurprise
 )
 from strategies.new_strategies import (
     ETFRotationStrategy, FundamentalSmallCapStrategy, MoneyFlowEventStrategy,
@@ -167,8 +166,6 @@ from strategies.sector_rotation_strategy import SectorRotationStrategy
 from strategies.leading_stock_strategy import LeadingStockStrategy
 # 新增质量因子策略
 from strategies.quality_factor_strategy import QualityFactorStrategy
-# 新增集合竞价策略
-from strategies.closing_auction_strategy import ClosingAuctionStrategy
 
 
 def get_all_strategies():
@@ -219,7 +216,6 @@ def get_all_strategies():
         # 高级策略 (4) - 新增（移除重复注册：OversoldRebound/ValueLowPB/AdvEarningsSurprise）
         IndustryMomentumStrategy(),
         SouthboundFlowStrategy(),
-        AdvVolumeBreakout(),
         # 新策略 (17个) - 完整导入（移除重复注册：GoldenCross/RSIRebound/HighDividend/ProfitExceeds）
         ETFRotationStrategy(),              # ETF二八轮动
         FundamentalSmallCapStrategy(),      # 财务基本面过滤小市值
@@ -291,8 +287,6 @@ def get_all_strategies():
         LeadingStockStrategy(),            # 龙头战法
         # 新增质量因子策略
         QualityFactorStrategy(),            # 质量因子选股
-        # 新增集合竞价策略
-        ClosingAuctionStrategy(),          # 集合竞价选股
     ]
     return strategies
 

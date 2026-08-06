@@ -594,6 +594,34 @@ class AKShareHelper:
         return ['600519', '000858', '600036', '601318', '000333',
                 '600276', '300750', '601012', '600900', '000651']
 
+    def get_new_stocks(self, days=400):
+        """获取次新股列表（上市时间较短，新浪源）
+
+        返回 6 位代码列表。次新股策略的固定池会随时间过期
+        （2024-2025 的股票到 2026 年已不算次新），动态获取让池子保持新鲜。
+        """
+        cache_key = f"new_stocks_v2_{days}"
+        cache = self._get_cache(cache_key, days=3)
+        if cache:
+            return cache
+        try:
+            df = self.wrap_akshare(ak.stock_zh_a_new)
+            if df is not None and not df.empty and 'code' in df.columns:
+                # 只保留沪深 A 股（60/00/30/68 开头），排除北交所（8/4/920）
+                # —— 北交所涨跌幅 ±30%、流动性差、K线支持不完整，不适合纳入
+                codes = [
+                    str(c) for c in df['code'].tolist()
+                    if str(c).isdigit() and len(str(c)) == 6
+                    and str(c)[0] in ('6', '0', '3')
+                ]
+                if codes:
+                    self._set_cache(cache_key, codes)
+                    print(f"次新股列表获取成功: {len(codes)} 只")
+                    return codes
+        except Exception as e:
+            print(f"获取次新股列表失败: {e}")
+        return []
+
     # ==================== 财务指标 ====================
 
     def get_financial_indicator(self, symbol):

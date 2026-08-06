@@ -3,9 +3,9 @@
 GitHub Actions 弹性回测脚本
 
 特性：
-1. 自动重试机制（最多3次）
+1. 自动重试机制（快速失败可重试，超时不重试）
 2. 数据源自动切换（Tushare → AKShare）
-3. 网络超时处理
+3. 网络超时处理（回测本身耗时约 40 分钟，超时必须给足）
 4. 详细的错误日志
 
 使用方法：
@@ -22,18 +22,25 @@ from datetime import datetime
 from typing import Optional, Tuple
 
 # 配置参数
-MAX_RETRIES = 3
+MAX_RETRIES = 2
 RETRY_DELAY = 30  # 秒
-NETWORK_TIMEOUT = 120  # 秒
+# backtest.py 全量回测 60+ 个策略，冷缓存实测约 40 分钟（2026-07-07 实测 43m47s）。
+# 120 秒超时会把回测杀掉，导致每日数据从未真正更新（7/25 起的“成功”全是超时假成功）。
+# 这里给到 50 分钟，让单次回测有真实完成机会；job 级 timeout-minutes 同步提高到 120。
+NETWORK_TIMEOUT = 3000  # 秒
 
 class ResilientBacktest:
     """弹性回测执行器"""
     
-    def __init__(self, source: str = 'tushare', strategies: str = ''):
+    def __init__(self, source: str = 'tushare', strategies: str = '',
+                 max_retries: int = MAX_RETRIES, timeout: int = NETWORK_TIMEOUT):
         self.source = source
         self.strategies = strategies
+        self.max_retries = max_retries
+        self.timeout = timeout
         self.attempts = 0
         self.errors = []
+        self.last_was_timeout = False
         
     def log(self, message: str, level: str = 'info'):
         """统一日志输出"""
@@ -51,12 +58,14 @@ class ResilientBacktest:
         if level == 'error':
             self.errors.append(f"[{timestamp}] {message}")
     
-    def run_command(self, cmd: list, timeout: int = NETWORK_TIMEOUT) -> Tuple[bool, str]:
+    def run_command(self, cmd: list, timeout: Optional[int] = None) -> Tuple[bool, str]:
         """
         执行命令，带超时和重试
         返回: (成功标志, 输出信息)
         """
+        timeout = timeout or self.timeout
         self.log(f"执行命令: {' '.join(cmd)}", 'info')
+        self.last_was_timeout = False
         
         try:
             result = subprocess.run(
@@ -76,6 +85,7 @@ class ResilientBacktest:
                 return False, error_msg
                 
         except subprocess.TimeoutExpired:
+            self.last_was_timeout = True
             self.log(f"命令超时（{timeout}秒）", 'error')
             return False, f"Timeout after {timeout} seconds"
         except Exception as e:
@@ -162,7 +172,7 @@ class ResilientBacktest:
         self.log("="*50, 'info')
         
         # 阶段1: 尝试主数据源
-        for attempt in range(1, MAX_RETRIES + 1):
+        for attempt in range(1, self.max_retries + 1):
             self.attempts = attempt
             
             # 健康检查
@@ -175,9 +185,14 @@ class ResilientBacktest:
             if self.execute_backtest(self.source):
                 self.log(f"✅ 回测成功！共尝试 {attempt} 次", 'success')
                 return True
+
+            # 超时不重试：回测是固定耗时任务，重试只会再超时一次，白白烧掉 job 预算
+            if self.last_was_timeout:
+                self.log("本次失败是超时，不再重试（回测为固定耗时任务）", 'warning')
+                break
             
             # 失败后等待
-            if attempt < MAX_RETRIES:
+            if attempt < self.max_retries:
                 self.log(f"等待 {RETRY_DELAY} 秒后重试...", 'warning')
                 time.sleep(RETRY_DELAY)
         
@@ -189,7 +204,7 @@ class ResilientBacktest:
             # 重置计数
             self.attempts = 0
             
-            for attempt in range(1, MAX_RETRIES + 1):
+            for attempt in range(1, self.max_retries + 1):
                 self.attempts = attempt
                 
                 # 健康检查
@@ -201,8 +216,12 @@ class ResilientBacktest:
                 if self.execute_backtest(backup_source):
                     self.log(f"✅ AKShare 回测成功！共尝试 {attempt} 次", 'success')
                     return True
+
+                if self.last_was_timeout:
+                    self.log("本次失败是超时，不再重试（回测为固定耗时任务）", 'warning')
+                    break
                 
-                if attempt < MAX_RETRIES:
+                if attempt < self.max_retries:
                     self.log(f"等待 {RETRY_DELAY} 秒后重试...", 'warning')
                     time.sleep(RETRY_DELAY)
         
@@ -248,13 +267,21 @@ def main():
         default=MAX_RETRIES,
         help=f'最大重试次数（默认: {MAX_RETRIES}）'
     )
+    parser.add_argument(
+        '--timeout',
+        type=int,
+        default=NETWORK_TIMEOUT,
+        help=f'单次回测命令超时秒数（默认: {NETWORK_TIMEOUT}）'
+    )
     
     args = parser.parse_args()
     
     # 创建执行器
     runner = ResilientBacktest(
         source=args.source,
-        strategies=args.strategies
+        strategies=args.strategies,
+        max_retries=args.max_retries,
+        timeout=args.timeout
     )
     
     # 执行

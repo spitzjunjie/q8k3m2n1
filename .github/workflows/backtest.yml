@@ -70,7 +70,9 @@ concurrency:
 jobs:
   backtest:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    # backtest.py 全量回测冷缓存实测约 40-45 分钟（2026-07-07 43m47s），
+    # 加上 Tushare→AKShare 降级与合并提交，给到 120 分钟（公开仓库上限 6 小时）。
+    timeout-minutes: 120
 
     steps:
       - name: Checkout
@@ -119,20 +121,27 @@ jobs:
       - name: 检查 Tushare 结果
         id: check_tushare
         run: |
-          # 只认"今天新写出来的、且内容合法的"文件
+          # 只认"本次运行新写出来的、且内容合法的"文件。
+          # 不能用 mtime 判断新鲜度：actions/checkout 会把仓库里的旧文件
+          # 重新写到当前时间，旧数据会伪装成"刚产出"（7/25 起假成功的原因之一）。
+          # 改用 update_time：backtest.py 只在跑完全部策略后才写入当前时间。
           if python - <<'PY'
           import json, sys, os, datetime
           p = 'output/strategy_data.json'
           if not os.path.exists(p):
               sys.exit(1)
-          # 必须是本次运行刚写的
-          age = datetime.datetime.now().timestamp() - os.path.getmtime(p)
-          if age > 3600:
-              print(f'文件是 {age/60:.0f} 分钟前的，不是本次产出'); sys.exit(1)
           d = json.load(open(p, encoding='utf-8'))
+          ut = (d.get('update_time') or '').strip()
+          try:
+              ut_dt = datetime.datetime.strptime(ut[:19], '%Y-%m-%d %H:%M:%S')
+          except Exception:
+              print(f'update_time 格式异常: {ut!r}'); sys.exit(1)
+          # 回测可能跑 40+ 分钟，给 6 小时容差，足以区分"本次产出"与"仓库里的旧数据"
+          if (datetime.datetime.now() - ut_dt).total_seconds() > 6 * 3600:
+              print(f'update_time 太旧（{ut}），不是本次产出'); sys.exit(1)
           n = len(d.get('strategies', []))
           traded = sum(1 for s in d.get('strategies', []) if s.get('trades'))
-          print(f'策略数={n} 有成交={traded}')
+          print(f'update_time={ut} 策略数={n} 有成交={traded}')
           # 全部零成交说明数据源其实没拿到数据
           sys.exit(0 if n > 0 and traded > 0 else 1)
           PY

@@ -54,6 +54,20 @@ def main():
     except Exception as e:
         print(f"读取新数据失败: {e}")
         new_data = {'strategies': []}
+
+    # 陈旧数据守卫：new_file 就是 output/strategy_data.json，它可能是 checkout 下来的
+    # 旧文件（7/25 起每日回测全部超时，旧文件长期被当成"新数据"自我合并，产生假提交）。
+    # 只有 update_time 在最近 7 天内的才允许合并；否则警告并跳过，保持仓库数据不变。
+    ut = (new_data.get('update_time') or '').strip()
+    try:
+        ut_dt = datetime.strptime(ut[:19], '%Y-%m-%d %H:%M:%S')
+        if (datetime.now() - ut_dt).total_seconds() > 7 * 24 * 3600:
+            print(f"⚠️ 新数据 update_time 过旧（{ut}），判定为陈旧数据，跳过合并")
+            print("   回测未真正产出新数据（可能超时/失败），保持仓库当前数据不变")
+            return
+    except Exception:
+        print(f"⚠️ 新数据 update_time 格式异常（{ut!r}），跳过合并")
+        return
     
     # 处理策略
     old_names = {s['name'] for s in old_data.get('strategies', [])}

@@ -221,6 +221,7 @@ jobs:
           FEISHU_RECEIVE_ID: ${{ secrets.FEISHU_RECEIVE_ID }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: |
+          python -m pip install -q requests
           python - <<'PY'
           import os, json, requests
           aid, sec = os.environ.get('FEISHU_APP_ID'), os.environ.get('FEISHU_APP_SECRET')

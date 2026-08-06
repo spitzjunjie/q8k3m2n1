@@ -414,6 +414,7 @@ class TushareHelper:
                     'pb': row.get('pb', 0),
                     'ps': row.get('ps', 0),
                     'dv_ratio': row.get('dv_ratio', 0),
+                    'dv_ttm': row.get('dv_ttm', 0),
                     'total_mv': row.get('total_mv', 0),
                 }
         except:

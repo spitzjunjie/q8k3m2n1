@@ -141,9 +141,10 @@ jobs:
               print(f'update_time 太旧（{ut}），不是本次产出'); sys.exit(1)
           n = len(d.get('strategies', []))
           traded = sum(1 for s in d.get('strategies', []) if s.get('trades'))
-          print(f'update_time={ut} 策略数={n} 有成交={traded}')
-          # 全部零成交说明数据源其实没拿到数据
-          sys.exit(0 if n > 0 and traded > 0 else 1)
+          held = sum(1 for s in d.get('strategies', []) if s.get('holdings'))
+          print(f'update_time={ut} 策略数={n} 有成交={traded} 有持仓={held}')
+          # 状态续接后：无卖出日也可能只有持仓，只要有任何活动就算有效产出
+          sys.exit(0 if n > 0 and (traded > 0 or held > 0) else 1)
           PY
           then
             echo "ok=true" >> $GITHUB_OUTPUT

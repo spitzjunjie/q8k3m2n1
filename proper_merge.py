@@ -5,6 +5,52 @@ import os
 import subprocess
 from datetime import datetime
 
+
+def _trade_key(t):
+    """交易去重键：symbol + buy_date + sell_date"""
+    return (str(t.get('symbol', '')), str(t.get('buy_date', '')), str(t.get('sell_date', '')))
+
+
+def _full_history(s):
+    """策略的完整历史交易：all_trades 优先，回退 trades"""
+    return s.get('all_trades') or s.get('trades') or []
+
+
+def merge_strategy_state(old_s, new_s):
+    """合并单策略：保留旧历史交易 + 叠加新状态（持仓/资金/权益/指标）。
+
+    每日回测是"上一日状态续接"：新版本自带完整历史（all_trades=历史+今日卖出），
+    但为防御水合失败/字段缺失，这里仍以"旧历史为基础 + 追加新交易 + 覆盖最新状态"
+    的方式合并，保证历史交易永不丢失。
+    """
+    merged = dict(old_s)
+
+    # 1. 交易历史：旧历史 + 新历史中不重复的（今日新卖出的）
+    old_trades = _full_history(old_s)
+    old_keys = {_trade_key(t) for t in old_trades}
+    new_trades = _full_history(new_s)
+    added = [t for t in new_trades if _trade_key(t) not in old_keys]
+    merged['all_trades'] = list(old_trades) + added
+    merged['trades'] = merged['all_trades'][-10:]
+
+    # 2. 最新状态以新版本为准（持仓/资金/权益曲线/展示指标）
+    overlay_keys = (
+        'holdings', 'current_capital', 'total_fees',
+        'realized_pnl', 'realized_pnl_pct',
+        'floating_pnl', 'floating_pnl_pct',
+        'total_pnl', 'total_pnl_pct',
+        'equity_curve', 'total_value',
+        'total_return', 'monthly_return',
+        'sharpe_ratio', 'max_drawdown', 'win_rate',
+        'composite_score', 'grade',
+        'profit_loss_ratio', 'return_stability', 'calmar_ratio',
+    )
+    for k in overlay_keys:
+        if k in new_s:
+            merged[k] = new_s[k]
+    return merged
+
+
 def main():
     # 本次回测刚生成的新数据（由 backtest.py 写入，update_time 为当前时间）
     # 注意：不要用 output/new_strategy_results.json —— 它可能长期没更新，
@@ -69,27 +115,33 @@ def main():
         print(f"⚠️ 新数据 update_time 格式异常（{ut!r}），跳过合并")
         return
     
-    # 处理策略
+    # 处理策略：有活动（交易/持仓/收益变化）才合并；旧策略走"旧历史+新状态"
     old_names = {s['name'] for s in old_data.get('strategies', [])}
     added = []
     replaced = []
-    
+
     for s in new_data.get('strategies', []):
-        trades = len(s.get('trades', []))
-        
+        has_activity = (
+            s.get('trades')
+            or s.get('holdings')
+            or s.get('total_return', 0) != 0
+        )
+        if not has_activity:
+            continue
+
         if s['name'] in old_names:
-            # 替换旧策略（如果有交易记录）
             for i, old_s in enumerate(old_data['strategies']):
                 if old_s['name'] == s['name']:
-                    if trades > 0:
-                        old_data['strategies'][i] = s
-                        replaced.append(f"{s['name']}: {s.get('total_pnl_pct', 0):.2f}% (替换旧数据)")
+                    old_data['strategies'][i] = merge_strategy_state(old_s, s)
+                    replaced.append(
+                        f"{s['name']}: {s.get('total_pnl_pct', 0):.2f}% "
+                        f"(交易{len(_full_history(s))}笔/持仓{len(s.get('holdings', []))}只)"
+                    )
                     break
         else:
-            # 添加新策略
-            if trades > 0:
-                old_data['strategies'].append(s)
-                added.append(f"{s['name']}: {s.get('total_pnl_pct', 0):.2f}%")
+            # 新策略：完整保留
+            old_data['strategies'].append(s)
+            added.append(f"{s['name']}: {s.get('total_pnl_pct', 0):.2f}%")
     
     print(f"\n替换策略: {len(replaced)}个")
     for r in replaced:

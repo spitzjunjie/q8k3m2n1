@@ -160,8 +160,13 @@ class TradingSimulator:
         """
         for holding in self.strategy.holdings:
             if holding['symbol'] == symbol:
-                # T+1限制：当天买不能当天卖
-                if holding.get('hold_days', 0) == 0:
+                # T+1限制：当天买入不能当天卖。
+                # 用 buy_date 与目标日比较（按日历），而不是 hold_days——
+                # hold_days 会在买入当日被 update_positions 加到 1，
+                # 同一天重跑回测会误把当日买入当成可卖（产生幻影同日交易）。
+                target_day = (date or datetime.now().strftime('%Y-%m-%d'))
+                buy_day = str(holding.get('buy_date', ''))[:10].replace('-', '')
+                if buy_day == target_day.replace('-', ''):
                     return False, None
 
                 position_price = holding['buy_price']

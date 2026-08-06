@@ -350,9 +350,10 @@ def run_strategy(strategy, helper, timing, date=None):
         # 5. 更新持仓状态
         simulator.update_positions(prices)
         
-        # 6. 记录权益曲线
+        # 6. 记录权益曲线（统一为 {'date','value'} 格式，与历史数据一致）
         total_value = strategy.get_total_value(prices)
-        strategy.equity_curve.append(total_value)
+        today_str = (date or datetime.now().strftime('%Y-%m-%d'))
+        strategy.equity_curve.append({'date': today_str, 'value': total_value})
         
         # 7. 返回策略结果
         return strategy.to_dict(prices)
@@ -371,6 +372,39 @@ def run_strategy(strategy, helper, timing, date=None):
             'trades': [],
             'equity_curve': []
         }
+
+
+def hydrate_strategy(strategy, data):
+    """从已有数据恢复策略状态，让每日回测成为上一日的延续。
+
+    单日快照模拟的问题：策略实例全新（无持仓）→ 只有买入、没有卖出
+    → trades 恒为空，每日回测永远不产生交易记录。恢复状态后：
+    - 昨日持仓会在今日检查卖出 → 产生 sell_date=今日 的交易；
+    - 资金/已实现盈亏/权益曲线延续上一日，组合逻辑真实连续。
+    """
+    if not data:
+        return
+
+    # 持仓（simulator.check_and_sell 依赖 symbol/name/buy_price/quantity/cost/hold_days）
+    strategy.holdings = [dict(h) for h in (data.get('holdings') or [])]
+
+    # 历史交易：优先 all_trades（完整），回退 trades（看板截断的 10 条）
+    history = data.get('all_trades') or data.get('trades') or []
+    strategy.all_trades = [dict(t) for t in history]
+    strategy.trades = list(strategy.all_trades)
+
+    # 资金与盈亏状态
+    strategy.initial_capital = data.get('initial_capital', strategy.initial_capital)
+    strategy.current_capital = data.get('current_capital', strategy.initial_capital)
+    strategy.realized_pnl = data.get('realized_pnl', 0) or 0
+    strategy.realized_pnl_pct = data.get('realized_pnl_pct', 0) or 0
+    strategy.total_fees = data.get('total_fees', 0) or 0
+
+    # 权益曲线（兼容 dict {'date','value'} 与裸数值两种历史格式）
+    strategy.equity_curve = [
+        dict(x) if isinstance(x, dict) else x
+        for x in (data.get('equity_curve') or [])
+    ]
 
 
 def main():
@@ -399,13 +433,30 @@ def main():
 
     print(f"\n共 {len(strategies)} 个策略（所有上线策略）\n")
 
+    # 预加载现有数据：用于恢复各策略上一日状态（持仓/交易/资金）
+    output_dir = 'output'
+    os.makedirs(output_dir, exist_ok=True)
+    main_file = os.path.join(output_dir, 'strategy_data.json')
+    if os.path.exists(main_file):
+        with open(main_file, 'r', encoding='utf-8') as f:
+            existing_main = json.load(f)
+    else:
+        existing_main = {'strategies': []}
+    existing_by_name = {s['name']: s for s in existing_main.get('strategies', [])}
+    print(f"已加载上一日数据: {len(existing_by_name)} 个策略（用于状态续接）\n")
+
+    def run_strategy_continued(strategy, helper, timing, date=None):
+        """先恢复状态再运行单日模拟（每日回测=上一日的延续）"""
+        hydrate_strategy(strategy, existing_by_name.get(strategy.name))
+        return run_strategy(strategy, helper, timing, date=date)
+
     # 并行运行策略
     results = []
     
     # 使用线程池并行执行（减少并发避免频率限制）
     with ThreadPoolExecutor(max_workers=2) as executor:
         futures = {
-            executor.submit(run_strategy, strategy, helper, timing): strategy
+            executor.submit(run_strategy_continued, strategy, helper, timing): strategy
             for strategy in strategies
         }
         
@@ -447,23 +498,21 @@ def main():
     # 增量合并到主数据文件（只更新本次回测的策略，保留其他策略的数据）
     main_file = os.path.join(output_dir, 'strategy_data.json')
     
-    # 读取现有数据
-    if os.path.exists(main_file):
-        with open(main_file, 'r', encoding='utf-8') as f:
-            main_data = json.load(f)
-        existing_strategies = {s['name']: s for s in main_data.get('strategies', [])}
-        existing_update_time = main_data.get('update_time', '')
-    else:
-        main_data = {'strategies': []}
-        existing_strategies = {}
-        existing_update_time = ''
-    
-    # 只更新本次回测中有交易的策略，保留其他策略的数据
+    # 使用预加载的现有数据（main() 开头已读取，用于状态续接）
+    main_data = existing_main
+    existing_strategies = {s['name']: s for s in main_data.get('strategies', [])}
+
+    # 只更新本次回测中有活动（交易/持仓/收益变化）的策略，保留其他策略的数据。
+    # 注：状态续接后，结果自带完整历史交易（all_trades=历史+今日卖出），替换无损。
     merged_count = 0
     for result in results:
         name = result['name']
-        # 只更新有实际交易的策略
-        if result.get('trades') or result.get('total_return', 0) != 0:
+        has_activity = (
+            result.get('trades')
+            or result.get('holdings')
+            or result.get('total_return', 0) != 0
+        )
+        if has_activity:
             existing_strategies[name] = result
             merged_count += 1
     

@@ -3,10 +3,13 @@
 import json
 import os
 import subprocess
+from datetime import datetime
 
 def main():
-    # 检查是否有新数据文件
-    new_file = 'output/new_strategy_results.json'
+    # 本次回测刚生成的新数据（由 backtest.py 写入，update_time 为当前时间）
+    # 注意：不要用 output/new_strategy_results.json —— 它可能长期没更新，
+    # 之前就是因为它被 git 追踪、内容停留在 7/28，导致每天合并的都是旧数据。
+    new_file = 'output/strategy_data.json'
     
     if not os.path.exists(new_file):
         print("没有新策略数据文件，跳过合并")
@@ -83,7 +86,12 @@ def main():
         print(f"  ✅ {a}")
     
     old_data['strategy_count'] = len(old_data['strategies'])
-    old_data['update_time'] = '2026-07-25 08:40:00'
+    # 用本次回测的真实时间，不再硬编码
+    old_data['update_time'] = new_data.get('update_time') or datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    # 如果新数据带回了测区间元数据，以新数据为准
+    for k in ('backtest_type', 'backtest_start', 'backtest_end', 'backtest_days'):
+        if new_data.get(k):
+            old_data[k] = new_data[k]
     
     # 保存
     with open('output/strategy_data.json', 'w', encoding='utf-8') as f:

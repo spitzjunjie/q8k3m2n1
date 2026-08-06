@@ -54,7 +54,7 @@ def get_kline_with_fallback(primary_helper, symbol, days=5, end_date=None, sourc
     # 切换到备用数据源
     fallback_source = 'tushare' if source == 'akshare' else 'akshare'
     try:
-        df = fallback_helper.get_history_kline(symbol, days=days, end_date=end_date)
+        df = _get_fallback_helper().get_history_kline(symbol, days=days, end_date=end_date)
         if isinstance(df, pd.DataFrame) and not df.empty and 'close' in df.columns:
             print(f"    [切换数据源] {symbol}: {source} -> {fallback_source}")
             return df, fallback_source
@@ -64,8 +64,19 @@ def get_kline_with_fallback(primary_helper, symbol, days=5, end_date=None, sourc
     return None, source
 
 
-# 全局备用helper实例
-fallback_helper = FALLBACK_HELPER(cache_dir="data/cache")
+# 全局备用helper实例（惰性初始化：避免模块导入时实例化失败。
+# TushareHelper 无 token 时 pro_api() 直接抛异常，而冒烟测试等场景只是
+# import backtest，不应被备用数据源初始化拖垮）
+fallback_helper = None
+
+
+def _get_fallback_helper():
+    global fallback_helper
+    if fallback_helper is None:
+        fallback_helper = FALLBACK_HELPER(cache_dir="data/cache")
+    return fallback_helper
+
+
 from timing.timing import TimingEngine
 from trading.simulator import TradingSimulator
 

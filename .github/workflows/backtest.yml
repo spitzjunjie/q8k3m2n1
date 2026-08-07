@@ -111,6 +111,7 @@ jobs:
           FEISHU_APP_SECRET: ${{ secrets.FEISHU_APP_SECRET }}
           FEISHU_RECEIVE_ID: ${{ secrets.FEISHU_RECEIVE_ID }}
           DATA_SOURCE: tushare
+          SKIP_AKSHARE_FALLBACK: '1'     # CI 禁用慢降级路径（质量因子Pro/龙虎榜）
           STRATEGIES: ${{ inputs.strategies }}      # ← 不再直接插进 shell
         run: |
           set -o pipefail
@@ -170,6 +171,7 @@ jobs:
           FEISHU_APP_SECRET: ${{ secrets.FEISHU_APP_SECRET }}
           FEISHU_RECEIVE_ID: ${{ secrets.FEISHU_RECEIVE_ID }}
           DATA_SOURCE: akshare
+          SKIP_AKSHARE_FALLBACK: '1'
           STRATEGIES: ${{ inputs.strategies }}
         run: |
           set -o pipefail

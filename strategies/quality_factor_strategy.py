@@ -12,6 +12,7 @@
 参考：astro30/valinvest - Piotroski F-Score纯Python实现
 """
 
+import os
 import pandas as pd
 import numpy as np
 from datetime import datetime, timedelta
@@ -97,6 +98,11 @@ class QualityFactorStrategy(BaseStrategy):
 
             # 降级：全市场快照不可用（东财/新浪失败或 Tushare daily_basic 积分不足）
             # 回退股票池，让 F-Score/Z-Score 主导筛选（低 PB 初筛让位）
+            # CI 环境（SKIP_AKSHARE_FALLBACK=1）：直接放弃，避免 10-30 只 × 5 个
+            # 财务接口的调用把整个每日回测拖到 50 分钟超时线以上
+            if os.environ.get('SKIP_AKSHARE_FALLBACK') == '1':
+                print("SKIP_AKSHARE_FALLBACK=1，跳过降级（质量因子选股Pro 今日无信号）")
+                return []
             print("全市场PB快照不可用，降级用股票池（F-Score主导）")
             pool = helper.get_stock_pool("hs300", sorted_by_market_value=True)
             if len(pool) < 50:

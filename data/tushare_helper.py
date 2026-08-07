@@ -477,7 +477,10 @@ class TushareHelper:
             return out
         except Exception as e:
             print(f"[Tushare]获取龙虎榜列表失败: {e}")
-        # 降级：AKShare 东财龙虎榜
+        # 降级：AKShare 东财龙虎榜（CI 环境 SKIP_AKSHARE_FALLBACK=1 时跳过，
+        # 避免东财接口在 GitHub 服务器上慢/重试拖慢整个回测）
+        if os.environ.get('SKIP_AKSHARE_FALLBACK') == '1':
+            return pd.DataFrame()
         try:
             from data.akshare_helper import AKShareHelper
             ak_helper = AKShareHelper(cache_dir=self.cache_dir)

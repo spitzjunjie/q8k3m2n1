@@ -107,10 +107,11 @@ class QualityFactorStrategy(BaseStrategy):
                 except Exception:
                     pass
             if pool:
-                # 池子缩小到 30 只：每只评分要调 5 个财务接口，
-                # 80 只会拖慢整个每日回测（CI 实测 30 分钟 -> 90+ 分钟）
-                self._cache[cache_key] = pool[:30]
-                return pool[:30]
+                # 池子缩小到 10 只：每只评分要调 5 个财务接口（Tushare 限流
+                # 1.5s/次 + 响应时间），CI 实测 30 只把回测拖到 50 分钟超时。
+                # 10 只 = 50 次调用，约 4-8 分钟开销，hold_num=3 足够。
+                self._cache[cache_key] = pool[:10]
+                return pool[:10]
             return []
         except Exception as e:
             print(f"获取低PB股票池失败: {e}")

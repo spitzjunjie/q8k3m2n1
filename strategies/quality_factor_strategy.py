@@ -107,8 +107,10 @@ class QualityFactorStrategy(BaseStrategy):
                 except Exception:
                     pass
             if pool:
-                self._cache[cache_key] = pool[:80]
-                return pool[:80]
+                # 池子缩小到 30 只：每只评分要调 5 个财务接口，
+                # 80 只会拖慢整个每日回测（CI 实测 30 分钟 -> 90+ 分钟）
+                self._cache[cache_key] = pool[:30]
+                return pool[:30]
             return []
         except Exception as e:
             print(f"获取低PB股票池失败: {e}")

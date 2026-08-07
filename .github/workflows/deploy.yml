@@ -52,7 +52,9 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    # GitHub 免费 runner 高峰排队可能超过 10 分钟，8/6 两次部署因排队超时被 cancel。
+    # 实际构建只需几秒，把 timeout 放大到 30 分钟只为容纳排队。
+    timeout-minutes: 30
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -107,7 +109,7 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 30
     steps:
       - name: Deploy to GitHub Pages
         id: deployment

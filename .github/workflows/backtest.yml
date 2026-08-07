@@ -136,8 +136,11 @@ jobs:
               ut_dt = datetime.datetime.strptime(ut[:19], '%Y-%m-%d %H:%M:%S')
           except Exception:
               print(f'update_time 格式异常: {ut!r}'); sys.exit(1)
-          # 回测可能跑 40+ 分钟，给 6 小时容差，足以区分"本次产出"与"仓库里的旧数据"
-          if (datetime.datetime.now() - ut_dt).total_seconds() > 6 * 3600:
+          # 回测最长约 50 分钟（超时上限），给 2 小时容差即可区分"本次产出"
+          # 与"仓库旧数据"。6 小时会被同一天更早的运行骗过：
+          # 8/7 早 07:25 提交 -> 晚 18:30 定时(13:02 UTC) checkout 后仅 5.6h，
+          # 落在 6h 容差内被误判为新鲜 -> 回测超时无产出却假成功。
+          if (datetime.datetime.now() - ut_dt).total_seconds() > 2 * 3600:
               print(f'update_time 太旧（{ut}），不是本次产出'); sys.exit(1)
           n = len(d.get('strategies', []))
           traded = sum(1 for s in d.get('strategies', []) if s.get('trades'))

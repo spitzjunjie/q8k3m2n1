@@ -23,9 +23,10 @@ class QualityFactorStrategy(BaseStrategy):
 
     def __init__(self,
                  pb_pool_pct=20,        # PB最低股票池比例(%)
-                 f_score_min=7,         # F-Score买入阈值
+                 f_score_min=6,         # F-Score买入阈值（Piotroski 常用 ≥6；
+                                        # 本实现财务数据为近似值，9 分制实际到不了 8-9）
                  f_score_sell=5,        # F-Score卖出阈值
-                 z_score_min=2.99,      # Altman Z-Score安全下限
+                 z_score_min=2.5,       # Altman Z-Score安全下限（中位数约 2.2，2.99 过苛）
                  z_score_warn=1.81,     # Z-Score破产预警线
                  hold_num=3,            # 持仓数量
                  stop_loss=-8,          # 止损线（%）
@@ -85,19 +86,30 @@ class QualityFactorStrategy(BaseStrategy):
         try:
             # 使用helper的优化方法获取全市场股票
             stocks_data = helper.get_market_stocks()
-            if not stocks_data:
-                return []
+            if stocks_data:
+                valid_stocks = [s for s in stocks_data if s.get('pb', 0) > 0 and s.get('pb', 0) < 100]
+                if valid_stocks:
+                    valid_stocks.sort(key=lambda x: x.get('pb', 0))
+                    n = int(len(valid_stocks) * top_pct / 100)
+                    low_pb_stocks = [s['symbol'] for s in valid_stocks[:n]]
+                    self._cache[cache_key] = low_pb_stocks
+                    return low_pb_stocks
 
-            # 过滤PB有效值
-            valid_stocks = [s for s in stocks_data if s.get('pb', 0) > 0 and s.get('pb', 0) < 100]
-
-            # 按PB升序排序，取最低的top_pct%
-            valid_stocks.sort(key=lambda x: x.get('pb', 0))
-            n = int(len(valid_stocks) * top_pct / 100)
-            low_pb_stocks = [s['symbol'] for s in valid_stocks[:n]]
-
-            self._cache[cache_key] = low_pb_stocks
-            return low_pb_stocks
+            # 降级：全市场快照不可用（东财/新浪失败或 Tushare daily_basic 积分不足）
+            # 回退股票池，让 F-Score/Z-Score 主导筛选（低 PB 初筛让位）
+            print("全市场PB快照不可用，降级用股票池（F-Score主导）")
+            pool = helper.get_stock_pool("hs300", sorted_by_market_value=True)
+            if len(pool) < 50:
+                try:
+                    pool_all = helper.get_stock_pool("all")
+                    if pool_all:
+                        pool = (pool + pool_all)[:80]
+                except Exception:
+                    pass
+            if pool:
+                self._cache[cache_key] = pool[:80]
+                return pool[:80]
+            return []
         except Exception as e:
             print(f"获取低PB股票池失败: {e}")
             return []

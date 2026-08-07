@@ -18,6 +18,7 @@ import time
 import json
 import argparse
 import subprocess
+import threading
 from datetime import datetime
 from typing import Optional, Tuple
 
@@ -63,35 +64,64 @@ class ResilientBacktest:
         """
         执行命令，带超时和重试
         返回: (成功标志, 输出信息)
+
+        流式输出：backtest.py 的输出实时打到 GitHub Actions 日志，
+        方便定位回测卡在哪个策略（此前 capture_output 缓冲到命令结束，
+        超时后什么都看不到）。
         """
         timeout = timeout or self.timeout
         self.log(f"执行命令: {' '.join(cmd)}", 'info')
         self.last_was_timeout = False
-        
+
+        cwd = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
         try:
-            result = subprocess.run(
+            proc = subprocess.Popen(
                 cmd,
-                capture_output=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
                 text=True,
-                timeout=timeout,
-                cwd=os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
+                bufsize=1,
+                cwd=cwd,
             )
-            
-            if result.returncode == 0:
-                self.log("命令执行成功", 'success')
-                return True, result.stdout
-            else:
-                error_msg = result.stderr or result.stdout
-                self.log(f"命令执行失败: {error_msg[:500]}", 'error')
-                return False, error_msg
-                
+        except Exception as e:
+            self.log(f"启动命令失败: {e}", 'error')
+            return False, str(e)
+
+        lines = []
+
+        def _reader():
+            for line in proc.stdout:
+                # 过滤 tqdm 进度条刷屏（\r 结尾的行）
+                if line.endswith('\r') or line.startswith('\r'):
+                    continue
+                print(line, end='')
+                lines.append(line)
+
+        reader = threading.Thread(target=_reader, daemon=True)
+        reader.start()
+
+        try:
+            proc.wait(timeout=timeout)
         except subprocess.TimeoutExpired:
+            proc.kill()
+            reader.join(timeout=5)
             self.last_was_timeout = True
             self.log(f"命令超时（{timeout}秒）", 'error')
             return False, f"Timeout after {timeout} seconds"
         except Exception as e:
+            proc.kill()
+            reader.join(timeout=5)
             self.log(f"命令执行异常: {str(e)}", 'error')
             return False, str(e)
+
+        reader.join(timeout=5)
+        if proc.returncode == 0:
+            self.log("命令执行成功", 'success')
+            return True, ''.join(lines)
+        else:
+            error_msg = ''.join(lines)[-2000:]
+            self.log(f"命令执行失败: {error_msg[:500]}", 'error')
+            return False, error_msg
     
     def check_data_source_health(self, source: str) -> bool:
         """检查数据源健康状态"""

@@ -26,8 +26,9 @@ MAX_RETRIES = 2
 RETRY_DELAY = 30  # 秒
 # backtest.py 全量回测 60+ 个策略，冷缓存实测约 40 分钟（2026-07-07 实测 43m47s）。
 # 120 秒超时会把回测杀掉，导致每日数据从未真正更新（7/25 起的“成功”全是超时假成功）。
-# 这里给到 50 分钟，让单次回测有真实完成机会；job 级 timeout-minutes 同步提高到 120。
-NETWORK_TIMEOUT = 3000  # 秒
+# CI 实测：GitHub 服务器访问 Tushare 在晚间可能 50 分钟跑不完（8/7 三次超时），
+# 给到 70 分钟；job 级 timeout-minutes 同步提高到 180。
+NETWORK_TIMEOUT = 4200  # 秒
 
 class ResilientBacktest:
     """弹性回测执行器"""

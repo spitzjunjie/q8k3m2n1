@@ -70,9 +70,9 @@ concurrency:
 jobs:
   backtest:
     runs-on: ubuntu-latest
-    # backtest.py 全量回测冷缓存实测约 40-45 分钟（2026-07-07 43m47s），
-    # 加上 Tushare→AKShare 降级与合并提交，给到 120 分钟（公开仓库上限 6 小时）。
-    timeout-minutes: 120
+    # backtest.py 全量回测冷缓存约 30-50 分钟，GitHub 服务器访问 Tushare
+    # 晚间可能更慢（8/7 三次超时），Tushare(70m)+AKShare 降级(70m) 需 140+ 分钟。
+    timeout-minutes: 180
 
     steps:
       - name: Checkout

@@ -1240,18 +1240,29 @@ class AKShareHelper:
         return pd.DataFrame()
 
     def get_dragon_tiger_list(self, date=None):
-        """获取龙虎榜数据"""
+        """获取龙虎榜数据（统一列名：代码/名称/净买入额[万元]）
+
+        东财接口原始列为"龙虎榜净买额"（元），策略按"净买入额"解析且
+        阈值以万元计（min_net_buy=500），这里统一映射+换算，否则
+        策略即使拿到数据也解析不出（net_buy=0 被过滤）。
+        """
         if date is None:
             date = datetime.now().strftime("%Y%m%d")
-        cache_key = f"lhb_{date}"
+        cache_key = f"lhb_v2_{date}"
         cache = self._get_cache(cache_key, days=1)
         if cache:
             return pd.DataFrame(cache)
         try:
             df = ak.stock_lhb_detail_em(start_date=date, end_date=date)
             if df is not None and not df.empty:
-                self._set_cache(cache_key, df.to_dict('records'))
-                return df
+                out = pd.DataFrame({
+                    '代码': df['代码'],
+                    '名称': df['名称'],
+                    # 东财单位为元，策略阈值以万元计 -> 换算
+                    '净买入额': df['龙虎榜净买额'] / 10000.0,
+                })
+                self._set_cache(cache_key, out.to_dict('records'))
+                return out
         except Exception as e:
             print(f"获取龙虎榜失败: {e}")
         return pd.DataFrame()

@@ -452,6 +452,8 @@ class TushareHelper:
 
         返回 DataFrame，列：代码 / 名称 / 净买入额（万元）
         龙虎榜跟风策略按这些列名解析。
+        top_list 需要 2000 积分，低积分 token 会返回空/异常，
+        此时降级到 AKShare 东财龙虎榜接口。
         """
         try:
             kwargs = {}
@@ -475,6 +477,13 @@ class TushareHelper:
             return out
         except Exception as e:
             print(f"[Tushare]获取龙虎榜列表失败: {e}")
+        # 降级：AKShare 东财龙虎榜
+        try:
+            from data.akshare_helper import AKShareHelper
+            ak_helper = AKShareHelper(cache_dir=self.cache_dir)
+            return ak_helper.get_dragon_tiger_list(date=date)
+        except Exception as e2:
+            print(f"[Tushare]AKShare 龙虎榜降级失败: {e2}")
             return pd.DataFrame()
 
     # ==================== 估值数据 ====================

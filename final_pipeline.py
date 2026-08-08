@@ -63,7 +63,7 @@ class FinalPipeline:
             from multi_data_source_helper import MultiDataSourceHelper
             self.helper = MultiDataSourceHelper()
             print(f"  ✅ 多数据源已启用: {self.helper.current_source}")
-        except:
+        except Exception:
             from data.akshare_helper import AKShareHelper
             self.helper = AKShareHelper(cache_dir="data/cache")
             print(f"  ✅ 使用 AKShare")
@@ -73,7 +73,7 @@ class FinalPipeline:
             self.local_manager = LocalDataManager()
             status = self.local_manager.get_status()
             print(f"  ✅ 本地数据: {status['stock_count']}只股票")
-        except:
+        except Exception:
             self.local_manager = None
     
     def run(self):

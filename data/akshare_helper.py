@@ -1400,7 +1400,7 @@ class AKShareHelper:
                             'low': latest.get('low', 0),
                             'volume': latest.get('volume', 0),
                         })
-                except:
+                except Exception:
                     continue
             if result:
                 self._set_cache("market", result)

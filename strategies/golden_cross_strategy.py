@@ -107,7 +107,7 @@ class GoldenCrossStrategy(BaseStrategy):
                 
                 if len(results) >= self.top_n:
                     break
-            except:
+            except Exception:
                 continue
         
         # 兜底：返回MACD多头排列的股票（DIF>DEA）
@@ -135,7 +135,7 @@ class GoldenCrossStrategy(BaseStrategy):
                     
                     if len(results) >= self.top_n:
                         break
-                except:
+                except Exception:
                     continue
         
         return results[:self.top_n]

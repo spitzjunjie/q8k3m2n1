@@ -114,7 +114,7 @@ def build_factor_features(helper, symbol, date=None):
         try:
             margin = helper.get_margin_balance(symbol)
             features['margin_balance'] = float(margin.get('balance', 0) or 0)
-        except:
+        except Exception:
             features['margin_balance'] = 0
         
         return features
@@ -202,7 +202,7 @@ def build_training_dataset(helper, symbols, forward_days=5):
                     labels.append(0)
             else:
                 labels.append(0)
-        except:
+        except Exception:
             labels.append(0)
     
     df['future_return'] = labels

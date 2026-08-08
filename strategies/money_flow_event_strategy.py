@@ -73,7 +73,7 @@ class MoneyFlowEventStrategy(BaseStrategy):
 
                 if len(results) >= self.top_n:
                     break
-            except:
+            except Exception:
                 continue
 
         # 兜底：如果无满足条件股票，返回量比最高的3只
@@ -88,7 +88,7 @@ class MoneyFlowEventStrategy(BaseStrategy):
                     avg_vol = kline['volume'].tail(20).mean()
                     ratio = recent_vol / avg_vol if avg_vol > 0 else 0
                     fallback.append((ratio, stock))
-                except:
+                except Exception:
                     continue
             fallback.sort(key=lambda x: x[0], reverse=True)
             for ratio, stock in fallback[:3]:

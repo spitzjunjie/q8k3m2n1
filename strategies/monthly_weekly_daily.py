@@ -30,7 +30,7 @@ class MonthlyWeeklyDailyStrategy(BaseStrategy):
         # 使用沪深300成分股
         try:
             pool = helper.get_stock_pool("hs300", sorted_by_market_value=True)[:60]
-        except:
+        except Exception:
             pool = [
                 '600519', '600036', '601318', '300750', '000858',
                 '002475', '600887', '000333', '000001', '600030',
@@ -89,7 +89,7 @@ class MonthlyWeeklyDailyStrategy(BaseStrategy):
                     try:
                         name = helper.get_realtime_quote(symbol)
                         name = name.get('名称', symbol) if name else symbol
-                    except:
+                    except Exception:
                         name = symbol
                     
                     results.append({

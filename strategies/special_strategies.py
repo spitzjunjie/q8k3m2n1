@@ -46,7 +46,7 @@ class AISupplyChainStrategy(EventStrategy):
                         })
                 if len(results) >= 5:
                     break
-            except:
+            except Exception:
                 continue
         return results
 
@@ -87,7 +87,7 @@ class LocalizationStrategy(EventStrategy):
                     })
                 if len(results) >= 5:
                     break
-            except:
+            except Exception:
                 continue
         return results
 
@@ -117,7 +117,7 @@ class MaBreakStrategy(FactorStrategy):
                     # 因子值 = 收盘价相对MA20的偏离度
                     score = (kline['close'].iloc[-1] / ma20 - 1) * 100
                     data.append({'symbol': sym, 'name': sym, 'factor_value': score})
-            except:
+            except Exception:
                 continue
         df = pd.DataFrame(data)
         if not df.empty:
@@ -160,7 +160,7 @@ class MultiPeriodStrategy(FactorStrategy):
                     # 共振强度
                     score = (ma5 / ma20 - 1) * 100
                     data.append({'symbol': sym, 'name': sym, 'factor_value': score})
-            except:
+            except Exception:
                 continue
         df = pd.DataFrame(data)
         if not df.empty:
@@ -209,7 +209,7 @@ class MultiFactorStrategy(FactorStrategy):
 
                 if score > 40:
                     data.append({'symbol': sym, 'name': sym, 'factor_value': score})
-            except:
+            except Exception:
                 continue
         df = pd.DataFrame(data)
         if not df.empty:

@@ -82,7 +82,7 @@ class LimitUpRelayStrategy(BaseStrategy):
 
                 if any(pct >= 5.0 for pct in pct_change[-3:]):  # 放宽到5%
                     limit_up_stocks.append(stock)
-            except:
+            except Exception:
                 continue
 
         # 选取涨停股票
@@ -111,7 +111,7 @@ class LimitUpRelayStrategy(BaseStrategy):
                                 'name': stock['name'],
                                 'reason': f"强势股：近5日涨幅{gain:.1f}%"
                             })
-                except:
+                except Exception:
                     continue
 
         return results[:self.top_n]

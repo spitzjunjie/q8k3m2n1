@@ -1,4 +1,4 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 """
 因子选股策略（真实数据驱动）
 所有因子值来自AKShare真实财务/估值/行情数据
@@ -47,7 +47,7 @@ class FactorStrategyBase(FactorStrategy):
                             price = float(df_kline['close'].iloc[-1])
                             if price <= 100:
                                 valid_symbols.append(sym)
-                    except:
+                    except Exception:
                         continue
                 if valid_symbols:
                     df = df[df['symbol'].isin(valid_symbols)]
@@ -74,7 +74,7 @@ class ROEStrategy(FactorStrategyBase):
                 fin = helper.get_financial_indicator(sym)
                 roe = fin.get('roe')
                 values.append(roe if roe else None)  # 失败返回None被过滤
-            except:
+            except Exception:
                 values.append(None)
         return self.build_result(symbols, values, "ROE={val:.2f}%", helper)
 
@@ -93,7 +93,7 @@ class ProfitGrowthStrategy(FactorStrategyBase):
                 growth = helper.get_growth_data(sym)
                 g = growth.get('profit_growth')
                 values.append(g if g else None)
-            except:
+            except Exception:
                 values.append(None)
         return self.build_result(symbols, values, "净利润增速={val:.2f}%", helper)
 
@@ -112,7 +112,7 @@ class RevenueGrowthStrategy(FactorStrategyBase):
                 growth = helper.get_growth_data(sym)
                 g = growth.get('revenue_growth')
                 values.append(g if g else None)
-            except:
+            except Exception:
                 values.append(None)
         return self.build_result(symbols, values, "营收增速={val:.2f}%", helper)
 
@@ -148,7 +148,7 @@ class LowPEStrategy(FactorStrategyBase):
                 else:
                     score = -9999
                 values.append(score)
-            except:
+            except Exception:
                 values.append(-9999)
         return self.build_result(symbols, values, "PE={val:.2f}, 排除陷阱", helper)
 
@@ -167,7 +167,7 @@ class LowPBStrategy(FactorStrategyBase):
                 val = helper.get_valuation_data(sym)
                 pb = val.get('pb', 0)
                 values.append(-pb if pb > 0 else -9999)
-            except:
+            except Exception:
                 values.append(-9999)
         return self.build_result(symbols, values, "PB={val:.2f}", helper)
 
@@ -186,7 +186,7 @@ class PSRStrategy(FactorStrategyBase):
                 val = helper.get_valuation_data(sym)
                 ps = val.get('ps_ttm', 0)
                 values.append(-ps if ps > 0 else -9999)
-            except:
+            except Exception:
                 values.append(-9999)
         return self.build_result(symbols, values, "PS={val:.2f}", helper)
 
@@ -206,7 +206,7 @@ class LowValuationStrategy(FactorStrategyBase):
                 # 简化：用PB绝对值排序，越低越"低估"
                 pb = val.get('pb', 0)
                 values.append(-pb if 0 < pb < 10 else -9999)
-            except:
+            except Exception:
                 values.append(-9999)
         return self.build_result(symbols, values, "PB修复空间={val:.2f}", helper)
 
@@ -225,7 +225,7 @@ class CashFlowQualityStrategy(FactorStrategyBase):
                 cf = helper.get_cash_flow(sym)
                 q = cf.get('cf_quality')
                 values.append(q if q else None)
-            except:
+            except Exception:
                 values.append(None)
         return self.build_result(symbols, values, "现金流质量={val:.2f}", helper)
 
@@ -245,7 +245,7 @@ class HighROICStrategy(FactorStrategyBase):
                 fin = helper.get_financial_indicator(sym)
                 roic = fin.get('roic')
                 values.append(roic if roic else None)
-            except:
+            except Exception:
                 values.append(None)
         return self.build_result(symbols, values, "ROIC={val:.2f}%", helper)
 
@@ -265,7 +265,7 @@ class LowDebtStrategy(FactorStrategyBase):
                 debt = fin.get('debt_ratio', 100)
                 # 低负债：用负值排序，负债越低越靠前
                 values.append(-debt if debt > 0 else -100)
-            except:
+            except Exception:
                 values.append(-100)
         return self.build_result(symbols, values, "资产负债率={val:.2f}%", helper)
 
@@ -284,7 +284,7 @@ class HighDividendStrategy(FactorStrategyBase):
                 val = helper.get_valuation_data(sym)
                 dv = val.get('dv_ttm')
                 values.append(dv if dv else None)
-            except:
+            except Exception:
                 values.append(None)
         return self.build_result(symbols, values, "股息率={val:.2f}%", helper)
 
@@ -318,7 +318,7 @@ class DividendLowVolStrategy(FactorStrategyBase):
                         values.append(None)
                 else:
                     values.append(None)
-            except:
+            except Exception:
                 values.append(None)
         return self.build_result(symbols, values, "红利低波={val:.2f}", helper)
 
@@ -349,7 +349,7 @@ class MomentumReversalStrategy(FactorStrategyBase):
                         values.append(None)
                 else:
                     values.append(None)
-            except:
+            except Exception:
                 values.append(None)
         return self.build_result(symbols, values, "反转动量={val:.2f}", helper)
 
@@ -372,7 +372,7 @@ class TrendMomentumStrategy(FactorStrategyBase):
                     values.append(ret_60d)
                 else:
                     values.append(None)
-            except:
+            except Exception:
                 values.append(None)
         return self.build_result(symbols, values, "60日动量={val:.2f}%", helper)
 
@@ -391,7 +391,7 @@ class NorthHeavyStrategy(FactorStrategyBase):
                 north = helper.get_north_holding(sym)
                 r = north.get('hold_ratio')
                 values.append(r if r else None)
-            except:
+            except Exception:
                 values.append(None)
         return self.build_result(symbols, values, "北向持股={val:.2f}%", helper)
 
@@ -417,6 +417,6 @@ class InstitutionHoldingStrategy(FactorStrategyBase):
                     values.append(None)
                 else:
                     values.append(hold + dv * 0.5)
-            except:
+            except Exception:
                 values.append(None)
         return self.build_result(symbols, values, "机构关注度={val:.2f}", helper)

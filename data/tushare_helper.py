@@ -59,7 +59,7 @@ class TushareHelper:
                 try:
                     with open(cache_file, 'r', encoding='utf-8') as f:
                         return json.load(f)
-                except:
+                except Exception:
                     pass
         return None
 
@@ -377,7 +377,7 @@ class TushareHelper:
                     'profit_growth': row.get('profit_ratio', 0) * 10,  # 简化处理
                     'revenue_growth': row.get('revenue_ratio', 0) * 10,  # 简化处理
                 }
-        except:
+        except Exception:
             pass
         # Fallback: 使用利润表数据
         try:
@@ -394,7 +394,7 @@ class TushareHelper:
                 else:
                     revenue_growth = 0
                 return {'profit_growth': profit_growth, 'revenue_growth': revenue_growth}
-        except:
+        except Exception:
             pass
         return {}
 
@@ -410,7 +410,7 @@ class TushareHelper:
                     'investing_cf': row.get('netInvestCashFlow', 0),
                     'financing_cf': row.get('netFinCashFlow', 0),
                 }
-        except:
+        except Exception:
             pass
         return {}
 
@@ -430,7 +430,7 @@ class TushareHelper:
                     'dv_ttm': row.get('dv_ttm', 0),
                     'total_mv': row.get('total_mv', 0),
                 }
-        except:
+        except Exception:
             pass
         return {}
 
@@ -443,7 +443,7 @@ class TushareHelper:
             df = self.pro.moneyflow(ts_code=code)
             if df is not None and len(df) > 0:
                 return df.iloc[0].to_dict()
-        except:
+        except Exception:
             pass
         return {}
 
@@ -535,7 +535,7 @@ class TushareHelper:
             df = self.pro.daily_indicator(ts_code=code, trade_date=datetime.now().strftime('%Y%m%d'))
             if df is not None and len(df) > 0:
                 return df.iloc[0].to_dict()
-        except:
+        except Exception:
             pass
         return {}
 
@@ -560,7 +560,7 @@ class TushareHelper:
         try:
             df = self.pro.trade_cal(exchange='SSE', start_date=date, end_date=date)
             return df is not None and len(df) > 0 and df.iloc[0]['is_open'] == 1
-        except:
+        except Exception:
             return True
 
     def get_trade_dates(self, days=30, start_date=None):
@@ -581,7 +581,7 @@ class TushareHelper:
                     dates.sort()  # 升序排列
                     # 只返回最近的 days 个
                     return dates[-days:] if len(dates) >= days else dates
-            except:
+            except Exception:
                 pass
         else:
             # 如果显式指定了 start_date，使用原来的逻辑
@@ -592,7 +592,7 @@ class TushareHelper:
                     dates.sort()
                     dates = [d for d in dates if d >= start_date]
                     return dates[:days]
-            except:
+            except Exception:
                 pass
         return []
 
@@ -604,7 +604,7 @@ class TushareHelper:
         try:
             df = self.pro.fina_mainbz(ts_code=code, type='B')
             return df if df is not None else pd.DataFrame()
-        except:
+        except Exception:
             return pd.DataFrame()
 
     def wrap_akshare(self, func, *args, **kwargs):

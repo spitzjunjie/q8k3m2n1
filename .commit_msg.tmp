@@ -1,0 +1,8 @@
+chore: 修复 168 处裸 except -> except Exception（58 个文件）
+
+裸 except 会吞掉 KeyboardInterrupt/SystemExit，长回测中 Ctrl+C 无法中断
+（排查超时问题时无法手动终止）。改为 except Exception 保持吞业务异常的
+降级行为，同时放行系统级异常。
+
+纯机械替换：`except:` -> `except Exception:`，不动 except X:。
+235 tests passed，compile OK。

@@ -432,7 +432,7 @@ class QualityFactorStrategy(BaseStrategy):
                             pb_median = np.median(pb_values)
                             if pb > pb_median:
                                 sell_reasons.append(f'PB={pb:.2f}>市场中位数{pb_median:.2f}')
-                except:
+                except Exception:
                     pass
 
                 if sell_reasons:

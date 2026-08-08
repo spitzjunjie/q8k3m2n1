@@ -1,4 +1,4 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 """
 技术突破策略：捕捉放量突破、动能突破前的股票
 基于技术指标选股，与择时信号配合使用
@@ -32,7 +32,7 @@ class TechnicalBreakoutStrategy(EventStrategy):
                                 valid_stocks.append(s)
                         if len(valid_stocks) >= sample:
                             break
-                    except:
+                    except Exception:
                         continue
                 if valid_stocks:
                     return valid_stocks

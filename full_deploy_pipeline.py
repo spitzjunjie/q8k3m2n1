@@ -186,7 +186,7 @@ class QuantPipelineV2:
                         # 累积交易记录
                         if result.get('trades'):
                             all_trades.extend(result['trades'])
-                except:
+                except Exception:
                     continue
             
             # 如果没有权益曲线，生成模拟数据

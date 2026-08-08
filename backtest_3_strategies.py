@@ -44,7 +44,7 @@ class CachedAKShareHelper(AKShareHelper):
                         if len(parts) >= 2:
                             symbol = parts[0]
                             self._cache_data[symbol] = data
-                except:
+                except Exception:
                     pass
     
     def get_history_kline(self, symbol, period="daily", days=60, end_date=None):
@@ -79,7 +79,7 @@ def get_trading_dates(helper, n=32, end_date=None):
             df = df[df['date'].str.replace('-', '') <= end_norm]
             dates = df['date'].tail(n).tolist()
             return [d.replace('-', '') for d in dates]
-    except:
+    except Exception:
         pass
     
     # 备用：使用日期推算
@@ -175,7 +175,7 @@ def main():
             df = df[df['date'].str.replace('-', '') <= end_norm]
             dates = df['date'].tail(32).tolist()
             dates = [d.replace('-', '') for d in dates]
-    except:
+    except Exception:
         pass
     
     if not dates:

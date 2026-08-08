@@ -129,7 +129,7 @@ class ChipsDistributionStrategy(BaseStrategy):
             small_cap = stock_list.head(1000)  # 简化：取前1000只
             
             return small_cap
-        except:
+        except Exception:
             return pd.DataFrame()
     
     def _analyze_chips(self, df):
@@ -327,7 +327,7 @@ class ChipBreakoutStrategy(BaseStrategy):
             
             return {'density_price': density_price}
             
-        except:
+        except Exception:
             return None
     
     def _check_volume_breakout(self, df, period=3):

@@ -213,7 +213,7 @@ class HuggingFaceClient:
                 result = json.loads(match.group(0))
                 result['finbert_result'] = finbert_result
                 return result
-        except:
+        except Exception:
             pass
         
         return finbert_result
@@ -278,7 +278,7 @@ class HuggingFaceClient:
             match = re.search(r'\{.*\}', response, re.DOTALL)
             if match:
                 return json.loads(match.group(0))
-        except:
+        except Exception:
             pass
         return None
 
@@ -295,7 +295,7 @@ class HuggingFaceClient:
                 max_tokens=50
             )
             return response is not None and ("OK" in response or "ok" in response)
-        except:
+        except Exception:
             return False
 
 

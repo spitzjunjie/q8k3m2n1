@@ -99,7 +99,7 @@ class RSIReboundStrategy(BaseStrategy):
                 
                 if len(results) >= self.top_n:
                     break
-            except:
+            except Exception:
                 continue
         
         # 兜底：返回RSI相对较低的股票
@@ -116,7 +116,7 @@ class RSIReboundStrategy(BaseStrategy):
                     
                     if rsi and rsi < 50:
                         scored.append((rsi, stock))
-                except:
+                except Exception:
                     continue
             
             scored.sort(key=lambda x: x[0])

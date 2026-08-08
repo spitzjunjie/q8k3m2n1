@@ -1,4 +1,4 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 """
 高级策略：行业轮动、资金流、超跌反弹等
 """
@@ -49,7 +49,7 @@ class IndustryMomentumStrategy(BaseStrategy):
                     if avg_return > best_return:
                         best_return = avg_return
                         best_industry = industry
-            except:
+            except Exception:
                 continue
 
         if best_industry and best_industry in industry_leaders:
@@ -62,7 +62,7 @@ class IndustryMomentumStrategy(BaseStrategy):
                             'name': sym,
                             'reason': f"行业动量：{best_industry}强势"
                         })
-                except:
+                except Exception:
                     continue
 
         return results[:3]
@@ -108,7 +108,7 @@ class SouthboundFlowStrategy(BaseStrategy):
                         })
                 if len(results) >= 5:
                     break
-            except:
+            except Exception:
                 continue
 
         return results
@@ -160,7 +160,7 @@ class OversoldReboundStrategy(BaseStrategy):
                             'name': stock['name'],
                             'reason': f"超跌反弹：RSI={current_rsi:.1f}，企稳信号"
                         })
-            except:
+            except Exception:
                 continue
 
         return results[:5]
@@ -204,7 +204,7 @@ class ValueLowPBStrategy(BaseStrategy):
                         })
                 if len(results) >= 5:
                     break
-            except:
+            except Exception:
                 continue
 
         return results
@@ -246,7 +246,7 @@ class EarningsSurpriseStrategy(BaseStrategy):
                         })
                 if len(results) >= 5:
                     break
-            except:
+            except Exception:
                 continue
 
         return results
@@ -316,7 +316,7 @@ class VolumeBreakoutStrategy(BaseStrategy):
                         'name': name,
                         'reason': f"量价齐升：放量{vol_ratio:.1f}倍，突破MA20"
                     })
-            except:
+            except Exception:
                 continue
 
         return results[:5]

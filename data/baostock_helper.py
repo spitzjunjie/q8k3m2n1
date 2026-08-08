@@ -42,7 +42,7 @@ class BaostockHelper:
         if self._logged_in:
             try:
                 bs.logout()
-            except:
+            except Exception:
                 pass
             self._logged_in = False
 
@@ -68,7 +68,7 @@ class BaostockHelper:
                 try:
                     with open(cache_file, 'r', encoding='utf-8') as f:
                         return json.load(f)
-                except:
+                except Exception:
                     pass
         return None
 
@@ -276,7 +276,7 @@ class BaostockHelper:
             # 从指定日期开始计算
             try:
                 start_dt = datetime.strptime(start_date, '%Y%m%d')
-            except:
+            except Exception:
                 start_dt = datetime.now() - timedelta(days=730)
         else:
             start_dt = datetime.now() - timedelta(days=730)

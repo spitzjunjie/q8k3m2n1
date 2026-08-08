@@ -36,7 +36,7 @@ def _get_llm_client():
         client = GroqClient(api_key=GROQ_API_KEY)
         if client.client:
             return client
-    except:
+    except Exception:
         pass
     
     # 备用 HuggingFace
@@ -45,7 +45,7 @@ def _get_llm_client():
         client = HuggingFaceClient(api_token=HF_TOKEN)
         if client.client:
             return client
-    except:
+    except Exception:
         pass
     
     return None
@@ -153,7 +153,7 @@ class FinancialReportAnalyzer:
                     result['symbol'] = symbol
                     result['data_source'] = 'llm'
                     return result
-            except:
+            except Exception:
                 pass
         
         return self._rule_based_analysis(symbol, data)
@@ -172,7 +172,7 @@ class FinancialReportAnalyzer:
                 latest = data['financial'][0]
                 # 可以添加更多规则判断
                 result['raw_data'] = latest
-        except:
+        except Exception:
             pass
 
         return result
@@ -263,7 +263,7 @@ class ResearchReportSummarizer:
                 match = re.search(r'\{.*\}', response, re.DOTALL)
                 if match:
                     return json.loads(match.group(0))
-            except:
+            except Exception:
                 pass
         
         return {'summary': report_content[:200], 'key_points': []}
@@ -350,7 +350,7 @@ class StrategyFailureAnalyzer:
                 match = re.search(r'\{.*\}', response, re.DOTALL)
                 if match:
                     return json.loads(match.group(0))
-            except:
+            except Exception:
                 pass
         
         return self._rule_based_suggestion(strategy_info, backtest_result)
@@ -519,14 +519,14 @@ class MarketSentimentMonitor:
             try:
                 from strategy_discovery.hf_client import HuggingFaceClient
                 self.llm = HuggingFaceClient(api_token=HF_TOKEN)
-            except:
+            except Exception:
                 pass
 
         # FinBERT 客户端
         try:
             from huggingface_hub import InferenceClient
             self._finbert_client = InferenceClient(token=HF_TOKEN)
-        except:
+        except Exception:
             pass
 
     def get_market_sentiment(self) -> Dict:
@@ -566,7 +566,7 @@ class MarketSentimentMonitor:
                                 sentiments.append(top['score'])
                             elif top['label'] == 'negative':
                                 sentiments.append(-top['score'])
-                    except:
+                    except Exception:
                         continue
                 
                 if sentiments:
@@ -620,7 +620,7 @@ class MarketSentimentMonitor:
                     'north_flow': float(latest.get('今日北向资金净买入', 0)),
                     'unit': '亿元'
                 }
-        except:
+        except Exception:
             pass
         
         return {'north_flow': 0, 'unit': '亿元'}
@@ -632,7 +632,7 @@ class MarketSentimentMonitor:
             if indices is not None and not indices.empty:
                 # 简化处理
                 return {'status': '正常交易', 'index_count': len(indices)}
-        except:
+        except Exception:
             pass
         
         return {'status': '未知', 'index_count': 0}
@@ -688,7 +688,7 @@ class AnnouncementEventDetector:
             try:
                 from strategy_discovery.hf_client import HuggingFaceClient
                 self.llm = HuggingFaceClient(api_token=HF_TOKEN)
-            except:
+            except Exception:
                 pass
 
     def detect_events(self, symbol: str = None, days: int = 3) -> List[Dict]:

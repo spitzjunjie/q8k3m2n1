@@ -116,7 +116,7 @@ class KDJStrategy(BaseStrategy):
 
                 if len(results) >= self.top_n:
                     break
-            except:
+            except Exception:
                 continue
 
         # 兜底：如果无严格金叉，返回K值最低的3只（最超卖）

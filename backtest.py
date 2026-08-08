@@ -58,7 +58,7 @@ def get_kline_with_fallback(primary_helper, symbol, days=5, end_date=None, sourc
         if isinstance(df, pd.DataFrame) and not df.empty and 'close' in df.columns:
             print(f"    [切换数据源] {symbol}: {source} -> {fallback_source}")
             return df, fallback_source
-    except:
+    except Exception:
         pass
     
     return None, source
@@ -313,7 +313,7 @@ def run_strategy(strategy, helper, timing, date=None):
                     close_price = df['close'].iloc[-1]
                     if pd.notna(close_price) and isinstance(close_price, (int, float)):
                         prices[stock['symbol']] = float(close_price)
-            except:
+            except Exception:
                 continue
 
         # 3. 检查现有持仓（带自动切换数据源）
@@ -331,7 +331,7 @@ def run_strategy(strategy, helper, timing, date=None):
                             symbol, prices[symbol], helper=helper, date=date)
                         if should_sell:
                             simulator.execute_sell(symbol, prices[symbol], reason, sell_date=date)
-            except:
+            except Exception:
                 continue
 
         # 4. 尝试买入新股票

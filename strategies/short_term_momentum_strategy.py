@@ -80,7 +80,7 @@ class ShortTermMomentumStrategy(BaseStrategy):
 
                 if len(results) >= self.top_n:
                     break
-            except:
+            except Exception:
                 continue
 
         # 兜底：如果无满足条件股票，返回涨幅最高的3只
@@ -93,7 +93,7 @@ class ShortTermMomentumStrategy(BaseStrategy):
                         continue
                     ret = (kline['close'].iloc[-1] / kline['close'].iloc[-self.lookback_days] - 1) * 100 if len(kline) >= self.lookback_days else 0
                     fallback.append((ret, stock))
-                except:
+                except Exception:
                     continue
             fallback.sort(key=lambda x: x[0], reverse=True)
             for ret, stock in fallback[:3]:

@@ -253,7 +253,7 @@ class XxxStrategy(EventStrategy):
                     }})
                 if len(results) >= 10:
                     break
-            except:
+            except Exception:
                 continue
         return results
 ```

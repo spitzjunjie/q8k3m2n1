@@ -36,7 +36,7 @@ def _safe(k):
         c = k['close'].values
         v = k['volume'].values if 'volume' in k.columns else None
         return c, v
-    except:
+    except Exception:
         return None, None
 
 
@@ -663,7 +663,7 @@ def run_backtest(strategy_name, config, helper, trading_dates):
                 df = helper.get_history_kline(h['symbol'], days=5, end_date=date)
                 if isinstance(df, pd.DataFrame) and not df.empty and 'close' in df.columns:
                     prices[h['symbol']] = float(df['close'].iloc[-1])
-            except:
+            except Exception:
                 pass
 
         # 卖出（含止盈止损）
@@ -677,7 +677,7 @@ def run_backtest(strategy_name, config, helper, trading_dates):
                 held_trading_days = 0
                 try:
                     held_trading_days = len([d for d in trading_dates[idx:i] if d])
-                except:
+                except Exception:
                     held_trading_days = i - idx
 
                 # 止盈止损条件（去掉重复的 idx <= i-5，让 MAX_HOLD_DAYS 真正生效）
@@ -732,7 +732,7 @@ def run_backtest(strategy_name, config, helper, trading_dates):
                         if price is None:
                             try:
                                 price = float(df['close'].iloc[-1])
-                            except:
+                            except Exception:
                                 price = None
                         if price and price > 0:
                             # 用含滑点的成交价计算真实成本
@@ -748,7 +748,7 @@ def run_backtest(strategy_name, config, helper, trading_dates):
                                     'qty': qty, 'reason': reason, 'date': date,
                                     'true_cost': true_cost, 'entry_fee': fee,
                                 })
-                except:
+                except Exception:
                     pass
 
             for c in candidates[:MAX_HOLDINGS - len(holdings)]:

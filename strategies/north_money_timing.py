@@ -86,7 +86,7 @@ class NorthMoneyTimingStrategy(BaseStrategy):
                         'score': vol_ratio * 2 + recent_return / 5
                     })
                         
-            except:
+            except Exception:
                 continue
         
         # 按评分排序

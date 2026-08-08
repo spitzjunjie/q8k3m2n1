@@ -215,7 +215,7 @@ class FundamentalSmallCapStrategy(BaseStrategy):
                 stock['debt_ratio'] = debt_ratio
                 qualified.append(stock)
 
-            except:
+            except Exception:
                 continue
 
         return qualified

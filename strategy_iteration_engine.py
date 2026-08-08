@@ -74,7 +74,7 @@ class StrategyIterationEngine:
                 with open(self.optimization_history_file, 'r', encoding='utf-8') as f:
                     data = json.load(f)
                     self.records = [OptimizationRecord(**r) for r in data.get('records', [])]
-            except:
+            except Exception:
                 self.records = []
     
     def _save_history(self):

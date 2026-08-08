@@ -66,7 +66,7 @@ class LimitCallbackStrategy(BaseStrategy):
                 
                 if len(results) >= self.top_n:
                     break
-            except:
+            except Exception:
                 continue
                 
         return results[:self.top_n]

@@ -42,7 +42,7 @@ class MultiDataSourceHelper:
                 'module': ak,
                 'enabled': True
             }
-        except:
+        except Exception:
             self.sources['akshare'] = {'enabled': False}
         
         # 2. Baostock（免费，无需token）
@@ -53,7 +53,7 @@ class MultiDataSourceHelper:
                 'module': bs,
                 'enabled': True
             }
-        except:
+        except Exception:
             self.sources['baostock'] = {'enabled': False}
         
         # 3. EFinance
@@ -63,7 +63,7 @@ class MultiDataSourceHelper:
                 'module': ef,
                 'enabled': True
             }
-        except:
+        except Exception:
             self.sources['efinance'] = {'enabled': False}
         
         # 4. Tushare
@@ -78,7 +78,7 @@ class MultiDataSourceHelper:
                 'pro': ts.pro_api() if token != 'your_token_here' else None,
                 'enabled': token != 'your_token_here'
             }
-        except:
+        except Exception:
             self.sources['tushare'] = {'enabled': False}
         
         # 统计可用数据源
@@ -267,7 +267,7 @@ class MultiDataSourceHelper:
                         df = pd.DataFrame(data_list, columns=['日期', '开盘', '最高', '最低', '收盘', '成交量'])
                         return df
                         
-            except:
+            except Exception:
                 continue
         
         return None
@@ -284,7 +284,7 @@ class MultiDataSourceHelper:
         try:
             import baostock as bs
             bs.logout()
-        except:
+        except Exception:
             pass
 
 

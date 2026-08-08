@@ -1,4 +1,4 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 """
 事件驱动策略（真实事件检测）
 所有信号基于真实市场事件数据
@@ -31,7 +31,7 @@ class EventStrategyBase(EventStrategy):
                                 valid_stocks.append(s)
                         if len(valid_stocks) >= sample:
                             break
-                    except:
+                    except Exception:
                         continue
                 if valid_stocks:
                     return valid_stocks
@@ -81,7 +81,7 @@ class LimitUpCallbackStrategy(EventStrategyBase):
                         })
                 if len(results) >= 10:
                     break
-            except:
+            except Exception:
                 continue
         return results
 
@@ -115,7 +115,7 @@ class STRemoveStrategy(EventStrategyBase):
                     })
                 if len(results) >= 10:
                     break
-            except:
+            except Exception:
                 continue
         return results
 
@@ -192,7 +192,7 @@ class EarningsSurpriseStrategy(EventStrategyBase):
                     })
                 if len(results) >= 10:
                     break
-            except:
+            except Exception:
                 continue
         return results
 
@@ -222,7 +222,7 @@ class AnalystUpgradeStrategy(EventStrategyBase):
                         })
                 if len(results) >= 10:
                     break
-            except:
+            except Exception:
                 pass
             # 记录用于兜底的股票
             try:
@@ -230,7 +230,7 @@ class AnalystUpgradeStrategy(EventStrategyBase):
                 if kline is not None and not kline.empty and len(kline) >= 5:
                     ret = (kline['close'].iloc[-1] / kline['close'].iloc[-5] - 1) * 100
                     scored.append((ret, sym))
-            except:
+            except Exception:
                 continue
         # 兜底：如果无分析师评级，返回近期涨幅最高的3只
         if not results and scored:
@@ -267,7 +267,7 @@ class NorthFlowStrategy(EventStrategyBase):
                     })
                 if len(results) >= 10:
                     break
-            except:
+            except Exception:
                 continue
         return results
 
@@ -310,7 +310,7 @@ class MomentumReversalStrategy(EventStrategyBase):
                     scored.append((ret_20d, sym))
                 if len(results) >= 10:
                     break
-            except:
+            except Exception:
                 continue
         # 兜底：如果无满足ROE条件，返回跌幅最大的3只
         if not results and scored:
@@ -355,7 +355,7 @@ class TrendMomentumStrategy(EventStrategyBase):
                     })
                 if len(results) >= 10:
                     break
-            except:
+            except Exception:
                 continue
         return results
 
@@ -403,6 +403,6 @@ class MultiFactorStrategy(EventStrategyBase):
                     })
                 if len(results) >= 10:
                     break
-            except:
+            except Exception:
                 continue
         return results

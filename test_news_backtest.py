@@ -58,7 +58,7 @@ for h in strategy1.holdings:
         df = helper.get_history_kline(h['symbol'], days=5)
         if not df.empty:
             final_prices[h['symbol']] = df['close'].iloc[-1]
-    except:
+    except Exception:
         pass
 
 result = strategy1.to_dict(final_prices)

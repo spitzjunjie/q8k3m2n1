@@ -105,7 +105,7 @@ class NewsSentimentStrategy(EventStrategy):
                             result = self.client.analyze_financial_news(full_text)
                             if result:
                                 finbert_score = result['sentiment_score']
-                        except:
+                        except Exception:
                             pass
                 
                 # 综合评分

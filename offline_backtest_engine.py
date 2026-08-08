@@ -16,7 +16,7 @@ try:
     from multi_data_source_helper import MultiDataSourceHelper
     from local_data_manager import LocalDataManager
     HAS_ADVANCED = True
-except:
+except Exception:
     HAS_ADVANCED = False
 
 
@@ -55,7 +55,7 @@ class OfflineBacktestEngine:
             # 1. 选股
             try:
                 selected = strategy.select_stocks(helper or self.multi_source, date)
-            except:
+            except Exception:
                 selected = []
             
             # 2. 获取价格
@@ -133,7 +133,7 @@ class OfflineBacktestEngine:
                     price = self.multi_source.get_realtime_price(symbol)
                     if price:
                         prices[symbol] = price
-                except:
+                except Exception:
                     pass
         
         return prices

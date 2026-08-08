@@ -108,7 +108,7 @@ class MainForceMoneyStrategy(BaseStrategy):
                         'reason': f"主力资金：量比={recent_vol/vol_ma10:.1f}倍, 价={kline['close'].iloc[-1]:.2f}>MA10={price_ma10:.2f}"
                     })
                     
-            except:
+            except Exception:
                 continue
                 
         return results[:10]
@@ -147,7 +147,7 @@ class InstitutionResearchStrategy(BaseStrategy):
                         'reason': f"机构调研：近30日涨幅={ret_30d:.1f}%"
                     })
                     
-            except:
+            except Exception:
                 continue
                 
         return results[:10]
@@ -193,7 +193,7 @@ class NorthMoneyTimingStrategy(BaseStrategy):
                         'reason': f"北向择时：RSI={current_rsi:.1f}, 量比={vol_ratio:.1f}倍"
                     })
                     
-            except:
+            except Exception:
                 continue
                 
         return results[:10]
@@ -234,7 +234,7 @@ class EarningsSeasonStrategy(BaseStrategy):
                         'reason': f"财报季：30日涨幅={ret_30d:.1f}%, 60日涨幅={ret_60d:.1f}%"
                     })
                     
-            except:
+            except Exception:
                 continue
                 
         return results[:10]

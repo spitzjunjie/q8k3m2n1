@@ -159,7 +159,7 @@ def run_historical_backtest(strategy_names=None, days=None, start_date=None, end
             start_dt = datetime.strptime(str(start_date), '%Y%m%d')
             BENCHMARK_START_DATE = start_dt
             print(f"[日期计算] 使用指定 start_date={start_date}")
-        except:
+        except Exception:
             print(f"[警告] start_date 格式错误: {start_date}，使用今天")
             BENCHMARK_START_DATE = datetime.now()
 
@@ -502,7 +502,7 @@ def run_historical_backtest(strategy_names=None, days=None, start_date=None, end
         try:
             with open(main_file, 'r', encoding='utf-8') as f:
                 main_data = json.load(f)
-        except:
+        except Exception:
             main_data = {'strategies': []}
     else:
         main_data = {'strategies': []}
@@ -527,7 +527,7 @@ def run_historical_backtest(strategy_names=None, days=None, start_date=None, end
                                 trade_date = dt.strptime(str(t.get('date', ''))[:10], '%Y-%m-%d')
                                 if trade_date < PROTECT_DATE:
                                     protected_trades.append(t)
-                            except:
+                            except Exception:
                                 pass
                         
                         # 合并：保护旧交易 + 新交易
@@ -547,7 +547,7 @@ def run_historical_backtest(strategy_names=None, days=None, start_date=None, end
                                 eq_date = dt.strptime(str(e.get('date', ''))[:10], '%Y-%m-%d')
                                 if eq_date < PROTECT_DATE:
                                     protected_equity.append(e)
-                            except:
+                            except Exception:
                                 pass
                         
                         new_equity = s.get('equity_curve', [])

@@ -32,7 +32,7 @@ class MajorCapitalFlowStrategy(BaseStrategy):
         # 使用沪深300成分股
         try:
             pool = helper.get_stock_pool("hs300", sorted_by_market_value=True)[:80]
-        except:
+        except Exception:
             pool = [
                 '600519', '600036', '601318', '300750', '000858',
                 '002475', '600887', '000333', '000001', '600030',
@@ -71,7 +71,7 @@ class MajorCapitalFlowStrategy(BaseStrategy):
                         'score': vol_ratio + recent_return / 10
                     })
                         
-            except:
+            except Exception:
                 continue
         
         # 按评分排序
@@ -81,7 +81,7 @@ class MajorCapitalFlowStrategy(BaseStrategy):
             try:
                 name = helper.get_realtime_quote(stock['symbol'])
                 name = name.get('名称', stock['symbol']) if name else stock['symbol']
-            except:
+            except Exception:
                 name = stock['symbol']
             
             results.append({

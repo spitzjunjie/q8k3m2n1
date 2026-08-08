@@ -108,7 +108,7 @@ class AutoFixer:
                 timeout=10
             )
             return result.returncode == 0
-        except:
+        except Exception:
             return False
     
     def log(self, message: str, level: str = 'info'):

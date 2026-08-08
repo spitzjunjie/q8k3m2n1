@@ -58,7 +58,7 @@ class HistoricalBacktestEngine:
                     price = helper.get_realtime_price(symbol)
                     if price and price > 0:
                         prices[symbol] = price
-                except:
+                except Exception:
                     pass
             
             # 3. 执行买入（最多持有5只）
@@ -89,7 +89,7 @@ class HistoricalBacktestEngine:
                         hist = helper.get_stock_hist(symbol, start=date, end=date)
                         if hist is not None and len(hist) > 0:
                             price = hist.iloc[-1].get('close', 0)
-                except:
+                except Exception:
                     price = holdings[symbol]['cost'] / holdings[symbol]['shares']  # 成本价
             
                 if price and price > 0:
@@ -121,7 +121,7 @@ class HistoricalBacktestEngine:
             df = helper.get_index_hist('000001', start=start_date, end=end_date)
             if df is not None and len(df) > 0:
                 return df['日期'].tolist()[-self.days:]
-        except:
+        except Exception:
             pass
         
         # 备用：生成近30个交易日

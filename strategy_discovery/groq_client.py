@@ -120,7 +120,7 @@ class GroqClient:
             match = re.search(r'\{.*\}', response, re.DOTALL)
             if match:
                 return json.loads(match.group(0))
-        except:
+        except Exception:
             pass
         return None
 
@@ -184,7 +184,7 @@ class GroqClient:
             match = re.search(r'\{.*\}', response, re.DOTALL)
             if match:
                 return json.loads(match.group(0))
-        except:
+        except Exception:
             pass
         return None
 
@@ -249,7 +249,7 @@ class GroqClient:
             match = re.search(r'\{.*\}', response, re.DOTALL)
             if match:
                 return json.loads(match.group(0))
-        except:
+        except Exception:
             pass
         return None
 
@@ -304,7 +304,7 @@ class GroqClient:
                 max_tokens=20
             )
             return response is not None and ("OK" in response or "ok" in response)
-        except:
+        except Exception:
             return False
 
 

@@ -224,7 +224,7 @@ class LocalDataManager:
             df = ak.stock_zh_a_hist(symbol=symbol_fmt, start_date=start, end_date=end, adjust=adjust)
             if df is not None and len(df) > 0:
                 return df
-        except:
+        except Exception:
             pass
         
         # 2. 尝试 Baostock
@@ -249,7 +249,7 @@ class LocalDataManager:
             if data_list:
                 df = pd.DataFrame(data_list, columns=['日期', '开盘', '最高', '最低', '收盘', '成交量', '成交额'])
                 return df
-        except:
+        except Exception:
             pass
         
         # 3. 尝试 EFinance
@@ -258,7 +258,7 @@ class LocalDataManager:
             df = ef.stock.get_quote_history(symbol, start=start, end=end)
             if df is not None and len(df) > 0:
                 return df
-        except:
+        except Exception:
             pass
         
         return None
@@ -285,7 +285,7 @@ class LocalDataManager:
             conn.close()
             if len(df) > 0:
                 return df
-        except:
+        except Exception:
             pass
         finally:
             conn.close()
@@ -342,7 +342,7 @@ class LocalDataManager:
                     df = ak.stock_zh_index_daily(symbol=f"sh{index_code}")
                     if df is not None:
                         data = df
-                except:
+                except Exception:
                     pass
                 
                 if data is None:
@@ -368,7 +368,7 @@ class LocalDataManager:
                         
                         if data_list:
                             data = pd.DataFrame(data_list, columns=['日期', '开盘', '最高', '最低', '收盘', '成交量'])
-                    except:
+                    except Exception:
                         pass
                 
                 if data is not None:

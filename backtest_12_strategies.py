@@ -111,7 +111,7 @@ def run_strategy_backtest(strategy_name, helper, timing, dates):
                         if should_sell:
                             simulator.execute_sell(symbol, current_price, reason, sell_date=date)
                             print(f"    卖出 {holding['name']}: {reason}")
-                except:
+                except Exception:
                     continue
             
             # 4. 买入新股票

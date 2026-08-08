@@ -67,7 +67,7 @@ class LowVolatilityStrategy(BaseStrategy):
                         'ma20': ma20,
                         'current': current
                     })
-            except:
+            except Exception:
                 continue
         
         # 按波动率排序，取最低的

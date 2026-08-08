@@ -121,7 +121,7 @@ class MiniMaxClient:
             try:
                 with open(log_file, 'r', encoding='utf-8') as f:
                     logs = json.load(f)
-            except:
+            except Exception:
                 pass
         
         # 添加新日志
@@ -207,7 +207,7 @@ class StrategyDiscovery:
             if json_match:
                 try:
                     return json.loads(json_match.group(0))
-                except:
+                except Exception:
                     pass
         return None
 
@@ -261,7 +261,7 @@ class StrategyDiscovery:
             json_match = re.search(r'\{.*\}', response, re.DOTALL)
             if json_match:
                 return json.loads(json_match.group(0))
-        except:
+        except Exception:
             pass
         return None
 
@@ -330,7 +330,7 @@ class MarketAnalyzer:
             json_match = re.search(r'\{.*\}', response, re.DOTALL)
             if json_match:
                 return json.loads(json_match.group(0))
-        except:
+        except Exception:
             pass
         return None
 
@@ -430,7 +430,7 @@ class MarketAnalyzer:
             json_match = re.search(r'\{.*\}', response, re.DOTALL)
             if json_match:
                 return json.loads(json_match.group(0))
-        except:
+        except Exception:
             pass
         return None
 

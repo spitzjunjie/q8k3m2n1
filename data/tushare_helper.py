@@ -474,8 +474,8 @@ class TushareHelper:
                 d = str(date).replace('-', '')[:8]
                 kwargs['trade_date'] = d
             else:
-                kwargs['start_date'] = (datetime.now() - timedelta(days=5)).strftime('%Y%m%d')
-                kwargs['end_date'] = datetime.now().strftime('%Y%m%d')
+                # top_list 接口只接受 trade_date（必填），不支持日期范围
+                kwargs['trade_date'] = datetime.now().strftime('%Y%m%d')
 
             self._rate_limit('top_list')
             df = self.pro.top_list(**kwargs)
@@ -616,3 +616,116 @@ class TushareHelper:
         """
         print(f"[Tushare]wrap_akshare 不可用（{getattr(func, '__name__', 'ak')}），返回空数据")
         return pd.DataFrame()
+
+    # ==================== 兼容方法（策略调用但 Tushare 无直接等价） ====================
+    # 能实现的用 Tushare 接口；无法实现的返回空，让策略优雅降级而不是 AttributeError。
+
+    def _safe_float(self, value, default=0.0):
+        """安全转浮点（对齐 AKShareHelper._safe_float 用法）"""
+        if value is None or value == '' or value == '--':
+            return default
+        try:
+            return float(value)
+        except (ValueError, TypeError):
+            return default
+
+    def get_north_holding(self, symbol):
+        """获取个股北向持股比例（pro.hk_hold，需积分，失败返回空）"""
+        code = self._normalize_code(symbol)
+        try:
+            self._rate_limit('hk_hold')
+            df = self.pro.hk_hold(trade_date=datetime.now().strftime('%Y%m%d'),
+                                  ts_code=code)
+            if df is not None and not df.empty:
+                row = df.iloc[0]
+                return {
+                    'hold_ratio': row.get('ratio', 0) or 0,
+                    'hold_market_value': row.get('vol', 0) or 0,
+                }
+        except Exception as e:
+            print(f"[Tushare]获取北向持股失败 {symbol}: {e}")
+        return {}
+
+    def get_south_flow(self):
+        """南向资金（Tushare 无直接接口，返回空）"""
+        return pd.DataFrame()
+
+    def get_south_holdings(self):
+        """南向持股（Tushare 无直接接口，返回空）"""
+        return pd.DataFrame()
+
+    def get_stock_news(self):
+        """个股新闻（Tushare 无新闻接口，返回空）"""
+        return pd.DataFrame()
+
+    def get_limit_up_list(self, date=None):
+        """涨停列表（pro.limit_list_d 需 2000 积分，失败返回空）"""
+        d = (date or datetime.now().strftime('%Y%m%d')).replace('-', '')[:8]
+        try:
+            self._rate_limit('limit_list_d')
+            df = self.pro.limit_list_d(trade_date=d)
+            if df is not None and not df.empty:
+                out = pd.DataFrame({
+                    '代码': df['ts_code'].str.split('.').str[0],
+                    '名称': df['name'],
+                })
+                return out
+        except Exception as e:
+            print(f"[Tushare]获取涨停列表失败: {e}")
+        return pd.DataFrame()
+
+    def get_analyst_rating(self, symbol):
+        """分析师评级（Tushare 研报接口积分高，返回空）"""
+        return {}
+
+    def get_index_data(self, symbol="000300", days=60):
+        """指数历史数据（pro.index_daily）"""
+        code = symbol if '.' in symbol else ('000300.SH' if symbol.startswith('000') else '399001.SZ')
+        try:
+            self._rate_limit('index_daily')
+            end = datetime.now().strftime('%Y%m%d')
+            start = (datetime.now() - timedelta(days=days * 2)).strftime('%Y%m%d')
+            df = self.pro.index_daily(ts_code=code, start_date=start, end_date=end)
+            if df is not None and not df.empty:
+                df = df.sort_values('trade_date').tail(days)
+                return df
+        except Exception as e:
+            print(f"[Tushare]获取指数数据失败 {symbol}: {e}")
+        return pd.DataFrame()
+
+    def get_etf_history_kline(self, symbol, period="daily", days=60, end_date=None):
+        """ETF 历史 K 线（pro.fund_daily，需正确 ts_code）"""
+        code = symbol
+        if '.' not in code:
+            code = code + ('.SH' if code.startswith(('5', '6', '9')) else '.SZ')
+        try:
+            self._rate_limit('fund_daily')
+            end = (end_date or datetime.now().strftime('%Y%m%d')).replace('-', '')[:8]
+            start = (datetime.now() - timedelta(days=days * 2)).strftime('%Y%m%d')
+            df = self.pro.fund_daily(ts_code=code, start_date=start, end_date=end)
+            if df is not None and not df.empty:
+                df = df.sort_values('trade_date').tail(days)
+                if 'vol' in df.columns and 'volume' not in df.columns:
+                    df['volume'] = df['vol']
+                return df
+        except Exception as e:
+            print(f"[Tushare]获取ETF K线失败 {symbol}: {e}")
+        return pd.DataFrame()
+
+    def get_hs300_valuation_batch(self):
+        """沪深300估值批量（用 get_market_stocks 子集）"""
+        try:
+            stocks = self.get_market_stocks()
+            if not stocks:
+                return pd.DataFrame()
+            return pd.DataFrame(stocks)
+        except Exception:
+            return pd.DataFrame()
+
+    def get_market_sentiment(self):
+        """市场情绪（需全市场涨跌统计，Tushare 实现复杂，返回空）"""
+        return {}
+
+    def get_chip_distribution(self, symbol):
+        """筹码分布（Tushare 无筹码数据，返回空）"""
+        return {}

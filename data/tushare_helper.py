@@ -202,6 +202,12 @@ class TushareHelper:
         if cache_key in self._kline_cache:
             return self._kline_cache[cache_key]
 
+        # ETF 代码（5xx/1xx 开头）：pro.daily 是股票接口，对 ETF 无数据，
+        # 走 fund_daily（行业轮动买入行业 ETF 依赖此路径）
+        sym6 = str(symbol).split('.')[0]
+        if len(sym6) == 6 and sym6.startswith(('5', '1')):
+            return self.get_etf_history_kline(symbol, days=days, end_date=end_date)
+
         if not end_date:
             end_date = datetime.now().strftime('%Y%m%d')
         else:

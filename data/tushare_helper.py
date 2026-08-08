@@ -28,6 +28,8 @@ class TushareHelper:
         self._kline_cache = {}  # K线缓存
         self._last_call_time = {}  # 记录上次调用时间
         self._min_interval = 1.5  # 最小调用间隔（秒），避免超限（1.5秒=40次/分，安全余量充足）
+        self._realtime_quote_broken = False  # 实时接口熔断：失败后不再重复尝试
+        self._market_maps_broken = False  # 全市场估值熔断：失败后只返回基础列表
 
     def _normalize_code(self, symbol):
         """标准化股票代码为Tushare格式（加交易所后缀）"""
@@ -103,21 +105,23 @@ class TushareHelper:
 
             # 当日全市场估值/行情（daily_basic 一次返回全市场）
             pb_map, chg_map = {}, {}
-            try:
-                self._rate_limit('daily_basic')
-                trade_date = datetime.now().strftime('%Y%m%d')
-                df = self.pro.daily_basic(trade_date=trade_date,
-                                          fields='ts_code,pb,pe_ttm,turnover_rate')
-                if df is not None and not df.empty:
-                    for _, r in df.iterrows():
-                        pb_map[r['ts_code'].split('.')[0]] = r.get('pb', 0) or 0
-                self._rate_limit('daily')
-                d2 = self.pro.daily(trade_date=trade_date, fields='ts_code,pct_chg')
-                if d2 is not None and not d2.empty:
-                    for _, r in d2.iterrows():
-                        chg_map[r['ts_code'].split('.')[0]] = r.get('pct_chg', 0) or 0
-            except Exception as e:
-                print(f"[Tushare]获取全市场行情失败(降级返回基础列表): {e}")
+            if not self._market_maps_broken:
+                try:
+                    self._rate_limit('daily_basic')
+                    trade_date = datetime.now().strftime('%Y%m%d')
+                    df = self.pro.daily_basic(trade_date=trade_date,
+                                              fields='ts_code,pb,pe_ttm,turnover_rate')
+                    if df is not None and not df.empty:
+                        for _, r in df.iterrows():
+                            pb_map[r['ts_code'].split('.')[0]] = r.get('pb', 0) or 0
+                    self._rate_limit('daily')
+                    d2 = self.pro.daily(trade_date=trade_date, fields='ts_code,pct_chg')
+                    if d2 is not None and not d2.empty:
+                        for _, r in d2.iterrows():
+                            chg_map[r['ts_code'].split('.')[0]] = r.get('pct_chg', 0) or 0
+                except Exception as e:
+                    print(f"[Tushare]获取全市场行情失败(熔断，后续只返回基础列表): {e}")
+                    self._market_maps_broken = True
 
             for code, s in by_code.items():
                 out.append({
@@ -271,6 +275,10 @@ class TushareHelper:
         """获取实时行情 - 尝试多个接口"""
         if not symbols:
             return pd.DataFrame()
+        # 熔断：此前失败过（接口不可用/权限不足），后续调用快速返回，
+        # 避免多策略重复失败重试拖慢回测
+        if self._realtime_quote_broken:
+            return pd.DataFrame()
 
         try:
             if isinstance(symbols, str):
@@ -286,17 +294,19 @@ class TushareHelper:
             else:
                 code = code + '.SZ'
             
-            # 方案1: realtime_quote - 单个股票直接传字符串
+            # 方案1: ts.realtime_quote - tushare 库顶层免费接口（注意：pro 对象
+            # 上没有 realtime_quote，用 self.pro.realtime_quote 每次都报
+            # "请指定正确的接口名"，多策略重复失败重试拖慢回测）
             try:
-                df = self.pro.realtime_quote(ts_code=code)
+                df = ts.realtime_quote(ts_code=code)
                 if df is not None and not df.empty:
                     return df
             except Exception as e:
                 print(f"[Tushare]realtime_quote失败: {e}")
-            
-            # 方案2: rt_price - 实时价格接口
+
+            # 方案2: ts.rt_price - tushare 库顶层免费接口
             try:
-                df = self.pro.rt_price(ts_code=code)
+                df = ts.rt_price(ts_code=code)
                 if df is not None and not df.empty:
                     return df
             except Exception as e:
@@ -316,15 +326,18 @@ class TushareHelper:
                             c = c + '.SZ'
                         codes.append(c)
                     codes_str = ','.join(codes)
-                    df = self.pro.realtime_quote(ts_code=codes_str)
+                    df = ts.realtime_quote(ts_code=codes_str)
                     if df is not None and not df.empty:
                         return df
                 except Exception as e:
                     print(f"[Tushare]批量realtime_quote失败: {e}")
-            
+
+            # 全部失败：熔断，后续调用快速返回
+            self._realtime_quote_broken = True
             return pd.DataFrame()
         except Exception as e:
             print(f"[Tushare]获取实时行情失败: {e}")
+            self._realtime_quote_broken = True
             return pd.DataFrame()
 
     # ==================== 财务数据 ====================

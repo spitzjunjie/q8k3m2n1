@@ -174,10 +174,12 @@ class SectorRotationStrategy(BaseStrategy):
         if industry_name in self._industry_history_cache:
             return self._industry_history_cache[industry_name]
 
-        """获取行业历史表现"""
+        """获取行业历史表现：优先东财板块，Tushare 下回退行业 ETF 日线"""
         if self._industry_history_degraded:
             return pd.DataFrame()
 
+        df = pd.DataFrame()
+        # 方案1：东财行业板块历史（AKShare 可用时）
         try:
             df = helper.wrap_akshare(
                 ak.stock_board_industry_hist_em,
@@ -190,10 +192,27 @@ class SectorRotationStrategy(BaseStrategy):
                 return df
         except Exception as e:
             print(f"获取行业历史失败 {industry_name}: {e}")
+
+        # helper 已熔断（网络持续失败）：不尝试 ETF 兜底（请求也会失败），
+        # 直接标记降级让外层停止逐行业循环
+        if getattr(helper, "_consecutive_network_failures", 0) >= 3:
             self._mark_history_degraded(helper)
-        empty = pd.DataFrame()
-        self._industry_history_cache[industry_name] = empty
-        return empty
+            self._industry_history_cache[industry_name] = pd.DataFrame()
+            return pd.DataFrame()
+
+        # 方案2：行业 ETF 日线（Tushare/AKShare 均可，fund_daily / ETF 接口）
+        etf_code = self.industry_etfs.get(industry_name)
+        if etf_code:
+            try:
+                etf_df = helper.get_etf_history_kline(etf_code, days=60)
+                if etf_df is not None and not etf_df.empty:
+                    self._industry_history_cache[industry_name] = etf_df
+                    return etf_df
+            except Exception as e:
+                print(f"获取行业ETF历史失败 {industry_name}: {e}")
+
+        self._industry_history_cache[industry_name] = df
+        return df
 
     def _mark_history_degraded(self, helper):
         """helper 已进入快速熔断模式时，缓存"行业历史接口不可用"状态。"""
@@ -201,10 +220,12 @@ class SectorRotationStrategy(BaseStrategy):
             self._industry_history_degraded = True
     
     def _get_hs300_data(self, helper, days=30):
-        """获取沪深300指数数据"""
+        """获取沪深300指数数据：优先东财，回退 get_index_data"""
         if self._hs300_data is not None and len(self._hs300_data) >= days:
             return self._hs300_data
-        
+
+        df = pd.DataFrame()
+        # 方案1：东财
         try:
             df = helper.wrap_akshare(ak.stock_zh_index_daily, symbol='sh000300')
             if df is not None and not df.empty:
@@ -213,7 +234,16 @@ class SectorRotationStrategy(BaseStrategy):
                 return df
         except Exception as e:
             print(f"获取沪深300数据失败: {e}")
-        return pd.DataFrame()
+
+        # 方案2：Tushare index_daily
+        try:
+            idx = helper.get_index_data("000300", days=days)
+            if idx is not None and not idx.empty:
+                self._hs300_data = idx.tail(days)
+                return self._hs300_data
+        except Exception as e:
+            print(f"获取沪深300数据失败(回退): {e}")
+        return df
     
     def _calculate_rs_strength(self, industry_df, hs300_df):
         """计算RS相对强度：板块涨幅/沪深300涨幅"""
@@ -272,10 +302,11 @@ class SectorRotationStrategy(BaseStrategy):
         return 0, 0
     
     def _get_sector_stocks(self, helper, industry_name, top_n=3):
-        """获取行业中成交额最大的龙头股"""
+        """获取行业标的：优先东财成分股龙头，失败时回退行业 ETF"""
         if self._industry_history_degraded:
             return []
 
+        # 方案1：东财成分股
         try:
             df = helper.wrap_akshare(
                 ak.stock_board_industry_cons_em, symbol=industry_name
@@ -300,6 +331,16 @@ class SectorRotationStrategy(BaseStrategy):
                 return stocks
         except Exception as e:
             print(f"获取行业成分股失败 {industry_name}: {e}")
+
+        # 方案2：行业 ETF（Tushare 下东财不可用时，直接以 ETF 为标的）
+        etf_code = self.industry_etfs.get(industry_name)
+        if etf_code:
+            return [{
+                'symbol': etf_code.split('.')[0],
+                'name': industry_name + 'ETF',
+                'change_pct': 0,
+                'turnover': 0,
+            }]
         return []
     
     def _calculate_policy_score(self, industry_name):

@@ -1,5 +1,5 @@
 {
-  "update_time": "2026-08-08 13:03:45",
+  "update_time": "2026-08-08 14:38:27",
   "backtest_type": "historical",
   "backtest_start": "2026-07-24",
   "backtest_end": "2026-08-06",
@@ -16,7 +16,7 @@
       "total_value": 35214.729094919996,
       "total_return": 0.17382430316399985,
       "monthly_return": 0.17382430316399985,
-      "sharpe_ratio": 3.59160592924741,
+      "sharpe_ratio": 3.5701020787051476,
       "max_drawdown": 0.14982233863072847,
       "win_rate": 0.3333333333333333,
       "realized_pnl": 3909.11,
@@ -37,7 +37,7 @@
           "entry_fee": 5.0345345,
           "stock_reason": "多周期共振:6.9902",
           "timing_reason": "量能正常; 均线多头排列",
-          "hold_days": 5,
+          "hold_days": 6,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 35.15,
@@ -55,7 +55,7 @@
           "entry_fee": 5.1428427,
           "stock_reason": "多周期共振:7.3820",
           "timing_reason": "均线多头排列",
-          "hold_days": 4,
+          "hold_days": 5,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 154.82,
@@ -73,7 +73,7 @@
           "entry_fee": 5.0345345,
           "stock_reason": "多周期共振:6.9902",
           "timing_reason": "量能正常; 均线多头排列",
-          "hold_days": 4,
+          "hold_days": 5,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 35.15,
@@ -241,10 +241,6 @@
       ],
       "equity_curve": [
         {
-          "date": "2026-06-02",
-          "value": 29070.0
-        },
-        {
           "date": "2026-06-03",
           "value": 29659.0
         },
@@ -347,6 +343,10 @@
         {
           "date": "2026-08-07",
           "value": 33876.17909491999
+        },
+        {
+          "date": "2026-08-08",
+          "value": 35214.729094919996
         },
         {
           "date": "2026-08-08",
@@ -553,11 +553,11 @@
         }
       ],
       "total_fees": 54.8,
-      "composite_score": 57.0,
+      "composite_score": 55.9,
       "grade": "B",
-      "profit_loss_ratio": 1.122386200916634,
-      "return_stability": 0.6085767412708414,
-      "calmar_ratio": 24.14487770519725
+      "profit_loss_ratio": 0.6735808696563271,
+      "return_stability": 0.2911628667610525,
+      "calmar_ratio": 17.42628072820245
     },
     {
       "name": "高管增持",
@@ -569,7 +569,7 @@
       "total_value": 29912.76139848,
       "total_return": -0.002907953383999969,
       "monthly_return": -0.002907953383999969,
-      "sharpe_ratio": 1.4147854610331032,
+      "sharpe_ratio": 1.4913801015098809,
       "max_drawdown": 0.15814585729821004,
       "win_rate": 0.6363636363636364,
       "realized_pnl": -59.92,
@@ -590,7 +590,7 @@
           "entry_fee": 5.0486486,
           "stock_reason": "高管增持，占流通股=0.85%",
           "timing_reason": "回踩MA5; KDJ金叉; 量能正常; 均线多头排列",
-          "hold_days": 2,
+          "hold_days": 3,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 8.1,
@@ -608,7 +608,7 @@
           "entry_fee": 5.03795792,
           "stock_reason": "高管增持，占流通股=0.00%",
           "timing_reason": "RSI偏低(56.5); 量能正常; 均线多头排列",
-          "hold_days": 2,
+          "hold_days": 3,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 6.32,
@@ -626,7 +626,7 @@
           "entry_fee": 5.03541538,
           "stock_reason": "高管增持，占流通股=0.00%",
           "timing_reason": "量能正常; 均线多头排列",
-          "hold_days": 1,
+          "hold_days": 2,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 1.22,
@@ -791,10 +791,6 @@
       ],
       "equity_curve": [
         {
-          "date": "2026-06-02",
-          "value": 27483.0
-        },
-        {
           "date": "2026-06-03",
           "value": 27862.0
         },
@@ -905,6 +901,10 @@
         {
           "date": "2026-08-08",
           "value": 29921.33481386
+        },
+        {
+          "date": "2026-08-08",
+          "value": 29912.76139848
         },
         {
           "date": "2026-08-08",
@@ -1085,11 +1085,11 @@
         }
       ],
       "total_fees": 41.92,
-      "composite_score": 47.4,
+      "composite_score": 46.5,
       "grade": "C",
-      "profit_loss_ratio": 0.0,
-      "return_stability": 0.24716510763437904,
-      "calmar_ratio": 97.56662753678388
+      "profit_loss_ratio": 2.005736413978143,
+      "return_stability": 0.42320062991226415,
+      "calmar_ratio": 10.035356724919215
     },
     {
       "name": "均线多头排列",
@@ -1101,7 +1101,7 @@
       "total_value": 34825.67363934,
       "total_return": 0.16085578797799996,
       "monthly_return": 0.16085578797799996,
-      "sharpe_ratio": 3.7970563526588723,
+      "sharpe_ratio": 3.8913253157104006,
       "max_drawdown": 0.06583333333333333,
       "win_rate": 0.7,
       "realized_pnl": 5244.99,
@@ -1120,7 +1120,7 @@
           "cost": 9667.0,
           "stock_reason": "均线多头:15.2610",
           "timing_reason": "温和放量上涨; 均线多头排列",
-          "hold_days": 7,
+          "hold_days": 8,
           "current_price": 13.1,
           "profit": -497.00000000000057,
           "profit_pct": -5.141202027516298
@@ -1136,7 +1136,7 @@
           "entry_fee": 5.127127,
           "stock_reason": "均线多头:14.5398",
           "timing_reason": "量能正常; 均线多头排列",
-          "hold_days": 5,
+          "hold_days": 6,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 127.39,
@@ -1154,7 +1154,7 @@
           "entry_fee": 5.0345345,
           "stock_reason": "均线多头:11.0324",
           "timing_reason": "量能正常; 均线多头排列",
-          "hold_days": 5,
+          "hold_days": 6,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 35.15,
@@ -1316,10 +1316,6 @@
       ],
       "equity_curve": [
         {
-          "date": "2026-06-02",
-          "value": 29573.0
-        },
-        {
           "date": "2026-06-03",
           "value": 29012.0
         },
@@ -1422,6 +1418,10 @@
         {
           "date": "2026-08-07",
           "value": 34581.67363934
+        },
+        {
+          "date": "2026-08-08",
+          "value": 34825.67363934
         },
         {
           "date": "2026-08-08",
@@ -1592,11 +1592,11 @@
         }
       ],
       "total_fees": 30.29,
-      "composite_score": 58.4,
+      "composite_score": 56.7,
       "grade": "B",
-      "profit_loss_ratio": 1.4967438971738225,
-      "return_stability": 0.5991892042523048,
-      "calmar_ratio": 23.47427003083684
+      "profit_loss_ratio": 1.122386200916634,
+      "return_stability": 0.6583976775615801,
+      "calmar_ratio": 22.29897006946483
     },
     {
       "name": "国产替代",
@@ -1608,7 +1608,7 @@
       "total_value": 29702.17401197,
       "total_return": -0.00992753293433331,
       "monthly_return": -0.00992753293433331,
-      "sharpe_ratio": -0.26732153731782327,
+      "sharpe_ratio": -0.4510199727154291,
       "max_drawdown": 0.11663769890643585,
       "win_rate": 0.6,
       "realized_pnl": -297.83,
@@ -1772,10 +1772,6 @@
       ],
       "equity_curve": [
         {
-          "date": "2026-06-02",
-          "value": 30327.0
-        },
-        {
           "date": "2026-06-03",
           "value": 30712.0
         },
@@ -1877,6 +1873,10 @@
         },
         {
           "date": "2026-08-07",
+          "value": 29702.17401197
+        },
+        {
+          "date": "2026-08-08",
           "value": 29702.17401197
         },
         {
@@ -2048,11 +2048,11 @@
         }
       ],
       "total_fees": 7.98,
-      "composite_score": 78.9,
-      "grade": "A",
+      "composite_score": 81.4,
+      "grade": "S",
       "profit_loss_ratio": 20.766986588478826,
-      "return_stability": 0.7089459413940107,
-      "calmar_ratio": 59.98678990320151
+      "return_stability": 0.7594532774411736,
+      "calmar_ratio": 75.66830733821203
     },
     {
       "name": "趋势动量",
@@ -2064,7 +2064,7 @@
       "total_value": 31518.786549720004,
       "total_return": 0.050626218324000126,
       "monthly_return": 0.050626218324000126,
-      "sharpe_ratio": 2.154499437288662,
+      "sharpe_ratio": 2.1421781405936238,
       "max_drawdown": 0.059366666666666665,
       "win_rate": 0.5833333333333334,
       "realized_pnl": 1421.34,
@@ -2083,7 +2083,7 @@
           "cost": 8442.0,
           "stock_reason": "60日涨幅16.4%",
           "timing_reason": "回踩MA5; MACD绿柱缩脚; KDJ金叉; 温和放量上涨",
-          "hold_days": 8,
+          "hold_days": 9,
           "current_price": 30.15,
           "profit": 602.9999999999994,
           "profit_pct": 7.142857142857135
@@ -2097,7 +2097,7 @@
           "cost": 9667.0,
           "stock_reason": "60日涨幅20.6%",
           "timing_reason": "温和放量上涨; 均线多头排列",
-          "hold_days": 7,
+          "hold_days": 8,
           "current_price": 13.1,
           "profit": -497.00000000000057,
           "profit_pct": -5.141202027516298
@@ -2113,7 +2113,7 @@
           "entry_fee": 5.03518515,
           "stock_reason": "60日涨幅10.4%，均线多头",
           "timing_reason": "量能正常; 均线多头排列",
-          "hold_days": 3,
+          "hold_days": 4,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 35.15,
@@ -2281,10 +2281,6 @@
       ],
       "equity_curve": [
         {
-          "date": "2026-06-02",
-          "value": 29082.0
-        },
-        {
           "date": "2026-06-03",
           "value": 29571.0
         },
@@ -2387,6 +2383,10 @@
         {
           "date": "2026-08-07",
           "value": 31187.958075630002
+        },
+        {
+          "date": "2026-08-08",
+          "value": 31518.786549720004
         },
         {
           "date": "2026-08-08",
@@ -2593,11 +2593,11 @@
         }
       ],
       "total_fees": 38.58,
-      "composite_score": 58.6,
+      "composite_score": 57.6,
       "grade": "B",
-      "profit_loss_ratio": 3.158762721252083,
-      "return_stability": 0.7006095685268554,
-      "calmar_ratio": 16.638206015421712
+      "profit_loss_ratio": 1.4967438971738225,
+      "return_stability": 0.6405146391197285,
+      "calmar_ratio": 21.70659746023883
     },
     {
       "name": "AI供应链紫苏叶",
@@ -2609,7 +2609,7 @@
       "total_value": 31375.49179674,
       "total_return": 0.04584972655799999,
       "monthly_return": 0.04584972655799999,
-      "sharpe_ratio": 2.326059541824731,
+      "sharpe_ratio": 1.9717058384027029,
       "max_drawdown": 0.05722680899218751,
       "win_rate": 0.3,
       "realized_pnl": 1375.49,
@@ -2773,10 +2773,6 @@
       ],
       "equity_curve": [
         {
-          "date": "2026-06-02",
-          "value": 29491.0
-        },
-        {
           "date": "2026-06-03",
           "value": 29779.0
         },
@@ -2878,6 +2874,10 @@
         },
         {
           "date": "2026-08-07",
+          "value": 31375.49179674
+        },
+        {
+          "date": "2026-08-08",
           "value": 31375.49179674
         },
         {
@@ -3051,9 +3051,9 @@
       "total_fees": 7.53,
       "composite_score": 72.8,
       "grade": "A",
-      "profit_loss_ratio": 2.7260057043138777,
-      "return_stability": 0.8093661008717088,
-      "calmar_ratio": 41.484480918764795
+      "profit_loss_ratio": 0.0,
+      "return_stability": 0.7384383619176766,
+      "calmar_ratio": 276.325985114087
     },
     {
       "name": "ST摘帽潜伏",
@@ -3065,7 +3065,7 @@
       "total_value": 31962.07522687,
       "total_return": 0.06540250756233339,
       "monthly_return": 0.06540250756233339,
-      "sharpe_ratio": 3.530735919317487,
+      "sharpe_ratio": 3.5149075433705863,
       "max_drawdown": 0.0621,
       "win_rate": 0.5,
       "realized_pnl": 2459.08,
@@ -3084,7 +3084,7 @@
           "cost": 9667.0,
           "stock_reason": "困境反转，净利润增速=319.9%",
           "timing_reason": "温和放量上涨; 均线多头排列",
-          "hold_days": 7,
+          "hold_days": 8,
           "current_price": 13.1,
           "profit": -497.00000000000057,
           "profit_pct": -5.141202027516298
@@ -3244,10 +3244,6 @@
       ],
       "equity_curve": [
         {
-          "date": "2026-06-02",
-          "value": 28594.0
-        },
-        {
           "date": "2026-06-03",
           "value": 29083.0
         },
@@ -3350,6 +3346,10 @@
         {
           "date": "2026-08-07",
           "value": 31822.07522687
+        },
+        {
+          "date": "2026-08-08",
+          "value": 31962.07522687
         },
         {
           "date": "2026-08-08",
@@ -3520,11 +3520,11 @@
         }
       ],
       "total_fees": 19.09,
-      "composite_score": 46.7,
+      "composite_score": 45.1,
       "grade": "C",
-      "profit_loss_ratio": 2.537948219165605,
-      "return_stability": 0.19202130981078291,
-      "calmar_ratio": 29.734482165656456
+      "profit_loss_ratio": 1.0706997440174642,
+      "return_stability": 0.2636815070932341,
+      "calmar_ratio": 7.803548221205437
     },
     {
       "name": "业绩超预期",
@@ -3536,7 +3536,7 @@
       "total_value": 30885.949987850006,
       "total_return": 0.02953166626166688,
       "monthly_return": 0.02953166626166688,
-      "sharpe_ratio": 4.74338963432124,
+      "sharpe_ratio": 4.558781689323577,
       "max_drawdown": 0.0126237271188314,
       "win_rate": 0.5,
       "realized_pnl": 495.52,
@@ -3557,7 +3557,7 @@
           "entry_fee": 5.03534531,
           "stock_reason": "业绩超预期，净利润增速=319.9%",
           "timing_reason": "RSI偏低(54.1); 量能正常",
-          "hold_days": 9,
+          "hold_days": 10,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 13.1,
@@ -3791,6 +3791,10 @@
         {
           "date": "2026-08-07",
           "value": 30814.243660690005
+        },
+        {
+          "date": "2026-08-08",
+          "value": 30885.949987850006
         },
         {
           "date": "2026-08-08",
@@ -4249,11 +4253,11 @@
         }
       ],
       "total_fees": 208.61,
-      "composite_score": 47.0,
+      "composite_score": 46.0,
       "grade": "C",
-      "profit_loss_ratio": 3.395832156296284,
-      "return_stability": 0.41203001474330136,
-      "calmar_ratio": 8.40453649365075
+      "profit_loss_ratio": 0.6678928010055019,
+      "return_stability": 0.5202394749638712,
+      "calmar_ratio": 7.765262247180911
     },
     {
       "name": "多因子综合",
@@ -4261,19 +4265,19 @@
       "version": "1.0.0",
       "description": "等权组合ROE+低PE+动量+北向，综合评分",
       "initial_capital": 30000,
-      "current_capital": 20833.3802181,
-      "total_value": 29878.3802181,
-      "total_return": -0.004053992730000028,
-      "monthly_return": -0.004053992730000028,
-      "sharpe_ratio": 0.9384525781209005,
+      "current_capital": 15992.50590984,
+      "total_value": 29863.50590984,
+      "total_return": -0.004549803005333281,
+      "monthly_return": -0.004549803005333281,
+      "sharpe_ratio": 0.7983278684239119,
       "max_drawdown": 0.14600241335119254,
       "win_rate": 0.36363636363636365,
       "realized_pnl": -1246.62,
       "realized_pnl_pct": -4.16,
-      "floating_pnl": 1125.0,
-      "floating_pnl_pct": 3.75,
-      "total_pnl": -121.62,
-      "total_pnl_pct": -0.41,
+      "floating_pnl": 1120.17,
+      "floating_pnl_pct": 3.73,
+      "total_pnl": -126.45,
+      "total_pnl_pct": -0.42,
       "holdings": [
         {
           "symbol": "000338",
@@ -4284,10 +4288,46 @@
           "cost": 7920.0,
           "stock_reason": "多因子:51.6089",
           "timing_reason": "RSI超卖(45.9)",
-          "hold_days": 9,
+          "hold_days": 10,
           "current_price": 30.15,
           "profit": 1125.0,
           "profit_pct": 14.204545454545455
+        },
+        {
+          "symbol": "000725",
+          "name": "000725",
+          "buy_price": 6.07607,
+          "ref_price": 6.07,
+          "quantity": 500,
+          "buy_date": "2026-08-08",
+          "cost": 3043.06538035,
+          "entry_fee": 5.03038035,
+          "stock_reason": "多因子:55.0000",
+          "timing_reason": "回踩MA20; MACD金叉; RSI偏低(54.6); 量能正常",
+          "hold_days": 1,
+          "confidence": "medium",
+          "position_weight": 0.5,
+          "current_price": 6.07,
+          "profit": -3.034999999999677,
+          "profit_pct": -0.09990009990008927
+        },
+        {
+          "symbol": "601211",
+          "name": "601211",
+          "buy_price": 17.927909999999997,
+          "ref_price": 17.91,
+          "quantity": 100,
+          "buy_date": "2026-08-08",
+          "cost": 1797.8089279099997,
+          "entry_fee": 5.01792791,
+          "stock_reason": "多因子:49.9968",
+          "timing_reason": "MACD绿柱缩脚; RSI偏低(26.3); 量能正常",
+          "hold_days": 1,
+          "confidence": "medium",
+          "position_weight": 0.5,
+          "current_price": 17.91,
+          "profit": -1.7909999999996984,
+          "profit_pct": -0.0999000999000831
         }
       ],
       "trades": [
@@ -4447,10 +4487,6 @@
       ],
       "equity_curve": [
         {
-          "date": "2026-06-02",
-          "value": 28842.0
-        },
-        {
           "date": "2026-06-03",
           "value": 29073.0
         },
@@ -4565,6 +4601,10 @@
         {
           "date": "2026-08-08",
           "value": 29878.3802181
+        },
+        {
+          "date": "2026-08-08",
+          "value": 29863.50590984
         }
       ],
       "backtest_start": "2026-05-26",
@@ -4740,12 +4780,12 @@
           "exit_fee": 9.66590942
         }
       ],
-      "total_fees": 18.31,
-      "composite_score": 37.2,
+      "total_fees": 28.36,
+      "composite_score": 36.9,
       "grade": "C",
       "profit_loss_ratio": 1.1704073217573574,
-      "return_stability": 0.021988875000093944,
-      "calmar_ratio": 5.603125820467799
+      "return_stability": 0.041730828611190485,
+      "calmar_ratio": 5.167311780151731
     },
     {
       "name": "现金流质量",
@@ -4757,7 +4797,7 @@
       "total_value": 30960.28150725,
       "total_return": 0.03200938357500005,
       "monthly_return": 0.03200938357500005,
-      "sharpe_ratio": 1.7290907599903222,
+      "sharpe_ratio": 1.8013219207619515,
       "max_drawdown": 0.05769600077329077,
       "win_rate": 0.5454545454545454,
       "realized_pnl": 960.28,
@@ -4924,10 +4964,6 @@
       ],
       "equity_curve": [
         {
-          "date": "2026-06-02",
-          "value": 29058.0
-        },
-        {
           "date": "2026-06-03",
           "value": 29669.0
         },
@@ -5029,6 +5065,10 @@
         },
         {
           "date": "2026-08-07",
+          "value": 30960.28150725
+        },
+        {
+          "date": "2026-08-08",
           "value": 30960.28150725
         },
         {
@@ -5218,11 +5258,11 @@
         }
       ],
       "total_fees": 28.75,
-      "composite_score": 63.0,
+      "composite_score": 63.5,
       "grade": "B",
       "profit_loss_ratio": 1.3683629083242124,
-      "return_stability": 0.5411842030218778,
-      "calmar_ratio": 29.015121334961897
+      "return_stability": 0.5959653912267445,
+      "calmar_ratio": 26.03230160463416
     },
     {
       "name": "量价突破",
@@ -5234,7 +5274,7 @@
       "total_value": 30754.59808792,
       "total_return": 0.02515326959733332,
       "monthly_return": 0.02515326959733332,
-      "sharpe_ratio": 1.444949728409188,
+      "sharpe_ratio": 1.4950231628504675,
       "max_drawdown": 0.03860391327340032,
       "win_rate": 0.5,
       "realized_pnl": 1261.04,
@@ -5253,7 +5293,7 @@
           "cost": 9667.0,
           "stock_reason": "放量突破20日高点，量比2.55",
           "timing_reason": "温和放量上涨; 均线多头排列",
-          "hold_days": 7,
+          "hold_days": 8,
           "current_price": 13.1,
           "profit": -497.00000000000057,
           "profit_pct": -5.141202027516298
@@ -5269,7 +5309,7 @@
           "entry_fee": 5.0441040600000004,
           "stock_reason": "放量突破20日高点，量比1.63",
           "timing_reason": "回踩MA5; 量能正常; 均线多头排列",
-          "hold_days": 3,
+          "hold_days": 4,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 44.06,
@@ -5437,10 +5477,6 @@
       ],
       "equity_curve": [
         {
-          "date": "2026-06-02",
-          "value": 29776.0
-        },
-        {
           "date": "2026-06-03",
           "value": 29552.0
         },
@@ -5547,6 +5583,10 @@
         {
           "date": "2026-08-08",
           "value": 30667.048856819998
+        },
+        {
+          "date": "2026-08-08",
+          "value": 30754.59808792
         },
         {
           "date": "2026-08-08",
@@ -5749,11 +5789,11 @@
         }
       ],
       "total_fees": 27.76,
-      "composite_score": 45.1,
+      "composite_score": 42.4,
       "grade": "C",
-      "profit_loss_ratio": 1.0706997440174642,
-      "return_stability": 0.19453832588623732,
-      "calmar_ratio": 8.496333019218362
+      "profit_loss_ratio": 1.2675789967590567,
+      "return_stability": 0.30767609509516003,
+      "calmar_ratio": 5.547694114225555
     },
     {
       "name": "北向资金跟投",
@@ -5765,7 +5805,7 @@
       "total_value": 30973.599143519998,
       "total_return": 0.03245330478399992,
       "monthly_return": 0.03245330478399992,
-      "sharpe_ratio": 1.9235802254965846,
+      "sharpe_ratio": 1.7726475101804984,
       "max_drawdown": 0.04941304114098385,
       "win_rate": 0.6363636363636364,
       "realized_pnl": 973.6,
@@ -5932,10 +5972,6 @@
       ],
       "equity_curve": [
         {
-          "date": "2026-06-02",
-          "value": 29490.0
-        },
-        {
           "date": "2026-06-03",
           "value": 30122.0
         },
@@ -6037,6 +6073,10 @@
         },
         {
           "date": "2026-08-07",
+          "value": 30973.599143519998
+        },
+        {
+          "date": "2026-08-08",
           "value": 30973.599143519998
         },
         {
@@ -6226,11 +6266,11 @@
         }
       ],
       "total_fees": 29.65,
-      "composite_score": 52.9,
-      "grade": "B",
-      "profit_loss_ratio": 1.2570946837507517,
-      "return_stability": 0.3666739665188663,
-      "calmar_ratio": 20.7968330947668
+      "composite_score": 48.2,
+      "grade": "C",
+      "profit_loss_ratio": 0.0,
+      "return_stability": 0.3246632820317108,
+      "calmar_ratio": 97.56662753678388
     },
     {
       "name": "首板回调",
@@ -6242,7 +6282,7 @@
       "total_value": 31047.74969678,
       "total_return": 0.03492498989266666,
       "monthly_return": 0.03492498989266666,
-      "sharpe_ratio": 2.0402015275621785,
+      "sharpe_ratio": 2.4722425894164126,
       "max_drawdown": 0.03696666666666667,
       "win_rate": 0.3,
       "realized_pnl": 1047.75,
@@ -6406,10 +6446,6 @@
       ],
       "equity_curve": [
         {
-          "date": "2026-06-02",
-          "value": 29691.0
-        },
-        {
           "date": "2026-06-03",
           "value": 29679.0
         },
@@ -6511,6 +6547,10 @@
         },
         {
           "date": "2026-08-07",
+          "value": 31047.74969678
+        },
+        {
+          "date": "2026-08-08",
           "value": 31047.74969678
         },
         {
@@ -6682,11 +6722,11 @@
         }
       ],
       "total_fees": 9.47,
-      "composite_score": 51.0,
-      "grade": "B",
-      "profit_loss_ratio": 2.005736413978143,
-      "return_stability": 0.4878043176951724,
-      "calmar_ratio": 12.459431376453884
+      "composite_score": 47.4,
+      "grade": "C",
+      "profit_loss_ratio": 2.537948219165605,
+      "return_stability": 0.27008258230859605,
+      "calmar_ratio": 29.734482165656456
     },
     {
       "name": "行业动量",
@@ -6698,7 +6738,7 @@
       "total_value": 30176.58927188002,
       "total_return": 0.0058863090626673515,
       "monthly_return": 0.0058863090626673515,
-      "sharpe_ratio": 0.889105079861268,
+      "sharpe_ratio": 0.85163946352856,
       "max_drawdown": 0.03696694362409597,
       "win_rate": 0.38461538461538464,
       "realized_pnl": 210.76,
@@ -6719,7 +6759,7 @@
           "entry_fee": 5.07518511,
           "stock_reason": "行业动量：消费强势",
           "timing_reason": "RSI偏低(45.8); 量能正常",
-          "hold_days": 3,
+          "hold_days": 4,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 75.11,
@@ -6737,7 +6777,7 @@
           "entry_fee": 5.02623621,
           "stock_reason": "行业动量：消费强势",
           "timing_reason": "RSI偏低(41.9); 量能正常",
-          "hold_days": 3,
+          "hold_days": 4,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 26.21,
@@ -6755,7 +6795,7 @@
           "entry_fee": 5.08872864,
           "stock_reason": "行业动量：消费强势",
           "timing_reason": "回踩MA5; RSI偏低(52.3); 量能正常; 均线多头排列",
-          "hold_days": 2,
+          "hold_days": 3,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 88.64,
@@ -7001,16 +7041,20 @@
         {
           "date": "2026-08-08",
           "value": 30176.58927188002
+        },
+        {
+          "date": "2026-08-08",
+          "value": 30176.58927188002
         }
       ],
       "backtest_start": "20260710",
       "backtest_end": "20260724",
       "backtest_days": 11,
-      "composite_score": 33.1,
+      "composite_score": 32.9,
       "grade": "D",
       "profit_loss_ratio": 0.5938167005969603,
-      "return_stability": 0.03033733595663357,
-      "calmar_ratio": 3.9240514425259008,
+      "return_stability": 0.047903272140198516,
+      "calmar_ratio": 3.625795216859055,
       "all_trades": [
         {
           "symbol": "000858",
@@ -7472,7 +7516,7 @@
       "total_value": 31023.090772080013,
       "total_return": 0.03410302573600044,
       "monthly_return": 0.03410302573600044,
-      "sharpe_ratio": 3.9953848863418377,
+      "sharpe_ratio": 3.844900807278009,
       "max_drawdown": 0.021822469239074344,
       "win_rate": 0.4,
       "realized_pnl": -151.28,
@@ -7493,7 +7537,7 @@
           "entry_fee": 5.0625625,
           "stock_reason": "MACD金叉，DIF=-6.029, DEA=-6.798",
           "timing_reason": "MACD金叉; KDJ超卖金叉; RSI偏低(51.9); 量能正常",
-          "hold_days": 5,
+          "hold_days": 6,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 67.01,
@@ -7511,7 +7555,7 @@
           "entry_fee": 5.09394385,
           "stock_reason": "MACD金叉，DIF=-3.169, DEA=-3.775",
           "timing_reason": "回踩MA20; RSI偏低(50.0); 量能正常",
-          "hold_days": 5,
+          "hold_days": 6,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 101.41,
@@ -7529,7 +7573,7 @@
           "entry_fee": 5.01822821,
           "stock_reason": "MACD金叉，DIF=-0.259, DEA=-0.278",
           "timing_reason": "回踩MA20; MACD金叉; RSI偏低(54.6); 量能正常",
-          "hold_days": 3,
+          "hold_days": 4,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 6.07,
@@ -7769,16 +7813,20 @@
         {
           "date": "2026-08-08",
           "value": 31023.090772080013
+        },
+        {
+          "date": "2026-08-08",
+          "value": 31023.090772080013
         }
       ],
       "backtest_start": "20260710",
       "backtest_end": "20260724",
       "backtest_days": 11,
-      "composite_score": 44.1,
+      "composite_score": 41.8,
       "grade": "C",
-      "profit_loss_ratio": 5.255893123315044,
-      "return_stability": 0.25358702108755093,
-      "calmar_ratio": 6.879193086317943,
+      "profit_loss_ratio": 1.23913612882758,
+      "return_stability": 0.25053534432485647,
+      "calmar_ratio": 7.383339836572515,
       "all_trades": [
         {
           "symbol": "601985.SH",
@@ -7967,7 +8015,7 @@
       "total_value": 29102.90763938002,
       "total_return": -0.02990307868733265,
       "monthly_return": -0.02990307868733265,
-      "sharpe_ratio": -4.773250091816535,
+      "sharpe_ratio": -4.607188747273401,
       "max_drawdown": 0.044383406627585255,
       "win_rate": 0.375,
       "realized_pnl": -883.0,
@@ -7988,7 +8036,7 @@
           "entry_fee": 5.09013004,
           "stock_reason": "涨停回调：近期高点回调6.8%，关注买入机会",
           "timing_reason": "RSI偏低(38.3); 量能正常",
-          "hold_days": 3,
+          "hold_days": 4,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 90.04,
@@ -8234,16 +8282,20 @@
         {
           "date": "2026-08-08",
           "value": 29102.90763938002
+        },
+        {
+          "date": "2026-08-08",
+          "value": 29102.90763938002
         }
       ],
       "backtest_start": "20260710",
       "backtest_end": "20260724",
       "backtest_days": 11,
-      "composite_score": 28.1,
+      "composite_score": 27.6,
       "grade": "D",
       "profit_loss_ratio": 0.0,
-      "return_stability": 0.8531887204288051,
-      "calmar_ratio": -52.973532558868854,
+      "return_stability": 0.7934856319022233,
+      "calmar_ratio": -44.158231637086956,
       "all_trades": [
         {
           "symbol": "300059",
@@ -8534,7 +8586,7 @@
       "total_value": 29176.094319080006,
       "total_return": -0.027463522697333126,
       "monthly_return": -0.027463522697333126,
-      "sharpe_ratio": -4.620646198837905,
+      "sharpe_ratio": -4.461716698600021,
       "max_drawdown": 0.04373527757730015,
       "win_rate": 0.3333333333333333,
       "realized_pnl": -813.51,
@@ -8555,7 +8607,7 @@
           "entry_fee": 5.05343338,
           "stock_reason": "价值成长：PE<20, ROE>10%, 趋势向上",
           "timing_reason": "RSI偏低(50.8); 量能正常",
-          "hold_days": 2,
+          "hold_days": 3,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 53.38,
@@ -8801,16 +8853,20 @@
         {
           "date": "2026-08-08",
           "value": 29176.094319080006
+        },
+        {
+          "date": "2026-08-08",
+          "value": 29176.094319080006
         }
       ],
       "backtest_start": "20260710",
       "backtest_end": "20260724",
       "backtest_days": 11,
-      "composite_score": 28.4,
+      "composite_score": 28.6,
       "grade": "D",
-      "profit_loss_ratio": 0.0,
-      "return_stability": 0.876177706097813,
-      "calmar_ratio": -53.41953115758135,
+      "profit_loss_ratio": 0.5110409587455205,
+      "return_stability": 0.48711668255366214,
+      "calmar_ratio": -7.004755612840947,
       "all_trades": [
         {
           "symbol": "600036",
@@ -9347,7 +9403,7 @@
       "total_value": 29453.37540955001,
       "total_return": -0.018220819681666278,
       "monthly_return": -0.018220819681666278,
-      "sharpe_ratio": -3.7557937286920686,
+      "sharpe_ratio": -3.6346638884789355,
       "max_drawdown": 0.028196079988303858,
       "win_rate": 0.3333333333333333,
       "realized_pnl": -526.95,
@@ -9368,7 +9424,7 @@
           "entry_fee": 5.04240236,
           "stock_reason": "低波动：20日波动率1.14%, 趋势向上",
           "timing_reason": "回踩MA20; RSI偏低(50.0); 量能正常",
-          "hold_days": 3,
+          "hold_days": 4,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 3.53,
@@ -9386,7 +9442,7 @@
           "entry_fee": 5.05343338,
           "stock_reason": "低波动：20日波动率1.77%, 趋势向上",
           "timing_reason": "RSI偏低(50.8); 量能正常",
-          "hold_days": 3,
+          "hold_days": 4,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 53.38,
@@ -9632,16 +9688,20 @@
         {
           "date": "2026-08-08",
           "value": 29453.37540955001
+        },
+        {
+          "date": "2026-08-08",
+          "value": 29453.37540955001
         }
       ],
       "backtest_start": "20260710",
       "backtest_end": "20260724",
       "backtest_days": 11,
-      "composite_score": 28.6,
+      "composite_score": 29.4,
       "grade": "D",
-      "profit_loss_ratio": 0.42700660690147807,
-      "return_stability": 0.6479342886398591,
-      "calmar_ratio": -9.251012787686905,
+      "profit_loss_ratio": 0.6434949376222726,
+      "return_stability": 0.5496318746918861,
+      "calmar_ratio": -8.07035016119867,
       "all_trades": [
         {
           "symbol": "600016",
@@ -10148,7 +10208,7 @@
           "entry_fee": 5.0345345,
           "stock_reason": "ROE:10.4049",
           "timing_reason": "量能正常; 均线多头排列",
-          "hold_days": 5,
+          "hold_days": 6,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 35.15,
@@ -10166,7 +10226,7 @@
           "entry_fee": 5.0345345,
           "stock_reason": "ROE:10.4049",
           "timing_reason": "量能正常; 均线多头排列",
-          "hold_days": 4,
+          "hold_days": 5,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 35.15,
@@ -10184,7 +10244,7 @@
           "entry_fee": 5.02623621,
           "stock_reason": "ROE:9.4441",
           "timing_reason": "RSI偏低(41.9); 量能正常",
-          "hold_days": 3,
+          "hold_days": 4,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 26.21,
@@ -10231,10 +10291,6 @@
         }
       ],
       "equity_curve": [
-        {
-          "date": "2026-06-02",
-          "value": 30000
-        },
         {
           "date": "2026-06-03",
           "value": 30000
@@ -10350,6 +10406,10 @@
         {
           "date": "2026-08-08",
           "value": 30048.34854258
+        },
+        {
+          "date": "2026-08-08",
+          "value": 30048.34854258
         }
       ],
       "backtest_start": "2026-05-26",
@@ -10394,11 +10454,11 @@
         }
       ],
       "total_fees": 38.4,
-      "composite_score": 68.9,
+      "composite_score": 67.8,
       "grade": "A",
-      "profit_loss_ratio": 0.9847608833091943,
-      "return_stability": 0.626886931599042,
-      "calmar_ratio": 28.651227570742954
+      "profit_loss_ratio": 1.9318099663642145,
+      "return_stability": 0.8623039463565585,
+      "calmar_ratio": 79.71562859717022
     },
     {
       "name": "高ROIC",
@@ -10431,7 +10491,7 @@
           "entry_fee": 5.09009,
           "stock_reason": "ROIC:9.1520",
           "timing_reason": "量能正常; 均线多头排列",
-          "hold_days": 3,
+          "hold_days": 4,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 90.0,
@@ -10449,7 +10509,7 @@
           "entry_fee": 5.03727724,
           "stock_reason": "ROIC:8.9717",
           "timing_reason": "量能正常; 均线多头排列",
-          "hold_days": 3,
+          "hold_days": 4,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 37.24,
@@ -10467,7 +10527,7 @@
           "entry_fee": 5.0288288,
           "stock_reason": "ROIC:7.1497",
           "timing_reason": "量能正常; 均线多头排列",
-          "hold_days": 2,
+          "hold_days": 3,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 28.8,
@@ -10550,10 +10610,6 @@
         }
       ],
       "equity_curve": [
-        {
-          "date": "2026-06-02",
-          "value": 30000
-        },
         {
           "date": "2026-06-03",
           "value": 30000
@@ -10669,6 +10725,10 @@
         {
           "date": "2026-08-08",
           "value": 30195.389058730005
+        },
+        {
+          "date": "2026-08-08",
+          "value": 30195.389058730005
         }
       ],
       "backtest_start": "2026-05-26",
@@ -10749,11 +10809,11 @@
         }
       ],
       "total_fees": 67.77,
-      "composite_score": 61.2,
+      "composite_score": 61.9,
       "grade": "B",
-      "profit_loss_ratio": 0.7681152149577627,
-      "return_stability": 0.5114187342802687,
-      "calmar_ratio": 19.35380459596112
+      "profit_loss_ratio": 0.7279243995143809,
+      "return_stability": 0.4515378271670857,
+      "calmar_ratio": 38.53686747593339
     },
     {
       "name": "红利低波",
@@ -10786,7 +10846,7 @@
           "entry_fee": 5.0401401,
           "stock_reason": "股息率/波动率:40.4464",
           "timing_reason": "RSI偏低(45.4); 量能正常",
-          "hold_days": 3,
+          "hold_days": 4,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 40.1,
@@ -10804,7 +10864,7 @@
           "entry_fee": 5.0353353,
           "stock_reason": "股息率/波动率:27.1842",
           "timing_reason": "回踩MA20; RSI偏低(50.0); 量能正常",
-          "hold_days": 3,
+          "hold_days": 4,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 3.53,
@@ -10822,7 +10882,7 @@
           "entry_fee": 5.0366366,
           "stock_reason": "股息率/波动率:29.5038",
           "timing_reason": "RSI偏低(31.4); 量能正常",
-          "hold_days": 2,
+          "hold_days": 3,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 3.05,
@@ -10887,10 +10947,6 @@
         }
       ],
       "equity_curve": [
-        {
-          "date": "2026-06-01",
-          "value": 30000
-        },
         {
           "date": "2026-06-02",
           "value": 30000
@@ -11006,6 +11062,10 @@
         {
           "date": "2026-08-08",
           "value": 29894.913402810005
+        },
+        {
+          "date": "2026-08-08",
+          "value": 29894.913402810005
         }
       ],
       "backtest_start": "2026-05-26",
@@ -11068,11 +11128,11 @@
         }
       ],
       "total_fees": 51.25,
-      "composite_score": 52.3,
+      "composite_score": 55.2,
       "grade": "B",
-      "profit_loss_ratio": 1.2675789967590567,
-      "return_stability": 0.382138441095932,
-      "calmar_ratio": 10.764800386169075
+      "profit_loss_ratio": 2.876170622178372,
+      "return_stability": 0.6795021179903047,
+      "calmar_ratio": 14.157244161880149
     },
     {
       "name": "动量反转",
@@ -11105,7 +11165,7 @@
           "entry_fee": 5.04176172,
           "stock_reason": "动量反转兜底：20日跌幅-21.5%",
           "timing_reason": "MACD绿柱缩脚; RSI偏低(48.3); 量能正常",
-          "hold_days": 5,
+          "hold_days": 6,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 6.07,
@@ -11123,7 +11183,7 @@
           "entry_fee": 5.04082078,
           "stock_reason": "动量反转兜底：20日跌幅-26.8%",
           "timing_reason": "MACD绿柱缩脚; KDJ超卖金叉; RSI偏低(45.7); 量能正常",
-          "hold_days": 4,
+          "hold_days": 5,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 44.38,
@@ -11141,7 +11201,7 @@
           "entry_fee": 5.03579576,
           "stock_reason": "动量反转兜底：20日跌幅-21.5%",
           "timing_reason": "MACD绿柱缩脚; RSI偏低(48.3); 量能正常",
-          "hold_days": 4,
+          "hold_days": 5,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 6.07,
@@ -11170,10 +11230,6 @@
         }
       ],
       "equity_curve": [
-        {
-          "date": "2026-06-02",
-          "value": 30000
-        },
         {
           "date": "2026-06-03",
           "value": 30000
@@ -11289,6 +11345,10 @@
         {
           "date": "2026-08-08",
           "value": 30455.78110074
+        },
+        {
+          "date": "2026-08-08",
+          "value": 30455.78110074
         }
       ],
       "backtest_start": "2026-05-26",
@@ -11315,11 +11375,11 @@
         }
       ],
       "total_fees": 27.23,
-      "composite_score": 60.7,
+      "composite_score": 59.3,
       "grade": "B",
-      "profit_loss_ratio": 2.876170622178372,
-      "return_stability": 0.6707420684751813,
-      "calmar_ratio": 19.34467548801937
+      "profit_loss_ratio": 3.158762721252083,
+      "return_stability": 0.7490539032886109,
+      "calmar_ratio": 16.82016171032355
     },
     {
       "name": "分析师上调",
@@ -11352,7 +11412,7 @@
           "entry_fee": 5.06833827,
           "stock_reason": "分析师上调兜底：近5日涨幅+20.4%",
           "timing_reason": "量能正常",
-          "hold_days": 5,
+          "hold_days": 6,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 68.18,
@@ -11370,7 +11430,7 @@
           "entry_fee": 5.06833827,
           "stock_reason": "分析师上调兜底：近5日涨幅+20.4%",
           "timing_reason": "量能正常",
-          "hold_days": 4,
+          "hold_days": 5,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 68.18,
@@ -11388,7 +11448,7 @@
           "entry_fee": 5.02386384,
           "stock_reason": "分析师上调兜底：近5日涨幅+8.2%",
           "timing_reason": "MACD绿柱缩脚; RSI偏低(48.3); 量能正常",
-          "hold_days": 4,
+          "hold_days": 5,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 6.07,
@@ -11417,10 +11477,6 @@
         }
       ],
       "equity_curve": [
-        {
-          "date": "2026-06-02",
-          "value": 30000
-        },
         {
           "date": "2026-06-03",
           "value": 30000
@@ -11536,6 +11592,10 @@
         {
           "date": "2026-08-08",
           "value": 29975.79172762001
+        },
+        {
+          "date": "2026-08-08",
+          "value": 29975.79172762001
         }
       ],
       "backtest_start": "2026-05-26",
@@ -11562,11 +11622,11 @@
         }
       ],
       "total_fees": 27.01,
-      "composite_score": 38.8,
+      "composite_score": 39.0,
       "grade": "C",
       "profit_loss_ratio": 0.5199304859464827,
-      "return_stability": 0.07168494229949995,
-      "calmar_ratio": 7.479945215154826
+      "return_stability": 0.14053192540188886,
+      "calmar_ratio": 6.867040637885243
     },
     {
       "name": "KDJ超卖金叉",
@@ -11578,7 +11638,7 @@
       "total_value": 30462.89132126001,
       "total_return": 0.015429710708666972,
       "monthly_return": 0.015429710708666972,
-      "sharpe_ratio": 1.4126209059996626,
+      "sharpe_ratio": 1.3598044519041281,
       "max_drawdown": 0.04748426369024185,
       "win_rate": 0.3888888888888889,
       "realized_pnl": -1070.76,
@@ -11599,7 +11659,7 @@
           "entry_fee": 5.05998993,
           "stock_reason": "KDJ金叉：K=42.2, D=35.5, J=55.6",
           "timing_reason": "MACD金叉; KDJ超卖金叉; KDJ金叉; RSI偏低(45.4); 量能正常",
-          "hold_days": 7,
+          "hold_days": 8,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 68.18,
@@ -11617,7 +11677,7 @@
           "entry_fee": 5.1068067,
           "stock_reason": "KDJ金叉：K=33.0, D=32.8, J=33.5",
           "timing_reason": "回踩MA5; RSI偏低(56.0); 量能正常",
-          "hold_days": 4,
+          "hold_days": 5,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 114.16,
@@ -11635,7 +11695,7 @@
           "entry_fee": 5.05467462,
           "stock_reason": "KDJ金叉：K=47.7, D=34.8, J=73.3",
           "timing_reason": "回踩MA5; 回踩MA20; MACD绿柱缩脚; KDJ超卖金叉; KDJ金叉; RSI偏低(45.7); 量能正常",
-          "hold_days": 3,
+          "hold_days": 4,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 54.62,
@@ -11881,16 +11941,20 @@
         {
           "date": "2026-08-08",
           "value": 30462.89132126001
+        },
+        {
+          "date": "2026-08-08",
+          "value": 30462.89132126001
         }
       ],
       "backtest_start": "20260710",
       "backtest_end": "20260724",
       "backtest_days": 11,
-      "composite_score": 28.1,
+      "composite_score": 27.6,
       "grade": "D",
-      "profit_loss_ratio": 0.5110409587455205,
-      "return_stability": 0.43999737120374083,
-      "calmar_ratio": -7.46135270212568,
+      "profit_loss_ratio": 0.22484727283418426,
+      "return_stability": 0.6028191713560582,
+      "calmar_ratio": -9.816195458153267,
       "all_trades": [
         {
           "symbol": "300059",
@@ -12359,7 +12423,7 @@
       "total_value": 29336.53862226,
       "total_return": -0.02211537925800003,
       "monthly_return": -0.02211537925800003,
-      "sharpe_ratio": -3.8295740047600018,
+      "sharpe_ratio": -3.703460704154232,
       "max_drawdown": 0.03820981496007453,
       "win_rate": 0.2608695652173913,
       "realized_pnl": -637.91,
@@ -12380,7 +12444,7 @@
           "entry_fee": 5.03768765,
           "stock_reason": "高股息：3%+, ROE>10%, 趋势向上",
           "timing_reason": "RSI偏低(43.3); 量能正常",
-          "hold_days": 3,
+          "hold_days": 4,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 7.53,
@@ -12398,7 +12462,7 @@
           "entry_fee": 5.03458455,
           "stock_reason": "高股息：3%+, ROE>10%, 趋势向上",
           "timing_reason": "RSI偏低(45.7); 量能正常",
-          "hold_days": 3,
+          "hold_days": 4,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 6.91,
@@ -12416,7 +12480,7 @@
           "entry_fee": 5.03238235,
           "stock_reason": "高股息：3%+, ROE>10%, 趋势向上",
           "timing_reason": "RSI偏低(45.6); 量能正常",
-          "hold_days": 2,
+          "hold_days": 3,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 6.47,
@@ -12662,16 +12726,20 @@
         {
           "date": "2026-08-08",
           "value": 29336.53862226
+        },
+        {
+          "date": "2026-08-08",
+          "value": 29336.53862226
         }
       ],
       "backtest_start": "20260710",
       "backtest_end": "20260724",
       "backtest_days": 11,
-      "composite_score": 60.9,
+      "composite_score": 60.4,
       "grade": "B",
-      "profit_loss_ratio": 0.7279243995143809,
-      "return_stability": 0.3454715423204011,
-      "calmar_ratio": 42.591684980323265,
+      "profit_loss_ratio": 0.7681152149577627,
+      "return_stability": 0.5459808237356049,
+      "calmar_ratio": 17.677916961019275,
       "all_trades": [
         {
           "symbol": "601398",
@@ -13088,7 +13156,7 @@
       "total_value": 29783.502763400003,
       "total_return": -0.007216574553333218,
       "monthly_return": -0.007216574553333218,
-      "sharpe_ratio": -2.861546320362435,
+      "sharpe_ratio": -2.7851422603155847,
       "max_drawdown": 0.014265706356141177,
       "win_rate": 0.5294117647058824,
       "realized_pnl": -198.52,
@@ -13109,7 +13177,7 @@
           "entry_fee": 5.04240236,
           "stock_reason": "低PB价值：PB<1.5, ROE>5%, 趋势向上",
           "timing_reason": "回踩MA20; RSI偏低(50.0); 量能正常",
-          "hold_days": 3,
+          "hold_days": 4,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 3.53,
@@ -13127,7 +13195,7 @@
           "entry_fee": 5.03671668,
           "stock_reason": "低PB价值：PB<1.5, ROE>5%, 趋势向上",
           "timing_reason": "回踩MA20; RSI偏低(50.0); 量能正常",
-          "hold_days": 2,
+          "hold_days": 3,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 18.34,
@@ -13373,16 +13441,20 @@
         {
           "date": "2026-08-08",
           "value": 29783.502763400003
+        },
+        {
+          "date": "2026-08-08",
+          "value": 29783.502763400003
         }
       ],
       "backtest_start": "20260710",
       "backtest_end": "20260724",
       "backtest_days": 11,
-      "composite_score": 28.1,
+      "composite_score": 27.9,
       "grade": "D",
-      "profit_loss_ratio": 0.344289889397469,
-      "return_stability": 0.5484087467912611,
-      "calmar_ratio": -9.550306820347034,
+      "profit_loss_ratio": 0.4844188097954068,
+      "return_stability": 0.41163367301002995,
+      "calmar_ratio": -10.484917142697043,
       "all_trades": [
         {
           "symbol": "601328",
@@ -13688,7 +13760,7 @@
       "total_value": 31831.85196413001,
       "total_return": 0.06106173213766706,
       "monthly_return": 0.06106173213766706,
-      "sharpe_ratio": 7.336200650043539,
+      "sharpe_ratio": 7.024097719355817,
       "max_drawdown": 0.016882116132960565,
       "win_rate": 0.6666666666666666,
       "realized_pnl": 1055.35,
@@ -13709,7 +13781,7 @@
           "entry_fee": 5.0625625,
           "stock_reason": "RSI超卖回升，RSI=51.9",
           "timing_reason": "MACD金叉; KDJ超卖金叉; RSI偏低(51.9); 量能正常",
-          "hold_days": 5,
+          "hold_days": 6,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 67.01,
@@ -13727,7 +13799,7 @@
           "entry_fee": 5.04082078,
           "stock_reason": "RSI超卖回升，RSI=45.7",
           "timing_reason": "MACD绿柱缩脚; KDJ超卖金叉; RSI偏低(45.7); 量能正常",
-          "hold_days": 4,
+          "hold_days": 5,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 44.38,
@@ -13745,7 +13817,7 @@
           "entry_fee": 5.08984976,
           "stock_reason": "RSI超卖回升，RSI=22.6",
           "timing_reason": "回踩MA5; MACD绿柱缩脚; RSI偏低(22.6); 量能正常",
-          "hold_days": 3,
+          "hold_days": 4,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 89.76,
@@ -13991,16 +14063,20 @@
         {
           "date": "2026-08-08",
           "value": 31831.85196413001
+        },
+        {
+          "date": "2026-08-08",
+          "value": 31831.85196413001
         }
       ],
       "backtest_start": "20260710",
       "backtest_end": "20260724",
       "backtest_days": 11,
-      "composite_score": 42.4,
+      "composite_score": 39.8,
       "grade": "C",
-      "profit_loss_ratio": 1.23913612882758,
-      "return_stability": 0.2712609856504643,
-      "calmar_ratio": 7.905111529228373,
+      "profit_loss_ratio": 5.255893123315044,
+      "return_stability": 0.14562045710423654,
+      "calmar_ratio": 5.397808154557984,
       "all_trades": [
         {
           "symbol": "600089.SH",
@@ -14432,7 +14508,7 @@
       "total_value": 25581.55833792,
       "total_return": -0.147281388736,
       "monthly_return": -0.147281388736,
-      "sharpe_ratio": -1.675492063639384,
+      "sharpe_ratio": -1.7697804073158676,
       "max_drawdown": 0.24500314795266062,
       "win_rate": 0.36363636363636365,
       "realized_pnl": -4418.45,
@@ -14599,10 +14675,6 @@
       ],
       "equity_curve": [
         {
-          "date": "2026-06-02",
-          "value": 28769.0
-        },
-        {
           "date": "2026-06-03",
           "value": 29238.0
         },
@@ -14704,6 +14776,10 @@
         },
         {
           "date": "2026-08-07",
+          "value": 25581.55833792
+        },
+        {
+          "date": "2026-08-08",
           "value": 25581.55833792
         },
         {
@@ -14893,11 +14969,11 @@
         }
       ],
       "total_fees": 23.25,
-      "composite_score": 71.4,
+      "composite_score": 71.3,
       "grade": "A",
-      "profit_loss_ratio": 2.226853156221687,
-      "return_stability": 0.7339220255833594,
-      "calmar_ratio": 130.88321379926907
+      "profit_loss_ratio": 2.7260057043138777,
+      "return_stability": 0.8180426938904846,
+      "calmar_ratio": 32.31742949092287
     },
     {
       "name": "南向资金",
@@ -14909,7 +14985,7 @@
       "total_value": 29816.799064450002,
       "total_return": -0.006106697851666589,
       "monthly_return": -0.006106697851666589,
-      "sharpe_ratio": -1.9460901136532125,
+      "sharpe_ratio": -1.9039114458965878,
       "max_drawdown": 0.0104,
       "win_rate": 0.375,
       "realized_pnl": -183.2,
@@ -15111,16 +15187,20 @@
         {
           "date": "2026-08-08",
           "value": 29816.799064450002
+        },
+        {
+          "date": "2026-08-08",
+          "value": 29816.799064450002
         }
       ],
       "backtest_start": "20260710",
       "backtest_end": "20260724",
       "backtest_days": 11,
-      "composite_score": 32.3,
+      "composite_score": 32.4,
       "grade": "D",
-      "profit_loss_ratio": 0.8675162474261966,
-      "return_stability": 0.0035316618502028163,
-      "calmar_ratio": 4.339530106828477,
+      "profit_loss_ratio": 0.4590313509976993,
+      "return_stability": 0.5417877459215253,
+      "calmar_ratio": -7.87534557442801,
       "all_trades": [
         {
           "symbol": "000858",
@@ -15261,7 +15341,7 @@
       "total_value": 29166.951794200024,
       "total_return": -0.02776827352666587,
       "monthly_return": -0.02776827352666587,
-      "sharpe_ratio": -6.004456992341903,
+      "sharpe_ratio": -5.785387406863138,
       "max_drawdown": 0.033598551668459944,
       "win_rate": 0.2962962962962963,
       "realized_pnl": -822.3,
@@ -15282,7 +15362,7 @@
           "entry_fee": 5.05704699,
           "stock_reason": "北向资金：成交量较均量1.2倍",
           "timing_reason": "MACD绿柱缩脚; KDJ超卖金叉; KDJ金叉; RSI偏低(50.4); 量能正常",
-          "hold_days": 2,
+          "hold_days": 3,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 56.99,
@@ -15528,16 +15608,20 @@
         {
           "date": "2026-08-08",
           "value": 29166.951794200024
+        },
+        {
+          "date": "2026-08-08",
+          "value": 29166.951794200024
         }
       ],
       "backtest_start": "20260710",
       "backtest_end": "20260724",
       "backtest_days": 11,
-      "composite_score": 28.8,
+      "composite_score": 29.0,
       "grade": "D",
-      "profit_loss_ratio": 0.5369548301445276,
-      "return_stability": 0.4860868957282931,
-      "calmar_ratio": -7.037122277680161,
+      "profit_loss_ratio": 0.42700660690147807,
+      "return_stability": 0.6888207155720687,
+      "calmar_ratio": -8.737347485714425,
       "all_trades": [
         {
           "symbol": "600887",
@@ -16026,7 +16110,7 @@
       "total_value": 26429.99265042,
       "total_return": -0.11900024498599997,
       "monthly_return": -0.11900024498599997,
-      "sharpe_ratio": -1.6059200008263559,
+      "sharpe_ratio": -1.4615592540071813,
       "max_drawdown": 0.12366691165266663,
       "win_rate": 0.6,
       "realized_pnl": -3073.01,
@@ -16045,7 +16129,7 @@
           "cost": 9667.0,
           "stock_reason": "净利润增速:319.8600",
           "timing_reason": "温和放量上涨; 均线多头排列",
-          "hold_days": 7,
+          "hold_days": 8,
           "current_price": 13.1,
           "profit": -497.00000000000057,
           "profit_pct": -5.141202027516298
@@ -16205,10 +16289,6 @@
       ],
       "equity_curve": [
         {
-          "date": "2026-06-02",
-          "value": 28663.0
-        },
-        {
           "date": "2026-06-03",
           "value": 28389.0
         },
@@ -16311,6 +16391,10 @@
         {
           "date": "2026-08-07",
           "value": 26289.99265042
+        },
+        {
+          "date": "2026-08-08",
+          "value": 26429.99265042
         },
         {
           "date": "2026-08-08",
@@ -16481,11 +16565,11 @@
         }
       ],
       "total_fees": 15.07,
-      "composite_score": 72.8,
+      "composite_score": 71.8,
       "grade": "A",
-      "profit_loss_ratio": 0.0,
-      "return_stability": 0.7406322471294335,
-      "calmar_ratio": 298.649785034848
+      "profit_loss_ratio": 2.226853156221687,
+      "return_stability": 0.7778103088732135,
+      "calmar_ratio": 115.6888156302494
     },
     {
       "name": "PSR低估值",
@@ -16497,7 +16581,7 @@
       "total_value": 30331.59366798,
       "total_return": 0.011053122265999991,
       "monthly_return": 0.011053122265999991,
-      "sharpe_ratio": -0.004485828936063373,
+      "sharpe_ratio": -0.1427012823999596,
       "max_drawdown": 0.07098381070983811,
       "win_rate": 0.5384615384615384,
       "realized_pnl": 294.02,
@@ -16518,7 +16602,7 @@
           "entry_fee": 5.0345345,
           "stock_reason": "市销率:-9999.0000",
           "timing_reason": "量能正常; 均线多头排列",
-          "hold_days": 5,
+          "hold_days": 6,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 35.15,
@@ -16536,7 +16620,7 @@
           "entry_fee": 5.05343338,
           "stock_reason": "市销率:-9999.0000",
           "timing_reason": "RSI偏低(50.8); 量能正常",
-          "hold_days": 3,
+          "hold_days": 4,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 53.38,
@@ -16554,7 +16638,7 @@
           "entry_fee": 5.03518515,
           "stock_reason": "市销率:-9999.0000",
           "timing_reason": "量能正常; 均线多头排列",
-          "hold_days": 3,
+          "hold_days": 4,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 35.15,
@@ -16725,10 +16809,6 @@
       ],
       "equity_curve": [
         {
-          "date": "2026-06-02",
-          "value": 30444.0
-        },
-        {
           "date": "2026-06-03",
           "value": 30072.0
         },
@@ -16835,6 +16915,10 @@
         {
           "date": "2026-08-08",
           "value": 30270.043667979997
+        },
+        {
+          "date": "2026-08-08",
+          "value": 30331.59366798
         },
         {
           "date": "2026-08-08",
@@ -17055,11 +17139,11 @@
         }
       ],
       "total_fees": 61.15,
-      "composite_score": 64.8,
-      "grade": "B",
+      "composite_score": 65.0,
+      "grade": "A",
       "profit_loss_ratio": 1.6146708966914518,
-      "return_stability": 0.6399719189854585,
-      "calmar_ratio": 34.96044622418997
+      "return_stability": 0.6619110863563222,
+      "calmar_ratio": 31.403018750638278
     },
     {
       "name": "低负债率",
@@ -17071,7 +17155,7 @@
       "total_value": 30781.59881655,
       "total_return": 0.026053293884999947,
       "monthly_return": 0.026053293884999947,
-      "sharpe_ratio": 0.6226486446793933,
+      "sharpe_ratio": 0.4878158576612032,
       "max_drawdown": 0.07098381070983811,
       "win_rate": 0.5384615384615384,
       "realized_pnl": 308.18,
@@ -17092,7 +17176,7 @@
           "entry_fee": 5.05216211,
           "stock_reason": "资产负债率:-10.0244",
           "timing_reason": "RSI偏低(45.0)",
-          "hold_days": 5,
+          "hold_days": 6,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 54.62,
@@ -17110,7 +17194,7 @@
           "entry_fee": 5.05216211,
           "stock_reason": "资产负债率:-10.0244",
           "timing_reason": "RSI偏低(45.0)",
-          "hold_days": 4,
+          "hold_days": 5,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 54.62,
@@ -17128,7 +17212,7 @@
           "entry_fee": 5.03027024,
           "stock_reason": "资产负债率:-19.7654",
           "timing_reason": "RSI偏低(56.8); 量能正常; 均线多头排列",
-          "hold_days": 3,
+          "hold_days": 4,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 5.04,
@@ -17299,10 +17383,6 @@
       ],
       "equity_curve": [
         {
-          "date": "2026-06-02",
-          "value": 30444.0
-        },
-        {
           "date": "2026-06-03",
           "value": 30072.0
         },
@@ -17405,6 +17485,10 @@
         {
           "date": "2026-08-07",
           "value": 30326.428784549997
+        },
+        {
+          "date": "2026-08-08",
+          "value": 30781.59881655
         },
         {
           "date": "2026-08-08",
@@ -17629,11 +17713,11 @@
         }
       ],
       "total_fees": 58.25,
-      "composite_score": 62.0,
+      "composite_score": 62.1,
       "grade": "B",
       "profit_loss_ratio": 1.2982570075691,
-      "return_stability": 0.5170971682804927,
-      "calmar_ratio": 32.279496719649
+      "return_stability": 0.5187089420251916,
+      "calmar_ratio": 29.830522048664857
     },
     {
       "name": "龙虎榜",
@@ -17645,7 +17729,7 @@
       "total_value": 30545.631470750013,
       "total_return": 0.01818771569166711,
       "monthly_return": 0.01818771569166711,
-      "sharpe_ratio": 2.1167787364915864,
+      "sharpe_ratio": 2.0380736800691253,
       "max_drawdown": 0.021876170681060562,
       "win_rate": 0.5238095238095238,
       "realized_pnl": 556.38,
@@ -17666,7 +17750,7 @@
           "entry_fee": 5.05704699,
           "stock_reason": "龙虎榜：趋势向上，活跃",
           "timing_reason": "MACD绿柱缩脚; KDJ超卖金叉; KDJ金叉; RSI偏低(50.4); 量能正常",
-          "hold_days": 3,
+          "hold_days": 4,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 56.99,
@@ -17912,16 +17996,20 @@
         {
           "date": "2026-08-08",
           "value": 30545.631470750013
+        },
+        {
+          "date": "2026-08-08",
+          "value": 30545.631470750013
         }
       ],
       "backtest_start": "20260710",
       "backtest_end": "20260724",
       "backtest_days": 11,
-      "composite_score": 29.1,
+      "composite_score": 28.7,
       "grade": "D",
-      "profit_loss_ratio": 1.0329700211143276,
-      "return_stability": 0.22179177351778556,
-      "calmar_ratio": 2.4590248599809343,
+      "profit_loss_ratio": 1.3238358063390474,
+      "return_stability": 0.06253737176170193,
+      "calmar_ratio": 1.0925140835678229,
       "all_trades": [
         {
           "symbol": "002594",
@@ -18296,7 +18384,7 @@
       "total_value": 28613.28316524,
       "total_return": -0.04622389449200006,
       "monthly_return": -0.04622389449200006,
-      "sharpe_ratio": -0.3099924214111133,
+      "sharpe_ratio": -0.7254386954205977,
       "max_drawdown": 0.0824,
       "win_rate": 0.7272727272727273,
       "realized_pnl": -1386.72,
@@ -18463,10 +18551,6 @@
       ],
       "equity_curve": [
         {
-          "date": "2026-06-02",
-          "value": 29148.0
-        },
-        {
           "date": "2026-06-03",
           "value": 29127.0
         },
@@ -18568,6 +18652,10 @@
         },
         {
           "date": "2026-08-07",
+          "value": 28613.28316524
+        },
+        {
+          "date": "2026-08-08",
           "value": 28613.28316524
         },
         {
@@ -18757,11 +18845,11 @@
         }
       ],
       "total_fees": 27.39,
-      "composite_score": 56.5,
+      "composite_score": 52.8,
       "grade": "B",
-      "profit_loss_ratio": 0.6735808696563271,
-      "return_stability": 0.2464390384532863,
-      "calmar_ratio": 18.914472922170674
+      "profit_loss_ratio": 1.2570946837507517,
+      "return_stability": 0.43567713473455927,
+      "calmar_ratio": 19.039113856527756
     },
     {
       "name": "机构持仓",
@@ -18773,7 +18861,7 @@
       "total_value": 28613.28316524,
       "total_return": -0.04622389449200006,
       "monthly_return": -0.04622389449200006,
-      "sharpe_ratio": -0.3099924214111133,
+      "sharpe_ratio": -0.7254386954205977,
       "max_drawdown": 0.0824,
       "win_rate": 0.7272727272727273,
       "realized_pnl": -1386.72,
@@ -18940,10 +19028,6 @@
       ],
       "equity_curve": [
         {
-          "date": "2026-06-02",
-          "value": 29148.0
-        },
-        {
           "date": "2026-06-03",
           "value": 29127.0
         },
@@ -19045,6 +19129,10 @@
         },
         {
           "date": "2026-08-07",
+          "value": 28613.28316524
+        },
+        {
+          "date": "2026-08-08",
           "value": 28613.28316524
         },
         {
@@ -19234,11 +19322,11 @@
         }
       ],
       "total_fees": 27.39,
-      "composite_score": 53.6,
+      "composite_score": 52.1,
       "grade": "B",
-      "profit_loss_ratio": 0.6678928010055019,
-      "return_stability": 0.54704209397979,
-      "calmar_ratio": 12.73963537749876
+      "profit_loss_ratio": 3.395832156296284,
+      "return_stability": 0.485535099039309,
+      "calmar_ratio": 10.731304959507362
     },
     {
       "name": "低PB",
@@ -19250,8 +19338,8 @@
       "total_value": 29087.057580500008,
       "total_return": -0.030431413983333065,
       "monthly_return": -0.030431413983333065,
-      "sharpe_ratio": -2.5122546070223226,
-      "max_drawdown": 0.11987821073429858,
+      "sharpe_ratio": -2.0892503307717973,
+      "max_drawdown": 0.11068927145381947,
       "win_rate": 0.4,
       "realized_pnl": -887.48,
       "realized_pnl_pct": -2.96,
@@ -19271,7 +19359,7 @@
           "entry_fee": 5.04072068,
           "stock_reason": "市净率:-0.3765",
           "timing_reason": "RSI偏低(38.6); 量能正常",
-          "hold_days": 3,
+          "hold_days": 4,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 4.52,
@@ -19289,7 +19377,7 @@
           "entry_fee": 5.02765763,
           "stock_reason": "市净率:-0.4069",
           "timing_reason": "回踩MA20; RSI偏低(52.0); 量能正常; 均线多头排列",
-          "hold_days": 3,
+          "hold_days": 4,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 9.21,
@@ -19307,7 +19395,7 @@
           "entry_fee": 5.0353353,
           "stock_reason": "市净率:-0.2686",
           "timing_reason": "回踩MA20; RSI偏低(50.0); 量能正常",
-          "hold_days": 2,
+          "hold_days": 3,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 3.53,
@@ -19484,10 +19572,6 @@
       ],
       "equity_curve": [
         {
-          "date": "2026-06-02",
-          "value": 30554.0
-        },
-        {
           "date": "2026-06-03",
           "value": 29967.0
         },
@@ -19594,6 +19678,10 @@
         {
           "date": "2026-08-08",
           "value": 29107.017115440005
+        },
+        {
+          "date": "2026-08-08",
+          "value": 29087.057580500008
         },
         {
           "date": "2026-08-08",
@@ -19850,11 +19938,11 @@
         }
       ],
       "total_fees": 82.27,
-      "composite_score": 67.6,
+      "composite_score": 67.7,
       "grade": "A",
       "profit_loss_ratio": 4.594031532125505,
-      "return_stability": 0.8794853872966255,
-      "calmar_ratio": 187.6901380161474
+      "return_stability": 0.8839799807382202,
+      "calmar_ratio": 172.8743118897718
     },
     {
       "name": "低估值修复",
@@ -19866,8 +19954,8 @@
       "total_value": 29019.83064603001,
       "total_return": -0.03267231179899972,
       "monthly_return": -0.03267231179899972,
-      "sharpe_ratio": -2.6082655316785472,
-      "max_drawdown": 0.11987821073429858,
+      "sharpe_ratio": -2.1859616773614547,
+      "max_drawdown": 0.11068927145381947,
       "win_rate": 0.4,
       "realized_pnl": -955.29,
       "realized_pnl_pct": -3.18,
@@ -19887,7 +19975,7 @@
           "entry_fee": 5.03671668,
           "stock_reason": "PB分位数:-0.4677",
           "timing_reason": "回踩MA20; RSI偏低(50.0); 量能正常",
-          "hold_days": 3,
+          "hold_days": 4,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 18.34,
@@ -19905,7 +19993,7 @@
           "entry_fee": 5.03360357,
           "stock_reason": "PB分位数:-0.4679",
           "timing_reason": "回踩MA20; RSI偏低(57.4); 量能正常",
-          "hold_days": 3,
+          "hold_days": 4,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 11.19,
@@ -19923,7 +20011,7 @@
           "entry_fee": 5.02765763,
           "stock_reason": "PB分位数:-0.4069",
           "timing_reason": "回踩MA20; RSI偏低(52.0); 量能正常; 均线多头排列",
-          "hold_days": 2,
+          "hold_days": 3,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 9.21,
@@ -20100,10 +20188,6 @@
       ],
       "equity_curve": [
         {
-          "date": "2026-06-02",
-          "value": 30554.0
-        },
-        {
           "date": "2026-06-03",
           "value": 29967.0
         },
@@ -20210,6 +20294,10 @@
         {
           "date": "2026-08-08",
           "value": 29038.182264820007
+        },
+        {
+          "date": "2026-08-08",
+          "value": 29019.83064603001
         },
         {
           "date": "2026-08-08",
@@ -20466,11 +20554,11 @@
         }
       ],
       "total_fees": 81.79,
-      "composite_score": 65.9,
+      "composite_score": 66.2,
       "grade": "A",
       "profit_loss_ratio": 2.0638313224259024,
-      "return_stability": 0.6686518148090419,
-      "calmar_ratio": 62.854663746943245
+      "return_stability": 0.6944630607889698,
+      "calmar_ratio": 57.04876890654846
     },
     {
       "name": "低PE",
@@ -20482,7 +20570,7 @@
       "total_value": 28968.243466300002,
       "total_return": -0.03439188445666659,
       "monthly_return": -0.03439188445666659,
-      "sharpe_ratio": -0.5415482558558639,
+      "sharpe_ratio": -0.8499103938411542,
       "max_drawdown": 0.13,
       "win_rate": 0.3076923076923077,
       "realized_pnl": -1069.33,
@@ -20503,7 +20591,7 @@
           "entry_fee": 5.0345345,
           "stock_reason": "市盈率:-9999.0000",
           "timing_reason": "量能正常; 均线多头排列",
-          "hold_days": 5,
+          "hold_days": 6,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 35.15,
@@ -20521,7 +20609,7 @@
           "entry_fee": 5.05343338,
           "stock_reason": "市盈率:-9999.0000",
           "timing_reason": "RSI偏低(50.8); 量能正常",
-          "hold_days": 3,
+          "hold_days": 4,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 53.38,
@@ -20539,7 +20627,7 @@
           "entry_fee": 5.03518515,
           "stock_reason": "市盈率:-9999.0000",
           "timing_reason": "量能正常; 均线多头排列",
-          "hold_days": 3,
+          "hold_days": 4,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 35.15,
@@ -20710,10 +20798,6 @@
       ],
       "equity_curve": [
         {
-          "date": "2026-06-02",
-          "value": 29934.0
-        },
-        {
           "date": "2026-06-03",
           "value": 29783.0
         },
@@ -20820,6 +20904,10 @@
         {
           "date": "2026-08-08",
           "value": 28906.6934663
+        },
+        {
+          "date": "2026-08-08",
+          "value": 28968.243466300002
         },
         {
           "date": "2026-08-08",
@@ -21040,11 +21128,11 @@
         }
       ],
       "total_fees": 61.27,
-      "composite_score": 67.6,
+      "composite_score": 66.3,
       "grade": "A",
-      "profit_loss_ratio": 1.9318099663642145,
-      "return_stability": 0.8468636179868283,
-      "calmar_ratio": 88.29514722517425
+      "profit_loss_ratio": 0.9847608833091943,
+      "return_stability": 0.5641926370762589,
+      "calmar_ratio": 23.00053615465128
     },
     {
       "name": "研报推荐",
@@ -21056,7 +21144,7 @@
       "total_value": 29983.471815540008,
       "total_return": -0.0005509394819997397,
       "monthly_return": -0.0005509394819997397,
-      "sharpe_ratio": 0.061641625496183634,
+      "sharpe_ratio": 0.05141527322319108,
       "max_drawdown": 0.022401648682585006,
       "win_rate": 0.375,
       "realized_pnl": 14.1,
@@ -21077,7 +21165,7 @@
           "entry_fee": 5.0625625,
           "stock_reason": "研报推荐：券商看好",
           "timing_reason": "回踩MA5; 量能正常; 均线多头排列",
-          "hold_days": 3,
+          "hold_days": 4,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 62.5,
@@ -21095,7 +21183,7 @@
           "entry_fee": 5.0388388,
           "stock_reason": "研报推荐：券商看好",
           "timing_reason": "RSI偏低(49.2); 量能正常",
-          "hold_days": 3,
+          "hold_days": 4,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 38.8,
@@ -21113,7 +21201,7 @@
           "entry_fee": 5.05343338,
           "stock_reason": "研报推荐：券商看好",
           "timing_reason": "RSI偏低(50.8); 量能正常",
-          "hold_days": 2,
+          "hold_days": 3,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 53.38,
@@ -21359,16 +21447,20 @@
         {
           "date": "2026-08-08",
           "value": 29983.471815540008
+        },
+        {
+          "date": "2026-08-08",
+          "value": 29983.471815540008
         }
       ],
       "backtest_start": "20260710",
       "backtest_end": "20260724",
       "backtest_days": 11,
-      "composite_score": 30.3,
+      "composite_score": 29.2,
       "grade": "D",
-      "profit_loss_ratio": 0.5635639099564227,
-      "return_stability": 0.5327567510520206,
-      "calmar_ratio": -9.402805306142797,
+      "profit_loss_ratio": 0.5369548301445276,
+      "return_stability": 0.5240409157834791,
+      "calmar_ratio": -6.5852482504652965,
       "all_trades": [
         {
           "symbol": "600036",
@@ -21800,7 +21892,7 @@
       "total_value": 30171.99571454001,
       "total_return": 0.005733190484667042,
       "monthly_return": 0.005733190484667042,
-      "sharpe_ratio": 3.3417372337293414,
+      "sharpe_ratio": 3.191220466194374,
       "max_drawdown": 0.004350483970007668,
       "win_rate": 0.44,
       "realized_pnl": 182.75,
@@ -21821,7 +21913,7 @@
           "entry_fee": 5.05704699,
           "stock_reason": "资金流事件：成交量持续放大，较均量1.2倍",
           "timing_reason": "MACD绿柱缩脚; KDJ超卖金叉; KDJ金叉; RSI偏低(50.4); 量能正常",
-          "hold_days": 3,
+          "hold_days": 4,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 56.99,
@@ -22067,16 +22159,20 @@
         {
           "date": "2026-08-08",
           "value": 30171.99571454001
+        },
+        {
+          "date": "2026-08-08",
+          "value": 30171.99571454001
         }
       ],
       "backtest_start": "20260710",
       "backtest_end": "20260724",
       "backtest_days": 11,
-      "composite_score": 30.5,
+      "composite_score": 31.1,
       "grade": "D",
-      "profit_loss_ratio": 0.26402415831850623,
-      "return_stability": 0.7826123782958508,
-      "calmar_ratio": -9.772510752581471,
+      "profit_loss_ratio": 1.1566994976167673,
+      "return_stability": 0.061775833936126734,
+      "calmar_ratio": 1.9988026726562498,
       "all_trades": [
         {
           "symbol": "000858",
@@ -22523,7 +22619,7 @@
       "total_value": 29519.321991580022,
       "total_return": -0.016022600280665936,
       "monthly_return": -0.016022600280665936,
-      "sharpe_ratio": -2.427838894659735,
+      "sharpe_ratio": -2.353649137279535,
       "max_drawdown": 0.02236096849515574,
       "win_rate": 0.35,
       "realized_pnl": -449.69,
@@ -22544,7 +22640,7 @@
           "entry_fee": 5.0625625,
           "stock_reason": "业绩暴增：净利增速>30%",
           "timing_reason": "回踩MA5; 量能正常; 均线多头排列",
-          "hold_days": 3,
+          "hold_days": 4,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 62.5,
@@ -22562,7 +22658,7 @@
           "entry_fee": 5.05704699,
           "stock_reason": "业绩暴增：净利增速>30%",
           "timing_reason": "MACD绿柱缩脚; KDJ超卖金叉; KDJ金叉; RSI偏低(50.4); 量能正常",
-          "hold_days": 3,
+          "hold_days": 4,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 56.99,
@@ -22580,7 +22676,7 @@
           "entry_fee": 5.0388388,
           "stock_reason": "业绩暴增：净利增速>30%",
           "timing_reason": "RSI偏低(49.2); 量能正常",
-          "hold_days": 2,
+          "hold_days": 3,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 38.8,
@@ -22826,16 +22922,20 @@
         {
           "date": "2026-08-08",
           "value": 29519.321991580022
+        },
+        {
+          "date": "2026-08-08",
+          "value": 29519.321991580022
         }
       ],
       "backtest_start": "20260710",
       "backtest_end": "20260724",
       "backtest_days": 11,
-      "composite_score": 28.4,
+      "composite_score": 28.0,
       "grade": "D",
-      "profit_loss_ratio": 0.0,
-      "return_stability": 0.876177706097813,
-      "calmar_ratio": -53.41953115758135,
+      "profit_loss_ratio": 0.4191927653509391,
+      "return_stability": 0.6905005744702911,
+      "calmar_ratio": -8.42928619937088,
       "all_trades": [
         {
           "symbol": "600036",
@@ -23195,7 +23295,7 @@
       "total_value": 29477.086385570008,
       "total_return": -0.01743045381433306,
       "monthly_return": -0.01743045381433306,
-      "sharpe_ratio": -3.042323349961945,
+      "sharpe_ratio": -2.9464963565461897,
       "max_drawdown": 0.02995987536233297,
       "win_rate": 0.30434782608695654,
       "realized_pnl": -487.16,
@@ -23216,7 +23316,7 @@
           "entry_fee": 5.1286285,
           "stock_reason": "短线动量：近5日+10.3%, 量能0.9倍",
           "timing_reason": "回踩MA5; MACD绿柱缩脚; RSI偏低(39.8); 量能正常",
-          "hold_days": 3,
+          "hold_days": 4,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 128.5,
@@ -23234,7 +23334,7 @@
           "entry_fee": 5.05704699,
           "stock_reason": "短线动量：近5日+6.1%, 量能1.0倍",
           "timing_reason": "MACD绿柱缩脚; KDJ超卖金叉; KDJ金叉; RSI偏低(50.4); 量能正常",
-          "hold_days": 3,
+          "hold_days": 4,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 56.99,
@@ -23252,7 +23352,7 @@
           "entry_fee": 5.01999998,
           "stock_reason": "短线动量：近5日-0.1%, 量能1.0倍",
           "timing_reason": "回踩MA20; RSI偏低(47.2); 量能正常; 均线多头排列",
-          "hold_days": 2,
+          "hold_days": 3,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 19.98,
@@ -23498,6 +23598,10 @@
         {
           "date": "2026-08-08",
           "value": 29477.086385570008
+        },
+        {
+          "date": "2026-08-08",
+          "value": 29477.086385570008
         }
       ],
       "backtest_start": "20260710",
@@ -23505,9 +23609,9 @@
       "backtest_days": 11,
       "composite_score": 29.7,
       "grade": "D",
-      "profit_loss_ratio": 0.6434949376222726,
-      "return_stability": 0.5829453483271112,
-      "calmar_ratio": -8.59931747969173,
+      "profit_loss_ratio": 0.38696301698743724,
+      "return_stability": 0.6608649225640035,
+      "calmar_ratio": -9.541123285334683,
       "all_trades": [
         {
           "symbol": "300059",
@@ -23915,7 +24019,7 @@
       "total_value": 29508.311181880006,
       "total_return": -0.016389627270666462,
       "monthly_return": -0.016389627270666462,
-      "sharpe_ratio": -2.6508895159504684,
+      "sharpe_ratio": -2.568673007484733,
       "max_drawdown": 0.031265468677380844,
       "win_rate": 0.4,
       "realized_pnl": -491.69,
@@ -24163,16 +24267,20 @@
         {
           "date": "2026-08-08",
           "value": 29508.311181880006
+        },
+        {
+          "date": "2026-08-08",
+          "value": 29508.311181880006
         }
       ],
       "backtest_start": "20260710",
       "backtest_end": "20260724",
       "backtest_days": 11,
-      "composite_score": 30.4,
+      "composite_score": 30.3,
       "grade": "D",
-      "profit_loss_ratio": 0.3495384951672885,
-      "return_stability": 0.8162691789907548,
-      "calmar_ratio": -12.200669716981382,
+      "profit_loss_ratio": 0.5635639099564227,
+      "return_stability": 0.5355571986515031,
+      "calmar_ratio": -8.84305126545889,
       "all_trades": [
         {
           "symbol": "002475",
@@ -24445,7 +24553,7 @@
       "total_value": 30153.200585770002,
       "total_return": 0.005106686192333412,
       "monthly_return": 0.005106686192333412,
-      "sharpe_ratio": 3.4771629194777005,
+      "sharpe_ratio": 3.306398683767391,
       "max_drawdown": 0.00034749212366659777,
       "win_rate": 1.0,
       "realized_pnl": 153.2,
@@ -24546,16 +24654,20 @@
         {
           "date": "2026-08-08",
           "value": 30153.200585770002
+        },
+        {
+          "date": "2026-08-08",
+          "value": 30153.200585770002
         }
       ],
       "backtest_start": "20260710",
       "backtest_end": "20260724",
       "backtest_days": 11,
-      "composite_score": 29.8,
+      "composite_score": 30.1,
       "grade": "D",
-      "profit_loss_ratio": 1.2429611824140279,
-      "return_stability": 0.05421632722602776,
-      "calmar_ratio": 1.4168407920256458,
+      "profit_loss_ratio": 0.3495384951672885,
+      "return_stability": 0.7944585174962681,
+      "calmar_ratio": -11.526307572382795,
       "all_trades": [
         {
           "symbol": "002475",
@@ -24603,7 +24715,7 @@
       "total_value": 29844.513566990005,
       "total_return": -0.0051828811003331796,
       "monthly_return": -0.0051828811003331796,
-      "sharpe_ratio": -3.6463471153876106,
+      "sharpe_ratio": -3.555812387437337,
       "max_drawdown": 0.00873755267486265,
       "win_rate": 0.2631578947368421,
       "realized_pnl": -187.73,
@@ -24624,7 +24736,7 @@
           "entry_fee": 5.04713709,
           "stock_reason": "ETF二八轮动：沪深300ETF近20日涨幅-6.62%，最强",
           "timing_reason": "RSI偏低(57.4); 量能正常",
-          "hold_days": 5,
+          "hold_days": 6,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 4.751,
@@ -24855,6 +24967,10 @@
         {
           "date": "2026-08-07",
           "value": 29802.513566990005
+        },
+        {
+          "date": "2026-08-08",
+          "value": 29844.513566990005
         },
         {
           "date": "2026-08-08",
@@ -25184,11 +25300,11 @@
         }
       ],
       "total_fees": 116.85,
-      "composite_score": 31.2,
+      "composite_score": 31.9,
       "grade": "D",
-      "profit_loss_ratio": 1.1566994976167673,
-      "return_stability": 0.045984516540054865,
-      "calmar_ratio": 2.1578559828219737
+      "profit_loss_ratio": 0.8675162474261966,
+      "return_stability": 0.005822199988227417,
+      "calmar_ratio": 4.008383406614532
     },
     {
       "name": "月线共振",
@@ -25200,7 +25316,7 @@
       "total_value": 31087.808351099997,
       "total_return": 0.03626027836999989,
       "monthly_return": 0.03626027836999989,
-      "sharpe_ratio": 5.9500134441087535,
+      "sharpe_ratio": 5.7089297870544105,
       "max_drawdown": 0.011649237236868027,
       "win_rate": 0.45454545454545453,
       "realized_pnl": 115.03,
@@ -25221,7 +25337,7 @@
           "entry_fee": 5.03657654,
           "stock_reason": "月线共振：月MA5=6.40上穿月MA20=6.13",
           "timing_reason": "回踩MA20; RSI偏低(49.8); 量能正常",
-          "hold_days": 10,
+          "hold_days": 11,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 6.96,
@@ -25239,7 +25355,7 @@
           "entry_fee": 5.03534531,
           "stock_reason": "月线共振：月MA5=12.34上穿月MA20=11.92",
           "timing_reason": "RSI偏低(54.1); 量能正常",
-          "hold_days": 9,
+          "hold_days": 10,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 13.1,
@@ -25257,7 +25373,7 @@
           "entry_fee": 5.02940938,
           "stock_reason": "月线共振：月MA5=28.93上穿月MA20=27.22",
           "timing_reason": "均线多头排列",
-          "hold_days": 5,
+          "hold_days": 6,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 30.15,
@@ -25500,16 +25616,20 @@
         {
           "date": "2026-08-08",
           "value": 31087.808351099997
+        },
+        {
+          "date": "2026-08-08",
+          "value": 31087.808351099997
         }
       ],
       "backtest_start": "20260710",
       "backtest_end": "20260724",
       "backtest_days": 11,
-      "composite_score": 27.9,
+      "composite_score": 27.5,
       "grade": "D",
-      "profit_loss_ratio": 0.22484727283418426,
-      "return_stability": 0.6322574490764017,
-      "calmar_ratio": -10.480971185194262,
+      "profit_loss_ratio": 2.9334295962964436,
+      "return_stability": 0.07793861577499828,
+      "calmar_ratio": -2.284329161129618,
       "all_trades": [
         {
           "symbol": "600919.SH",
@@ -25716,7 +25836,7 @@
       "total_value": 30196.17801786001,
       "total_return": 0.006539267262000309,
       "monthly_return": 0.006539267262000309,
-      "sharpe_ratio": 0.926059371861206,
+      "sharpe_ratio": 0.8875541482094947,
       "max_drawdown": 0.035750145493519,
       "win_rate": 0.3157894736842105,
       "realized_pnl": -220.86,
@@ -25737,7 +25857,7 @@
           "entry_fee": 5.0625625,
           "stock_reason": "北向择时：RSI=51.9, 量比=1.3倍",
           "timing_reason": "MACD金叉; KDJ超卖金叉; RSI偏低(51.9); 量能正常",
-          "hold_days": 5,
+          "hold_days": 6,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 67.01,
@@ -25755,7 +25875,7 @@
           "entry_fee": 5.05704699,
           "stock_reason": "北向择时：RSI=50.4, 量比=1.2倍",
           "timing_reason": "MACD绿柱缩脚; KDJ超卖金叉; KDJ金叉; RSI偏低(50.4); 量能正常",
-          "hold_days": 3,
+          "hold_days": 4,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 56.99,
@@ -25773,7 +25893,7 @@
           "entry_fee": 5.06824818,
           "stock_reason": "北向择时：RSI=66.8, 量比=1.3倍",
           "timing_reason": "量能正常",
-          "hold_days": 3,
+          "hold_days": 4,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 68.18,
@@ -26019,16 +26139,20 @@
         {
           "date": "2026-08-08",
           "value": 30196.17801786001
+        },
+        {
+          "date": "2026-08-08",
+          "value": 30196.17801786001
         }
       ],
       "backtest_start": "20260714",
       "backtest_end": "20260724",
       "backtest_days": 9,
-      "composite_score": 27.6,
+      "composite_score": 27.4,
       "grade": "D",
-      "profit_loss_ratio": 0.4191927653509391,
-      "return_stability": 0.6479039146522653,
-      "calmar_ratio": -8.931948599381442,
+      "profit_loss_ratio": 0.344289889397469,
+      "return_stability": 0.4800341584383562,
+      "calmar_ratio": -8.967510287925341,
       "all_trades": [
         {
           "symbol": "600887.SH",
@@ -26385,7 +26509,7 @@
       "total_value": 29999.76986633002,
       "total_return": -7.671122332612868e-06,
       "monthly_return": -7.671122332612868e-06,
-      "sharpe_ratio": 0.0896145046018288,
+      "sharpe_ratio": 0.08219417576360144,
       "max_drawdown": 0.058481206393666434,
       "win_rate": 0.25,
       "realized_pnl": -1184.05,
@@ -26406,7 +26530,7 @@
           "entry_fee": 5.1428427,
           "stock_reason": "财报季：30日涨幅=20.7%, 60日涨幅=47.0%",
           "timing_reason": "均线多头排列",
-          "hold_days": 4,
+          "hold_days": 5,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 154.82,
@@ -26424,7 +26548,7 @@
           "entry_fee": 5.03727724,
           "stock_reason": "财报季：30日涨幅=12.9%, 60日涨幅=23.1%",
           "timing_reason": "量能正常; 均线多头排列",
-          "hold_days": 3,
+          "hold_days": 4,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 37.24,
@@ -26670,16 +26794,20 @@
         {
           "date": "2026-08-08",
           "value": 29999.76986633002
+        },
+        {
+          "date": "2026-08-08",
+          "value": 29999.76986633002
         }
       ],
       "backtest_start": "20260714",
       "backtest_end": "20260724",
       "backtest_days": 9,
-      "composite_score": 27.8,
+      "composite_score": 27.1,
       "grade": "D",
-      "profit_loss_ratio": 2.9334295962964436,
-      "return_stability": 0.10378075086052452,
-      "calmar_ratio": -2.3696137272847944,
+      "profit_loss_ratio": 0.0,
+      "return_stability": 0.7142513489857265,
+      "calmar_ratio": -48.75829594630163,
       "all_trades": [
         {
           "symbol": "603019.SH",
@@ -26910,7 +27038,7 @@
       "total_value": 30210.74811304,
       "total_return": 0.007024937101333368,
       "monthly_return": 0.007024937101333368,
-      "sharpe_ratio": 1.1177305196123306,
+      "sharpe_ratio": 1.0743603528214645,
       "max_drawdown": 0.015787409295940382,
       "win_rate": 0.6,
       "realized_pnl": 210.75,
@@ -27064,16 +27192,20 @@
         {
           "date": "2026-08-08",
           "value": 30210.74811304
+        },
+        {
+          "date": "2026-08-08",
+          "value": 30210.74811304
         }
       ],
       "backtest_start": "20260710",
       "backtest_end": "20260724",
       "backtest_days": 11,
-      "composite_score": 21.7,
+      "composite_score": 21.4,
       "grade": "D",
-      "profit_loss_ratio": 3.5734645229288073,
-      "return_stability": 0.04538408845514519,
-      "calmar_ratio": -1.4187814970146695,
+      "profit_loss_ratio": 0.295746034652609,
+      "return_stability": 0.07033178909738302,
+      "calmar_ratio": 0.1389398171167422,
       "all_trades": [
         {
           "symbol": "688472.SH",
@@ -27166,7 +27298,7 @@
       "total_value": 30809.927889820003,
       "total_return": 0.026997596327333426,
       "monthly_return": 0.026997596327333426,
-      "sharpe_ratio": 2.37525163171939,
+      "sharpe_ratio": 2.298030319058751,
       "max_drawdown": 0.023378328755471477,
       "win_rate": 0.42857142857142855,
       "realized_pnl": 32.44,
@@ -27185,7 +27317,7 @@
           "cost": 6302.0,
           "stock_reason": "高成长：净利增=0%, 营收增=0%, ROE=1040.5%, 动能+7.4",
           "timing_reason": "skip timing",
-          "hold_days": 6,
+          "hold_days": 7,
           "current_price": 35.15,
           "profit": 727.9999999999994,
           "profit_pct": 11.551888289431917
@@ -27201,7 +27333,7 @@
           "entry_fee": 5.0345345,
           "stock_reason": "高成长：净利增=0%, 营收增=0%, ROE=1040.5%, 动能+4.7",
           "timing_reason": "量能正常; 均线多头排列",
-          "hold_days": 4,
+          "hold_days": 5,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 35.15,
@@ -27219,7 +27351,7 @@
           "entry_fee": 5.01999998,
           "stock_reason": "高成长：净利增=0%, 营收增=0%, ROE=398.7%, 动能+-0.1",
           "timing_reason": "回踩MA20; RSI偏低(47.2); 量能正常; 均线多头排列",
-          "hold_days": 3,
+          "hold_days": 4,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 19.98,
@@ -27407,6 +27539,10 @@
         {
           "date": "2026-08-08",
           "value": 30809.927889820003
+        },
+        {
+          "date": "2026-08-08",
+          "value": 30809.927889820003
         }
       ],
       "backtest_start": "20260710",
@@ -27414,9 +27550,9 @@
       "backtest_days": 11,
       "composite_score": 24.7,
       "grade": "D",
-      "profit_loss_ratio": 1.3238358063390474,
-      "return_stability": 0.13790101841340818,
-      "calmar_ratio": -0.4456296623118256,
+      "profit_loss_ratio": 0.9575578376926824,
+      "return_stability": 0.00041543048455428,
+      "calmar_ratio": 0.6138750888565198,
       "all_trades": [
         {
           "symbol": "601166.SH",
@@ -27545,7 +27681,7 @@
       "total_value": 30947.157455999997,
       "total_return": 0.031571915199999905,
       "monthly_return": 0.031571915199999905,
-      "sharpe_ratio": 6.788817624695962,
+      "sharpe_ratio": 6.5328555580161485,
       "max_drawdown": 0.0036535992890293274,
       "win_rate": 0.42857142857142855,
       "realized_pnl": 865.7,
@@ -27566,7 +27702,7 @@
           "entry_fee": 5.06177171,
           "stock_reason": "小市值基本面：ROE=67.34% | 增速=0.00% | 负债率=51.94%",
           "timing_reason": "回踩MA5; 回踩MA20",
-          "hold_days": 4,
+          "hold_days": 5,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 62.75,
@@ -27584,7 +27720,7 @@
           "entry_fee": 5.0625625,
           "stock_reason": "小市值基本面：ROE=98.69% | 增速=0.00% | 负债率=22.87%",
           "timing_reason": "回踩MA5; 量能正常; 均线多头排列",
-          "hold_days": 3,
+          "hold_days": 4,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 62.5,
@@ -27772,16 +27908,20 @@
         {
           "date": "2026-08-08",
           "value": 30947.157455999997
+        },
+        {
+          "date": "2026-08-08",
+          "value": 30947.157455999997
         }
       ],
       "backtest_start": "20260710",
       "backtest_end": "20260724",
       "backtest_days": 11,
-      "composite_score": 29.4,
+      "composite_score": 30.3,
       "grade": "D",
-      "profit_loss_ratio": 0.38696301698743724,
-      "return_stability": 0.625634140920458,
-      "calmar_ratio": -10.158583116115755,
+      "profit_loss_ratio": 0.26402415831850623,
+      "return_stability": 0.7614021333744752,
+      "calmar_ratio": -9.243577325361986,
       "all_trades": [
         {
           "symbol": "300763",
@@ -27910,7 +28050,7 @@
       "total_value": 29625.631023710004,
       "total_return": -0.012478965876333192,
       "monthly_return": -0.012478965876333192,
-      "sharpe_ratio": -2.7864850014306173,
+      "sharpe_ratio": -2.703328012569506,
       "max_drawdown": 0.028615537229363584,
       "win_rate": 0.391304347826087,
       "realized_pnl": -345.65,
@@ -27931,7 +28071,7 @@
           "entry_fee": 5.09013004,
           "stock_reason": "业绩预告：预期业绩超预期",
           "timing_reason": "RSI偏低(38.3); 量能正常",
-          "hold_days": 3,
+          "hold_days": 4,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 90.04,
@@ -27949,7 +28089,7 @@
           "entry_fee": 5.02588586,
           "stock_reason": "业绩预告：预期业绩超预期",
           "timing_reason": "量能正常; 均线多头排列",
-          "hold_days": 3,
+          "hold_days": 4,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 12.93,
@@ -27967,7 +28107,7 @@
           "entry_fee": 5.01999998,
           "stock_reason": "业绩预告：预期业绩超预期",
           "timing_reason": "回踩MA20; RSI偏低(47.2); 量能正常; 均线多头排列",
-          "hold_days": 2,
+          "hold_days": 3,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 19.98,
@@ -28213,16 +28353,20 @@
         {
           "date": "2026-08-08",
           "value": 29625.631023710004
+        },
+        {
+          "date": "2026-08-08",
+          "value": 29625.631023710004
         }
       ],
       "backtest_start": "20260710",
       "backtest_end": "20260724",
       "backtest_days": 11,
-      "composite_score": 28.0,
+      "composite_score": 27.6,
       "grade": "D",
-      "profit_loss_ratio": 0.4844188097954068,
-      "return_stability": 0.4237438884415299,
-      "calmar_ratio": -11.181321999385222,
+      "profit_loss_ratio": 0.0,
+      "return_stability": 0.7934856319022233,
+      "calmar_ratio": -44.158231637086956,
       "all_trades": [
         {
           "symbol": "002594",
@@ -28633,7 +28777,7 @@
       "total_value": 31270.09174714002,
       "total_return": 0.04233639157133402,
       "monthly_return": 0.04233639157133402,
-      "sharpe_ratio": 3.9902383205142233,
+      "sharpe_ratio": 3.841466231267037,
       "max_drawdown": 0.03648548856761272,
       "win_rate": 0.48148148148148145,
       "realized_pnl": 1258.26,
@@ -28654,7 +28798,7 @@
           "entry_fee": 5.0675675,
           "stock_reason": "机构调研：近5日调研10次",
           "timing_reason": "RSI偏低(56.8); 量能正常",
-          "hold_days": 6,
+          "hold_days": 7,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 66.51,
@@ -28672,7 +28816,7 @@
           "entry_fee": 5.04352348,
           "stock_reason": "机构调研：近5日调研5次",
           "timing_reason": "MACD金叉; KDJ超卖金叉; RSI偏低(46.5); 量能正常",
-          "hold_days": 5,
+          "hold_days": 6,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 44.88,
@@ -28690,7 +28834,7 @@
           "entry_fee": 5.02936934,
           "stock_reason": "机构调研：近5日调研7次",
           "timing_reason": "回踩MA20; RSI偏低(51.9); 量能正常; 均线多头排列",
-          "hold_days": 3,
+          "hold_days": 4,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 4.89,
@@ -28936,16 +29080,20 @@
         {
           "date": "2026-08-08",
           "value": 31270.09174714002
+        },
+        {
+          "date": "2026-08-08",
+          "value": 31270.09174714002
         }
       ],
       "backtest_start": "20260710",
       "backtest_end": "20260724",
       "backtest_days": 11,
-      "composite_score": 27.8,
+      "composite_score": 27.4,
       "grade": "D",
-      "profit_loss_ratio": 2.9334295962964436,
-      "return_stability": 0.10378075086052452,
-      "calmar_ratio": -2.3696137272847944,
+      "profit_loss_ratio": 0.0,
+      "return_stability": 0.7750772696851378,
+      "calmar_ratio": -43.86056716696176,
       "all_trades": [
         {
           "symbol": "600030",
@@ -29425,7 +29573,7 @@
       "total_value": 29471.86367621002,
       "total_return": -0.01760454412633262,
       "monthly_return": -0.01760454412633262,
-      "sharpe_ratio": -2.6095482154429477,
+      "sharpe_ratio": -2.528413790066455,
       "max_drawdown": 0.03706284345542687,
       "win_rate": 0.41379310344827586,
       "realized_pnl": -496.24,
@@ -29446,7 +29594,7 @@
           "entry_fee": 5.0388388,
           "stock_reason": "北向持仓：北向资金重仓",
           "timing_reason": "RSI偏低(49.2); 量能正常",
-          "hold_days": 3,
+          "hold_days": 4,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 38.8,
@@ -29464,7 +29612,7 @@
           "entry_fee": 5.07518511,
           "stock_reason": "北向持仓：北向资金重仓",
           "timing_reason": "RSI偏低(45.8); 量能正常",
-          "hold_days": 3,
+          "hold_days": 4,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 75.11,
@@ -29482,7 +29630,7 @@
           "entry_fee": 5.05343338,
           "stock_reason": "北向持仓：北向资金重仓",
           "timing_reason": "RSI偏低(50.8); 量能正常",
-          "hold_days": 2,
+          "hold_days": 3,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 53.38,
@@ -29728,16 +29876,20 @@
         {
           "date": "2026-08-08",
           "value": 29471.86367621002
+        },
+        {
+          "date": "2026-08-08",
+          "value": 29471.86367621002
         }
       ],
       "backtest_start": "20260710",
       "backtest_end": "20260724",
       "backtest_days": 11,
-      "composite_score": 27.9,
+      "composite_score": 27.6,
       "grade": "D",
-      "profit_loss_ratio": 0.4154581293858182,
-      "return_stability": 0.6544721572001235,
-      "calmar_ratio": -8.904351370557295,
+      "profit_loss_ratio": 0.0,
+      "return_stability": 0.7934856319022233,
+      "calmar_ratio": -44.158231637086956,
       "all_trades": [
         {
           "symbol": "600036",
@@ -30256,7 +30408,7 @@
       "total_value": 30256.513988020008,
       "total_return": 0.008550466267333589,
       "monthly_return": 0.008550466267333589,
-      "sharpe_ratio": 1.2528308494968945,
+      "sharpe_ratio": 1.2028628023150023,
       "max_drawdown": 0.036612787169732326,
       "win_rate": 0.4090909090909091,
       "realized_pnl": 213.43,
@@ -30277,7 +30429,7 @@
           "entry_fee": 5.0345345,
           "stock_reason": "F-Score=6分, ROE=1040.5%, PE=17.7",
           "timing_reason": "量能正常; 均线多头排列",
-          "hold_days": 4,
+          "hold_days": 5,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 35.15,
@@ -30295,7 +30447,7 @@
           "entry_fee": 5.0835835,
           "stock_reason": "F-Score=5分, ROE=556.5%, PE=14.5",
           "timing_reason": "RSI偏低(46.7)",
-          "hold_days": 3,
+          "hold_days": 4,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 83.5,
@@ -30541,16 +30693,20 @@
         {
           "date": "2026-08-08",
           "value": 30256.513988020008
+        },
+        {
+          "date": "2026-08-08",
+          "value": 30256.513988020008
         }
       ],
       "backtest_start": "20260710",
       "backtest_end": "20260724",
       "backtest_days": 11,
-      "composite_score": 24.8,
+      "composite_score": 26.2,
       "grade": "D",
-      "profit_loss_ratio": 0.9575578376926824,
-      "return_stability": 0.0018671580335581917,
-      "calmar_ratio": 0.6614444440324881,
+      "profit_loss_ratio": 1.0329700211143276,
+      "return_stability": 0.14987514350796127,
+      "calmar_ratio": 1.7981403408029717,
       "all_trades": [
         {
           "symbol": "000333.SZ",
@@ -30952,7 +31108,7 @@
       "total_value": 29854.551610760012,
       "total_return": -0.0048482796413329195,
       "monthly_return": -0.0048482796413329195,
-      "sharpe_ratio": -1.78312993795944,
+      "sharpe_ratio": -1.7478746045282518,
       "max_drawdown": 0.009372146837441935,
       "win_rate": 0.2222222222222222,
       "realized_pnl": -126.34,
@@ -30973,7 +31129,7 @@
           "entry_fee": 5.03671668,
           "stock_reason": "回购信号：PE=5.0, PB=0.47, ROE=262.7%, 得分=6.77",
           "timing_reason": "回踩MA20; RSI偏低(50.0); 量能正常",
-          "hold_days": 3,
+          "hold_days": 4,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 18.34,
@@ -30991,7 +31147,7 @@
           "entry_fee": 5.05343338,
           "stock_reason": "回购信号：PE=7.2, PB=0.95, ROE=247.9%, 得分=6.12",
           "timing_reason": "RSI偏低(50.8); 量能正常",
-          "hold_days": 3,
+          "hold_days": 4,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 53.38,
@@ -31215,16 +31371,20 @@
         {
           "date": "2026-08-08",
           "value": 29854.551610760012
+        },
+        {
+          "date": "2026-08-08",
+          "value": 29854.551610760012
         }
       ],
       "backtest_start": "20260710",
       "backtest_end": "20260724",
       "backtest_days": 11,
-      "composite_score": 23.2,
+      "composite_score": 24.4,
       "grade": "D",
-      "profit_loss_ratio": 3.3325281757472123,
-      "return_stability": 0.1715930686437528,
-      "calmar_ratio": -4.498950779813708,
+      "profit_loss_ratio": 0.2490889201373501,
+      "return_stability": 0.16957361247339298,
+      "calmar_ratio": -7.862638416017836,
       "all_trades": [
         {
           "symbol": "600036.SH",
@@ -31389,7 +31549,7 @@
       "total_value": 30663.573326280006,
       "total_return": 0.022119110876000197,
       "monthly_return": 0.022119110876000197,
-      "sharpe_ratio": 2.9019674313405894,
+      "sharpe_ratio": 2.7933214784360922,
       "max_drawdown": 0.027856459052127663,
       "win_rate": 0.4666666666666667,
       "realized_pnl": -133.84,
@@ -31410,7 +31570,7 @@
           "entry_fee": 5.05998993,
           "stock_reason": "打板接力：近期涨停",
           "timing_reason": "MACD金叉; KDJ超卖金叉; KDJ金叉; RSI偏低(45.4); 量能正常",
-          "hold_days": 7,
+          "hold_days": 8,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 68.18,
@@ -31428,7 +31588,7 @@
           "entry_fee": 5.11427416,
           "stock_reason": "打板接力：近期涨停",
           "timing_reason": "回踩MA5; 回踩MA20; 量能正常",
-          "hold_days": 3,
+          "hold_days": 4,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 114.16,
@@ -31668,16 +31828,20 @@
         {
           "date": "2026-08-08",
           "value": 30663.573326280006
+        },
+        {
+          "date": "2026-08-08",
+          "value": 30663.573326280006
         }
       ],
       "backtest_start": "20260710",
       "backtest_end": "20260724",
       "backtest_days": 11,
-      "composite_score": 21.2,
+      "composite_score": 21.5,
       "grade": "D",
-      "profit_loss_ratio": 0.9509700143006119,
-      "return_stability": 0.2624421222490124,
-      "calmar_ratio": -3.2602687476009575,
+      "profit_loss_ratio": 0.0,
+      "return_stability": 0.14295918811973574,
+      "calmar_ratio": 10.941201729946204,
       "all_trades": [
         {
           "symbol": "000858",
@@ -31941,7 +32105,7 @@
       "total_value": 30307.256246380006,
       "total_return": 0.01024187487933353,
       "monthly_return": 0.01024187487933353,
-      "sharpe_ratio": 2.6472474135688318,
+      "sharpe_ratio": 2.5407349026724053,
       "max_drawdown": 0.012503453851978758,
       "win_rate": 0.5,
       "realized_pnl": 66.52,
@@ -31962,7 +32126,7 @@
           "entry_fee": 5.05216211,
           "stock_reason": "配对:医药, z-score=-2.69, 买恒瑞医药(价差偏低买A)",
           "timing_reason": "RSI偏低(45.0)",
-          "hold_days": 4,
+          "hold_days": 5,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 54.62,
@@ -32208,16 +32372,20 @@
         {
           "date": "2026-08-08",
           "value": 30307.256246380006
+        },
+        {
+          "date": "2026-08-08",
+          "value": 30307.256246380006
         }
       ],
       "backtest_start": "20260710",
       "backtest_end": "20260724",
       "backtest_days": 11,
-      "composite_score": 20.8,
+      "composite_score": 21.0,
       "grade": "D",
-      "profit_loss_ratio": 0.0,
-      "return_stability": 0.0783232239009729,
-      "calmar_ratio": 10.941201729946204,
+      "profit_loss_ratio": 1.0903509057787355,
+      "return_stability": 0.1258222857596255,
+      "calmar_ratio": -2.446281867188443,
       "all_trades": [
         {
           "symbol": "000858",
@@ -32472,7 +32640,7 @@
       "total_value": 29226.309851500013,
       "total_return": -0.025789671616666236,
       "monthly_return": -0.025789671616666236,
-      "sharpe_ratio": -4.597109434805755,
+      "sharpe_ratio": -4.43966884309609,
       "max_drawdown": 0.04350253535739727,
       "win_rate": 0.2692307692307692,
       "realized_pnl": -744.31,
@@ -32493,7 +32661,7 @@
           "entry_fee": 5.0388388,
           "stock_reason": "Hurst择时:H=0.50(低波动), 近5日-2.1%",
           "timing_reason": "RSI偏低(49.2); 量能正常",
-          "hold_days": 3,
+          "hold_days": 4,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 38.8,
@@ -32511,7 +32679,7 @@
           "entry_fee": 5.01999998,
           "stock_reason": "Hurst择时:H=0.50(低波动), 近5日-0.9%",
           "timing_reason": "回踩MA20; RSI偏低(47.2); 量能正常; 均线多头排列",
-          "hold_days": 3,
+          "hold_days": 4,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 19.98,
@@ -32529,7 +32697,7 @@
           "entry_fee": 5.0835835,
           "stock_reason": "Hurst择时:H=0.50(低波动), 近5日-4.7%",
           "timing_reason": "RSI偏低(46.7)",
-          "hold_days": 2,
+          "hold_days": 3,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 83.5,
@@ -32767,6 +32935,10 @@
         {
           "date": "2026-08-08",
           "value": 29257.347676500016
+        },
+        {
+          "date": "2026-08-08",
+          "value": 29226.309851500013
         },
         {
           "date": "2026-08-08",
@@ -33255,7 +33427,7 @@
       "total_value": 28700.305739360007,
       "total_return": -0.04332314202133312,
       "monthly_return": -0.04332314202133312,
-      "sharpe_ratio": -8.8365916893679,
+      "sharpe_ratio": -8.454623962561456,
       "max_drawdown": 0.052172052947698694,
       "win_rate": 0.17647058823529413,
       "realized_pnl": -1330.89,
@@ -33276,7 +33448,7 @@
           "entry_fee": 5.03014011,
           "stock_reason": "SEPA:RS=50, >200日线, 距高点23% 200日",
           "timing_reason": "RSI偏低(56.0); 量能正常; 均线多头排列",
-          "hold_days": 7,
+          "hold_days": 8,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 30.59,
@@ -33294,7 +33466,7 @@
           "entry_fee": 5.03727724,
           "stock_reason": "SEPA:RS=67, >200日线, 距高点5% 200日",
           "timing_reason": "量能正常; 均线多头排列",
-          "hold_days": 2,
+          "hold_days": 3,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 37.24,
@@ -33532,6 +33704,10 @@
         {
           "date": "2026-08-08",
           "value": 28719.688357360006
+        },
+        {
+          "date": "2026-08-08",
+          "value": 28700.305739360007
         },
         {
           "date": "2026-08-08",
@@ -33864,7 +34040,7 @@
       "total_value": 31308.56456392,
       "total_return": 0.04361881879733337,
       "monthly_return": 0.04361881879733337,
-      "sharpe_ratio": 3.5334226036246186,
+      "sharpe_ratio": 3.403727432439034,
       "max_drawdown": 0.04601509270538518,
       "win_rate": 0.46153846153846156,
       "realized_pnl": 376.46,
@@ -33885,7 +34061,7 @@
           "entry_fee": 5.03657654,
           "stock_reason": "主力资金：量比=1.2倍, 价=6.57>MA10=6.25",
           "timing_reason": "回踩MA20; RSI偏低(49.8); 量能正常",
-          "hold_days": 10,
+          "hold_days": 11,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 6.96,
@@ -33903,7 +34079,7 @@
           "entry_fee": 5.0625625,
           "stock_reason": "主力资金：量比=1.2倍, 价=62.50>MA10=53.91",
           "timing_reason": "MACD金叉; KDJ超卖金叉; RSI偏低(51.9); 量能正常",
-          "hold_days": 5,
+          "hold_days": 6,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 67.01,
@@ -33921,7 +34097,7 @@
           "entry_fee": 5.06833827,
           "stock_reason": "主力资金：量比=1.2倍, 价=68.27>MA10=59.81",
           "timing_reason": "量能正常",
-          "hold_days": 4,
+          "hold_days": 5,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 68.18,
@@ -34404,14 +34580,18 @@
         {
           "date": "2026-08-08",
           "value": 31308.56456392
+        },
+        {
+          "date": "2026-08-08",
+          "value": 31308.56456392
         }
       ],
       "_n_strategies_tested": 94,
-      "composite_score": 27.9,
+      "composite_score": 27.5,
       "grade": "D",
-      "profit_loss_ratio": 0.0,
-      "return_stability": 0.7991042680212995,
-      "calmar_ratio": -60.43881586975384
+      "profit_loss_ratio": 2.9334295962964436,
+      "return_stability": 0.07793861577499828,
+      "calmar_ratio": -2.284329161129618
     },
     {
       "name": "周期股择时",
@@ -34423,7 +34603,7 @@
       "total_value": 29588.24344869001,
       "total_return": -0.013725218376999691,
       "monthly_return": -0.013725218376999691,
-      "sharpe_ratio": -3.9785028889647367,
+      "sharpe_ratio": -3.8535901761664695,
       "max_drawdown": 0.021127604286889323,
       "win_rate": 0.2,
       "realized_pnl": -636.17,
@@ -34444,7 +34624,7 @@
           "entry_fee": 5.0322322,
           "stock_reason": "周期低估：PB=2.18, 价格分位=23%, 得分=3.00",
           "timing_reason": "量能正常; 均线多头排列",
-          "hold_days": 7,
+          "hold_days": 8,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 17.22,
@@ -34462,7 +34642,7 @@
           "entry_fee": 5.04781777,
           "stock_reason": "周期低估：PB=1.74, 价格分位=13%, 得分=2.96",
           "timing_reason": "RSI偏低(46.2); 量能正常",
-          "hold_days": 6,
+          "hold_days": 7,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 47.87,
@@ -34480,7 +34660,7 @@
           "entry_fee": 5.02490488,
           "stock_reason": "周期低估：PB=2.36, 价格分位=77%, 得分=5.49",
           "timing_reason": "回踩MA5; 回踩MA20; MACD绿柱缩脚; RSI偏低(54.7); 量能正常",
-          "hold_days": 5,
+          "hold_days": 6,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 25.04,
@@ -34999,14 +35179,18 @@
         {
           "date": "2026-08-08",
           "value": 29588.24344869001
+        },
+        {
+          "date": "2026-08-08",
+          "value": 29588.24344869001
         }
       ],
       "_n_strategies_tested": 94,
-      "composite_score": 23.8,
+      "composite_score": 23.9,
       "grade": "D",
-      "profit_loss_ratio": 0.2490889201373501,
-      "return_stability": 0.10639768649384707,
-      "calmar_ratio": -8.365723681606251
+      "profit_loss_ratio": 0.0,
+      "return_stability": 0.4013516252454028,
+      "calmar_ratio": -4.176802830897103
     },
     {
       "name": "游资席位跟踪",
@@ -35018,7 +35202,7 @@
       "total_value": 29947.692648840006,
       "total_return": -0.0017435783719998046,
       "monthly_return": -0.0017435783719998046,
-      "sharpe_ratio": -13.965714633626536,
+      "sharpe_ratio": -12.48206615391193,
       "max_drawdown": 0.0017435783719998046,
       "win_rate": 0,
       "realized_pnl": 0,
@@ -35039,7 +35223,7 @@
           "entry_fee": 5.06833827,
           "stock_reason": "游资偏好：换手1.6倍, 振幅7.6%, 涨幅3.6%",
           "timing_reason": "量能正常",
-          "hold_days": 5,
+          "hold_days": 6,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 68.18,
@@ -35057,7 +35241,7 @@
           "entry_fee": 5.06833827,
           "stock_reason": "游资偏好：换手1.6倍, 振幅7.6%, 涨幅3.6%",
           "timing_reason": "量能正常",
-          "hold_days": 4,
+          "hold_days": 5,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 68.18,
@@ -35075,7 +35259,7 @@
           "entry_fee": 5.05467462,
           "stock_reason": "游资偏好：换手1.6倍, 振幅5.4%, 涨幅4.8%",
           "timing_reason": "回踩MA5; 回踩MA20; MACD绿柱缩脚; KDJ超卖金叉; KDJ金叉; RSI偏低(45.7); 量能正常",
-          "hold_days": 3,
+          "hold_days": 4,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 54.62,
@@ -35094,6 +35278,10 @@
         {
           "date": "2026-08-07",
           "value": 29976.209323460003
+        },
+        {
+          "date": "2026-08-08",
+          "value": 29947.692648840006
         },
         {
           "date": "2026-08-08",
@@ -35125,7 +35313,7 @@
       "total_value": 29803.233573860005,
       "total_return": -0.0065588808713331675,
       "monthly_return": -0.0065588808713331675,
-      "sharpe_ratio": -16.91923962229536,
+      "sharpe_ratio": -13.966311813959855,
       "max_drawdown": 0.0065588808713331675,
       "win_rate": 0.0,
       "realized_pnl": -164.03,
@@ -35146,7 +35334,7 @@
           "entry_fee": 5.0388388,
           "stock_reason": "可转债备选(低PB)：PB=0.9, 价低于均线",
           "timing_reason": "RSI偏低(49.2); 量能正常",
-          "hold_days": 3,
+          "hold_days": 4,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 38.8,
@@ -35164,7 +35352,7 @@
           "entry_fee": 5.0835835,
           "stock_reason": "可转债备选(低PB)：PB=2.7, 价低于均线",
           "timing_reason": "RSI偏低(46.7)",
-          "hold_days": 3,
+          "hold_days": 4,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 83.5,
@@ -35182,7 +35370,7 @@
           "entry_fee": 5.05343338,
           "stock_reason": "可转债备选(低PB)：PB=0.9, 价低于均线",
           "timing_reason": "RSI偏低(50.8); 量能正常",
-          "hold_days": 2,
+          "hold_days": 3,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 53.38,
@@ -35387,6 +35575,10 @@
         {
           "date": "2026-08-08",
           "value": 29826.682664860004
+        },
+        {
+          "date": "2026-08-08",
+          "value": 29803.233573860005
         },
         {
           "date": "2026-08-08",
@@ -35414,7 +35606,7 @@
       "total_value": 29803.233573860005,
       "total_return": -0.0065588808713331675,
       "monthly_return": -0.0065588808713331675,
-      "sharpe_ratio": -16.91923962229536,
+      "sharpe_ratio": -13.966311813959855,
       "max_drawdown": 0.0065588808713331675,
       "win_rate": 0.0,
       "realized_pnl": -164.03,
@@ -35435,7 +35627,7 @@
           "entry_fee": 5.0388388,
           "stock_reason": "网格交易：波动率1.2%, PB=0.9, 震荡特征",
           "timing_reason": "RSI偏低(49.2); 量能正常",
-          "hold_days": 3,
+          "hold_days": 4,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 38.8,
@@ -35453,7 +35645,7 @@
           "entry_fee": 5.0835835,
           "stock_reason": "网格交易：波动率1.3%, PB=2.7, 震荡特征",
           "timing_reason": "RSI偏低(46.7)",
-          "hold_days": 3,
+          "hold_days": 4,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 83.5,
@@ -35471,7 +35663,7 @@
           "entry_fee": 5.05343338,
           "stock_reason": "网格交易：波动率1.8%, PB=0.9, 震荡特征",
           "timing_reason": "RSI偏低(50.8); 量能正常",
-          "hold_days": 2,
+          "hold_days": 3,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 53.38,
@@ -35676,6 +35868,10 @@
         {
           "date": "2026-08-08",
           "value": 29826.682664860004
+        },
+        {
+          "date": "2026-08-08",
+          "value": 29803.233573860005
         },
         {
           "date": "2026-08-08",
@@ -35703,7 +35899,7 @@
       "total_value": 29803.233573860005,
       "total_return": -0.0065588808713331675,
       "monthly_return": -0.0065588808713331675,
-      "sharpe_ratio": -16.91923962229536,
+      "sharpe_ratio": -13.966311813959855,
       "max_drawdown": 0.0065588808713331675,
       "win_rate": 0.0,
       "realized_pnl": -164.03,
@@ -35724,7 +35920,7 @@
           "entry_fee": 5.0388388,
           "stock_reason": "戴维斯双击备选：PB=0.9, ROE=296.3%",
           "timing_reason": "RSI偏低(49.2); 量能正常",
-          "hold_days": 3,
+          "hold_days": 4,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 38.8,
@@ -35742,7 +35938,7 @@
           "entry_fee": 5.0835835,
           "stock_reason": "戴维斯双击备选：PB=2.7, ROE=556.5%",
           "timing_reason": "RSI偏低(46.7)",
-          "hold_days": 3,
+          "hold_days": 4,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 83.5,
@@ -35760,7 +35956,7 @@
           "entry_fee": 5.05343338,
           "stock_reason": "戴维斯双击备选：PB=0.9, ROE=247.9%",
           "timing_reason": "RSI偏低(50.8); 量能正常",
-          "hold_days": 2,
+          "hold_days": 3,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 53.38,
@@ -35973,6 +36169,10 @@
         {
           "date": "2026-08-08",
           "value": 29803.233573860005
+        },
+        {
+          "date": "2026-08-08",
+          "value": 29803.233573860005
         }
       ],
       "_n_strategies_tested": 94,
@@ -35992,7 +36192,7 @@
       "total_value": 29801.17432602,
       "total_return": -0.006627522466000058,
       "monthly_return": -0.006627522466000058,
-      "sharpe_ratio": -13.763985341304242,
+      "sharpe_ratio": -11.795205920274736,
       "max_drawdown": 0.006627522466000058,
       "win_rate": 0.0,
       "realized_pnl": -172.44,
@@ -36013,7 +36213,7 @@
           "entry_fee": 5.04036032,
           "stock_reason": "困境反转：恢复评分3/9, PB=1.2, ROE=150.5%",
           "timing_reason": "RSI偏低(56.8); 量能正常; 均线多头排列",
-          "hold_days": 3,
+          "hold_days": 4,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 5.04,
@@ -36031,7 +36231,7 @@
           "entry_fee": 5.03234231,
           "stock_reason": "困境反转：恢复评分3/9, PB=1.2, ROE=301.1%",
           "timing_reason": "RSI偏低(45.2); 量能正常",
-          "hold_days": 3,
+          "hold_days": 4,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 10.77,
@@ -36049,7 +36249,7 @@
           "entry_fee": 5.0401401,
           "stock_reason": "困境反转：恢复评分3/9, PB=1.5, ROE=408.3%",
           "timing_reason": "RSI偏低(45.4); 量能正常",
-          "hold_days": 2,
+          "hold_days": 3,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 40.1,
@@ -36262,6 +36462,10 @@
         {
           "date": "2026-08-08",
           "value": 29801.17432602
+        },
+        {
+          "date": "2026-08-08",
+          "value": 29801.17432602
         }
       ],
       "_n_strategies_tested": 94,
@@ -36281,7 +36485,7 @@
       "total_value": 30445.797811919998,
       "total_return": 0.01485992706399993,
       "monthly_return": 0.01485992706399993,
-      "sharpe_ratio": 1.7006334132712575,
+      "sharpe_ratio": 1.6363840491827308,
       "max_drawdown": 0.04003615609807951,
       "win_rate": 0.5,
       "realized_pnl": 6.11,
@@ -36302,7 +36506,7 @@
           "entry_fee": 5.0625625,
           "stock_reason": "量价齐升：量比2.4倍, 涨幅8.8%",
           "timing_reason": "MACD金叉; KDJ超卖金叉; RSI偏低(51.9); 量能正常",
-          "hold_days": 5,
+          "hold_days": 6,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 67.01,
@@ -36659,17 +36863,21 @@
         {
           "date": "2026-08-08",
           "value": 30445.797811919998
+        },
+        {
+          "date": "2026-08-08",
+          "value": 30445.797811919998
         }
       ],
       "backtest_start": "2026-07-24",
       "backtest_end": "2026-08-06",
       "backtest_days": 10,
       "_n_strategies_tested": 44,
-      "composite_score": 28.4,
+      "composite_score": 28.2,
       "grade": "D",
-      "profit_loss_ratio": 0.0,
-      "return_stability": 0.876177706097813,
-      "calmar_ratio": -53.41953115758135
+      "profit_loss_ratio": 0.4154581293858182,
+      "return_stability": 0.68139921289988,
+      "calmar_ratio": -8.383743687964252
     },
     {
       "name": "护城河选股",
@@ -36681,7 +36889,7 @@
       "total_value": 30091.692379180007,
       "total_return": 0.0030564126393335753,
       "monthly_return": 0.0030564126393335753,
-      "sharpe_ratio": 0.511704261397847,
+      "sharpe_ratio": 0.4849990215773654,
       "max_drawdown": 0.032659300822894796,
       "win_rate": 0.5,
       "realized_pnl": 91.69,
@@ -37112,17 +37320,21 @@
         {
           "date": "2026-08-08",
           "value": 30091.692379180007
+        },
+        {
+          "date": "2026-08-08",
+          "value": 30091.692379180007
         }
       ],
       "backtest_start": "2026-07-24",
       "backtest_end": "2026-08-06",
       "backtest_days": 10,
       "_n_strategies_tested": 44,
-      "composite_score": 27.2,
+      "composite_score": 26.9,
       "grade": "D",
       "profit_loss_ratio": 0.12217111696009712,
-      "return_stability": 0.8047213869857666,
-      "calmar_ratio": -10.928292083587476
+      "return_stability": 0.7776414331052883,
+      "calmar_ratio": -10.416115791010288
     },
     {
       "name": "次新股",
@@ -37134,7 +37346,7 @@
       "total_value": 30178.40746499,
       "total_return": 0.005946915499666647,
       "monthly_return": 0.005946915499666647,
-      "sharpe_ratio": 2.6279199058204132,
+      "sharpe_ratio": 2.5074799769199694,
       "max_drawdown": 0.005188789171909917,
       "win_rate": 0.4,
       "realized_pnl": 30.78,
@@ -37155,7 +37367,7 @@
           "entry_fee": 5.05326321,
           "stock_reason": "次新股：上市53天, 量比2.3, 得分5.62",
           "timing_reason": "RSI偏低(58.7); 量能正常",
-          "hold_days": 6,
+          "hold_days": 7,
           "confidence": "medium",
           "position_weight": 0.5,
           "current_price": 54.79,
@@ -37404,17 +37616,21 @@
         {
           "date": "2026-08-08",
           "value": 30178.40746499
+        },
+        {
+          "date": "2026-08-08",
+          "value": 30178.40746499
         }
       ],
       "backtest_start": "2026-07-24",
       "backtest_end": "2026-08-06",
       "backtest_days": 10,
       "_n_strategies_tested": 44,
-      "composite_score": 21.0,
+      "composite_score": 21.2,
       "grade": "D",
-      "profit_loss_ratio": 0.295746034652609,
-      "return_stability": 0.02338697396227396,
-      "calmar_ratio": 0.14967379946088827
+      "profit_loss_ratio": 0.9509700143006119,
+      "return_stability": 0.14098346965416664,
+      "calmar_ratio": -2.6110133655457832
     }
   ]
 }

@@ -20,6 +20,28 @@ from datetime import datetime, timedelta
 from strategies.base import BaseStrategy
 
 
+def _to_stock_df(stock_list):
+    """把 helper.get_stock_list() 的返回统一为 DataFrame（列: code/name）
+
+    AKShare/Tushare 的 get_stock_list 都返回 list[dict]（字段 symbol/name），
+    而筹码策略用 .head/.sample/.iterrows + stock['code']，直接对 list 操作
+    会报 'list' object has no attribute 'head'。这里做兼容转换。
+    """
+    if stock_list is None:
+        return pd.DataFrame(columns=['code', 'name'])
+    if isinstance(stock_list, pd.DataFrame):
+        df = stock_list
+        if 'code' not in df.columns and 'symbol' in df.columns:
+            df = df.rename(columns={'symbol': 'code'})
+        return df
+    rows = []
+    for s in stock_list:
+        if isinstance(s, dict):
+            rows.append({'code': s.get('symbol') or s.get('code') or '',
+                         'name': s.get('name', '')})
+    return pd.DataFrame(rows)
+
+
 class ChipsDistributionStrategy(BaseStrategy):
     """筹码分布策略
     
@@ -123,12 +145,7 @@ class ChipsDistributionStrategy(BaseStrategy):
             stock_list = helper.get_stock_list()
             if stock_list is None:
                 return pd.DataFrame()
-            
-            # 估算市值 = 股价 * 总股本（这里简化处理，假设股本在2-10亿之间为小盘）
-            # 实际应该用市值数据
-            small_cap = stock_list.head(1000)  # 简化：取前1000只
-            
-            return small_cap
+            return _to_stock_df(stock_list).head(1000)
         except Exception:
             return pd.DataFrame()
     
@@ -245,26 +262,27 @@ class ChipBreakoutStrategy(BaseStrategy):
             stock_list = helper.get_stock_list()
             if stock_list is None or len(stock_list) == 0:
                 return results
-            
-            small_cap = stock_list.head(1000)
+            stock_df = _to_stock_df(stock_list)
+
+            small_cap = stock_df.head(1000)
             sample_size = min(300, len(small_cap))
             sampled = small_cap.sample(n=sample_size, random_state=42)
-            
+
             for _, stock in sampled.iterrows():
                 try:
-                    symbol = stock['code']
+                    symbol = str(stock['code'])
                     name = stock.get('name', symbol)
-                    
+
                     if 'ST' in name or '*ST' in name:
                         continue
-                    
+
                     df = helper.wrap_akshare(
                         helper.get_history_kline, symbol, days=self.lookback_days
                     )
-                    
+
                     if df is None or len(df) < 40:
                         continue
-                    
+
                     # 计算筹码密集区
                     chip_analysis = self._analyze_chips(df)
                     if chip_analysis is None:

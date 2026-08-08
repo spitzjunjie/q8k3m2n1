@@ -489,6 +489,30 @@ class TushareHelper:
             print(f"[Tushare]AKShare 龙虎榜降级失败: {e2}")
             return pd.DataFrame()
 
+    def get_executive_trading(self):
+        """获取高管增减持数据（对齐 AKShare get_executive_trading 列格式）
+
+        高管增持策略按 代码/名称/持股变动信息-增减/持股变动信息-占流通股比例
+        解析。Tushare stk_holdertrade 需要 2000 积分，积分不足时返回空
+        （策略无信号，但不 AttributeError 崩掉）。
+        """
+        try:
+            start = (datetime.now() - timedelta(days=30)).strftime('%Y%m%d')
+            end = datetime.now().strftime('%Y%m%d')
+            self._rate_limit('stk_holdertrade')
+            df = self.pro.stk_holdertrade(start_date=start, end_date=end)
+            if df is not None and not df.empty:
+                out = pd.DataFrame({
+                    '代码': df['ts_code'].str.split('.').str[0],
+                    '名称': df['holder_name'],
+                    '持股变动信息-增减': df['in_de'].map({'IN': '增持', 'DE': '减持'}),
+                    '持股变动信息-占流通股比例': df.get('change_ratio', 0),
+                })
+                return out
+        except Exception as e:
+            print(f"[Tushare]获取高管增减持失败: {e}")
+        return pd.DataFrame()
+
     # ==================== 估值数据 ====================
 
     def get_valuation(self, symbol):

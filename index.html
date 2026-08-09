@@ -256,7 +256,7 @@
             margin-bottom: 20px;
         }
 
-        .rank {
+.rank {
             display: flex;
             align-items: center;
             justify-content: center;
@@ -269,7 +269,27 @@
             background: rgba(100, 116, 139, 0.15);
             color: var(--text-secondary);
             border: 1px solid rgba(100, 116, 139, 0.2);
-        }
+}
+
+/* 策略等级徽章（S/A/B/C/D，来自 evaluation.py 的 grade） */
+.grade-badge {
+    display: inline-block;
+    min-width: 20px;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 700;
+    color: #fff;
+    border-radius: 4px;
+    margin-right: 6px;
+    padding: 0 4px;
+}
+.grade-S { background: linear-gradient(135deg, #f5a623, #e67e22); }
+.grade-A { background: linear-gradient(135deg, #2ecc71, #27ae60); }
+.grade-B { background: linear-gradient(135deg, #3498db, #2980b9); }
+.grade-C { background: linear-gradient(135deg, #95a5a6, #7f8c8d); }
+.grade-D { background: linear-gradient(135deg, #bdc3c7, #95a5a6); }
 
         .rank.top {
             background: linear-gradient(135deg, rgba(0, 240, 255, 0.2), rgba(168, 85, 247, 0.2));
@@ -456,8 +476,12 @@
 
             let strategies = data.strategies || [];
 
-            // 计算综合分（与evaluation.html一致）
+            // 综合分：优先用服务端算好的（evaluation.py 产出 composite_score/grade），
+            // 缺失时回退前端公式
             strategies = strategies.map(s => {
+                if (typeof s.composite_score === 'number' && s.composite_score > 0) {
+                    return s;  // 服务端评分（含 grade/profit_loss_ratio/calmar 等）
+                }
                 const ret = (s.total_return || 0) * 100;
                 const sharpe = s.sharpe_ratio || 0;
                 const dd = (s.max_drawdown || 0) * 100;
@@ -523,6 +547,7 @@
 
                 card.innerHTML = '<div class="card-header">' +
                     '<span class="rank ' + rankClass + '">' + rank + '</span>' +
+                    (strategy.grade ? '<span class="grade-badge grade-' + strategy.grade + '">' + strategy.grade + '</span>' : '') +
                     '<span class="strategy-name">' + strategy.name + '</span>' +
                     '<span class="strategy-category">' + strategy.category + '</span>' +
                     '</div>' +

@@ -188,7 +188,7 @@
             color: var(--text-primary);
         }
 
-        .overview-item .value.positive {
+.overview-item .value.positive {
             color: var(--color-positive);
             text-shadow: 0 0 15px rgba(34, 197, 94, 0.4);
         }
@@ -196,6 +196,25 @@
             color: var(--color-negative);
             text-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
         }
+
+        /* 策略等级徽章（来自 evaluation.py 的 grade） */
+        .grade-badge {
+            display: inline-block;
+            min-width: 20px;
+            height: 20px;
+            line-height: 20px;
+            text-align: center;
+            font-size: 12px;
+            font-weight: 700;
+            color: #fff;
+            border-radius: 4px;
+            padding: 0 4px;
+        }
+        .grade-S { background: linear-gradient(135deg, #f5a623, #e67e22); }
+        .grade-A { background: linear-gradient(135deg, #2ecc71, #27ae60); }
+        .grade-B { background: linear-gradient(135deg, #3498db, #2980b9); }
+        .grade-C { background: linear-gradient(135deg, #95a5a6, #7f8c8d); }
+        .grade-D { background: linear-gradient(135deg, #bdc3c7, #95a5a6); }
 
         .description {
             margin-top: 20px;
@@ -451,6 +470,20 @@
                     <div class="overview-item">
                         <div class="label">总权益</div>
                         <div class="value">¥${(strategy.total_value || 0).toLocaleString()}</div>
+                    </div>
+                    <div class="overview-item">
+                        <div class="label">等级</div>
+                        <div class="value">
+                            ${strategy.grade ? '<span class="grade-badge grade-' + strategy.grade + '">' + strategy.grade + '</span>' : '—'}
+                        </div>
+                    </div>
+                    <div class="overview-item">
+                        <div class="label">综合分</div>
+                        <div class="value">${(strategy.composite_score || 0).toFixed(0)}</div>
+                    </div>
+                    <div class="overview-item">
+                        <div class="label">Calmar</div>
+                        <div class="value">${(strategy.calmar_ratio || 0).toFixed(2)}</div>
                     </div>
                     <div class="overview-item">
                         <div class="label">总收益</div>

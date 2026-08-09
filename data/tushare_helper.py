@@ -380,8 +380,11 @@ class TushareHelper:
             if df is not None and len(df) > 0:
                 row = df.iloc[0]
                 return {
-                    'profit_growth': row.get('profit_ratio', 0) * 10,  # 简化处理
-                    'revenue_growth': row.get('revenue_ratio', 0) * 10,  # 简化处理
+                    # Tushare fina_indicator 的 profit_ratio/revenue_ratio 已是百分数
+                    # （23.5 = +23.5%），与 AKShare 版一致，不放大。
+                    # 此前 *10 会让低PE 等策略的 PEG=PE/增速 缩小 10 倍导致选错股。
+                    'profit_growth': row.get('profit_ratio', 0),
+                    'revenue_growth': row.get('revenue_ratio', 0),
                 }
         except Exception:
             pass

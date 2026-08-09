@@ -176,8 +176,13 @@
             let strategies = data.strategies || [];
             const gradeStats = data.grade_stats || {};
 
-            // 计算综合分和等级
+            // 综合分/等级：优先用服务端算好的（evaluation.py 产出
+            // composite_score/grade，含 calmar/profit_loss_ratio 等），
+            // 缺失时才回退前端公式
             strategies = strategies.map(s => {
+                if (typeof s.composite_score === 'number' && s.composite_score > 0) {
+                    return s;  // 服务端评分
+                }
                 const ret = (s.total_return || 0) * 100;  // 转为百分比
                 const sharpe = s.sharpe_ratio || 0;
                 const dd = (s.max_drawdown || 0) * 100;  // 转为百分比

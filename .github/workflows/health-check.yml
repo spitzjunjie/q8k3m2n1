@@ -1,0 +1,37 @@
+name: 数据健康检查
+
+# 每日检查 strategy_data.json 的 update_time 是否新鲜。
+# GitHub 定时任务（每日回测）是 best-effort，可能延迟/跳过且无通知，
+# 本工作流在工作日 UTC 15:00（北京 23:00）检查当天回测是否产出，
+# 过期则发飞书告警（覆盖"定时跳过无感知"的问题）。
+
+on:
+  schedule:
+    - cron: '0 15 * * 1-5'   # 工作日 23:00 北京
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  health-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: 设置 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 安装 requests（告警用）
+        run: pip install requests -q
+
+      - name: 检查数据新鲜度
+        env:
+          FEISHU_APP_ID:     ${{ secrets.FEISHU_APP_ID }}
+          FEISHU_APP_SECRET: ${{ secrets.FEISHU_APP_SECRET }}
+          FEISHU_RECEIVE_ID: ${{ secrets.FEISHU_RECEIVE_ID }}
+        run: python .github/scripts/health_check.py

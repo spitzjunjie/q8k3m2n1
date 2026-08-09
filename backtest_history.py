@@ -24,7 +24,11 @@ DATA_SOURCE_SWITCH = {
 # 【新增】导入三个Helper
 from data.tushare_helper import TushareHelper
 from data.akshare_helper import AKShareHelper
-from data.baostock_helper import BaostockHelper
+# baostock 是可选数据源，未安装时不应阻塞 tushare/akshare 运行
+try:
+    from data.baostock_helper import BaostockHelper
+except ImportError:
+    BaostockHelper = None
 
 from timing.timing import TimingEngine
 from trading.simulator import TradingSimulator

@@ -29,7 +29,7 @@ RETRY_DELAY = 30  # 秒
 # 120 秒超时会把回测杀掉，导致每日数据从未真正更新（7/25 起的“成功”全是超时假成功）。
 # CI 实测：GitHub 服务器访问 Tushare 在晚间可能 50 分钟跑不完（8/7 三次超时），
 # 给到 70 分钟；job 级 timeout-minutes 同步提高到 180。
-NETWORK_TIMEOUT = 4200  # 秒
+NETWORK_TIMEOUT = 7200  # 秒（=120分钟；夜间 Tushare 慢时单次回测可能远超 70 分钟，8/10 实测 180min 仍超时）
 
 class ResilientBacktest:
     """弹性回测执行器"""

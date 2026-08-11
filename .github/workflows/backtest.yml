@@ -72,7 +72,10 @@ jobs:
     runs-on: ubuntu-latest
     # backtest.py 全量回测冷缓存约 30-50 分钟，GitHub 服务器访问 Tushare
     # 晚间可能更慢（8/7 三次超时），Tushare(70m)+AKShare 降级(70m) 需 140+ 分钟。
-    timeout-minutes: 180
+    # 2026-08-10 实测：夜间 Tushare 慢导致 180 分钟仍超时（跑 3h0m 被 cancel，数据停在 8/9）。
+    # 已把 resilient_backtest.py 单次超时从 70→120 分钟；job 级给 300 分钟，覆盖
+    # 前置依赖(约20m) + Tushare 双次重试(120m×2=240m) + 提交，仍有余量且不会无脑白等。
+    timeout-minutes: 300
 
     steps:
       - name: Checkout

@@ -90,11 +90,14 @@ def _common_dates(prices, codes):
 
 
 def run_portfolio(prices, weights, bond_annual, dd_control,
-                  min_stock=0.30, rebalance_months=(1, 7), initial=INITIAL_CAPITAL):
+                  min_stock=0.30, dd_threshold=0.15, restore_dd=None,
+                  rebalance_months=(1, 7), initial=INITIAL_CAPITAL):
     """股债再平衡回测引擎。
 
     weights: {code或'bond': 目标权重}（和为 1）。
-    dd_control: 回撤>15% 降股仓至 min_stock，净值新高后恢复全股。
+    dd_control: 回撤>dd_threshold 降股仓至 min_stock；
+                restore_dd=None 时净值新高才恢复满仓，
+                否则回撤收窄到 restore_dd 即恢复。
     返回 (equity_curve, 日期列表)。
     """
     assets = [a for a in weights if a != 'bond']
@@ -125,12 +128,17 @@ def run_portfolio(prices, weights, bond_annual, dd_control,
             if total > peak:
                 peak = total
             dd = (peak - total) / peak if peak > 0 else 0.0
-            if target_stock == full_stock and dd > 0.15:
+            if target_stock == full_stock and dd > dd_threshold:
                 target_stock = min_stock
                 trigger = True
-            elif target_stock == min_stock and total >= peak - 1e-9:
-                target_stock = full_stock
-                trigger = True
+            elif target_stock == min_stock:
+                restored = (
+                    (restore_dd is not None and dd <= restore_dd)
+                    or (restore_dd is None and total >= peak - 1e-9)
+                )
+                if restored:
+                    target_stock = full_stock
+                    trigger = True
         # 定期再平衡：每年 1/7 月首个交易日
         is_month_first = (i == start_i) or (dates[i - 1].month != d.month or dates[i - 1].year != d.year)
         if trigger or (is_month_first and d.month in rebalance_months):
@@ -192,6 +200,12 @@ def main():
     ap.add_argument('--start', default=DEFAULT_START)
     ap.add_argument('--end', default=DEFAULT_END)
     ap.add_argument('--no-cache', action='store_true', help='不使用本地缓存')
+    ap.add_argument('--dd-threshold', type=float, default=0.15,
+                    help='回撤触发降仓阈值（默认0.15）')
+    ap.add_argument('--min-stock', type=float, default=0.30,
+                    help='降仓后的股票仓位（默认0.30）')
+    ap.add_argument('--restore-dd', type=float, default=None,
+                    help='回撤收窄到该阈值即恢复满仓（默认None=净值新高才恢复）')
     args = ap.parse_args()
 
     codes = ['000300.SH', '000905.SH', '512890.SH']
@@ -207,12 +221,18 @@ def main():
                             BOND_ANNUAL, dd_control=False)
     # V3：60/40 + 控回撤
     eq3, d3 = run_portfolio(prices, {'000300.SH': 0.6, 'bond': 0.4},
-                            BOND_ANNUAL, dd_control=True)
+                            BOND_ANNUAL, dd_control=True,
+                            min_stock=args.min_stock,
+                            dd_threshold=args.dd_threshold,
+                            restore_dd=args.restore_dd)
     # V4（扩展）：核心-卫星（沪深300+中证500+红利低波 + 债券）
     eq4, d4 = run_portfolio(
         prices,
         {'000300.SH': 0.20, '000905.SH': 0.20, '512890.SH': 0.20, 'bond': 0.40},
-        BOND_ANNUAL, dd_control=True)
+        BOND_ANNUAL, dd_control=True,
+        min_stock=args.min_stock,
+        dd_threshold=args.dd_threshold,
+        restore_dd=args.restore_dd)
 
     rows = [
         summarize('纯持有沪深300', eq1),

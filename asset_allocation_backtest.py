@@ -35,7 +35,7 @@ from config.tushare_config import get_tushare_pro
 from core import metrics
 
 
-DEFAULT_START = '20180101'
+DEFAULT_START = '20060101'
 DEFAULT_END = '20241231'
 BOND_ANNUAL = 0.035          # 债券/货币基金年化回报（固定假设）
 BOND_DAILY_FACTOR = (1 + BOND_ANNUAL) ** (1 / 252)
@@ -91,13 +91,15 @@ def _common_dates(prices, codes):
 
 def run_portfolio(prices, weights, bond_annual, dd_control,
                   min_stock=0.30, dd_threshold=0.15, restore_dd=None,
-                  rebalance_months=(1, 7), initial=INITIAL_CAPITAL):
+                  rebalance_months=(1, 7), initial=INITIAL_CAPITAL,
+                  trend_ma=0, trend_floor=0.0):
     """股债再平衡回测引擎。
 
     weights: {code或'bond': 目标权重}（和为 1）。
     dd_control: 回撤>dd_threshold 降股仓至 min_stock；
                 restore_dd=None 时净值新高才恢复满仓，
                 否则回撤收窄到 restore_dd 即恢复。
+    trend_ma: >0 时启用均线趋势过滤（跌破 N 日均线降到 trend_floor）。
     返回 (equity_curve, 日期列表)。
     """
     assets = [a for a in weights if a != 'bond']
@@ -116,6 +118,15 @@ def run_portfolio(prices, weights, bond_annual, dd_control,
     peak = initial
     equity = []
     trigger = False
+    trend_state = []
+    if trend_ma > 0:
+        closes = [prices[assets[0]][d.isoformat().replace('-', '')] for d in dates]
+        for i in range(len(dates)):
+            if i < trend_ma - 1:
+                trend_state.append(True)
+            else:
+                ma = sum(closes[i - trend_ma + 1: i + 1]) / trend_ma
+                trend_state.append(closes[i] >= ma)
     for i in range(start_i, len(dates)):
         d = dates[i]
         dstr = d.isoformat().replace('-', '')
@@ -139,14 +150,23 @@ def run_portfolio(prices, weights, bond_annual, dd_control,
                 if restored:
                     target_stock = full_stock
                     trigger = True
+        # 均线趋势过滤
+        if trend_ma > 0 and i < len(trend_state):
+            if not trend_state[i] and target_stock > trend_floor:
+                target_stock = trend_floor
+                trigger = True
+            elif trend_state[i] and target_stock < full_stock:
+                target_stock = full_stock
+                trigger = True
         # 定期再平衡：每年 1/7 月首个交易日
         is_month_first = (i == start_i) or (dates[i - 1].month != d.month or dates[i - 1].year != d.year)
         if trigger or (is_month_first and d.month in rebalance_months):
             desired_stock = target_stock * total
-            if stock_total > 0:
-                scale = desired_stock / stock_total
-                for a in assets:
-                    units[a] *= scale
+            # 按目标权重重建持仓（从 0 恢复到满仓也必须能重建）
+            sw = {a: weights[a] for a in assets}
+            ssw = sum(sw.values())
+            for a in assets:
+                units[a] = desired_stock * (sw[a] / ssw) / pcur[a]
             bond = total - desired_stock
             trigger = False
         equity.append(sum(units[a] * pcur[a] for a in assets) + bond)
@@ -234,11 +254,17 @@ def main():
         dd_threshold=args.dd_threshold,
         restore_dd=args.restore_dd)
 
+    # V5：60/40 + 200日均线趋势过滤（跌破MA200降至全债）
+    eq5, d5 = run_portfolio(prices, {'000300.SH': 0.6, 'bond': 0.4},
+                            BOND_ANNUAL, dd_control=False,
+                            trend_ma=200, trend_floor=0.0)
+
     rows = [
         summarize('纯持有沪深300', eq1),
         summarize('60/40 半年再平衡', eq2),
         summarize('60/40 + 控回撤 15%', eq3),
         summarize('核心-卫星(40%核心+20%红利低波+40%债)', eq4),
+        summarize('60/40 + MA200趋势过滤', eq5),
     ]
     print_table(rows)
 

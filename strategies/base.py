@@ -246,9 +246,9 @@ class BaseStrategy(ABC):
             'total_pnl_pct': round(total_pnl_pct, 2),
             'holdings': self.holdings,
             'total_fees': round(self.total_fees, 2),
-            'trades': self.trades[-10:],  # 最近10笔（看板展示用）
+            'trades': list(self.all_trades),  # 完整记录（不截断，统计检验用）
             'all_trades': self.all_trades,  # 完整记录（统计检验用，不截断）
-            'equity_curve': self.equity_curve[-30:]  # 最近30天曲线
+            'equity_curve': list(self.equity_curve)  # 完整曲线（不截断）
         }
 
 

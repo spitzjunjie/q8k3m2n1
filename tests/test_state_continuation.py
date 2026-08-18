@@ -108,7 +108,7 @@ def test_merge_preserves_history_and_overlays_state():
         {'symbol': '688553', 'name': '汇宇制药', 'buy_date': '2026-07-06', 'sell_date': '2026-07-07', 'profit': 0.0},
         {'symbol': '600519', 'name': '贵州茅台', 'buy_date': '2026-07-28', 'sell_date': '2026-08-06', 'profit': 88.0},
     ]
-    new_s['trades'] = new_s['all_trades'][-10:]
+    new_s['trades'] = list(new_s['all_trades'])
     new_s['holdings'] = [
         {'symbol': '000001', 'name': '平安银行', 'buy_price': 10.0, 'quantity': 500,
          'buy_date': '2026-08-06', 'cost': 5000.0, 'hold_days': 0},
@@ -130,7 +130,7 @@ def test_merge_preserves_history_and_overlays_state():
     assert merged['total_value'] == 25000.0
     assert merged['total_return'] == -0.16
     # 截断展示字段
-    assert merged['trades'] == merged['all_trades'][-10:]
+    assert merged['trades'] == merged['all_trades']
 
 
 def test_merge_dedups_same_trade():

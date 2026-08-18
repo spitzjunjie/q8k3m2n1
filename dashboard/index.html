@@ -327,18 +327,25 @@
                 charts[index].destroy();
             }
             
-            if (equityCurve.length < 2) {
-                equityCurve = [initialCapital, initialCapital * 1.01];
+            // 处理 equity_curve 格式：{'date','value'} 或裸数值；null = 该日无数据（画成断点）
+            let values = equityCurve;
+            if (equityCurve.length > 0 && typeof equityCurve[0] === 'object') {
+                values = equityCurve.map(item => item == null ? null : item.value);
+            }
+            if (values.length < 2) {
+                values = [initialCapital, initialCapital * 1.01];
             }
             
-            const color = equityCurve[equityCurve.length - 1] >= equityCurve[0] ? '#22c55e' : '#ef4444';
+            const first = values.find(v => v != null);
+            const last = [...values].reverse().find(v => v != null);
+            const color = (last != null && first != null && last >= first) ? '#22c55e' : '#ef4444';
             
             charts[index] = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: equityCurve.map((_, i) => i),
+                    labels: values.map((_, i) => i),
                     datasets: [{
-                        data: equityCurve,
+                        data: values,
                         borderColor: color,
                         borderWidth: 2,
                         fill: true,

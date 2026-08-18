@@ -545,12 +545,14 @@ class AKShareHelper:
             print(f"沪深300指数K线失败: {e}")
         return []
 
-    def get_stock_pool(self, pool="hs300", sorted_by_market_value=False):
+    def get_stock_pool(self, pool="hs300", sorted_by_market_value=False, as_of=None):
         """获取股票池（默认沪深300）
 
         Args:
             pool: 指数池 hs300/zz500/sz50
             sorted_by_market_value: True=按市值降序（用实时行情spot_em补充市值）
+            as_of: 历史日期（暂不支持——AKShare index_stock_cons_csindex 只返回
+                   当前成分，非 Point-in-Time；历史成分请走 Tushare index_weight）
         """
         cache_key = f"pool_{pool}_mv{int(sorted_by_market_value)}"
         cache = self._get_cache(cache_key, days=7)

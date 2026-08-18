@@ -35,8 +35,9 @@ def build_return_matrix(strategies):
     equity = np.full((n, m), np.nan)
     for i, s in enumerate(strategies):
         for pt in s.get("equity_curve", []):
-            j = date_idx[pt["date"]]
-            equity[i, j] = pt["value"]
+            if pt.get("value") is not None:
+                j = date_idx[pt["date"]]
+                equity[i, j] = pt["value"]
 
     # 计算日收益率（百分比变化）
     returns = np.full((n, m - 1), np.nan)

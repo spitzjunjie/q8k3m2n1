@@ -318,13 +318,18 @@
         function renderEquityChart(equityCurve, initialCapital) {
             const ctx = document.getElementById('equityChart');
             
-            if (equityCurve.length < 2) {
-                equityCurve = [initialCapital, initialCapital * 1.01];
+            // 处理 equity_curve 格式：{'date','value'} 或裸数值；null = 该日无数据（画成断点）
+            let values = equityCurve;
+            if (equityCurve.length > 0 && typeof equityCurve[0] === 'object') {
+                values = equityCurve.map(item => item == null ? null : item.value);
+            }
+            if (values.length < 2) {
+                values = [initialCapital, initialCapital * 1.01];
             }
             
-            const lastValue = equityCurve[equityCurve.length - 1];
-            const firstValue = equityCurve[0];
-            const color = lastValue >= firstValue ? '#22c55e' : '#ef4444';
+            const firstValue = values.find(v => v != null);
+            const lastValue = [...values].reverse().find(v => v != null);
+            const color = (lastValue != null && firstValue != null && lastValue >= firstValue) ? '#22c55e' : '#ef4444';
             
             if (equityChart) {
                 equityChart.destroy();
@@ -333,10 +338,10 @@
             equityChart = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: equityCurve.map((_, i) => i + 1),
+                    labels: values.map((_, i) => i + 1),
                     datasets: [{
                         label: '权益',
-                        data: equityCurve,
+                        data: values,
                         borderColor: color,
                         borderWidth: 2,
                         fill: true,
@@ -344,7 +349,7 @@
                         tension: 0.4
                     }, {
                         label: '初始资金',
-                        data: equityCurve.map(() => initialCapital),
+                        data: values.map(() => initialCapital),
                         borderColor: '#64748b',
                         borderWidth: 1,
                         borderDash: [5, 5],

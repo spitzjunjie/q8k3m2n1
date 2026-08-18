@@ -16,6 +16,73 @@ def _full_history(s):
     return s.get('all_trades') or s.get('trades') or []
 
 
+def _merge_equity_curve(old_curve, new_curve):
+    """按日期合并权益曲线：同日以新覆盖旧，旧日期补齐新缺失的日期。
+
+    解决「两条回测链路产出不同长度曲线、合并时整段覆盖导致数据丢失」的问题。
+    equity_curve 元素可能是 {'date','value'} 或裸数值；裸数值无日期，直接保留新的。
+    """
+    if not new_curve:
+        return list(old_curve)
+    if not old_curve:
+        return list(new_curve)
+    if not all(isinstance(x, dict) and 'date' in x for x in list(old_curve) + list(new_curve)):
+        return list(new_curve)
+    merged = {x['date']: x for x in old_curve}
+    for x in new_curve:
+        merged[x['date']] = x
+    return [merged[d] for d in sorted(merged.keys())]
+
+
+def align_equity_curves(strategies):
+    """把所有策略的 equity_curve 重采样到统一的交易日序列。
+
+    统一交易日序列来自 core.trading_calendar，区间取所有策略权益曲线的
+    最早日期到最晚日期。缺的日期 value 填 None（JSON 序列化为 null，表示 MISSING）。
+    这样每个策略的 equity_curve 长度一致，可做跨策略比较/相关性。
+    """
+    if not strategies:
+        return strategies
+
+    from datetime import datetime, timedelta
+    from core.trading_calendar import is_trading_day
+
+    # 1. 收集所有策略的日期范围（YYYYMMDD）
+    seen = set()
+    for s in strategies:
+        for x in s.get('equity_curve', []) or []:
+            if isinstance(x, dict) and x.get('date'):
+                seen.add(str(x['date']).replace('-', ''))
+    if not seen:
+        return strategies
+
+    # 用内置节假日表生成交易日序列（离线，不走网络，避免拖慢合并）
+    start = datetime.strptime(min(seen), '%Y%m%d')
+    end = datetime.strptime(max(seen), '%Y%m%d')
+    fmt_dates = []
+    cur = start
+    while cur <= end:
+        if is_trading_day(cur):
+            fmt_dates.append(cur.strftime('%Y-%m-%d'))
+        cur += timedelta(days=1)
+    if not fmt_dates:
+        return strategies
+
+    # 2. 重采样每个策略：缺的日期 value=None
+    for s in strategies:
+        curve = s.get('equity_curve', []) or []
+        value_map = {}
+        for x in curve:
+            if isinstance(x, dict) and x.get('date'):
+                d = str(x['date']).replace('-', '')
+                value_map[d] = x.get('value')
+        s['equity_curve'] = [
+            {'date': d, 'value': value_map.get(d.replace('-', ''))}
+            for d in fmt_dates
+        ]
+    return strategies
+
+
 def merge_strategy_state(old_s, new_s):
     """合并单策略：保留旧历史交易 + 叠加新状态（持仓/资金/权益/指标）。
 
@@ -31,7 +98,7 @@ def merge_strategy_state(old_s, new_s):
     new_trades = _full_history(new_s)
     added = [t for t in new_trades if _trade_key(t) not in old_keys]
     merged['all_trades'] = list(old_trades) + added
-    merged['trades'] = merged['all_trades'][-10:]
+    merged['trades'] = list(merged['all_trades'])
 
     # 2. 最新状态以新版本为准（持仓/资金/权益曲线/展示指标）
     overlay_keys = (
@@ -39,7 +106,7 @@ def merge_strategy_state(old_s, new_s):
         'realized_pnl', 'realized_pnl_pct',
         'floating_pnl', 'floating_pnl_pct',
         'total_pnl', 'total_pnl_pct',
-        'equity_curve', 'total_value',
+        'total_value',
         'total_return', 'monthly_return',
         'sharpe_ratio', 'max_drawdown', 'win_rate',
         'composite_score', 'grade',
@@ -48,6 +115,10 @@ def merge_strategy_state(old_s, new_s):
     for k in overlay_keys:
         if k in new_s:
             merged[k] = new_s[k]
+
+    # 3. equity_curve 特殊处理：按日期合并，不整段覆盖
+    merged['equity_curve'] = _merge_equity_curve(
+        old_s.get('equity_curve', []), new_s.get('equity_curve', []))
     return merged
 
 
@@ -159,6 +230,9 @@ def main():
         if new_data.get(k):
             old_data[k] = new_data[k]
     
+    # 权益曲线按交易日历对齐（缺的日期补 null）
+    old_data['strategies'] = align_equity_curves(old_data['strategies'])
+
     # 保存
     with open('output/strategy_data.json', 'w', encoding='utf-8') as f:
         json.dump(old_data, f, ensure_ascii=False, indent=2)

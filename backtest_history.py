@@ -495,11 +495,18 @@ def run_historical_backtest(strategy_names=None, days=None, start_date=None, end
     with open(temp_file, 'w', encoding='utf-8') as f:
         json.dump(output, f, ensure_ascii=False, indent=2, default=json_serializer)
 
-    # 【新增】自动合并到主数据文件（保留7月10日之前的数据）
-    from datetime import datetime as dt
-    
-    # 保留数据的截止日期（7月10日之前的交易记录都要保留）
-    PROTECT_DATE = dt(2026, 7, 10)
+    # 自动合并到主数据文件（按 key 去重 + 按日期合并，去掉硬编码日期切分）
+    from proper_merge import _merge_equity_curve, _trade_key, _full_history, align_equity_curves
+
+    def _dedup_trades(trades):
+        seen = set()
+        out = []
+        for t in trades:
+            k = _trade_key(t)
+            if k not in seen:
+                seen.add(k)
+                out.append(t)
+        return out
     
     main_file = os.path.join(output_dir, 'strategy_data.json')
     if os.path.exists(main_file):
@@ -517,60 +524,31 @@ def run_historical_backtest(strategy_names=None, days=None, start_date=None, end
     for s in results:
         if s is None:
             continue
-        trades = len(s.get('trades', []))
-        if trades > 0:  # 只合并有交易的策略
+        if len(_full_history(s)) > 0:  # 只合并有交易的策略
             if s['name'] in old_names:
-                # 替换旧策略，但保留7月10日之前的交易记录
                 for i, old_s in enumerate(main_data['strategies']):
                     if old_s['name'] == s['name']:
-                        # 保留7月10日之前的交易
-                        old_trades = old_s.get('trades', [])
-                        protected_trades = []
-                        for t in old_trades:
-                            try:
-                                trade_date = dt.strptime(str(t.get('date', ''))[:10], '%Y-%m-%d')
-                                if trade_date < PROTECT_DATE:
-                                    protected_trades.append(t)
-                            except Exception:
-                                pass
-                        
-                        # 合并：保护旧交易 + 新交易
-                        new_trades = s.get('trades', [])
-                        all_trades = protected_trades + [t for t in new_trades 
-                            if str(t.get('date', ''))[:10] >= '2026-07-10']
-                        
-                        # 更新策略数据
-                        main_data['strategies'][i] = s.copy()
-                        main_data['strategies'][i]['trades'] = all_trades
-                        
-                        # 保留旧的权益曲线（7月10日之前）
-                        old_equity = old_s.get('equity_curve', [])
-                        protected_equity = []
-                        for e in old_equity:
-                            try:
-                                eq_date = dt.strptime(str(e.get('date', ''))[:10], '%Y-%m-%d')
-                                if eq_date < PROTECT_DATE:
-                                    protected_equity.append(e)
-                            except Exception:
-                                pass
-                        
-                        new_equity = s.get('equity_curve', [])
-                        all_equity = protected_equity + [e for e in new_equity
-                            if str(e.get('date', ''))[:10] >= '2026-07-10']
-                        main_data['strategies'][i]['equity_curve'] = all_equity
-                        
+                        # 按 key 去重合并交易，按日期合并权益曲线
+                        merged_s = s.copy()
+                        merged_s['all_trades'] = _dedup_trades(
+                            _full_history(old_s) + _full_history(s))
+                        merged_s['trades'] = list(merged_s['all_trades'])
+                        merged_s['equity_curve'] = _merge_equity_curve(
+                            old_s.get('equity_curve', []), s.get('equity_curve', []))
+                        main_data['strategies'][i] = merged_s
                         added_count += 1
-                        print(f"🔄 更新: {s['name']} (保留{len(protected_trades)}条历史交易)")
+                        print(f"更新: {s['name']} (共{len(merged_s['all_trades'])}笔交易)")
                         break
             else:
                 # 添加新策略
                 main_data['strategies'].append(s)
                 added_count += 1
-                print(f"✅ 新增: {s['name']}")
+                print(f"新增: {s['name']}")
 
     if added_count > 0:
         main_data['strategy_count'] = len(main_data['strategies'])
         main_data['update_time'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        main_data['strategies'] = align_equity_curves(main_data['strategies'])
         with open(main_file, 'w', encoding='utf-8') as f:
             json.dump(main_data, f, ensure_ascii=False, indent=2, default=json_serializer)
         print(f"\n📊 已自动合并 {added_count} 个策略到 strategy_data.json")

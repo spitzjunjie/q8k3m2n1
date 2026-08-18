@@ -189,20 +189,30 @@ class QuantPipelineV2:
                 except Exception:
                     continue
             
-            # 如果没有权益曲线，生成模拟数据
+            # 没有真实权益曲线 = 无数据，不伪造，直接返回
             if not equity_curve:
-                equity_curve = [30000 + i * 100 for i in range(5)]
+                return None
             
+            # 真实指标：统一口径（core.metrics），不硬编码、不伪造
+            from core.metrics import compute, RISK_FREE_ANNUAL
+            first_val = equity_curve[0].get('value') if isinstance(equity_curve[0], dict) else equity_curve[0]
+            perf = compute(
+                equity_curve,
+                initial_capital=first_val or strategy.initial_capital,
+                periods_per_year=252,
+                risk_free_annual=RISK_FREE_ANNUAL,
+            )
+
             # 构建完整回测结果
             backtest_result = {
                 'name': strategy.name,
                 'category': strategy.category,
-                'total_return': (equity_curve[-1] - equity_curve[0]) / equity_curve[0] if len(equity_curve) > 1 else 0,
-                'sharpe_ratio': 1.0,  # 简化计算
-                'max_drawdown': 0.05,
+                'total_return': perf.total_return,
+                'sharpe_ratio': perf.sharpe,
+                'max_drawdown': perf.max_drawdown,
                 'win_rate': len([t for t in all_trades if t.get('profit', 0) > 0]) / max(len(all_trades), 1),
                 'equity_curve': equity_curve,
-                'trades': all_trades[-10:],
+                'trades': all_trades,
                 'holdings': [],
                 'version': strategy.version if hasattr(strategy, 'version') else '1.0.0'
             }
@@ -225,7 +235,7 @@ class QuantPipelineV2:
                 'win_rate': 0,
                 'composite_score': 20,
                 'grade': 'D',
-                'equity_curve': [30000],
+                'equity_curve': [],
                 'trades': []
             }
     

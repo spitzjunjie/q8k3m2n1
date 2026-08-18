@@ -46,7 +46,8 @@ class StrategyCorrelation:
 
         # 处理equity_curve是{'date': str, 'value': float}格式的情况
         if isinstance(equity_curve[0], dict):
-            values = [float(item['value']) for item in equity_curve if isinstance(item, dict) and 'value' in item]
+            values = [float(item['value']) if item.get('value') is not None else np.nan
+                      for item in equity_curve if isinstance(item, dict)]
         else:
             values = list(equity_curve)
 

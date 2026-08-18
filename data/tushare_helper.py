@@ -137,19 +137,28 @@ class TushareHelper:
 
     # ==================== 股票池 ====================
 
-    def get_stock_pool(self, pool_type='hs300', sorted_by_market_value=False):
-        """获取股票池"""
+    def get_stock_pool(self, pool_type='hs300', sorted_by_market_value=False, as_of=None):
+        """获取股票池（Point-in-Time 成分股）
+
+        as_of: 'YYYYMMDD' 历史日期；None=最新一个月。
+        Tushare index_weight 是月度数据，取 as_of 所在月份的成分。
+        """
         try:
-            # 使用月度数据
-            # 获取最近月份
-            last_month = (datetime.now().replace(day=1) - timedelta(days=1)).strftime('%Y%m%d')
-            
+            if as_of:
+                d = datetime.strptime(str(as_of), '%Y%m%d')
+                start_date = d.replace(day=1).strftime('%Y%m%d')
+                nxt = d.replace(day=28) + timedelta(days=4)
+                end_date = (nxt - timedelta(days=nxt.day)).strftime('%Y%m%d')
+            else:
+                end_date = (datetime.now().replace(day=1) - timedelta(days=1)).strftime('%Y%m%d')
+                start_date = end_date[:6] + '01'
+
             if pool_type == 'hs300':
-                df = self.pro.index_weight(index_code='000300.SH', start_date=last_month, end_date=last_month)
+                df = self.pro.index_weight(index_code='000300.SH', start_date=start_date, end_date=end_date)
             elif pool_type == 'zz500':
-                df = self.pro.index_weight(index_code='000905.SH', start_date=last_month, end_date=last_month)
+                df = self.pro.index_weight(index_code='000905.SH', start_date=start_date, end_date=end_date)
             elif pool_type == 'zz800':
-                df = self.pro.index_weight(index_code='000852.SH', start_date=last_month, end_date=last_month)
+                df = self.pro.index_weight(index_code='000852.SH', start_date=start_date, end_date=end_date)
             else:  # 全市场
                 df = self.pro.stock_basic(exchange='', list_status='L', fields='ts_code')
                 if df is not None and len(df) > 0:

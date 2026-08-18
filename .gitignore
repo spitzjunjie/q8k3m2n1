@@ -99,3 +99,6 @@ pilot_cache/
 output/pead_price_cache.json
 output/pead_results.json
 
+
+output/ma200_paper_state.json
+

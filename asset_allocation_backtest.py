@@ -92,7 +92,8 @@ def _common_dates(prices, codes):
 def run_portfolio(prices, weights, bond_annual, dd_control,
                   min_stock=0.30, dd_threshold=0.15, restore_dd=None,
                   rebalance_months=(1, 7), initial=INITIAL_CAPITAL,
-                  trend_ma=0, trend_floor=0.0, bond_factors=None):
+                  trend_ma=0, trend_floor=0.0, bond_factors=None,
+                  report_start=None):
     """股债再平衡回测引擎。
 
     weights: {code或'bond': 目标权重}（和为 1）。
@@ -170,6 +171,10 @@ def run_portfolio(prices, weights, bond_annual, dd_control,
             bond = total - desired_stock
             trigger = False
         equity.append(sum(units[a] * pcur[a] for a in assets) + bond)
+    if report_start:
+        keep = [(d, e) for d, e in zip(dates[start_i:], equity)
+                if d.isoformat().replace('-', '') >= report_start]
+        return [e for _, e in keep], [d for d, _ in keep]
     return equity, dates[start_i:]
 
 
@@ -272,6 +277,42 @@ def run_variants(prices, args, bond_factors=None):
     ]
 
 
+def rolling_validate(prices, codes, bond_factors, first_year=2015, last_year=2024):
+    """逐年滚动样本外验证：每一年用前一年做 MA200 warmup，外推检验当年。"""
+    def perf(eq):
+        if len(eq) < 2:
+            return 0.0, 0.0
+        per = metrics.compute(eq, initial_capital=INITIAL_CAPITAL)
+        return per.total_return, per.max_drawdown
+    print('\n========== 滚动样本外验证（逐年外推，MA200 vs 买入持有） ==========')
+    print(f"{'年份':<6}{'MA200年收益':>11}{'MA200回撤':>10}{'买入收益':>10}{'买入回撤':>10}{'谁赢':>6}")
+    print('-' * 58)
+    rows = []
+    wins = 0
+    for y in range(first_year, last_year + 1):
+        warm = f'{y - 1}0101'; end = f'{y}1231'; ys = f'{y}0101'
+        eq_ma, _ = run_portfolio(slice_prices(prices, codes, warm, end),
+                                {'000300.SH': 0.6, 'bond': 0.4}, BOND_ANNUAL,
+                                dd_control=False, trend_ma=200, trend_floor=0.0,
+                                bond_factors=bond_factors, report_start=ys)
+        eq_bh, _ = run_buyhold(slice_prices(prices, ['000300.SH'], ys, end), '000300.SH')
+        r_ma, dd_ma = perf(eq_ma)
+        r_bh, dd_bh = perf(eq_bh)
+        winner = 'MA200' if r_ma >= r_bh else '买入'
+        if r_ma >= r_bh:
+            wins += 1
+        rows.append((y, r_ma, dd_ma, r_bh, dd_bh))
+        print(f"{y:<6}{r_ma * 100:>10.1f}%{dd_ma * 100:>9.1f}%{r_bh * 100:>9.1f}%{dd_bh * 100:>9.1f}%{winner:>6}")
+    n = len(rows)
+    avg_ma = sum(r[1] for r in rows) / n
+    avg_bh = sum(r[3] for r in rows) / n
+    avg_dd_ma = sum(r[2] for r in rows) / n
+    avg_dd_bh = sum(r[4] for r in rows) / n
+    print('-' * 58)
+    print(f"{'平均':<6}{avg_ma * 100:>10.1f}%{avg_dd_ma * 100:>9.1f}%{avg_bh * 100:>9.1f}%{avg_dd_bh * 100:>9.1f}%{'':>6}")
+    print(f"\nMA200 跑赢买入持有的年份: {wins}/{n}")
+
+
 def main():
     ap = argparse.ArgumentParser(description='????+????+??? ??')
     ap.add_argument('--start', default=DEFAULT_START)
@@ -282,6 +323,7 @@ def main():
     ap.add_argument('--restore-dd', type=float, default=None, help='???????????')
     ap.add_argument('--real-bond', action='store_true', help='? SHIBOR 1w ??????????3.5%')
     ap.add_argument('--oos-split', default=None, help='YYYYMMDD ?????????[--start,split]????[split+1,--end]')
+    ap.add_argument('--rolling', action='store_true', help='逐年滚动样本外验证（MA200 vs 买入持有）')
     args = ap.parse_args()
 
     codes = ['000300.SH', '000905.SH', '512890.SH']
@@ -290,6 +332,10 @@ def main():
     pro = get_tushare_pro()
     prices = load_prices(pro, codes, args.start, args.end, use_cache=not args.no_cache)
     bond_factors = build_bond_factors(pro, args.start, args.end) if args.real_bond else None
+
+    if args.rolling:
+        rolling_validate(prices, codes, bond_factors, first_year=2015, last_year=2024)
+        return
 
     if args.oos_split:
         split = str(args.oos_split)

@@ -4,6 +4,11 @@ import json
 import os
 import subprocess
 from datetime import datetime
+import sys
+try:
+    sys.stdout.reconfigure(encoding='utf-8')
+except Exception:
+    pass
 
 
 def _trade_key(t):

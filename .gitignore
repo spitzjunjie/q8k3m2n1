@@ -95,3 +95,7 @@ site/
 # ---------- PIT 试点本地缓存 ----------
 pilot_cache/
 
+
+output/pead_price_cache.json
+output/pead_results.json
+

@@ -7,7 +7,11 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
+
+concurrency:
+  group: asset-allocation
+  cancel-in-progress: false
 
 jobs:
   asset-allocation:
@@ -41,3 +45,28 @@ jobs:
           name: asset-allocation-${{ github.run_number }}
           path: output/asset_allocation_results.json
           retention-days: 30
+
+      - name: 运行 MA200 模拟盘（每日记一条）
+        env:
+          TUSHARE_TOKEN: ${{ secrets.TUSHARE_TOKEN }}
+        run: |
+          python ma200_paper_trade.py 2>&1 | tee logs/ma200_paper.txt
+
+      - name: 提交模拟盘状态
+        run: |
+          set -euo pipefail
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name  "github-actions[bot]"
+          git add output/ma200_paper_state.json
+          if git diff --cached --quiet; then
+            echo "模拟盘状态无变化，跳过提交"
+            exit 0
+          fi
+          git commit -m "chore: MA200模拟盘更新 $(date -u +'%Y-%m-%d %H:%M UTC')"
+          for i in 1 2 3; do
+            git pull --rebase --autostash origin main && git push origin HEAD:main && exit 0
+            echo "第 $i 次推送失败，5 秒后重试"
+            sleep 5
+          done
+          echo "::error::模拟盘状态推送失败"
+          exit 1

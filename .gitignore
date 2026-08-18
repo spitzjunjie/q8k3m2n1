@@ -78,6 +78,8 @@ output/*.log
 output/*.err
 output/pipeline_report_*.json
 output/*_backup_*.json
+output/index_cache.json
+output/asset_allocation_results.json
 
 # ---------- IDE / 系统 ----------
 .idea/

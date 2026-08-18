@@ -21,7 +21,7 @@ import os
 import sys
 import json
 import argparse
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 
 sys.stdout.reconfigure(encoding='utf-8')
 
@@ -92,7 +92,7 @@ def _common_dates(prices, codes):
 def run_portfolio(prices, weights, bond_annual, dd_control,
                   min_stock=0.30, dd_threshold=0.15, restore_dd=None,
                   rebalance_months=(1, 7), initial=INITIAL_CAPITAL,
-                  trend_ma=0, trend_floor=0.0):
+                  trend_ma=0, trend_floor=0.0, bond_factors=None):
     """股债再平衡回测引擎。
 
     weights: {code或'bond': 目标权重}（和为 1）。
@@ -131,7 +131,7 @@ def run_portfolio(prices, weights, bond_annual, dd_control,
         d = dates[i]
         dstr = d.isoformat().replace('-', '')
         pcur = {a: prices[a][dstr] for a in assets}
-        bond *= BOND_DAILY_FACTOR
+        bond *= (bond_factors.get(dstr, BOND_DAILY_FACTOR) if bond_factors else BOND_DAILY_FACTOR)
         stock_total = sum(units[a] * pcur[a] for a in assets)
         total = stock_total + bond
         # 控回撤
@@ -215,62 +215,97 @@ def print_table(rows):
     print('=' * 74)
 
 
-def main():
-    ap = argparse.ArgumentParser(description='指数增强+资产配置+控回撤 回测')
-    ap.add_argument('--start', default=DEFAULT_START)
-    ap.add_argument('--end', default=DEFAULT_END)
-    ap.add_argument('--no-cache', action='store_true', help='不使用本地缓存')
-    ap.add_argument('--dd-threshold', type=float, default=0.15,
-                    help='回撤触发降仓阈值（默认0.15）')
-    ap.add_argument('--min-stock', type=float, default=0.30,
-                    help='降仓后的股票仓位（默认0.30）')
-    ap.add_argument('--restore-dd', type=float, default=None,
-                    help='回撤收窄到该阈值即恢复满仓（默认None=净值新高才恢复）')
-    args = ap.parse_args()
+def build_bond_factors(pro, start, end):
+    """SHIBOR 1w ??????/????????? {YYYYMMDD: ?????}?"""
+    try:
+        df = pro.shibor(start_date=start, end_date=end)
+    except Exception as e:
+        print(f'  ! SHIBOR ????????? 3.5%: {str(e)[:80]}')
+        return None
+    if df is None or len(df) == 0:
+        return None
+    rate = {}
+    for _, r in df.iterrows():
+        try:
+            rate[str(r['date'])] = float(r['1w']) / 100.0
+        except Exception:
+            pass
+    last = 0.035
+    out = {}
+    for d in sorted(rate):
+        last = rate[d]
+        out[d] = (1 + last) ** (1 / 252)
+    return out
 
-    codes = ['000300.SH', '000905.SH', '512890.SH']
-    print(f'回测窗口: {args.start} ~ {args.end}')
-    print()
-    pro = get_tushare_pro()
-    prices = load_prices(pro, codes, args.start, args.end, use_cache=not args.no_cache)
 
-    # V1 基准：纯持有沪深300
+def slice_prices(prices, codes, start, end):
+    """??????? [start, end]?YYYYMMDD ???????"""
+    out = {}
+    for c in codes:
+        out[c] = {d: v for d, v in prices[c].items() if start <= d <= end}
+    return out
+
+
+def run_variants(prices, args, bond_factors=None):
     eq1, d1 = run_buyhold(prices, '000300.SH')
-    # V2：60/40 半年再平衡
     eq2, d2 = run_portfolio(prices, {'000300.SH': 0.6, 'bond': 0.4},
-                            BOND_ANNUAL, dd_control=False)
-    # V3：60/40 + 控回撤
+                            BOND_ANNUAL, dd_control=False, bond_factors=bond_factors)
     eq3, d3 = run_portfolio(prices, {'000300.SH': 0.6, 'bond': 0.4},
                             BOND_ANNUAL, dd_control=True,
-                            min_stock=args.min_stock,
-                            dd_threshold=args.dd_threshold,
-                            restore_dd=args.restore_dd)
-    # V4（扩展）：核心-卫星（沪深300+中证500+红利低波 + 债券）
+                            min_stock=args.min_stock, dd_threshold=args.dd_threshold,
+                            restore_dd=args.restore_dd, bond_factors=bond_factors)
     eq4, d4 = run_portfolio(
         prices,
         {'000300.SH': 0.20, '000905.SH': 0.20, '512890.SH': 0.20, 'bond': 0.40},
         BOND_ANNUAL, dd_control=True,
-        min_stock=args.min_stock,
-        dd_threshold=args.dd_threshold,
-        restore_dd=args.restore_dd)
-
-    # V5：60/40 + 200日均线趋势过滤（跌破MA200降至全债）
+        min_stock=args.min_stock, dd_threshold=args.dd_threshold,
+        restore_dd=args.restore_dd, bond_factors=bond_factors)
     eq5, d5 = run_portfolio(prices, {'000300.SH': 0.6, 'bond': 0.4},
                             BOND_ANNUAL, dd_control=False,
-                            trend_ma=200, trend_floor=0.0)
-
-    rows = [
-        summarize('纯持有沪深300', eq1),
-        summarize('60/40 半年再平衡', eq2),
-        summarize('60/40 + 控回撤 15%', eq3),
-        summarize('核心-卫星(40%核心+20%红利低波+40%债)', eq4),
-        summarize('60/40 + MA200趋势过滤', eq5),
+                            trend_ma=200, trend_floor=0.0, bond_factors=bond_factors)
+    return [
+        summarize('?????300', eq1),
+        summarize('60/40 ?????', eq2),
+        summarize('60/40 + ??? 15%', eq3),
+        summarize('??-??(40%??+20%????+40%?)', eq4),
+        summarize('60/40 + MA200????', eq5),
     ]
-    print_table(rows)
 
+
+def main():
+    ap = argparse.ArgumentParser(description='????+????+??? ??')
+    ap.add_argument('--start', default=DEFAULT_START)
+    ap.add_argument('--end', default=DEFAULT_END)
+    ap.add_argument('--no-cache', action='store_true', help='???????')
+    ap.add_argument('--dd-threshold', type=float, default=0.15, help='????????')
+    ap.add_argument('--min-stock', type=float, default=0.30, help='???????')
+    ap.add_argument('--restore-dd', type=float, default=None, help='???????????')
+    ap.add_argument('--real-bond', action='store_true', help='? SHIBOR 1w ??????????3.5%')
+    ap.add_argument('--oos-split', default=None, help='YYYYMMDD ?????????[--start,split]????[split+1,--end]')
+    args = ap.parse_args()
+
+    codes = ['000300.SH', '000905.SH', '512890.SH']
+    print(f'????: {args.start} ~ {args.end}' + ('???SHIBOR???' if args.real_bond else ''))
+    print()
+    pro = get_tushare_pro()
+    prices = load_prices(pro, codes, args.start, args.end, use_cache=not args.no_cache)
+    bond_factors = build_bond_factors(pro, args.start, args.end) if args.real_bond else None
+
+    if args.oos_split:
+        split = str(args.oos_split)
+        sd = datetime.strptime(split, '%Y%m%d') + timedelta(days=1)
+        frozen_start = sd.strftime('%Y%m%d')
+        print(f'\n========== ??? {args.start} ~ {split} ==========')
+        print_table(run_variants(slice_prices(prices, codes, args.start, split), args, bond_factors))
+        print(f'\n========== ????? {frozen_start} ~ {args.end}??????==========')
+        print_table(run_variants(slice_prices(prices, codes, frozen_start, args.end), args, bond_factors))
+        return
+
+    rows = run_variants(prices, args, bond_factors)
+    print_table(rows)
     os.makedirs(os.path.dirname(RESULT_FILE), exist_ok=True)
     json.dump(rows, open(RESULT_FILE, 'w', encoding='utf-8'), ensure_ascii=False, indent=2)
-    print(f'结果已保存 -> output/asset_allocation_results.json')
+    print(f'????? -> output/asset_allocation_results.json')
 
 
 if __name__ == '__main__':

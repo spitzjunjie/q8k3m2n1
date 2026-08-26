@@ -1,7 +1,7 @@
 {
-  "position": 0.6,
-  "shares": 12.696227066434743,
-  "cash": 40000.0,
+  "position": 0.0,
+  "shares": 0.0,
+  "cash": 97793.63950341332,
   "start": "20260818",
   "history": [
     {
@@ -11,6 +11,14 @@
       "signal": "hold",
       "position": 0.6,
       "equity": 100000.0
+    },
+    {
+      "date": "20260825",
+      "close": 4552.0326,
+      "ma": 4700.01,
+      "signal": "cash",
+      "position": 0.0,
+      "equity": 97793.64
     }
   ]
 }

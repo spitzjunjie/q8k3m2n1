@@ -31,7 +31,16 @@ try:
 except Exception:
     pass
 
-from config.tushare_config import get_tushare_pro
+import tushare as ts
+
+try:
+    from config.tushare_config import get_tushare_pro
+except Exception:
+    def get_tushare_pro():
+        """无本地 config 模块时的降级实现（CI 环境）。"""
+        ts.set_token(os.environ.get('TUSHARE_TOKEN', ''))
+        return ts.pro_api()
+
 from core import metrics
 
 
@@ -221,11 +230,11 @@ def print_table(rows):
 
 
 def build_bond_factors(pro, start, end):
-    """SHIBOR 1w ??????/????????? {YYYYMMDD: ?????}?"""
+    """用 SHIBOR 1w 真实日利率构造债券逐日收益因子，返回 {YYYYMMDD: 日因子}；失败返回 None。"""
     try:
         df = pro.shibor(start_date=start, end_date=end)
     except Exception as e:
-        print(f'  ! SHIBOR ????????? 3.5%: {str(e)[:80]}')
+        print(f'  ! SHIBOR 拉取失败，退回固定 3.5%: {str(e)[:80]}')
         return None
     if df is None or len(df) == 0:
         return None
@@ -244,7 +253,7 @@ def build_bond_factors(pro, start, end):
 
 
 def slice_prices(prices, codes, start, end):
-    """??????? [start, end]?YYYYMMDD ???????"""
+    """截取各标的价格到 [start, end] 区间；YYYYMMDD 字符串可直接字典序比较。"""
     out = {}
     for c in codes:
         out[c] = {d: v for d, v in prices[c].items() if start <= d <= end}
@@ -269,11 +278,11 @@ def run_variants(prices, args, bond_factors=None):
                             BOND_ANNUAL, dd_control=False,
                             trend_ma=200, trend_floor=0.0, bond_factors=bond_factors)
     return [
-        summarize('?????300', eq1),
-        summarize('60/40 ?????', eq2),
-        summarize('60/40 + ??? 15%', eq3),
-        summarize('??-??(40%??+20%????+40%?)', eq4),
-        summarize('60/40 + MA200????', eq5),
+        summarize('纯持有沪深300', eq1),
+        summarize('60/40 半年再平衡', eq2),
+        summarize('60/40 + 控回撤 15%', eq3),
+        summarize('核心-卫星(40%核心+20%红利低波+40%债)', eq4),
+        summarize('60/40 + MA200趋势过滤', eq5),
     ]
 
 
@@ -314,20 +323,20 @@ def rolling_validate(prices, codes, bond_factors, first_year=2015, last_year=202
 
 
 def main():
-    ap = argparse.ArgumentParser(description='????+????+??? ??')
+    ap = argparse.ArgumentParser(description='指数增强+资产配置+控回撤 回测')
     ap.add_argument('--start', default=DEFAULT_START)
     ap.add_argument('--end', default=DEFAULT_END)
-    ap.add_argument('--no-cache', action='store_true', help='???????')
-    ap.add_argument('--dd-threshold', type=float, default=0.15, help='????????')
-    ap.add_argument('--min-stock', type=float, default=0.30, help='???????')
-    ap.add_argument('--restore-dd', type=float, default=None, help='???????????')
-    ap.add_argument('--real-bond', action='store_true', help='? SHIBOR 1w ??????????3.5%')
-    ap.add_argument('--oos-split', default=None, help='YYYYMMDD ?????????[--start,split]????[split+1,--end]')
+    ap.add_argument('--no-cache', action='store_true', help='不使用本地缓存')
+    ap.add_argument('--dd-threshold', type=float, default=0.15, help='触发降仓的回撤阈值')
+    ap.add_argument('--min-stock', type=float, default=0.30, help='降仓后的最低股票仓位')
+    ap.add_argument('--restore-dd', type=float, default=None, help='回撤收窄到此值即恢复满仓')
+    ap.add_argument('--real-bond', action='store_true', help='用 SHIBOR 1w 真实利率替代固定 3.5%% 债券收益')
+    ap.add_argument('--oos-split', default=None, help='YYYYMMDD 样本内外切分：研发期 [--start,split]，冻结期 [split+1,--end]')
     ap.add_argument('--rolling', action='store_true', help='逐年滚动样本外验证（MA200 vs 买入持有）')
     args = ap.parse_args()
 
     codes = ['000300.SH', '000905.SH', '512890.SH']
-    print(f'????: {args.start} ~ {args.end}' + ('???SHIBOR???' if args.real_bond else ''))
+    print(f'回测窗口: {args.start} ~ {args.end}' + ('，现金用 SHIBOR 真实利率' if args.real_bond else ''))
     print()
     pro = get_tushare_pro()
     prices = load_prices(pro, codes, args.start, args.end, use_cache=not args.no_cache)
@@ -341,9 +350,9 @@ def main():
         split = str(args.oos_split)
         sd = datetime.strptime(split, '%Y%m%d') + timedelta(days=1)
         frozen_start = sd.strftime('%Y%m%d')
-        print(f'\n========== ??? {args.start} ~ {split} ==========')
+        print(f'\n========== 研发期 {args.start} ~ {split} ==========')
         print_table(run_variants(slice_prices(prices, codes, args.start, split), args, bond_factors))
-        print(f'\n========== ????? {frozen_start} ~ {args.end}??????==========')
+        print(f'\n========== 冻结样本外 {frozen_start} ~ {args.end}（只验一次） ==========')
         print_table(run_variants(slice_prices(prices, codes, frozen_start, args.end), args, bond_factors))
         return
 
@@ -351,7 +360,7 @@ def main():
     print_table(rows)
     os.makedirs(os.path.dirname(RESULT_FILE), exist_ok=True)
     json.dump(rows, open(RESULT_FILE, 'w', encoding='utf-8'), ensure_ascii=False, indent=2)
-    print(f'????? -> output/asset_allocation_results.json')
+    print(f'结果已保存 -> output/asset_allocation_results.json')
 
 
 if __name__ == '__main__':

@@ -36,6 +36,7 @@ jobs:
           TUSHARE_TOKEN: ${{ secrets.TUSHARE_TOKEN }}
         run: |
           set -o pipefail
+          mkdir -p logs
           python asset_allocation_backtest.py 2>&1 | tee logs/asset_allocation.txt
 
       - name: 上传结果
@@ -50,6 +51,7 @@ jobs:
         env:
           TUSHARE_TOKEN: ${{ secrets.TUSHARE_TOKEN }}
         run: |
+          mkdir -p logs
           python ma200_paper_trade.py 2>&1 | tee logs/ma200_paper.txt
 
       - name: 提交模拟盘状态

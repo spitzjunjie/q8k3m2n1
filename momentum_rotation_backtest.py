@@ -84,3 +84,38 @@ def select_assets(close, dates, lookback_months, cash_idx):
                 best, best_ret = code, r
         holdings.append(best)
     return holdings
+
+
+def backtest_with_holdings(ohlc, dates, cash_factors, holdings,
+                           initial=INITIAL, cost_rate=COST_RATE):
+    '''按给定月末持仓序列回测：信号月末收盘出、次月首个交易日开盘价调仓。
+
+    ohlc: {code: {'open': {d: px}, 'close': {d: px}}}；holdings 与月末列表对齐。
+    返回与 dates 等长的权益序列（首日 = initial）。
+    '''
+    me = month_end_indices(dates)
+    if len(holdings) != len(me):
+        raise ValueError(f'holdings {len(holdings)} != 月末数 {len(me)}')
+    cash_idx = cash_index_series(dates, cash_factors)
+    switch = {}
+    for k, idx in enumerate(me):
+        if idx + 1 < len(dates):
+            switch[idx + 1] = holdings[k]
+    cur, units, cash = 'cash', 0.0, initial
+    equity = []
+    for i, d in enumerate(dates):
+        if i > 0:
+            cash *= cash_idx[i] / cash_idx[i - 1]      # 隔夜现金增值
+        if i in switch:
+            tgt = switch[i]
+            if tgt != cur:
+                if cur != 'cash':                       # 卖出腿
+                    cash += units * ohlc[cur]['open'][d] * (1 - cost_rate)
+                    units = 0.0
+                if tgt != 'cash':                       # 买入腿
+                    units = cash * (1 - cost_rate) / ohlc[tgt]['open'][d]
+                    cash = 0.0
+                cur = tgt
+        asset_px = ohlc[cur]['close'][d] if cur != 'cash' else 0.0   # 现金日无资产价
+        equity.append(units * asset_px + cash)
+    return equity

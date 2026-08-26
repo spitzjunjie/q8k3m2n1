@@ -320,11 +320,16 @@
             
             // 处理 equity_curve 格式：{'date','value'} 或裸数值；null = 该日无数据（画成断点）
             let values = equityCurve;
+            let labels = null;
             if (equityCurve.length > 0 && typeof equityCurve[0] === 'object') {
                 values = equityCurve.map(item => item == null ? null : item.value);
+                labels = equityCurve.map(item => item == null ? '' : (item.date || ''));
             }
             if (values.length < 2) {
                 values = [initialCapital, initialCapital * 1.01];
+            }
+            if (!labels || labels.length !== values.length || !labels.some(l => l)) {
+                labels = values.map((_, i) => i + 1);
             }
             
             const firstValue = values.find(v => v != null);
@@ -338,7 +343,7 @@
             equityChart = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: values.map((_, i) => i + 1),
+                    labels: labels,
                     datasets: [{
                         label: '权益',
                         data: values,

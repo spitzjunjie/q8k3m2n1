@@ -234,9 +234,23 @@ def main():
     for k in ('backtest_type', 'backtest_start', 'backtest_end', 'backtest_days'):
         if new_data.get(k):
             old_data[k] = new_data[k]
-    
+
     # 权益曲线按交易日历对齐（缺的日期补 null）
     old_data['strategies'] = align_equity_curves(old_data['strategies'])
+
+    # 回测区间元数据按合并后的真实数据重算。
+    # 历史 bug：backtest.py（状态续接模式）不写这几个字段，旧值从 8/6 起一直
+    # 停在最后一次手写状态；以合并后的权益曲线日期为准，永远与数据一致。
+    all_dates = sorted({
+        p['date']
+        for s in old_data['strategies']
+        for p in (s.get('equity_curve') or [])
+        if isinstance(p, dict) and p.get('date')
+    })
+    if all_dates:
+        old_data['backtest_start'] = all_dates[0]
+        old_data['backtest_end'] = all_dates[-1]
+        old_data['backtest_days'] = len(all_dates)
 
     # 保存
     with open('output/strategy_data.json', 'w', encoding='utf-8') as f:

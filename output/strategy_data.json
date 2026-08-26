@@ -1,9 +1,9 @@
 {
   "update_time": "2026-08-25 12:46:16",
   "backtest_type": "historical",
-  "backtest_start": "2026-07-24",
-  "backtest_end": "2026-08-06",
-  "backtest_days": 30,
+  "backtest_start": "2026-05-27",
+  "backtest_end": "2026-08-25",
+  "backtest_days": 64,
   "strategy_count": 77,
   "strategies": [
     {

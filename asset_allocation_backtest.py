@@ -15,6 +15,15 @@
     python asset_allocation_backtest.py                  # 默认 2018-2024
     python asset_allocation_backtest.py --start 20180101 --end 20241231
     python asset_allocation_backtest.py --no-cache
+    python asset_allocation_backtest.py --total-return   # 用全收益指数（H00300/H00905，含股息再投资）
+
+全收益说明：
+    价格指数（000300.SH）不含成分股分红，长期低估真实持有收益约 2~3%/年，
+    会把「买入持有」基准做低、虚增策略超额（参见《2026中国量化投资白皮书》5.4：
+    "用错基准，等于把股息算成了 Alpha"）。--total-return 将股票腿整体切换为
+    中证全收益指数（H00300.CSI / H00905.CSI，2005 年起有数据，Tushare 2150 积分可用），
+    基准与策略同口径，结果写入 output/asset_allocation_results_tr.json（不覆盖价格指数版）。
+    注：512890.SH 为 ETF 二级市场价格，无全收益口径，核心-卫星变体仍略低估。
 '''
 
 import os
@@ -51,6 +60,11 @@ BOND_DAILY_FACTOR = (1 + BOND_ANNUAL) ** (1 / 252)
 INITIAL_CAPITAL = 100.0
 CACHE_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'output', 'index_cache.json')
 RESULT_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'output', 'asset_allocation_results.json')
+RESULT_FILE_TR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'output', 'asset_allocation_results_tr.json')
+
+# 全收益指数映射：价格指数 -> 中证全收益指数（含成分股分红再投资）。
+# 512890.SH 为 ETF 二级市场价，无全收益口径，保持不变。
+TOTAL_RETURN_MAP = {'000300.SH': 'H00300.CSI', '000905.SH': 'H00905.CSI'}
 
 
 def load_prices(pro, codes, start, end, use_cache=True):
@@ -261,6 +275,7 @@ def slice_prices(prices, codes, start, end):
 
 
 def run_variants(prices, args, bond_factors=None):
+    tag = '（全收益）' if getattr(args, 'total_return', False) else ''
     eq1, d1 = run_buyhold(prices, '000300.SH')
     eq2, d2 = run_portfolio(prices, {'000300.SH': 0.6, 'bond': 0.4},
                             BOND_ANNUAL, dd_control=False, bond_factors=bond_factors)
@@ -278,11 +293,11 @@ def run_variants(prices, args, bond_factors=None):
                             BOND_ANNUAL, dd_control=False,
                             trend_ma=200, trend_floor=0.0, bond_factors=bond_factors)
     return [
-        summarize('纯持有沪深300', eq1),
-        summarize('60/40 半年再平衡', eq2),
-        summarize('60/40 + 控回撤 15%', eq3),
-        summarize('核心-卫星(40%核心+20%红利低波+40%债)', eq4),
-        summarize('60/40 + MA200趋势过滤', eq5),
+        summarize(f'纯持有沪深300{tag}', eq1),
+        summarize(f'60/40 半年再平衡{tag}', eq2),
+        summarize(f'60/40 + 控回撤 15%{tag}', eq3),
+        summarize(f'核心-卫星(40%核心+20%红利低波+40%债){tag}', eq4),
+        summarize(f'60/40 + MA200趋势过滤{tag}', eq5),
     ]
 
 
@@ -331,15 +346,24 @@ def main():
     ap.add_argument('--min-stock', type=float, default=0.30, help='降仓后的最低股票仓位')
     ap.add_argument('--restore-dd', type=float, default=None, help='回撤收窄到此值即恢复满仓')
     ap.add_argument('--real-bond', action='store_true', help='用 SHIBOR 1w 真实利率替代固定 3.5%% 债券收益')
+    ap.add_argument('--total-return', action='store_true',
+                    help='股票腿改用全收益指数（H00300/H00905，含分红再投资），基准与策略同口径，不虚增超额')
     ap.add_argument('--oos-split', default=None, help='YYYYMMDD 样本内外切分：研发期 [--start,split]，冻结期 [split+1,--end]')
     ap.add_argument('--rolling', action='store_true', help='逐年滚动样本外验证（MA200 vs 买入持有）')
     args = ap.parse_args()
 
     codes = ['000300.SH', '000905.SH', '512890.SH']
-    print(f'回测窗口: {args.start} ~ {args.end}' + ('，现金用 SHIBOR 真实利率' if args.real_bond else ''))
+    print(f'回测窗口: {args.start} ~ {args.end}' + ('，现金用 SHIBOR 真实利率' if args.real_bond else '')
+          + ('，股票腿用全收益指数' if args.total_return else ''))
     print()
     pro = get_tushare_pro()
-    prices = load_prices(pro, codes, args.start, args.end, use_cache=not args.no_cache)
+    if args.total_return:
+        # 拉全收益代码，再重映射回原 key，使 run_variants/rolling_validate 无需改动。
+        tr_codes = [TOTAL_RETURN_MAP.get(c, c) for c in codes]
+        raw = load_prices(pro, tr_codes, args.start, args.end, use_cache=not args.no_cache)
+        prices = {orig: raw[tr] for orig, tr in zip(codes, tr_codes)}
+    else:
+        prices = load_prices(pro, codes, args.start, args.end, use_cache=not args.no_cache)
     bond_factors = build_bond_factors(pro, args.start, args.end) if args.real_bond else None
 
     if args.rolling:
@@ -358,9 +382,10 @@ def main():
 
     rows = run_variants(prices, args, bond_factors)
     print_table(rows)
-    os.makedirs(os.path.dirname(RESULT_FILE), exist_ok=True)
-    json.dump(rows, open(RESULT_FILE, 'w', encoding='utf-8'), ensure_ascii=False, indent=2)
-    print(f'结果已保存 -> output/asset_allocation_results.json')
+    out_file = RESULT_FILE_TR if args.total_return else RESULT_FILE
+    os.makedirs(os.path.dirname(out_file), exist_ok=True)
+    json.dump(rows, open(out_file, 'w', encoding='utf-8'), ensure_ascii=False, indent=2)
+    print(f'结果已保存 -> {os.path.relpath(out_file, os.path.dirname(os.path.abspath(__file__)))}')
 
 
 if __name__ == '__main__':

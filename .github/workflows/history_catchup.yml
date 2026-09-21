@@ -34,9 +34,16 @@ on:
           - tushare
           - akshare
 
-  # 定时触发（每周日凌晨运行）
-  schedule:
-    - cron: '0 2 * * 0'
+  # 定时触发已停用（2026-09-21）：
+  #   根因——schedule 触发不传日期，回补区间算成 0 个交易日（BENCHMARK_START_DATE
+  #   默认今天），但回测引擎未把 days=0 当空操作，仍对 44 个策略各跑超长历史，
+  #   6 小时后被 timeout-minutes:360 杀掉，从未走到「提交结果」步 → 连续 6+ 周零产出、
+  #   每周白烧 6h CI（运行列表持续显示 cancelled）。
+  #   且 backtest.yml（每周一）转周频后已维护 strategy_data.json，此 schedule 的
+  #   「补齐漏掉的每日数据」已无对象，属冗余器官。
+  # 保留 workflow_dispatch 手动触发：用显式 start_date/end_date 做有界回补仍可用。
+  # schedule:
+  #   - cron: '0 2 * * 0'
 
 env:
   PYTHONIOENCODING: utf-8

@@ -163,6 +163,14 @@
       "signal": "cash",
       "position": 0.0,
       "equity": 97793.64
+    },
+    {
+      "date": "20260921",
+      "close": 4539.5654,
+      "ma": 4694.68,
+      "signal": "cash",
+      "position": 0.0,
+      "equity": 97793.64
     }
   ]
 }

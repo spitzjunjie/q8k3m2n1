@@ -16,6 +16,8 @@
     python asset_allocation_backtest.py --start 20180101 --end 20241231
     python asset_allocation_backtest.py --no-cache
     python asset_allocation_backtest.py --total-return   # 用全收益指数（H00300/H00905，含股息再投资）
+    python asset_allocation_backtest.py --real-bond --total-return --cost-bps 10 --signal-lag 1
+                                                         # 现实口径：真实利率+全收益+成本+次日执行
 
 全收益说明：
     价格指数（000300.SH）不含成分股分红，长期低估真实持有收益约 2~3%/年，
@@ -116,7 +118,7 @@ def run_portfolio(prices, weights, bond_annual, dd_control,
                   min_stock=0.30, dd_threshold=0.15, restore_dd=None,
                   rebalance_months=(1, 7), initial=INITIAL_CAPITAL,
                   trend_ma=0, trend_floor=0.0, bond_factors=None,
-                  report_start=None):
+                  report_start=None, cost_rate=0.0, signal_lag=0):
     """股债再平衡回测引擎。
 
     weights: {code或'bond': 目标权重}（和为 1）。
@@ -124,6 +126,9 @@ def run_portfolio(prices, weights, bond_annual, dd_control,
                 restore_dd=None 时净值新高才恢复满仓，
                 否则回撤收窄到 restore_dd 即恢复。
     trend_ma: >0 时启用均线趋势过滤（跌破 N 日均线降到 trend_floor）。
+    cost_rate: 单边成本（小数，0.001=10bp），每次重建持仓按股票腿换手额扣除，从债券腿支付。
+    signal_lag: 趋势信号滞后 N 个交易日执行（1 = 今日收盘判断、次日收盘成交；
+                只有收盘价时对"次日开盘执行"的保守近似）。0 为历史口径（同收盘判断+成交）。
     返回 (equity_curve, 日期列表)。
     """
     assets = [a for a in weights if a != 'bond']
@@ -176,10 +181,11 @@ def run_portfolio(prices, weights, bond_annual, dd_control,
                     trigger = True
         # 均线趋势过滤
         if trend_ma > 0 and i < len(trend_state):
-            if not trend_state[i] and target_stock > trend_floor:
+            above = trend_state[i - signal_lag] if i - signal_lag >= 0 else True
+            if not above and target_stock > trend_floor:
                 target_stock = trend_floor
                 trigger = True
-            elif trend_state[i] and target_stock < full_stock:
+            elif above and target_stock < full_stock:
                 target_stock = full_stock
                 trigger = True
         # 定期再平衡：每年 1/7 月首个交易日
@@ -189,9 +195,12 @@ def run_portfolio(prices, weights, bond_annual, dd_control,
             # 按目标权重重建持仓（从 0 恢复到满仓也必须能重建）
             sw = {a: weights[a] for a in assets}
             ssw = sum(sw.values())
+            turnover = 0.0
             for a in assets:
-                units[a] = desired_stock * (sw[a] / ssw) / pcur[a]
-            bond = total - desired_stock
+                new_units = desired_stock * (sw[a] / ssw) / pcur[a]
+                turnover += abs(new_units - units[a]) * pcur[a]
+                units[a] = new_units
+            bond = total - desired_stock - turnover * cost_rate
             trigger = False
         equity.append(sum(units[a] * pcur[a] for a in assets) + bond)
     if report_start:
@@ -274,24 +283,31 @@ def slice_prices(prices, codes, start, end):
     return out
 
 
+def exec_kwargs(args):
+    """执行口径参数：--cost-bps（基点）→ cost_rate 小数；--signal-lag 原样传。"""
+    return {'cost_rate': getattr(args, 'cost_bps', 0.0) / 10000.0,
+            'signal_lag': getattr(args, 'signal_lag', 0)}
+
+
 def run_variants(prices, args, bond_factors=None):
     tag = '（全收益）' if getattr(args, 'total_return', False) else ''
+    ex = exec_kwargs(args)
     eq1, d1 = run_buyhold(prices, '000300.SH')
     eq2, d2 = run_portfolio(prices, {'000300.SH': 0.6, 'bond': 0.4},
-                            BOND_ANNUAL, dd_control=False, bond_factors=bond_factors)
+                            BOND_ANNUAL, dd_control=False, bond_factors=bond_factors, **ex)
     eq3, d3 = run_portfolio(prices, {'000300.SH': 0.6, 'bond': 0.4},
                             BOND_ANNUAL, dd_control=True,
                             min_stock=args.min_stock, dd_threshold=args.dd_threshold,
-                            restore_dd=args.restore_dd, bond_factors=bond_factors)
+                            restore_dd=args.restore_dd, bond_factors=bond_factors, **ex)
     eq4, d4 = run_portfolio(
         prices,
         {'000300.SH': 0.20, '000905.SH': 0.20, '512890.SH': 0.20, 'bond': 0.40},
         BOND_ANNUAL, dd_control=True,
         min_stock=args.min_stock, dd_threshold=args.dd_threshold,
-        restore_dd=args.restore_dd, bond_factors=bond_factors)
+        restore_dd=args.restore_dd, bond_factors=bond_factors, **ex)
     eq5, d5 = run_portfolio(prices, {'000300.SH': 0.6, 'bond': 0.4},
                             BOND_ANNUAL, dd_control=False,
-                            trend_ma=200, trend_floor=0.0, bond_factors=bond_factors)
+                            trend_ma=200, trend_floor=0.0, bond_factors=bond_factors, **ex)
     return [
         summarize(f'纯持有沪深300{tag}', eq1),
         summarize(f'60/40 半年再平衡{tag}', eq2),
@@ -301,7 +317,7 @@ def run_variants(prices, args, bond_factors=None):
     ]
 
 
-def rolling_validate(prices, codes, bond_factors, first_year=2015, last_year=2024):
+def rolling_validate(prices, codes, bond_factors, first_year=2015, last_year=2024, ex=None):
     """逐年滚动样本外验证：每一年用前一年做 MA200 warmup，外推检验当年。"""
     def perf(eq):
         if len(eq) < 2:
@@ -318,7 +334,7 @@ def rolling_validate(prices, codes, bond_factors, first_year=2015, last_year=202
         eq_ma, _ = run_portfolio(slice_prices(prices, codes, warm, end),
                                 {'000300.SH': 0.6, 'bond': 0.4}, BOND_ANNUAL,
                                 dd_control=False, trend_ma=200, trend_floor=0.0,
-                                bond_factors=bond_factors, report_start=ys)
+                                bond_factors=bond_factors, report_start=ys, **(ex or {}))
         eq_bh, _ = run_buyhold(slice_prices(prices, ['000300.SH'], ys, end), '000300.SH')
         r_ma, dd_ma = perf(eq_ma)
         r_bh, dd_bh = perf(eq_bh)
@@ -350,11 +366,17 @@ def main():
                     help='股票腿改用全收益指数（H00300/H00905，含分红再投资），基准与策略同口径，不虚增超额')
     ap.add_argument('--oos-split', default=None, help='YYYYMMDD 样本内外切分：研发期 [--start,split]，冻结期 [split+1,--end]')
     ap.add_argument('--rolling', action='store_true', help='逐年滚动样本外验证（MA200 vs 买入持有）')
+    ap.add_argument('--cost-bps', type=float, default=0.0,
+                    help='单边交易成本（基点，10=0.1%%）；默认 0 保持历史口径可复现')
+    ap.add_argument('--signal-lag', type=int, default=0,
+                    help='趋势信号滞后 N 日执行（1=次日成交，贴近实盘）；默认 0 为历史口径')
     args = ap.parse_args()
 
     codes = ['000300.SH', '000905.SH', '512890.SH']
     print(f'回测窗口: {args.start} ~ {args.end}' + ('，现金用 SHIBOR 真实利率' if args.real_bond else '')
-          + ('，股票腿用全收益指数' if args.total_return else ''))
+          + ('，股票腿用全收益指数' if args.total_return else '')
+          + (f'，单边成本 {args.cost_bps:g}bp' if args.cost_bps else '')
+          + (f'，信号滞后 {args.signal_lag} 日' if args.signal_lag else ''))
     print()
     pro = get_tushare_pro()
     if args.total_return:
@@ -367,7 +389,8 @@ def main():
     bond_factors = build_bond_factors(pro, args.start, args.end) if args.real_bond else None
 
     if args.rolling:
-        rolling_validate(prices, codes, bond_factors, first_year=2015, last_year=2024)
+        rolling_validate(prices, codes, bond_factors, first_year=2015, last_year=2024,
+                         ex=exec_kwargs(args))
         return
 
     if args.oos_split:
@@ -383,6 +406,9 @@ def main():
     rows = run_variants(prices, args, bond_factors)
     print_table(rows)
     out_file = RESULT_FILE_TR if args.total_return else RESULT_FILE
+    if args.cost_bps or args.signal_lag:
+        # 现实口径单独存档，不覆盖历史口径结果
+        out_file = out_file.replace('.json', f'_cost{args.cost_bps:g}_lag{args.signal_lag}.json')
     os.makedirs(os.path.dirname(out_file), exist_ok=True)
     json.dump(rows, open(out_file, 'w', encoding='utf-8'), ensure_ascii=False, indent=2)
     print(f'结果已保存 -> {os.path.relpath(out_file, os.path.dirname(os.path.abspath(__file__)))}')

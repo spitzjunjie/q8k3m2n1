@@ -73,11 +73,12 @@ def profile(dates, closes, ma=MA, short_lived=SHORT_LIVED):
     for s, a, b in segs[1:-1]:
         n = b - a + 1
         if n < short_lived:
-            # 损耗：持有段 = 段内指数涨跌（多为亏）；空仓段 = 错过的涨跌取负（多为踏空）
-            seg_ret = closes[b] / closes[a - 1] - 1 if a > 0 else 0.0
-            cost = seg_ret if s else -seg_ret
+            # 打脸损耗（正数=亏）：段首日收盘按新信号成交，次段首日（b+1）收盘反向成交。
+            # 持有段 = 买入后又低价卖出的亏损；空仓段 = 卖出后又高价买回的差价。
+            move = closes[b + 1] / closes[a] - 1
+            loss = -move if s else move
             short.append({'state': 'hold' if s else 'cash', 'start': dates[a],
-                          'end': dates[b], 'days': n, 'pnl_vs_bh': round(cost, 4)})
+                          'end': dates[b], 'days': n, 'whipsaw_loss': round(loss, 4)})
 
     cash_segs = [(a, b) for s, a, b in segs if not s]
     longest_cash = max(cash_segs, key=lambda x: x[1] - x[0], default=None)
@@ -90,7 +91,7 @@ def profile(dates, closes, ma=MA, short_lived=SHORT_LIVED):
         missed.append((max(closes[lo_i:end + 1]) / lo - 1, dates[a], dates[b]))
     worst_missed = max(missed, default=None)
 
-    # 相对净值：持有日吃指数收益（只算 60% 腿的方向性，用 100% 简化以突出相对表现），空仓日 0
+    # 相对净值：纯择时（持有日 100% 吃指数收益、空仓日 0，不计现金利息）÷ 买入持有
     rel, peak, peak_i, worst = 1.0, 1.0, 0, (0, None, None)
     first = next((i for i, s in enumerate(sigs) if s is not None), None)
     for i in range(first + 1 if first is not None else len(closes), len(closes)):
@@ -118,7 +119,8 @@ def profile(dates, closes, ma=MA, short_lived=SHORT_LIVED):
         'max_flips_in_year': max((flips_by_year.get(y, 0) for y in years), default=0),
         'short_lived': short,
         'short_lived_per_year': round(len(short) / max(len(years), 1), 2),
-        'short_lived_total_pnl_vs_bh': round(sum(x['pnl_vs_bh'] for x in short), 4),
+        'short_lived_total_loss': round(sum(x['whipsaw_loss'] for x in short), 4),
+        'short_lived_loss_rate': round(sum(x['whipsaw_loss'] > 0 for x in short) / max(len(short), 1), 3),
         'longest_cash': None if longest_cash is None else {
             'days': longest_cash[1] - longest_cash[0] + 1,
             'start': dates[longest_cash[0]], 'end': dates[longest_cash[1]]},
@@ -136,10 +138,11 @@ def print_markdown(p):
         print(f"| 最长连续空仓 | {lc['days']} 个交易日（{lc['start']} ~ {lc['end']}） |")
     if wm:
         print(f"| 空仓期间错过的最大涨幅 | {wm['gain'] * 100:.1f}%（空仓段 {wm['start']} ~ {wm['end']}） |")
-    print(f"| 最长跑输买入持有 | {lu['days']} 个交易日（{lu['from']} ~ {lu['to']}） |")
+    print(f"| 最长跑输买入持有（纯择时相对净值未创新高） | {lu['days']} 个交易日（{lu['from']} ~ {lu['to']}） |")
     print(f"| 总翻转次数 / 单年最多 | {p['n_flips']} / {p['max_flips_in_year']} |")
     print(f"| 短命信号（<{SHORT_LIVED} 日反转）年均 | {p['short_lived_per_year']} 次 |")
-    print(f"| 短命信号累计相对损耗 | {p['short_lived_total_pnl_vs_bh'] * 100:+.1f}%（简单加总） |")
+    print(f"| 短命信号累计打脸损耗 | {p['short_lived_total_loss'] * 100:+.1f}%（正=亏，简单加总，"
+          f"其中 {p['short_lived_loss_rate'] * 100:.0f}% 的短命信号是亏的） |")
     print('\n| 年份 | 翻转次数 |\n|---|---|')
     for y, n in p['flips_by_year'].items():
         print(f'| {y} | {n} |')

@@ -23,11 +23,11 @@ def test_profile_counts_flips_short_lived_and_missed_rally():
     p = profile(DATES[:10], closes, ma=3, short_lived=5)
     assert p['n_flips'] == 2
     assert p['flips_by_year'] == {'2020': 2}
-    # 中间空仓段（3 日）是短命信号；期间指数 12→7，空仓避开下跌 → 相对收益为正
+    # 中间空仓段（3 日）是短命信号：9 卖出、12 买回 → 打脸损耗 = 12/9 - 1
     assert len(p['short_lived']) == 1
     sl = p['short_lived'][0]
     assert sl['state'] == 'cash' and sl['days'] == 3
-    assert sl['pnl_vs_bh'] > 0
+    assert sl['whipsaw_loss'] == round(12 / 9 - 1, 4)
     assert p['longest_cash']['days'] == 3
 
 
@@ -37,3 +37,12 @@ def test_underperformance_when_cash_during_rally():
     p = profile(DATES[:10], closes, ma=3)
     assert p['worst_missed_rally_in_cash']['gain'] > 0
     assert p['longest_underperformance_vs_bh']['days'] > 0
+
+
+def test_short_hold_segment_bought_high_sold_low_is_a_loss():
+    # 空仓 → 短暂翻多（11 买入）→ 跌回均线下（9 卖出）→ 再翻多
+    closes = [10, 10, 10, 9, 8, 11, 9, 8, 7, 12, 13, 14]
+    p = profile(DATES[:12], closes, ma=3, short_lived=5)
+    hold = [x for x in p['short_lived'] if x['state'] == 'hold']
+    assert hold and hold[0]['whipsaw_loss'] == round(1 - 9 / 11, 4)
+    assert p['short_lived_total_loss'] > 0

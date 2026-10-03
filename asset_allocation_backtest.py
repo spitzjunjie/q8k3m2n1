@@ -289,10 +289,16 @@ def exec_kwargs(args):
             'signal_lag': getattr(args, 'signal_lag', 0)}
 
 
-def run_variants(prices, args, bond_factors=None):
+def run_variants(prices, args, bond_factors=None, report_start=None):
+    """report_start: 只统计该日（YYYYMMDD）之后的净值，之前的数据仅作均线 warmup。"""
     tag = '（全收益）' if getattr(args, 'total_return', False) else ''
     ex = exec_kwargs(args)
-    eq1, d1 = run_buyhold(prices, '000300.SH')
+    if report_start:
+        ex['report_start'] = report_start
+        bh_prices = {'000300.SH': {d: v for d, v in prices['000300.SH'].items() if d >= report_start}}
+    else:
+        bh_prices = prices
+    eq1, d1 = run_buyhold(bh_prices, '000300.SH')
     eq2, d2 = run_portfolio(prices, {'000300.SH': 0.6, 'bond': 0.4},
                             BOND_ANNUAL, dd_control=False, bond_factors=bond_factors, **ex)
     eq3, d3 = run_portfolio(prices, {'000300.SH': 0.6, 'bond': 0.4},
@@ -318,39 +324,49 @@ def run_variants(prices, args, bond_factors=None):
 
 
 def rolling_validate(prices, codes, bond_factors, first_year=2015, last_year=2024, ex=None):
-    """逐年滚动样本外验证：每一年用前一年做 MA200 warmup，外推检验当年。"""
+    """逐年滚动样本外验证：每一年用前一年做 MA200 warmup，外推检验当年。
+
+    主比较对象是静态 60/40（同样 60% 股票仓位，口径一致）；买入持有沪深300 仅作参考列。
+    """
     def perf(eq):
         if len(eq) < 2:
             return 0.0, 0.0
         per = metrics.compute(eq, initial_capital=INITIAL_CAPITAL)
         return per.total_return, per.max_drawdown
-    print('\n========== 滚动样本外验证（逐年外推，MA200 vs 买入持有） ==========')
-    print(f"{'年份':<6}{'MA200年收益':>11}{'MA200回撤':>10}{'买入收益':>10}{'买入回撤':>10}{'谁赢':>6}")
-    print('-' * 58)
+    w = {'000300.SH': 0.6, 'bond': 0.4}
+    print('\n========== 滚动样本外验证（逐年外推，MA200 vs 静态 60/40；买入持有仅供参考） ==========')
+    print(f"{'年份':<6}{'MA200收益':>10}{'MA200回撤':>10}{'60/40收益':>10}{'60/40回撤':>10}"
+          f"{'买入收益':>10}{'买入回撤':>10}{'收益谁赢':>8}{'回撤更小':>8}")
+    print('-' * 86)
     rows = []
-    wins = 0
     for y in range(first_year, last_year + 1):
         warm = f'{y - 1}0101'; end = f'{y}1231'; ys = f'{y}0101'
-        eq_ma, _ = run_portfolio(slice_prices(prices, codes, warm, end),
-                                {'000300.SH': 0.6, 'bond': 0.4}, BOND_ANNUAL,
-                                dd_control=False, trend_ma=200, trend_floor=0.0,
-                                bond_factors=bond_factors, report_start=ys, **(ex or {}))
+        sliced = slice_prices(prices, codes, warm, end)
+        eq_ma, _ = run_portfolio(sliced, w, BOND_ANNUAL, dd_control=False, trend_ma=200,
+                                 trend_floor=0.0, bond_factors=bond_factors,
+                                 report_start=ys, **(ex or {}))
+        eq_st, _ = run_portfolio(sliced, w, BOND_ANNUAL, dd_control=False,
+                                 bond_factors=bond_factors, report_start=ys, **(ex or {}))
         eq_bh, _ = run_buyhold(slice_prices(prices, ['000300.SH'], ys, end), '000300.SH')
+        if len(eq_ma) < 2:
+            print(f'{y:<6}  数据不足，跳过')
+            continue
         r_ma, dd_ma = perf(eq_ma)
+        r_st, dd_st = perf(eq_st)
         r_bh, dd_bh = perf(eq_bh)
-        winner = 'MA200' if r_ma >= r_bh else '买入'
-        if r_ma >= r_bh:
-            wins += 1
-        rows.append((y, r_ma, dd_ma, r_bh, dd_bh))
-        print(f"{y:<6}{r_ma * 100:>10.1f}%{dd_ma * 100:>9.1f}%{r_bh * 100:>9.1f}%{dd_bh * 100:>9.1f}%{winner:>6}")
+        rows.append((y, r_ma, dd_ma, r_st, dd_st, r_bh, dd_bh))
+        print(f"{y:<6}{r_ma * 100:>9.1f}%{dd_ma * 100:>9.1f}%{r_st * 100:>9.1f}%{dd_st * 100:>9.1f}%"
+              f"{r_bh * 100:>9.1f}%{dd_bh * 100:>9.1f}%"
+              f"{('MA200' if r_ma >= r_st else '60/40'):>8}{('MA200' if dd_ma <= dd_st else '60/40'):>8}")
+    if not rows:
+        return
     n = len(rows)
-    avg_ma = sum(r[1] for r in rows) / n
-    avg_bh = sum(r[3] for r in rows) / n
-    avg_dd_ma = sum(r[2] for r in rows) / n
-    avg_dd_bh = sum(r[4] for r in rows) / n
-    print('-' * 58)
-    print(f"{'平均':<6}{avg_ma * 100:>10.1f}%{avg_dd_ma * 100:>9.1f}%{avg_bh * 100:>9.1f}%{avg_dd_bh * 100:>9.1f}%{'':>6}")
-    print(f"\nMA200 跑赢买入持有的年份: {wins}/{n}")
+    avg = [sum(r[k] for r in rows) / n for k in range(1, 7)]
+    print('-' * 86)
+    print(f"{'平均':<6}" + ''.join(f'{a * 100:>9.1f}%' for a in avg))
+    print(f"\nMA200 收益跑赢静态 60/40 的年份: {sum(r[1] >= r[3] for r in rows)}/{n}")
+    print(f"MA200 回撤小于静态 60/40 的年份: {sum(r[2] <= r[4] for r in rows)}/{n}")
+    print(f"（参考）MA200 收益跑赢买入持有的年份: {sum(r[1] >= r[5] for r in rows)}/{n}")
 
 
 def main():
@@ -365,7 +381,12 @@ def main():
     ap.add_argument('--total-return', action='store_true',
                     help='股票腿改用全收益指数（H00300/H00905，含分红再投资），基准与策略同口径，不虚增超额')
     ap.add_argument('--oos-split', default=None, help='YYYYMMDD 样本内外切分：研发期 [--start,split]，冻结期 [split+1,--end]')
-    ap.add_argument('--rolling', action='store_true', help='逐年滚动样本外验证（MA200 vs 买入持有）')
+    ap.add_argument('--rolling', action='store_true', help='逐年滚动样本外验证（MA200 vs 静态 60/40）')
+    ap.add_argument('--rolling-last-year', type=int, default=2024,
+                    help='滚动验证的最后一年（含）；当年未结束时按 --end 截止')
+    ap.add_argument('--holdout-start', default=None,
+                    help='YYYYMMDD 新样本外起点：之前一年仅作 MA200 warmup，只统计 [holdout-start, --end]。'
+                         '用于 2025 年后从未看过的数据，只验一次')
     ap.add_argument('--cost-bps', type=float, default=0.0,
                     help='单边交易成本（基点，10=0.1%%）；默认 0 保持历史口径可复现')
     ap.add_argument('--signal-lag', type=int, default=0,
@@ -389,8 +410,18 @@ def main():
     bond_factors = build_bond_factors(pro, args.start, args.end) if args.real_bond else None
 
     if args.rolling:
-        rolling_validate(prices, codes, bond_factors, first_year=2015, last_year=2024,
-                         ex=exec_kwargs(args))
+        rolling_validate(prices, codes, bond_factors, first_year=2015,
+                         last_year=args.rolling_last_year, ex=exec_kwargs(args))
+        return
+
+    if args.holdout_start:
+        hs = str(args.holdout_start)
+        warm = f'{int(hs[:4]) - 1}{hs[4:]}'
+        if warm < args.start:
+            ap.error(f'--start 需早于 {warm}，给 MA200 留足一年 warmup')
+        print(f'\n========== 新样本外 {hs} ~ {args.end}（warmup 自 {warm}，只验一次） ==========')
+        print_table(run_variants(slice_prices(prices, codes, warm, args.end), args, bond_factors,
+                                 report_start=hs))
         return
 
     if args.oos_split:

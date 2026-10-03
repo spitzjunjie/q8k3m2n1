@@ -42,6 +42,10 @@ jobs:
           python asset_allocation_backtest.py $R $X --oos-split 20161231  2>&1 | tee output/research/oos_realistic.txt
           python asset_allocation_backtest.py $R --rolling                2>&1 | tee output/research/rolling_baseline.txt
           python asset_allocation_backtest.py $R $X --rolling             2>&1 | tee output/research/rolling_realistic.txt
+          # 2025 起从未看过的数据：滚动延伸到 2026，及一次性新样本外（前一年仅作 MA200 warmup）
+          N="--start 20060101 --end 20260930"
+          python asset_allocation_backtest.py $R $X $N --rolling --rolling-last-year 2026 2>&1 | tee output/research/rolling_realistic_to2026.txt
+          python asset_allocation_backtest.py $R $X $N --holdout-start 20250101           2>&1 | tee output/research/holdout_2025_realistic.txt
           python ma200_risk_profile.py --start 20050101 --end 20260930    2>&1 | tee output/research/ma200_risk_profile.txt
           cp output/ma200_risk_profile.json output/research/
 

@@ -2,8 +2,8 @@ name: 资产配置回测
 
 on:
   schedule:
-    # UTC 12:30 = 北京时间 20:30，工作日
-    - cron: '30 12 * * 1-5'
+    # UTC 12:17 ≈ 北京时间 20:17，工作日（避开整点/半点的定时任务高峰，GitHub 实际常延迟数小时）
+    - cron: '17 12 * * 1-5'
   workflow_dispatch:
 
 permissions:
@@ -19,10 +19,10 @@ jobs:
     timeout-minutes: 30
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: 设置 Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: '3.11'
 
@@ -41,7 +41,7 @@ jobs:
 
       - name: 上传结果
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: asset-allocation-${{ github.run_number }}
           path: output/asset_allocation_results.json

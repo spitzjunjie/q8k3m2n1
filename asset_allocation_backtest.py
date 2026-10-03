@@ -139,9 +139,11 @@ def run_portfolio(prices, weights, bond_annual, dd_control,
         return [], []
     start_i = 0
     d0 = dates[start_i]
-    stock_w_sum = sum(weights[a] for a in assets)
     p0 = {a: prices[a][d0.isoformat().replace('-', '')] for a in assets}
-    units = {a: initial * weights[a] / stock_w_sum / p0[a] for a in assets}
+    # 建仓即按目标权重：股票合计 initial*(1-bond_w)。原写法 initial*w/stock_w_sum 让股票腿占满 initial、
+    # 再叠加 bond，起始净值变成 initial*(1+bond_w)、股票占比约 71%，直到首个 1/7 月再平衡才纠正
+    # （1 月起步的回测当天即再平衡，不受影响；其他月份起步的会偏多股票）。
+    units = {a: initial * weights[a] / p0[a] for a in assets}
     bond = initial * bond_w
     target_stock = full_stock
     peak = initial

@@ -97,3 +97,12 @@ def test_rolling_validate_compares_static_6040(capsys):
     out = capsys.readouterr().out
     assert '跑赢静态 60/40 的年份' in out
     assert '回撤小于静态 60/40 的年份' in out
+
+
+def test_initial_position_matches_target_weights_outside_rebalance_month():
+    # 10 月起步（非 1/7 月，首日不再平衡）：起始净值 = 初始资金，股票占比 = 目标 60%
+    prices = {'000300.SH': {'20261008': 4.0, '20261009': 4.4}}
+    eq, _ = run_portfolio(prices, W, BOND_ANNUAL, dd_control=False,
+                          bond_factors={'20261008': 1.0, '20261009': 1.0})
+    assert eq[0] == pytest.approx(100.0)
+    assert eq[1] == pytest.approx(100.0 + 60.0 * 0.1)

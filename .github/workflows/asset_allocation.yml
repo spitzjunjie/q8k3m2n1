@@ -55,6 +55,8 @@ jobs:
           python ma200_paper_trade.py 2>&1 | tee logs/ma200_paper.txt
           # 静态 60/40 账本（实盘主线），MA200 账本保留作对照
           python ma200_paper_trade.py --static 2>&1 | tee logs/static6040_paper.txt
+          # 红利低波卫星前向检验（预注册 docs/knowledge/10，2026-10-08 起，无状态重算）
+          python satellite_paper_trade.py 2>&1 | tee logs/satellite_paper.txt
 
       - name: 提交模拟盘状态
         run: |
@@ -63,6 +65,7 @@ jobs:
           git config user.name  "github-actions[bot]"
           git add output/ma200_paper_state.json
           if [ -f output/static6040_paper_state.json ]; then git add output/static6040_paper_state.json; fi
+          if [ -f output/satellite_paper.json ]; then git add output/satellite_paper.json; fi
           # v1 → v2 迁移时生成的归档（只会出现一次）
           if [ -f output/ma200_paper_state_v1.json ]; then git add output/ma200_paper_state_v1.json; fi
           if git diff --cached --quiet; then

@@ -1,0 +1,55 @@
+name: 红利低波卫星检验（手动）
+
+# 预注册检验：静态 60/40 中加入 20% 红利低波卫星（dividend_lowvol_satellite.py）。
+# 预注册文档 docs/knowledge/10-预注册-红利低波卫星.md；结果提交回触发分支，只验一次。
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: research-satellite-${{ github.ref_name }}
+  cancel-in-progress: false
+
+jobs:
+  research:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: 设置 Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+
+      - name: 安装依赖
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: 运行研究脚本
+        env:
+          TUSHARE_TOKEN: ${{ secrets.TUSHARE_TOKEN }}
+        run: |
+          set -o pipefail
+          mkdir -p output/research
+          python dividend_lowvol_satellite.py 2>&1 | tee output/research/dividend_lowvol_satellite.txt
+
+      - name: 提交结果
+        env:
+          BRANCH: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name  "github-actions[bot]"
+          git add output/research/
+          if git diff --cached --quiet; then echo "无变化"; exit 0; fi
+          git commit -m "chore: 红利低波卫星检验结果 $(date -u +'%Y-%m-%d %H:%M UTC')"
+          for i in 1 2 3; do
+            git pull --rebase --autostash origin "$BRANCH" && git push origin "HEAD:$BRANCH" && exit 0
+            sleep 5
+          done
+          exit 1

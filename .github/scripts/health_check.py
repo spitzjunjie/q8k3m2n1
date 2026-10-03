@@ -1,51 +1,59 @@
-"""每周回测数据新鲜度检查
+"""模拟盘账本新鲜度检查
 
-读取 output/strategy_data.json 的 update_time，与"最近一次周回测应产出"比较。
-backtest.yml（workflow 名「每日单次回测」）自 2026-08-26 起已降频为每周一运行，
-故 strategy_data.json 每周才更新一次。本脚本工作日 UTC 15:00（北京 23:00）检查
-数据是否在 MAX_AGE_DAYS 天内更新过，超期才告警——避免对每周节奏误报。
-GitHub 定时任务 best-effort（可能延迟/跳过且无通知），超期告警覆盖"周回测停摆无感知"。
+2026-10-03 起实盘主线为静态 60/40，选股回测（strategy_data.json）已停用定时任务，
+本脚本改为检查静态 60/40 模拟盘 output/static6040_paper_state.json 的最后记账日。
+该账本由 asset_allocation.yml 每个工作日更新；GitHub 定时任务 best-effort（可能延迟/跳过且无通知），
+超期告警覆盖"模拟盘停摆无感知"。
+
+阈值按工作日计：最后记账日之后已过去的工作日数 > MAX_WEEKDAYS 才告警。
+取 7 是为了不在春节 / 国庆长假（休市最多约 6 个工作日）误报。
 """
 import datetime
 import json
 import os
 import sys
 
-# 每周回测 -> 数据最旧应为 7 天（上周一）；留 1 天缓冲 = 8 天。
-# 超过 8 天说明已错过一个完整周回测周期，才告警。
-MAX_AGE_DAYS = 8
+STATE_FILE = 'output/static6040_paper_state.json'
+MAX_WEEKDAYS = 7
+
+
+def weekdays_between(a, b):
+    """a 之后到 b（含）之间的工作日数。"""
+    n, d = 0, a
+    while d < b:
+        d += datetime.timedelta(days=1)
+        if d.weekday() < 5:
+            n += 1
+    return n
 
 
 def main():
-    now = datetime.datetime.now()
-    today = now.date()
+    today = datetime.date.today()
     if today.weekday() >= 5:
         print(f"今天是周末（{today}），跳过检查")
         return 0
 
+    if not os.path.exists(STATE_FILE):
+        print(f"{STATE_FILE} 尚未生成（账本首次运行前），跳过检查")
+        return 0
     try:
-        d = json.load(open('output/strategy_data.json', encoding='utf-8'))
+        d = json.load(open(STATE_FILE, encoding='utf-8'))
+        last = d['history'][-1]['date']
+        last_dt = datetime.datetime.strptime(last, '%Y%m%d').date()
     except Exception as e:
-        print(f"读取 strategy_data.json 失败: {e}")
+        print(f"读取 {STATE_FILE} 失败: {e}")
         return 1
 
-    ut = (d.get('update_time') or '').strip()
-    try:
-        ut_dt = datetime.datetime.strptime(ut[:19], '%Y-%m-%d %H:%M:%S')
-    except Exception:
-        print(f"update_time 格式异常: {ut!r}")
-        return 1
-
-    # 每周回测：数据在 MAX_AGE_DAYS 天内更新即视为新鲜。
-    age_days = (today - ut_dt.date()).days
-    if age_days <= MAX_AGE_DAYS:
-        print(f"✅ 数据新鲜：update_time={ut}（{age_days} 天前，阈值 {MAX_AGE_DAYS} 天）")
-        print(f"   策略数={len(d.get('strategies', []))}")
+    gap = weekdays_between(last_dt, today)
+    if gap <= MAX_WEEKDAYS:
+        print(f"✅ 模拟盘正常：最后记账日 {last}（之后 {gap} 个工作日，阈值 {MAX_WEEKDAYS}）")
+        print(f"   净值={d['history'][-1].get('equity')}  记录天数={len(d['history'])}")
         return 0
 
-    # 过期：告警
-    print(f"⚠️ 数据过期：update_time={ut}（今天是 {today}，已 {age_days} 天 > {MAX_AGE_DAYS}）")
-    print("   说明最近一次每周回测未产出数据（定时跳过/超时/失败）")
+    ut = last
+    age_days = gap
+    print(f"⚠️ 模拟盘停摆：最后记账日 {last}（今天 {today}，已过 {gap} 个工作日 > {MAX_WEEKDAYS}）")
+    print("   请检查 GitHub Actions「资产配置回测」是否被跳过或失败")
     # 飞书告警
     aid = os.environ.get('FEISHU_APP_ID')
     sec = os.environ.get('FEISHU_APP_SECRET')
@@ -63,10 +71,10 @@ def main():
                 headers={'Authorization': f'Bearer {token}'},
                 json={'receive_id': rid, 'msg_type': 'text',
                       'content': json.dumps({'text':
-                          '⚠️ 每周回测数据过期\n'
-                          f'update_time: {ut}（已 {age_days} 天 > {MAX_AGE_DAYS}）\n'
+                          '⚠️ 静态 60/40 模拟盘停摆\n'
+                          f'最后记账日: {ut}（之后 {age_days} 个工作日 > {MAX_WEEKDAYS}）\n'
                           f'今天: {today}\n'
-                          '请检查 GitHub Actions「每日单次回测」（现为每周一运行）并手动补跑'})},
+                          '请检查 GitHub Actions「资产配置回测」并手动补跑（模拟盘会自动回放漏记日）'})},
                 timeout=10)
             print("已推送飞书告警")
         except Exception as e:

@@ -1,8 +1,8 @@
 name: 数据健康检查
 
-# 每日检查 strategy_data.json 的 update_time 是否新鲜。
+# 每个工作日检查静态 60/40 模拟盘（output/static6040_paper_state.json）是否仍在记账。
 # GitHub 定时任务（每日回测）是 best-effort，可能延迟/跳过且无通知，
-# 本工作流在工作日 UTC 15:00（北京 23:00）检查当天回测是否产出，
+# （2026-10-03 前检查的是已停用的选股回测 strategy_data.json）
 # 过期则发飞书告警（覆盖"定时跳过无感知"的问题）。
 
 on:

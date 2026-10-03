@@ -71,3 +71,20 @@ def test_missing_ma_raises():
     st = pt.new_state('20260818')
     with pytest.raises(ValueError):
         pt.process_day(st, bar('20260818', 100, 100, None), 0.0)
+
+
+def test_static_mode_ignores_ma_and_holds_60():
+    st = pt.new_state('20260818', mode='static')
+    pt.process_day(st, bar('20260818', 100, 90, 100), 0.0)   # 收盘低于均线：MA200 会空仓
+    assert st['pending'] == pt.STOCK_PCT
+    pt.process_day(st, bar('20260819', 90, 80, 100), 0.0)
+    assert st['target'] == pt.STOCK_PCT and st['pending'] is None
+    pt.process_day(st, bar('20260820', 80, 70, 100), 0.0)
+    assert st['pending'] is None                             # 不因跌破均线挂单
+    assert [h.get('trade', {}).get('reason') for h in st['history']] == [None, 'signal', None]
+
+
+def test_static_state_starts_at_fixed_date(tmp_path, monkeypatch):
+    monkeypatch.setattr(pt, 'STATIC_STATE_FILE', str(tmp_path / 'none.json'))
+    st = pt.load_static_state()
+    assert st['mode'] == 'static' and st['start'] == pt.STATIC_START

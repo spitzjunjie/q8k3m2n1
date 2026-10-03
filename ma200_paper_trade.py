@@ -11,7 +11,11 @@ v2 口径（见 docs/knowledge/01-回测与实盘口径对照.md）：
   - 持有期间 1/7 月首个交易日开盘再平衡回 60%（与回测一致）
   - 每次运行回放所有未记账的交易日（v1 漏跑的日子不会再丢）
 状态持久化到 output/ma200_paper_state.json；v1 状态首次运行时归档为 ma200_paper_state_v1.json。
-用法：python ma200_paper_trade.py
+
+--static：静态 60/40 账本（2026-10-03 起的实盘主线，见 docs/knowledge/09-IPS草案.md）。
+  与 MA200 账本同起始日、同成本/计息/再平衡口径，只是不看均线、始终目标 60% 股票；
+  状态存 output/static6040_paper_state.json。MA200 账本继续运行，作为对照。
+用法：python ma200_paper_trade.py [--static]
 """
 import os, sys, json, shutil
 from datetime import datetime, timedelta
@@ -20,6 +24,8 @@ sys.stdout.reconfigure(encoding='utf-8')
 
 STATE_FILE = os.path.join('output', 'ma200_paper_state.json')
 STATE_FILE_V1 = os.path.join('output', 'ma200_paper_state_v1.json')
+STATIC_STATE_FILE = os.path.join('output', 'static6040_paper_state.json')
+STATIC_START = '20260818'     # 与 MA200 账本同起点，便于逐日对照
 VERSION = 2
 STOCK_PCT = 0.6
 INITIAL = 100000.0
@@ -28,8 +34,8 @@ CASH_FALLBACK_ANNUAL = 0.014  # SHIBOR 1w 2026-09 约 1.37%~1.41%；不再用旧
 REBALANCE_MONTHS = (1, 7)
 
 
-def new_state(start=None):
-    return {'version': VERSION, 'start': start, 'units': 0.0, 'cash': INITIAL,
+def new_state(start=None, mode='ma200'):
+    return {'version': VERSION, 'mode': mode, 'start': start, 'units': 0.0, 'cash': INITIAL,
             'target': None, 'pending': None, 'cash_rate': None, 'total_cost': 0.0,
             'history': []}
 
@@ -81,7 +87,10 @@ def process_day(state, bar, cash_rate):
         trade = {'reason': reason, 'price': op, 'to': order, 'cost': round(cost, 2)}
 
     equity = state['units'] * cl + state['cash']
-    signal = 'hold' if cl >= ma else 'cash'
+    if state.get('mode') == 'static':
+        signal = 'hold'               # 静态 60/40：不看均线，始终持有
+    else:
+        signal = 'hold' if cl >= ma else 'cash'
     want = STOCK_PCT if signal == 'hold' else 0.0
     if want != state['target']:
         state['pending'] = want
@@ -107,6 +116,16 @@ def replay(state, bars, rates, fallback=CASH_FALLBACK_ANNUAL):
     return len(todo)
 
 
+def load_static_state():
+    """读取静态 60/40 账本；不存在则从 STATIC_START 开新账本（回放已实现的历史数据，无参数可调）。"""
+    if os.path.exists(STATIC_STATE_FILE):
+        try:
+            return json.load(open(STATIC_STATE_FILE, encoding='utf-8'))
+        except Exception:
+            pass
+    return new_state(STATIC_START, mode='static')
+
+
 def load_state():
     """读取 v2 状态；遇到 v1 状态则归档并以原起始日开一个 v2 新账本（按新口径回放）。"""
     if not os.path.exists(STATE_FILE):
@@ -124,13 +143,15 @@ def load_state():
 
 
 def main():
+    static = '--static' in sys.argv[1:]
+    state_file = STATIC_STATE_FILE if static else STATE_FILE
     pro = get_pro()
     df = fetch_hs300(pro)
     bars = build_bars(df)
     if not bars or bars[-1]['ma'] is None:
         print(f'数据不足 {MA} 日，无法判断信号')
         return
-    state = load_state()
+    state = load_static_state() if static else load_state()
     if state['start'] is None:
         state['start'] = bars[-1]['date']
     first = state['history'][-1]['date'] if state['history'] else state['start']
@@ -143,7 +164,7 @@ def main():
               f"（重复运行同一交易日会自动跳过）")
         return
     os.makedirs('output', exist_ok=True)
-    json.dump(state, open(STATE_FILE, 'w', encoding='utf-8'), ensure_ascii=False, indent=2)
+    json.dump(state, open(state_file, 'w', encoding='utf-8'), ensure_ascii=False, indent=2)
 
     history = state['history']
     last = history[-1]
@@ -152,7 +173,7 @@ def main():
     dd = (peak - equity) / peak if peak > 0 else 0.0
     label = '持有（60%股票）' if last['signal'] == 'hold' else '空仓（全现金）'
     pend = state['pending']
-    print(f"本次补记 {n} 个交易日")
+    print(f"[{'静态 60/40' if static else 'MA200'} 账本] 本次补记 {n} 个交易日")
     print(f"日期: {last['date']}  信号: {label}")
     print(f"沪深300收盘: {last['close']:.2f}  MA200: {last['ma']:.2f}")
     print(f"组合净值: {equity:,.2f}  累计收益: {(equity / INITIAL - 1) * 100:+.2f}%  当前回撤: {dd * 100:.2f}%")

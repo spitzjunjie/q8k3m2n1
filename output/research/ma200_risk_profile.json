@@ -31,655 +31,656 @@
       "start": "20080131",
       "end": "20080201",
       "days": 2,
-      "pnl_vs_bh": 0.0294
+      "whipsaw_loss": 0.0714
     },
     {
       "state": "hold",
       "start": "20080204",
       "end": "20080221",
       "days": 9,
-      "pnl_vs_bh": 0.0665
+      "whipsaw_loss": 0.0501
     },
     {
       "state": "cash",
       "start": "20080222",
       "end": "20080229",
       "days": 6,
-      "pnl_vs_bh": 0.0413
+      "whipsaw_loss": 0.0188
     },
     {
       "state": "hold",
       "start": "20080303",
       "end": "20080303",
       "days": 1,
-      "pnl_vs_bh": 0.0249
+      "whipsaw_loss": 0.025
     },
     {
       "state": "cash",
       "start": "20100127",
       "end": "20100224",
       "days": 16,
-      "pnl_vs_bh": -0.0005
+      "whipsaw_loss": 0.0293
     },
     {
       "state": "hold",
       "start": "20100225",
       "end": "20100225",
       "days": 1,
-      "pnl_vs_bh": 0.0147
+      "whipsaw_loss": 0.0032
     },
     {
       "state": "cash",
       "start": "20100226",
       "end": "20100226",
       "days": 1,
-      "pnl_vs_bh": 0.0032
+      "whipsaw_loss": 0.013
     },
     {
       "state": "hold",
       "start": "20100301",
       "end": "20100303",
       "days": 3,
-      "pnl_vs_bh": 0.0163
+      "whipsaw_loss": 0.0222
     },
     {
       "state": "cash",
       "start": "20100304",
       "end": "20100308",
       "days": 3,
-      "pnl_vs_bh": 0.0147
+      "whipsaw_loss": 0.017
     },
     {
       "state": "hold",
       "start": "20100309",
       "end": "20100309",
       "days": 1,
-      "pnl_vs_bh": 0.006
+      "whipsaw_loss": 0.0079
     },
     {
       "state": "cash",
       "start": "20100310",
       "end": "20100326",
       "days": 13,
-      "pnl_vs_bh": 0.0093
+      "whipsaw_loss": 0.024
     },
     {
       "state": "hold",
       "start": "20100329",
       "end": "20100407",
       "days": 7,
-      "pnl_vs_bh": 0.0342
+      "whipsaw_loss": 0.0035
     },
     {
       "state": "cash",
       "start": "20100408",
       "end": "20100408",
       "days": 1,
-      "pnl_vs_bh": 0.0119
+      "whipsaw_loss": 0.0097
     },
     {
       "state": "hold",
       "start": "20100409",
       "end": "20100409",
       "days": 1,
-      "pnl_vs_bh": 0.0097
+      "whipsaw_loss": 0.0082
     },
     {
       "state": "cash",
       "start": "20100412",
       "end": "20100412",
       "days": 1,
-      "pnl_vs_bh": 0.0082
+      "whipsaw_loss": 0.012
     },
     {
       "state": "hold",
       "start": "20100413",
       "end": "20100415",
       "days": 3,
-      "pnl_vs_bh": 0.0129
+      "whipsaw_loss": 0.0104
     },
     {
       "state": "cash",
       "start": "20110117",
       "end": "20110118",
       "days": 2,
-      "pnl_vs_bh": 0.0369
+      "whipsaw_loss": 0.0237
     },
     {
       "state": "hold",
       "start": "20110119",
       "end": "20110119",
       "days": 1,
-      "pnl_vs_bh": 0.0226
+      "whipsaw_loss": 0.0329
     },
     {
       "state": "cash",
       "start": "20110120",
       "end": "20110126",
       "days": 5,
-      "pnl_vs_bh": 0.0218
+      "whipsaw_loss": 0.0278
     },
     {
       "state": "cash",
       "start": "20110512",
       "end": "20110517",
       "days": 4,
-      "pnl_vs_bh": 0.0092
+      "whipsaw_loss": 0.0122
     },
     {
       "state": "hold",
       "start": "20110518",
       "end": "20110518",
       "days": 1,
-      "pnl_vs_bh": 0.0075
+      "whipsaw_loss": 0.006
     },
     {
       "state": "hold",
       "start": "20120502",
       "end": "20120510",
       "days": 7,
-      "pnl_vs_bh": 0.0118
+      "whipsaw_loss": 0.0174
     },
     {
       "state": "cash",
       "start": "20120511",
       "end": "20120521",
       "days": 7,
-      "pnl_vs_bh": 0.0263
+      "whipsaw_loss": -0.0036
     },
     {
       "state": "hold",
       "start": "20120522",
       "end": "20120522",
       "days": 1,
-      "pnl_vs_bh": 0.0156
+      "whipsaw_loss": 0.0041
     },
     {
       "state": "cash",
       "start": "20120523",
       "end": "20120528",
       "days": 4,
-      "pnl_vs_bh": 0.0049
+      "whipsaw_loss": 0.013
     },
     {
       "state": "hold",
       "start": "20120529",
       "end": "20120601",
       "days": 4,
-      "pnl_vs_bh": 0.007
+      "whipsaw_loss": 0.0346
     },
     {
       "state": "hold",
       "start": "20130909",
       "end": "20130916",
       "days": 6,
-      "pnl_vs_bh": 0.0512
+      "whipsaw_loss": 0.0054
     },
     {
       "state": "cash",
       "start": "20130917",
       "end": "20130918",
       "days": 2,
-      "pnl_vs_bh": 0.0185
+      "whipsaw_loss": 0.0185
     },
     {
       "state": "hold",
       "start": "20130923",
       "end": "20130924",
       "days": 2,
-      "pnl_vs_bh": 0.0047
+      "whipsaw_loss": 0.0175
     },
     {
       "state": "cash",
       "start": "20130925",
       "end": "20131008",
       "days": 5,
-      "pnl_vs_bh": 0.0008
+      "whipsaw_loss": 0.0101
     },
     {
       "state": "hold",
       "start": "20131009",
       "end": "20131009",
       "days": 1,
-      "pnl_vs_bh": 0.0048
+      "whipsaw_loss": 0.0099
     },
     {
       "state": "cash",
       "start": "20131010",
       "end": "20131010",
       "days": 1,
-      "pnl_vs_bh": 0.0099
+      "whipsaw_loss": 0.0161
     },
     {
       "state": "hold",
       "start": "20131011",
       "end": "20131015",
       "days": 3,
-      "pnl_vs_bh": 0.0157
+      "whipsaw_loss": 0.0191
     },
     {
       "state": "cash",
       "start": "20131016",
       "end": "20131018",
       "days": 3,
-      "pnl_vs_bh": 0.0168
+      "whipsaw_loss": 0.0206
     },
     {
       "state": "hold",
       "start": "20131021",
       "end": "20131021",
       "days": 1,
-      "pnl_vs_bh": 0.0187
+      "whipsaw_loss": 0.0103
     },
     {
       "state": "hold",
       "start": "20131203",
       "end": "20131210",
       "days": 6,
-      "pnl_vs_bh": 0.0143
+      "whipsaw_loss": 0.0123
     },
     {
       "state": "cash",
       "start": "20150818",
       "end": "20150818",
       "days": 1,
-      "pnl_vs_bh": 0.0619
+      "whipsaw_loss": 0.0159
     },
     {
       "state": "hold",
       "start": "20150819",
       "end": "20150819",
       "days": 1,
-      "pnl_vs_bh": 0.0159
+      "whipsaw_loss": 0.0321
     },
     {
       "state": "cash",
       "start": "20160914",
       "end": "20160914",
       "days": 1,
-      "pnl_vs_bh": 0.0066
+      "whipsaw_loss": 0.0075
     },
     {
       "state": "hold",
       "start": "20160919",
       "end": "20160923",
       "days": 5,
-      "pnl_vs_bh": 0.0114
+      "whipsaw_loss": 0.0131
     },
     {
       "state": "cash",
       "start": "20160926",
       "end": "20160926",
       "days": 1,
-      "pnl_vs_bh": 0.0169
+      "whipsaw_loss": 0.0064
     },
     {
       "state": "cash",
       "start": "20170508",
       "end": "20170511",
       "days": 4,
-      "pnl_vs_bh": 0.0077
+      "whipsaw_loss": 0.0079
     },
     {
       "state": "cash",
       "start": "20180209",
       "end": "20180209",
       "days": 1,
-      "pnl_vs_bh": 0.0427
+      "whipsaw_loss": 0.0129
     },
     {
       "state": "hold",
       "start": "20190213",
       "end": "20190214",
       "days": 2,
-      "pnl_vs_bh": 0.0216
+      "whipsaw_loss": 0.0172
     },
     {
       "state": "cash",
       "start": "20190215",
       "end": "20190215",
       "days": 1,
-      "pnl_vs_bh": 0.0186
+      "whipsaw_loss": 0.0321
     },
     {
       "state": "cash",
       "start": "20200203",
       "end": "20200205",
       "days": 3,
-      "pnl_vs_bh": 0.0438
+      "whipsaw_loss": 0.0573
     },
     {
       "state": "hold",
       "start": "20200430",
       "end": "20200521",
       "days": 13,
-      "pnl_vs_bh": 0.0121
+      "whipsaw_loss": 0.0226
     },
     {
       "state": "cash",
       "start": "20200522",
       "end": "20200529",
       "days": 6,
-      "pnl_vs_bh": 0.012
+      "whipsaw_loss": 0.0385
     },
     {
       "state": "cash",
       "start": "20210510",
       "end": "20210510",
       "days": 1,
-      "pnl_vs_bh": 0.0007
+      "whipsaw_loss": 0.0061
     },
     {
       "state": "hold",
       "start": "20210511",
       "end": "20210512",
       "days": 2,
-      "pnl_vs_bh": 0.0104
+      "whipsaw_loss": 0.006
     },
     {
       "state": "cash",
       "start": "20210513",
       "end": "20210513",
       "days": 1,
-      "pnl_vs_bh": 0.0102
+      "whipsaw_loss": 0.0236
     },
     {
       "state": "cash",
       "start": "20210702",
       "end": "20210706",
       "days": 3,
-      "pnl_vs_bh": 0.028
+      "whipsaw_loss": 0.0117
     },
     {
       "state": "hold",
       "start": "20210707",
       "end": "20210707",
       "days": 1,
-      "pnl_vs_bh": 0.0113
+      "whipsaw_loss": 0.0102
     },
     {
       "state": "cash",
       "start": "20210708",
       "end": "20210709",
       "days": 2,
-      "pnl_vs_bh": 0.0138
+      "whipsaw_loss": 0.0087
     },
     {
       "state": "hold",
       "start": "20210712",
       "end": "20210713",
       "days": 2,
-      "pnl_vs_bh": 0.0143
+      "whipsaw_loss": 0.0097
     },
     {
       "state": "cash",
       "start": "20210714",
       "end": "20210714",
       "days": 1,
-      "pnl_vs_bh": 0.0115
+      "whipsaw_loss": 0.0135
     },
     {
       "state": "hold",
       "start": "20210715",
       "end": "20210715",
       "days": 1,
-      "pnl_vs_bh": 0.0135
+      "whipsaw_loss": 0.011
     },
     {
       "state": "cash",
       "start": "20210716",
       "end": "20210716",
       "days": 1,
-      "pnl_vs_bh": 0.011
+      "whipsaw_loss": 0.0037
     },
     {
       "state": "hold",
       "start": "20210719",
       "end": "20210719",
       "days": 1,
-      "pnl_vs_bh": 0.0037
+      "whipsaw_loss": 0.0009
     },
     {
       "state": "cash",
       "start": "20210720",
       "end": "20210720",
       "days": 1,
-      "pnl_vs_bh": 0.0009
+      "whipsaw_loss": 0.0069
     },
     {
       "state": "hold",
       "start": "20210721",
       "end": "20210722",
       "days": 2,
-      "pnl_vs_bh": 0.0084
+      "whipsaw_loss": 0.0107
     },
     {
       "state": "hold",
       "start": "20211209",
       "end": "20211214",
       "days": 4,
-      "pnl_vs_bh": 0.0108
+      "whipsaw_loss": 0.0143
     },
     {
       "state": "cash",
       "start": "20211215",
       "end": "20211215",
       "days": 1,
-      "pnl_vs_bh": 0.0087
+      "whipsaw_loss": 0.0058
     },
     {
       "state": "hold",
       "start": "20211216",
       "end": "20211216",
       "days": 1,
-      "pnl_vs_bh": 0.0058
+      "whipsaw_loss": 0.0159
     },
     {
       "state": "cash",
       "start": "20230308",
       "end": "20230322",
       "days": 11,
-      "pnl_vs_bh": 0.0122
+      "whipsaw_loss": 0.0012
     },
     {
       "state": "hold",
       "start": "20230323",
       "end": "20230323",
       "days": 1,
-      "pnl_vs_bh": 0.0099
+      "whipsaw_loss": 0.003
     },
     {
       "state": "cash",
       "start": "20230324",
       "end": "20230329",
       "days": 4,
-      "pnl_vs_bh": 0.0082
+      "whipsaw_loss": 0.0029
     },
     {
       "state": "hold",
       "start": "20230330",
       "end": "20230421",
       "days": 16,
-      "pnl_vs_bh": 0.0066
+      "whipsaw_loss": 0.0138
     },
     {
       "state": "cash",
       "start": "20230424",
       "end": "20230427",
       "days": 4,
-      "pnl_vs_bh": 0.0109
+      "whipsaw_loss": 0.0117
     },
     {
       "state": "hold",
       "start": "20230428",
       "end": "20230510",
       "days": 6,
-      "pnl_vs_bh": 0.0021
+      "whipsaw_loss": 0.0095
     },
     {
       "state": "cash",
       "start": "20230511",
       "end": "20230512",
       "days": 2,
-      "pnl_vs_bh": 0.0148
+      "whipsaw_loss": 0.0021
     },
     {
       "state": "hold",
       "start": "20230515",
       "end": "20230515",
       "days": 1,
-      "pnl_vs_bh": 0.0155
+      "whipsaw_loss": 0.0052
     },
     {
       "state": "hold",
       "start": "20230616",
       "end": "20230616",
       "days": 1,
-      "pnl_vs_bh": 0.0096
+      "whipsaw_loss": 0.0082
     },
     {
       "state": "hold",
       "start": "20230728",
       "end": "20230810",
       "days": 10,
-      "pnl_vs_bh": 0.0188
+      "whipsaw_loss": 0.0272
     },
     {
       "state": "cash",
       "start": "20240611",
       "end": "20240611",
       "days": 1,
-      "pnl_vs_bh": 0.0087
+      "whipsaw_loss": 0.0004
     },
     {
       "state": "hold",
       "start": "20240612",
       "end": "20240612",
       "days": 1,
-      "pnl_vs_bh": 0.0004
+      "whipsaw_loss": 0.0051
     },
     {
       "state": "cash",
       "start": "20240613",
       "end": "20240613",
       "days": 1,
-      "pnl_vs_bh": 0.0051
+      "whipsaw_loss": 0.0044
     },
     {
       "state": "hold",
       "start": "20240614",
       "end": "20240614",
       "days": 1,
-      "pnl_vs_bh": 0.0044
+      "whipsaw_loss": 0.0015
     },
     {
       "state": "cash",
       "start": "20240617",
       "end": "20240617",
       "days": 1,
-      "pnl_vs_bh": 0.0015
+      "whipsaw_loss": 0.0027
     },
     {
       "state": "hold",
       "start": "20240618",
       "end": "20240618",
       "days": 1,
-      "pnl_vs_bh": 0.0027
+      "whipsaw_loss": 0.0047
     },
     {
       "state": "hold",
       "start": "20240718",
       "end": "20240722",
       "days": 3,
-      "pnl_vs_bh": 0.0038
+      "whipsaw_loss": 0.023
     },
     {
       "state": "cash",
       "start": "20250407",
       "end": "20250409",
       "days": 3,
-      "pnl_vs_bh": 0.0452
+      "whipsaw_loss": 0.0406
     },
     {
       "state": "cash",
       "start": "20260323",
       "end": "20260323",
       "days": 1,
-      "pnl_vs_bh": 0.0326
+      "whipsaw_loss": 0.0128
     },
     {
       "state": "hold",
       "start": "20260324",
       "end": "20260402",
       "days": 8,
-      "pnl_vs_bh": 0.0138
+      "whipsaw_loss": 0.0076
     },
     {
       "state": "cash",
       "start": "20260403",
       "end": "20260407",
       "days": 2,
-      "pnl_vs_bh": 0.0086
+      "whipsaw_loss": 0.0349
     },
     {
       "state": "cash",
       "start": "20260717",
       "end": "20260720",
       "days": 2,
-      "pnl_vs_bh": 0.0213
+      "whipsaw_loss": 0.0464
     },
     {
       "state": "hold",
       "start": "20260721",
       "end": "20260723",
       "days": 3,
-      "pnl_vs_bh": 0.0282
+      "whipsaw_loss": 0.019
     },
     {
       "state": "cash",
       "start": "20260724",
       "end": "20260724",
       "days": 1,
-      "pnl_vs_bh": 0.0167
+      "whipsaw_loss": 0.0115
     },
     {
       "state": "hold",
       "start": "20260727",
       "end": "20260727",
       "days": 1,
-      "pnl_vs_bh": 0.0115
+      "whipsaw_loss": 0.0283
     },
     {
       "state": "cash",
       "start": "20260728",
       "end": "20260807",
       "days": 9,
-      "pnl_vs_bh": 0.0017
+      "whipsaw_loss": 0.029
     },
     {
       "state": "hold",
       "start": "20260810",
       "end": "20260810",
       "days": 1,
-      "pnl_vs_bh": 0.0016
+      "whipsaw_loss": 0.0081
     },
     {
       "state": "cash",
       "start": "20260811",
       "end": "20260814",
       "days": 4,
-      "pnl_vs_bh": 0.0077
+      "whipsaw_loss": 0.0166
     },
     {
       "state": "hold",
       "start": "20260817",
       "end": "20260818",
       "days": 2,
-      "pnl_vs_bh": 0.0128
+      "whipsaw_loss": 0.0321
     }
   ],
   "short_lived_per_year": 4.23,
-  "short_lived_total_pnl_vs_bh": 1.3928,
+  "short_lived_total_loss": 1.4693,
+  "short_lived_loss_rate": 0.989,
   "longest_cash": {
     "days": 261,
     "start": "20211217",

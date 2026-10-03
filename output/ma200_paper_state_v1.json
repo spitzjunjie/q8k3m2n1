@@ -1,335 +1,224 @@
 {
-  "version": 2,
-  "mode": "ma200",
+  "position": 0.0,
+  "shares": 0.0,
+  "cash": 97793.63950341332,
   "start": "20260818",
-  "units": 0.0,
-  "cash": 99440.20983847887,
-  "target": 0.0,
-  "pending": null,
-  "cash_rate": 0.01371,
-  "total_cost": 119.40449650949134,
   "history": [
     {
       "date": "20260818",
-      "open": 4734.0733,
       "close": 4725.8134,
       "ma": 4703.07,
       "signal": "hold",
-      "position": 0.0,
-      "cash_rate": 0.0138,
+      "position": 0.6,
       "equity": 100000.0
     },
     {
-      "date": "20260819",
-      "open": 4660.055,
-      "close": 4588.6955,
-      "ma": 4702.71,
-      "signal": "cash",
-      "position": 0.6,
-      "cash_rate": 0.01385,
-      "equity": 99026.62,
-      "trade": {
-        "reason": "signal",
-        "price": 4660.055,
-        "to": 0.6,
-        "cost": 60.0
-      }
-    },
-    {
-      "date": "20260820",
-      "open": 4613.2975,
-      "close": 4592.7504,
-      "ma": 4702.09,
-      "signal": "cash",
-      "position": 0.0,
-      "cash_rate": 0.0139,
-      "equity": 99286.19,
-      "trade": {
-        "reason": "signal",
-        "price": 4613.2975,
-        "to": 0.0,
-        "cost": 59.4
-      }
-    },
-    {
-      "date": "20260821",
-      "open": 4585.4354,
-      "close": 4618.8952,
-      "ma": 4701.73,
-      "signal": "cash",
-      "position": 0.0,
-      "cash_rate": 0.014256,
-      "equity": 99291.77
-    },
-    {
-      "date": "20260824",
-      "open": 4620.9489,
-      "close": 4563.1266,
-      "ma": 4700.8,
-      "signal": "cash",
-      "position": 0.0,
-      "cash_rate": 0.01432,
-      "equity": 99297.37
-    },
-    {
       "date": "20260825",
-      "open": 4542.2438,
       "close": 4552.0326,
       "ma": 4700.01,
       "signal": "cash",
       "position": 0.0,
-      "cash_rate": 0.014535,
-      "equity": 99303.05
+      "equity": 97793.64
     },
     {
       "date": "20260826",
-      "open": 4549.4321,
       "close": 4590.7935,
       "ma": 4699.76,
       "signal": "cash",
       "position": 0.0,
-      "cash_rate": 0.01424,
-      "equity": 99308.63
+      "equity": 97793.64
     },
     {
       "date": "20260827",
-      "open": 4594.4794,
       "close": 4630.277,
       "ma": 4699.65,
       "signal": "cash",
       "position": 0.0,
-      "cash_rate": 0.01394,
-      "equity": 99314.08
+      "equity": 97793.64
     },
     {
       "date": "20260828",
-      "open": 4615.8393,
       "close": 4609.1764,
       "ma": 4699.6,
       "signal": "cash",
       "position": 0.0,
-      "cash_rate": 0.01387,
-      "equity": 99319.51
+      "equity": 97793.64
     },
     {
       "date": "20260831",
-      "open": 4561.9861,
       "close": 4625.0862,
       "ma": 4699.59,
       "signal": "cash",
       "position": 0.0,
-      "cash_rate": 0.01414,
-      "equity": 99325.04
+      "equity": 97793.64
     },
     {
       "date": "20260901",
-      "open": 4618.7337,
       "close": 4611.4394,
       "ma": 4699.18,
       "signal": "cash",
       "position": 0.0,
-      "cash_rate": 0.01391,
-      "equity": 99330.49
+      "equity": 97793.64
     },
     {
       "date": "20260902",
-      "open": 4581.514,
       "close": 4547.9559,
       "ma": 4698.53,
       "signal": "cash",
       "position": 0.0,
-      "cash_rate": 0.01377,
-      "equity": 99335.88
+      "equity": 97793.64
     },
     {
       "date": "20260903",
-      "open": 4570.9115,
       "close": 4552.5784,
       "ma": 4697.81,
       "signal": "cash",
       "position": 0.0,
-      "cash_rate": 0.01374,
-      "equity": 99341.26
+      "equity": 97793.64
     },
     {
       "date": "20260904",
-      "open": 4575.3163,
       "close": 4548.0499,
       "ma": 4697.29,
       "signal": "cash",
       "position": 0.0,
-      "cash_rate": 0.01376,
-      "equity": 99346.65
+      "equity": 97793.64
     },
     {
       "date": "20260907",
-      "open": 4567.8945,
       "close": 4575.0245,
       "ma": 4696.94,
       "signal": "cash",
       "position": 0.0,
-      "cash_rate": 0.0138,
-      "equity": 99352.05
+      "equity": 97793.64
     },
     {
       "date": "20260908",
-      "open": 4575.9905,
       "close": 4558.7371,
       "ma": 4696.22,
       "signal": "cash",
       "position": 0.0,
-      "cash_rate": 0.0138,
-      "equity": 99357.45
+      "equity": 97793.64
     },
     {
       "date": "20260909",
-      "open": 4578.5125,
       "close": 4572.5995,
       "ma": 4695.94,
       "signal": "cash",
       "position": 0.0,
-      "cash_rate": 0.013919999999999998,
-      "equity": 99362.91
+      "equity": 97793.64
     },
     {
       "date": "20260910",
-      "open": 4550.1865,
       "close": 4548.3898,
       "ma": 4695.7,
       "signal": "cash",
       "position": 0.0,
-      "cash_rate": 0.0141,
-      "equity": 99368.43
+      "equity": 97793.64
     },
     {
       "date": "20260911",
-      "open": 4514.2954,
       "close": 4510.1554,
       "ma": 4695.41,
       "signal": "cash",
       "position": 0.0,
-      "cash_rate": 0.014199999999999999,
-      "equity": 99373.99
+      "equity": 97793.64
     },
     {
       "date": "20260914",
-      "open": 4474.9474,
       "close": 4480.0821,
       "ma": 4694.86,
       "signal": "cash",
       "position": 0.0,
-      "cash_rate": 0.01418,
-      "equity": 99379.54
+      "equity": 97793.64
     },
     {
       "date": "20260915",
-      "open": 4473.805,
       "close": 4450.0402,
       "ma": 4694.29,
       "signal": "cash",
       "position": 0.0,
-      "cash_rate": 0.01421,
-      "equity": 99385.1
+      "equity": 97793.64
     },
     {
       "date": "20260916",
-      "open": 4449.8833,
       "close": 4480.2683,
       "ma": 4694.42,
       "signal": "cash",
       "position": 0.0,
-      "cash_rate": 0.01432,
-      "equity": 99390.71
+      "equity": 97793.64
     },
     {
       "date": "20260917",
-      "open": 4463.6206,
       "close": 4460.1557,
       "ma": 4694.48,
       "signal": "cash",
       "position": 0.0,
-      "cash_rate": 0.014499999999999999,
-      "equity": 99396.39
+      "equity": 97793.64
     },
     {
       "date": "20260918",
-      "open": 4492.3233,
       "close": 4507.3926,
       "ma": 4694.57,
       "signal": "cash",
       "position": 0.0,
-      "cash_rate": 0.01462,
-      "equity": 99402.11
+      "equity": 97793.64
     },
     {
       "date": "20260921",
-      "open": 4524.343,
       "close": 4539.5654,
       "ma": 4694.68,
       "signal": "cash",
       "position": 0.0,
-      "cash_rate": 0.014063,
-      "equity": 99407.62
+      "equity": 97793.64
     },
     {
       "date": "20260922",
-      "open": 4569.8738,
       "close": 4544.5875,
       "ma": 4694.82,
       "signal": "cash",
       "position": 0.0,
-      "cash_rate": 0.013892999999999999,
-      "equity": 99413.07
+      "equity": 97793.64
     },
     {
       "date": "20260923",
-      "open": 4547.6106,
       "close": 4517.2785,
       "ma": 4694.78,
       "signal": "cash",
       "position": 0.0,
-      "cash_rate": 0.013839999999999998,
-      "equity": 99418.49
+      "equity": 97793.64
     },
     {
       "date": "20260924",
-      "open": 4499.8574,
       "close": 4439.1443,
       "ma": 4694.09,
       "signal": "cash",
       "position": 0.0,
-      "cash_rate": 0.013999999999999999,
-      "equity": 99423.97
+      "equity": 97793.64
     },
     {
       "date": "20260928",
-      "open": 4423.8156,
       "close": 4340.755,
       "ma": 4693.02,
       "signal": "cash",
       "position": 0.0,
-      "cash_rate": 0.013892999999999999,
-      "equity": 99429.42
+      "equity": 97793.64
     },
     {
       "date": "20260929",
-      "open": 4335.8085,
       "close": 4345.2088,
       "ma": 4692.09,
       "signal": "cash",
       "position": 0.0,
-      "cash_rate": 0.01383,
-      "equity": 99434.84
+      "equity": 97793.64
     },
     {
       "date": "20260930",
-      "open": 4356.7955,
       "close": 4357.6155,
       "ma": 4691.15,
       "signal": "cash",
       "position": 0.0,
-      "cash_rate": 0.01371,
-      "equity": 99440.21
+      "equity": 97793.64
     }
   ]
 }

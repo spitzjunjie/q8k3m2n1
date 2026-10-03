@@ -1,0 +1,60 @@
+name: 现实口径研究（手动）
+
+# 一次性研究任务：现实口径（真实利率+全收益+成本+次日执行）重跑 MA200，
+# 并生成 MA200 风险画像。结果提交到 output/research/，供知识库回填。
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: asset-allocation
+  cancel-in-progress: false
+
+jobs:
+  research:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: 设置 Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+
+      - name: 安装依赖
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: 运行研究脚本
+        env:
+          TUSHARE_TOKEN: ${{ secrets.TUSHARE_TOKEN }}
+        run: |
+          set -o pipefail
+          mkdir -p output/research
+          R="--real-bond --total-return"
+          X="--cost-bps 10 --signal-lag 1"
+          python asset_allocation_backtest.py $R --oos-split 20161231     2>&1 | tee output/research/oos_baseline.txt
+          python asset_allocation_backtest.py $R $X --oos-split 20161231  2>&1 | tee output/research/oos_realistic.txt
+          python asset_allocation_backtest.py $R --rolling                2>&1 | tee output/research/rolling_baseline.txt
+          python asset_allocation_backtest.py $R $X --rolling             2>&1 | tee output/research/rolling_realistic.txt
+          python ma200_risk_profile.py --start 20050101 --end 20260930    2>&1 | tee output/research/ma200_risk_profile.txt
+          cp output/ma200_risk_profile.json output/research/
+
+      - name: 提交结果
+        run: |
+          set -euo pipefail
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name  "github-actions[bot]"
+          git add output/research/
+          if git diff --cached --quiet; then echo "无变化"; exit 0; fi
+          git commit -m "chore: 现实口径研究结果 $(date -u +'%Y-%m-%d %H:%M UTC')"
+          for i in 1 2 3; do
+            git pull --rebase --autostash origin main && git push origin HEAD:main && exit 0
+            sleep 5
+          done
+          exit 1

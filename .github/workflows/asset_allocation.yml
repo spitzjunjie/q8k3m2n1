@@ -60,6 +60,8 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git config user.name  "github-actions[bot]"
           git add output/ma200_paper_state.json
+          # v1 → v2 迁移时生成的归档（只会出现一次）
+          if [ -f output/ma200_paper_state_v1.json ]; then git add output/ma200_paper_state_v1.json; fi
           if git diff --cached --quiet; then
             echo "模拟盘状态无变化，跳过提交"
             exit 0

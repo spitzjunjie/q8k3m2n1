@@ -20,12 +20,12 @@ def get_pro():
 
 
 def fetch_hs300(pro, n_days=420):
-    """拉近 n_days 个交易日的沪深300 收盘（含 MA200 所需的足够窗口）。"""
+    """拉近 n_days 个交易日的沪深300 开盘/收盘（含 MA200 所需的足够窗口）。"""
     end = datetime.now().strftime('%Y%m%d')
     start = (datetime.now() - timedelta(days=n_days * 2)).strftime('%Y%m%d')
     df = pro.index_daily(ts_code=INDEX, start_date=start, end_date=end)
     df = df.sort_values('trade_date').reset_index(drop=True)
-    return df[['trade_date', 'close']]
+    return df[['trade_date', 'open', 'close']]
 
 
 def signal_state(df, ma=MA):
@@ -41,3 +41,21 @@ def signal_state(df, ma=MA):
         'date': last_date, 'close': last_close, 'ma': ma_val,
         'signal': 'hold' if last_close >= ma_val else 'cash',
     }
+
+
+def fetch_shibor_1w(pro, start, end):
+    """SHIBOR 1 周年化利率 {YYYYMMDD: 小数}；失败返回 {}（调用方自行兜底）。"""
+    try:
+        df = pro.shibor(start_date=start, end_date=end)
+    except Exception as e:
+        print(f'  ! SHIBOR 拉取失败: {str(e)[:80]}')
+        return {}
+    out = {}
+    if df is None:
+        return out
+    for _, r in df.iterrows():
+        try:
+            out[str(r['date'])] = float(r['1w']) / 100.0
+        except Exception:
+            pass
+    return out

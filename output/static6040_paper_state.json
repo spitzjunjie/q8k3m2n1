@@ -3,10 +3,10 @@
   "mode": "static",
   "start": "20260818",
   "units": 12.876087316802778,
-  "cash": 40021.24034495294,
+  "cash": 40023.32616951615,
   "target": 0.6,
   "pending": null,
-  "cash_rate": 0.013389999999999999,
+  "cash_rate": 0.01322,
   "total_cost": 60.00327508110337,
   "history": [
     {
@@ -394,6 +394,16 @@
       "position": 0.6,
       "cash_rate": 0.013389999999999999,
       "equity": 93722.42
+    },
+    {
+      "date": "20261019",
+      "open": 4148.3471,
+      "close": 4174.5349,
+      "ma": 4677.85,
+      "signal": "hold",
+      "position": 0.6,
+      "cash_rate": 0.01322,
+      "equity": 93775.0
     }
   ]
 }

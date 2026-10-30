@@ -3,10 +3,10 @@
   "mode": "ma200",
   "start": "20260818",
   "units": 0.0,
-  "cash": 99524.34655817688,
+  "cash": 99529.80633183014,
   "target": 0.0,
   "pending": null,
-  "cash_rate": 0.0134,
+  "cash_rate": 0.013919999999999998,
   "total_cost": 119.40449650949134,
   "history": [
     {
@@ -490,6 +490,16 @@
       "position": 0.0,
       "cash_rate": 0.0134,
       "equity": 99524.35
+    },
+    {
+      "date": "20261030",
+      "open": 3985.2357,
+      "close": 3985.501,
+      "ma": 4653.67,
+      "signal": "cash",
+      "position": 0.0,
+      "cash_rate": 0.013919999999999998,
+      "equity": 99529.81
     }
   ]
 }
